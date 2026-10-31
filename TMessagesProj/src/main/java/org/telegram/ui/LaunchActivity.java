@@ -3159,7 +3159,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (open_settings == 2) {
                     fragment = new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC);
                 } else if (open_settings == 3) {
-                    fragment = new SessionsActivity(0);
+                    fragment = new SettingsActivity();
                 } else if (open_settings == 4) {
                     fragment = new FiltersSetupActivity();
                 } else if (open_settings == 5) {

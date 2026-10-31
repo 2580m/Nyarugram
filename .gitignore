@@ -1,5 +1,7 @@
 .idea/
 .gradle/
+.kotlin/
+artifacts/
 build/
 obj/
 *.iml

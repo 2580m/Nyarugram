@@ -396,6 +396,10 @@ public class ConnectionsManager extends BaseController {
     }
 
     private void sendRequestInternal(TLObject object, RequestDelegate onComplete, RequestDelegateTimestamp onCompleteTimestamp, QuickAckDelegate onQuickAck, WriteToSocketDelegate onWriteToSocket, int flags, int datacenterId, int connectionType, boolean immediate, int requestToken) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).send(object, onComplete, onCompleteTimestamp, onQuickAck, requestToken);
+            return;
+        }
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + object + " with token = " + requestToken);
         }
@@ -590,6 +594,11 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void cancelRequest(int token, boolean notifyServer, Runnable onCancelled) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).cancel(token);
+            if (onCancelled != null) Utilities.stageQueue.postRunnable(onCancelled);
+            return;
+        }
         Utilities.stageQueue.postRunnable(() -> {
             if (onCancelled != null) {
                 listenCancel(token, () -> {
@@ -605,12 +614,20 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void cancelRequestsForGuid(int guid) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).cancelGuid(guid);
+            return;
+        }
         Utilities.stageQueue.postRunnable(() -> {
             native_cancelRequestsForGuid(currentAccount, guid);
         });
     }
 
     public void bindRequestToGuid(int requestToken, int guid) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).bind(requestToken, guid);
+            return;
+        }
         if (guid == 0) {
             return;
         }
@@ -622,6 +639,7 @@ public class ConnectionsManager extends BaseController {
     }
 
     public int getConnectionState() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return org.telegram.botgram.BotgramTransport.get(currentAccount).state();
         if (connectionState == ConnectionStateConnected && isUpdating) {
             return ConnectionStateUpdating;
         }

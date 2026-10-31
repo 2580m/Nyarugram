@@ -510,6 +510,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
+        if (botgramLoginView != null) { botgramLoginView.dispose(); botgramLoginView = null; }
         for (int a = 0; a < views.length; a++) {
             if (views[a] != null) {
                 views[a].onDestroyActivity();
@@ -536,8 +537,19 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     private View cachedFragmentView;
+    private org.telegram.botgram.BotgramLoginView botgramLoginView;
     @Override
     public View createView(Context context) {
+        if (activityMode == MODE_LOGIN) {
+            if (botgramLoginView != null) botgramLoginView.dispose();
+            actionBar.setTitle("Botgram");
+            botgramLoginView = new org.telegram.botgram.BotgramLoginView(context, getParentActivity(), currentAccount, user -> {
+                TLRPC.TL_auth_authorization authorization = new TLRPC.TL_auth_authorization();
+                authorization.user = user;
+                onAuthSuccess(authorization);
+            });
+            return fragmentView = botgramLoginView;
+        }
         if (cachedFragmentView != null) {
             fragmentView = cachedFragmentView;
             cachedFragmentView = null;
@@ -840,6 +852,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     private boolean isCustomKeyboardVisible() {
+        if (botgramLoginView != null) return false;
         return views[currentViewNum].hasCustomKeyboard() && !isCustomKeyboardForceDisabled();
     }
 
@@ -918,6 +931,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     @Override
     public void onResume() {
         super.onResume();
+        if (botgramLoginView != null) { AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid); return; }
         if (newAccount) {
             ConnectionsManager.getInstance(currentAccount).setAppPaused(false, false);
         }
@@ -955,6 +969,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        if (botgramLoginView != null) return;
         setCustomKeyboardVisible(views[currentViewNum].hasCustomKeyboard(), false);
         if (phoneNumberConfirmView != null) {
             phoneNumberConfirmView.dismiss();
@@ -963,6 +978,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public void onRequestPermissionsResultFragment(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == org.telegram.botgram.BotgramRegistrationLocation.PERMISSION_REQUEST && botgramLoginView != null) {
+            botgramLoginView.onLocationPermissionsResult(grantResults);
+            return;
+        }
         if (permissions.length == 0 || grantResults.length == 0) return;
 
         boolean granted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
@@ -1091,6 +1110,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public boolean onBackPressed(boolean invoked) {
+        if (botgramLoginView != null) return true;
         if (emailChangeIsSuggestion && currentViewNum == VIEW_ADD_EMAIL) {
             return false;
         }
@@ -1576,6 +1596,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public void saveSelfArgs(Bundle outState) {
+        if (botgramLoginView != null) return;
         try {
             Bundle bundle = new Bundle();
             bundle.putInt("currentViewNum", currentViewNum);
@@ -8476,6 +8497,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     private void updateColors() {
+        if (botgramLoginView != null) { botgramLoginView.updateColors(); return; }
         fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
         backButtonView.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));

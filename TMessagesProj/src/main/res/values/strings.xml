@@ -11630,4 +11630,21 @@
     <string name="NoPaidMessagesTokenUsed">un1 used your QR code and can message you for free</string>
     <string name="NoPaidMessagesTokenUsedOut">You used the QR code of un1 and can message them for free</string>
     <string name="NoPaidMessagesTokenImported">You can now message **%1$s** for free.</string>
+    <string name="BotgramSaveLogs">Save Logs</string>
+    <string name="BotgramViewLogs">View Logs</string>
+    <string name="BotgramLogsSaved">Logs saved to the selected location.</string>
+    <string name="BotgramNoLogs">No log entries are available yet.</string>
+    <string name="BotgramLogsPreviewInfo">Preview shows up to the last 256 KB. Use Save Logs to export the complete files.</string>
+    <string name="BotgramGid">GID</string>
+    <string name="BotgramChangeGid">Change GID</string>
+    <string name="BotgramGeographicRegion">Geographic Region</string>
+    <string name="BotgramSelectRegion">Select a geographic region other than World.</string>
+    <string name="BotgramGidInputInfo">Enter eight digits after the region code. 00000000 is not allowed. Availability is checked when you submit.</string>
+    <string name="BotgramGidInvalid">Enter eight digits other than 00000000.</string>
+    <string name="BotgramGidTaken">This GID is already in use. Choose another number.</string>
+    <string name="BotgramGidHelp">Your GID replaces your phone number. Choose a UN M49 geographic region and an eight-digit number. Your account and chats stay connected when your GID changes.</string>
+    <string name="BotgramKeepGid">Keep %1$s</string>
+    <string name="BotgramLocatingRegion">Confirming geographic region… If location is unavailable, World (+001) will be used.</string>
+    <string name="BotgramAccountInfo">GID, username and bio</string>
+    <string name="BotgramGidCopied">GID copied</string>
 </resources>

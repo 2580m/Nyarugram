@@ -551,12 +551,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     break;
                 }
                 case ACTION_TYPE_CHANGE_PHONE_NUMBER: {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setTitle(LocaleController.getString(R.string.PhoneNumberChangeTitle));
-                    builder.setMessage(LocaleController.getString(R.string.PhoneNumberAlert));
-                    builder.setPositiveButton(LocaleController.getString(R.string.Change), (dialogInterface, i) -> presentFragment(new LoginActivity().changePhoneNumber(), true));
-                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                    showDialog(builder.create());
+                    presentFragment(new org.telegram.botgram.BotgramGidActivity(), true);
                     break;
                 }
             }
@@ -616,12 +611,12 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     user = userConfig.getCurrentUser();
                 }
                 if (user != null) {
-                    subtitleTextView.setText(LocaleController.formatString("PhoneNumberKeepButton", R.string.PhoneNumberKeepButton, PhoneFormat.getInstance().format("+" + user.phone)));
+                    subtitleTextView.setText(LocaleController.formatString(R.string.BotgramKeepGid, org.telegram.botgram.BotgramGeography.format(user.phone)));
                 }
                 subtitleTextView.setOnClickListener(v -> getParentLayout().closeLastFragment(true));
-                titleTextView.setText(LocaleController.getString(R.string.PhoneNumberChange2));
-                descriptionText.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PhoneNumberHelp)));
-                buttonTextView.setText(LocaleController.getString(R.string.PhoneNumberChange2));
+                titleTextView.setText(LocaleController.getString(R.string.BotgramChangeGid));
+                descriptionText.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BotgramGidHelp)));
+                buttonTextView.setText(LocaleController.getString(R.string.BotgramChangeGid));
                 imageView.playAnimation();
                 flickerButton = true;
                 break;

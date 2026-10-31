@@ -21,6 +21,10 @@
 -keep class org.telegram.messenger.voip.* { *; }
 -keep class org.telegram.SQLite.** { *; }
 -keep class org.telegram.tgnet.ConnectionsManager { *; }
+# TL class and public field names are the HTTPS compatibility protocol schema.
+-keep class org.telegram.tgnet.TLRPC$* { *; }
+-keep class org.telegram.tgnet.tl.** { *; }
+-keep class org.telegram.tgnet.Vector { *; }
 -keep class org.telegram.tgnet.NativeByteBuffer { *; }
 -keep class org.telegram.tgnet.RequestTimeDelegate { *; }
 -keep class org.telegram.tgnet.RequestDelegate { *; }

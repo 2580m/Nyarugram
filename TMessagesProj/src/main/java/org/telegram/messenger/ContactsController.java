@@ -2016,6 +2016,7 @@ public class ContactsController extends BaseController {
     }
 
     private void performWriteContactsToPhoneBookInternal(ArrayList<TLRPC.TL_contact> contactsArray) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return;
         Cursor cursor = null;
         long time = System.currentTimeMillis();
         try {
@@ -2238,6 +2239,8 @@ public class ContactsController extends BaseController {
     }
 
     public long addContactToPhoneBook(TLRPC.User user, boolean check) {
+        // Botgram's TL phone field carries a GID, never a dialable phone number.
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return -1;
         if (systemAccount == null || user == null) {
             return -1;
         }

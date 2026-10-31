@@ -683,6 +683,16 @@ public class LocaleController {
         languages.add(localeInfo);
         languagesDict.put(localeInfo.shortName, localeInfo);
 
+        // Bundled Simplified Chinese works without a Telegram language-pack server.
+        localeInfo = new LocaleInfo();
+        localeInfo.name = "简体中文";
+        localeInfo.nameEnglish = "Chinese (Simplified)";
+        localeInfo.shortName = "zh_hans";
+        localeInfo.pluralLangCode = "zh";
+        localeInfo.builtIn = true;
+        languages.add(localeInfo);
+        languagesDict.put(localeInfo.shortName, localeInfo);
+
         loadOtherLanguages();
         if (remoteLanguages.isEmpty()) {
             AndroidUtilities.runOnUIThread(() -> loadRemoteLanguages(UserConfig.selectedAccount));
@@ -738,6 +748,13 @@ public class LocaleController {
                 }
             }
 
+            if (currentInfo == null && "zh".equals(systemDefaultLocale.getLanguage())
+                    && !"Hant".equals(systemDefaultLocale.getScript())
+                    && !"TW".equals(systemDefaultLocale.getCountry())
+                    && !"HK".equals(systemDefaultLocale.getCountry())
+                    && !"MO".equals(systemDefaultLocale.getCountry())) {
+                currentInfo = getLanguageFromDict("zh_hans");
+            }
             if (currentInfo == null && systemDefaultLocale.getLanguage() != null) {
                 currentInfo = getLanguageFromDict(systemDefaultLocale.getLanguage());
             }
@@ -1185,6 +1202,9 @@ public class LocaleController {
             for (String locale : localesArr) {
                 LocaleInfo localeInfo = LocaleInfo.createWithString(locale);
                 localeInfo.shortName = localeInfo.shortName.replace("-", "_");
+                if ("zh_hans".equals(localeInfo.shortName)) {
+                    continue; // Always use the bundled Simplified Chinese pack.
+                }
                 if (remoteLanguagesDict.containsKey(localeInfo.getKey())) {
                     continue;
                 }
@@ -3150,6 +3170,9 @@ public class LocaleController {
                         localeInfo.nameEnglish = language.name;
                         localeInfo.name = language.native_name;
                         localeInfo.shortName = language.lang_code.replace('-', '_').toLowerCase();
+                        if ("zh_hans".equals(localeInfo.shortName)) {
+                            continue; // Keep Simplified Chinese available offline.
+                        }
                         if (language.base_lang_code != null) {
                             localeInfo.baseLangCode = language.base_lang_code.replace('-', '_').toLowerCase();
                         } else {

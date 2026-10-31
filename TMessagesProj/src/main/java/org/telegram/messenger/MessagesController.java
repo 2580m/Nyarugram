@@ -20160,6 +20160,10 @@ public class MessagesController extends BaseController implements NotificationCe
                             currentUser.phone = update.phone;
                             Utilities.phoneBookQueue.postRunnable(() -> getContactsController().addContactToPhoneBook(currentUser, true));
                             if (UserObject.isUserSelf(currentUser)) {
+                                if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                                    getUserConfig().setCurrentUser(currentUser);
+                                    getUserConfig().saveConfig(true);
+                                }
                                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                             }
                         }

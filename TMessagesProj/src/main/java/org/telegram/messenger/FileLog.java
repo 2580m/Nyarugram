@@ -362,6 +362,23 @@ public class FileLog {
         getInstance().init();
     }
 
+    /** Run after queued Java log writes have been flushed; callback is not on the UI thread. */
+    public static void flushLogs(Runnable callback) {
+        FileLog logger = getInstance();
+        Runnable flush = () -> {
+            try {
+                if (logger.streamWriter != null) logger.streamWriter.flush();
+                if (logger.tlStreamWriter != null) logger.tlStreamWriter.flush();
+            } catch (IOException e) {
+                Log.e(tag, "Unable to flush logs", e);
+            } finally {
+                callback.run();
+            }
+        };
+        if (logger.logQueue != null) logger.logQueue.postRunnable(flush);
+        else Utilities.globalQueue.postRunnable(flush);
+    }
+
     public static String getNetworkLogPath() {
         if (!BuildVars.LOGS_ENABLED) {
             return "";
