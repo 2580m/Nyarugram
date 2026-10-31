@@ -540,16 +540,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     private org.telegram.botgram.BotgramLoginView botgramLoginView;
     @Override
     public View createView(Context context) {
-        if (activityMode == MODE_LOGIN) {
-            if (botgramLoginView != null) botgramLoginView.dispose();
-            actionBar.setTitle("Botgram");
-            botgramLoginView = new org.telegram.botgram.BotgramLoginView(context, getParentActivity(), currentAccount, user -> {
-                TLRPC.TL_auth_authorization authorization = new TLRPC.TL_auth_authorization();
-                authorization.user = user;
-                onAuthSuccess(authorization);
-            });
-            return fragmentView = botgramLoginView;
-        }
         if (cachedFragmentView != null) {
             fragmentView = cachedFragmentView;
             cachedFragmentView = null;
@@ -678,7 +668,21 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         keyboardView.setViewToFindFocus(slideViewsContainer);
         keyboardLinearLayout.addView(keyboardView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, CustomPhoneKeyboardView.KEYBOARD_HEIGHT_DP));
 
-        views[VIEW_PHONE_INPUT] = new PhoneView(context);
+        if (activityMode == MODE_LOGIN) {
+            if (botgramLoginView != null) botgramLoginView.dispose();
+            botgramLoginView = new org.telegram.botgram.BotgramLoginView(context, getParentActivity(), currentAccount,
+                user -> {
+                    TLRPC.TL_auth_authorization authorization = new TLRPC.TL_auth_authorization();
+                    authorization.user = user;
+                    onAuthSuccess(authorization);
+                }, loading -> {
+                    if (loading) needShowProgress(0);
+                    else needHideProgress(false);
+                }, message -> needShowAlert(getString(R.string.BotgramSignIn), message));
+            views[VIEW_PHONE_INPUT] = botgramLoginView;
+        } else {
+            views[VIEW_PHONE_INPUT] = new PhoneView(context);
+        }
         views[VIEW_CODE_MESSAGE] = new LoginActivitySmsView(context, AUTH_TYPE_MESSAGE);
         views[VIEW_CODE_SMS] = new LoginActivitySmsView(context, AUTH_TYPE_SMS);
         views[VIEW_CODE_FLASH_CALL] = new LoginActivitySmsView(context, AUTH_TYPE_FLASH_CALL);
@@ -704,7 +708,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             slideViewsContainer.addView(views[a], LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER, AndroidUtilities.isTablet() ? 26 : 18, needsTopMargin ? 30 : 0, AndroidUtilities.isTablet() ? 26 : 18, 0));
         }
 
-        Bundle savedInstanceState = activityMode == MODE_LOGIN ? loadCurrentState(newAccount, currentAccount) : null;
+        Bundle savedInstanceState = activityMode == MODE_LOGIN && botgramLoginView == null ? loadCurrentState(newAccount, currentAccount) : null;
+        if (botgramLoginView != null) currentViewNum = VIEW_PHONE_INPUT;
         if (savedInstanceState != null) {
             int viewNum = savedInstanceState.getInt("currentViewNum", 0);
             if (viewNum < 0 || viewNum >= views.length)
@@ -931,7 +936,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     @Override
     public void onResume() {
         super.onResume();
-        if (botgramLoginView != null) { AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid); return; }
         if (newAccount) {
             ConnectionsManager.getInstance(currentAccount).setAppPaused(false, false);
         }
@@ -982,6 +986,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             botgramLoginView.onLocationPermissionsResult(grantResults);
             return;
         }
+        if (botgramLoginView != null) return;
         if (permissions.length == 0 || grantResults.length == 0) return;
 
         boolean granted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
@@ -1110,7 +1115,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public boolean onBackPressed(boolean invoked) {
-        if (botgramLoginView != null) return true;
+        if (botgramLoginView != null) return botgramLoginView.onBackPressed(invoked);
         if (emailChangeIsSuggestion && currentViewNum == VIEW_ADD_EMAIL) {
             return false;
         }
@@ -1675,7 +1680,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
         UserConfig.getInstance(currentAccount).clearConfig();
         MessagesController.getInstance(currentAccount).cleanup();
-        UserConfig.getInstance(currentAccount).syncContacts = syncContacts;
+        UserConfig.getInstance(currentAccount).syncContacts = !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled() && syncContacts;
         UserConfig.getInstance(currentAccount).setCurrentUser(res.user);
         UserConfig.getInstance(currentAccount).saveConfig(true);
         MessagesStorage.getInstance(currentAccount).cleanup(true);
@@ -8497,7 +8502,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     private void updateColors() {
-        if (botgramLoginView != null) { botgramLoginView.updateColors(); return; }
         fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
         backButtonView.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -8801,6 +8805,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     private int currentConnectionState;
 
     private void updateProxyButton(boolean animated, boolean force) {
+        if (botgramLoginView != null) return;
         if (proxyDrawable == null) {
             return;
         }

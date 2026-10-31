@@ -248,6 +248,10 @@ public class ApplicationLoader extends Application {
         SharedPrefsHelper.init(applicationContext);
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) { //TODO improve account
             UserConfig.getInstance(a).loadConfig();
+            if (org.telegram.botgram.BotgramTransport.get(a).enabled() && UserConfig.getInstance(a).syncContacts) {
+                UserConfig.getInstance(a).syncContacts = false;
+                UserConfig.getInstance(a).saveConfig(false);
+            }
             MessagesController.getInstance(a);
             if (a == 0) {
                 SharedConfig.pushStringStatus = "__FIREBASE_GENERATING_SINCE_" + ConnectionsManager.getInstance(a).getCurrentTime() + "__";

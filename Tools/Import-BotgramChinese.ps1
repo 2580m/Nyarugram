@@ -36,6 +36,19 @@ foreach ($entry in $translation.resources.string) {
     [void]$root.AppendChild($output.ImportNode($entry, $true))
 }
 $localTranslations = [ordered]@{
+    BotgramSignIn = '登录 Botgram'
+    BotgramSignUp = '创建账号'
+    BotgramSignInInfo = '请输入用户名和密码以继续。'
+    BotgramSignUpInfo = '请设置用户名、显示名称和密码。'
+    BotgramServer = '服务器地址'
+    BotgramDisplayName = '显示名称'
+    BotgramCreateAccount = '创建账号'
+    BotgramHaveAccount = '已有账号？登录'
+    BotgramInvalidCredentials = '用户名或密码错误。'
+    BotgramUsernameTaken = '该用户名已被使用。'
+    BotgramAuthenticationFailed = '无法登录，请检查填写的信息后重试。'
+    BotgramInvalidServer = '请输入 https://主机[:端口] 格式的服务器地址，不含路径。'
+    BotgramConnectionFailed = '无法连接或保存登录状态，请重试。'
     BotgramGid = 'GID'
     BotgramGidCopied = '已复制 GID'
     BotgramChangeGid = '修改 GID'

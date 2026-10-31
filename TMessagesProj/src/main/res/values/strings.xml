@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="BotgramSignIn">Log in to Botgram</string>
+    <string name="BotgramSignUp">Create your account</string>
+    <string name="BotgramSignInInfo">Enter your username and password to continue.</string>
+    <string name="BotgramSignUpInfo">Choose a username, display name and password.</string>
+    <string name="BotgramServer">Server address</string>
+    <string name="BotgramDisplayName">Display name</string>
+    <string name="BotgramCreateAccount">Create an account</string>
+    <string name="BotgramHaveAccount">Already have an account? Log in</string>
+    <string name="BotgramInvalidCredentials">Incorrect username or password.</string>
+    <string name="BotgramUsernameTaken">This username is already in use.</string>
+    <string name="BotgramAuthenticationFailed">Unable to log in. Please check your details and try again.</string>
+    <string name="BotgramInvalidServer">Enter a server address in the form https://host[:port], without a path.</string>
+    <string name="BotgramConnectionFailed">Unable to connect or save your session. Please try again.</string>
     <string name="AppName">Telegram</string>
     <string name="AppNameBeta">Telegram Beta</string>
     <string name="LanguageName">English</string>

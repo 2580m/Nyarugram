@@ -647,6 +647,7 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void setUserId(long id) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return;
         native_setUserId(currentAccount, id);
     }
 
@@ -706,7 +707,10 @@ public class ConnectionsManager extends BaseController {
             packageId = "";
         }
 
-        native_init(currentAccount, version, layer, apiId, deviceModel, systemVersion, appVersion, langCode, systemLangCode, configPath, logPath, regId, cFingerprint, installer, packageId, timezoneOffset, userId, userPremium, enablePushConnection, ApplicationLoader.isNetworkOnline(), ApplicationLoader.getCurrentNetworkType(), SharedConfig.measureDevicePerformanceClass());
+        // HTTP-bound accounts have no MTProto auth key. Never restore their identity
+        // into the native authorization state machine (which would log them out).
+        boolean botgram = org.telegram.botgram.BotgramTransport.get(currentAccount).enabled();
+        native_init(currentAccount, version, layer, apiId, deviceModel, systemVersion, appVersion, langCode, systemLangCode, configPath, logPath, regId, cFingerprint, installer, packageId, timezoneOffset, botgram ? 0 : userId, userPremium, enablePushConnection, ApplicationLoader.isNetworkOnline(), ApplicationLoader.getCurrentNetworkType(), SharedConfig.measureDevicePerformanceClass());
         checkConnection();
     }
 
@@ -863,6 +867,8 @@ public class ConnectionsManager extends BaseController {
 
     public static void onLogout(final int currentAccount) {
         AndroidUtilities.runOnUIThread(() -> {
+            // Only an HTTP 401 or an explicit local logout can expire this account.
+            if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return;
             AccountInstance accountInstance = AccountInstance.getInstance(currentAccount);
             if (accountInstance.getUserConfig().getClientUserId() != 0) {
                 accountInstance.getUserConfig().clearConfig();

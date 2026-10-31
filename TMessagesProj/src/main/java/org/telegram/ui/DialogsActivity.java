@@ -7055,7 +7055,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             Activity activity = getParentActivity();
             if (activity != null) {
                 checkPermission = false;
-                boolean hasNotContactsPermission = activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED;
+                boolean hasNotContactsPermission = getContactsController().isPhoneBookSyncEnabled() && activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED;
                 boolean hasNotStoragePermission = (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) && activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
                 boolean hasNotNotificationsPermission = Build.VERSION.SDK_INT >= 33 && activity.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED;
                 AndroidUtilities.runOnUIThread(() -> {
@@ -10359,7 +10359,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             permissons.add(Manifest.permission.POST_NOTIFICATIONS);
         }
-        if (getUserConfig().syncContacts && askAboutContacts && activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+        if (getContactsController().isPhoneBookSyncEnabled() && askAboutContacts && activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             if (alert) {
                 AlertDialog.Builder builder = AlertsCreator.createContactsPermissionDialog(activity, param -> {
                     askAboutContacts = param != 0;

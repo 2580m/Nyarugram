@@ -16127,7 +16127,10 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void performLogout(int type) {
-        if (type == 1) {
+        org.telegram.botgram.BotgramTransport botgram = org.telegram.botgram.BotgramTransport.get(currentAccount);
+        if (botgram.enabled()) {
+            botgram.logout(type == 1);
+        } else if (type == 1) {
             GramWalletStorage.wipeForUser(ApplicationLoader.applicationContext, currentAccount, getUserConfig().getClientUserId());
             unregistedPush();
             TLRPC.TL_auth_logOut req = new TLRPC.TL_auth_logOut();

@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 /** Generic TL-object transport. All chat semantics and identity mapping belong to the backend. */
 public final class BotgramTransport {
     private static final ConcurrentHashMap<Integer, BotgramTransport> instances = new ConcurrentHashMap<>();
+    private static final ExecutorService logouts = Executors.newCachedThreadPool();
     public static BotgramTransport get(int account) { return instances.computeIfAbsent(account, BotgramTransport::new); }
     private final int account;
     private final SharedPreferences binding;
@@ -40,7 +41,7 @@ public final class BotgramTransport {
     private volatile BotgramSession session;
     private volatile long reachable;
     private boolean polling;
-    private boolean expired;
+    private volatile boolean expired;
     private static final class Job { volatile boolean cancelled; volatile int guid; }
 
     private BotgramTransport(int account) {
@@ -51,10 +52,29 @@ public final class BotgramTransport {
 
     // A bound but expired account must never fall through to native Telegram transport.
     public boolean enabled() { return binding.getBoolean("enabled", false); }
-    public void authenticated() {
+    public void logout(boolean revoke) {
+        final BotgramSession credentials = session;
+        final String server = credentials.server;
+        final String token = credentials.token;
+        expired = true;
+        reachable = 0;
         for (Job job : pending.values()) job.cancelled = true;
-        session = new BotgramSession(ApplicationLoader.applicationContext, account);
-        binding.edit().putBoolean("enabled", true).commit();
+        pending.clear();
+        // Keep the binding: logged-out slots must not fall back to MTProto.
+        // apply() clears preferences in memory now and writes them off the UI thread.
+        credentials.clear();
+        if (revoke && token != null) {
+            // Do not queue revocation behind slow chat requests or delay local logout.
+            logouts.execute(() -> {
+                try { new BotgramApi(server, token).request("POST", "/api/auth/logout", null); }
+                catch (Exception ignored) { /* Local logout also works while offline. */ }
+            });
+        }
+    }
+    public void authenticated(BotgramSession credentials) {
+        for (Job job : pending.values()) job.cancelled = true;
+        session = credentials;
+        binding.edit().putBoolean("enabled", true).apply();
         expired = false; reachable = System.currentTimeMillis();
         start();
     }
@@ -99,15 +119,20 @@ public final class BotgramTransport {
                     response = (TLObject) decode(new JSONObject().put("$type", "org.telegram.tgnet.TLRPC$TL_auth_loggedOut"), TLObject.class, 0);
                     if (session == credentials) credentials.clear();
                 } else response = (TLObject) decode(api.object("POST", "/api/telegram/rpc", payload), TLObject.class, 0);
-                reachable(true);
+                if (!job.cancelled && session == credentials) reachable(true);
             } catch (BotgramApi.ApiError error) {
-                reachable(true);
+                if (!job.cancelled && session == credentials) reachable(true);
                 failure = error(error.status, error.getMessage());
-                if (error.status == 401 && session == credentials && !expired) {
+                if (error.status == 401 && !job.cancelled && session == credentials && !expired) {
                     expired = true;
-                    AndroidUtilities.runOnUIThread(() -> MessagesController.getInstance(account).performLogout(0));
+                    AndroidUtilities.runOnUIThread(() -> {
+                        if (!job.cancelled && session == credentials && expired) MessagesController.getInstance(account).performLogout(0);
+                    });
                 }
-            } catch (Exception error) { reachable(false); failure = error(500, "BOTGRAM_TRANSPORT_ERROR"); }
+            } catch (Exception error) {
+                if (!job.cancelled && session == credentials) reachable(false);
+                failure = error(500, "BOTGRAM_TRANSPORT_ERROR");
+            }
             finally { finish(token, job, completion, timestamp, response, failure); }
         });
     }

@@ -9,11 +9,17 @@
 采用经过 Bearer 认证的 HTTP(S) TL 对象 RPC，**没有实现 MTProto 加密、数据中心和握手协议**，因此未修改的官方 Telegram 客户端不能直接连接。客户端仍需以下接入改动：
 
 - `LoginActivity`：用户名／密码认证，登录成功进入原 `onAuthSuccess` 和页面导航。
-- `BotgramLoginView`：仅登录表单，包含服务器地址、登录和注册；沿用原主题。
+- `BotgramLoginView`：作为原 `LoginActivity` 内的 `SlideView` 提供用户名／密码认证，复用原登录页的布局、继续按钮、加载动画、描边输入框及错误弹窗；注册时显示名称输入框。
 - `BotgramSession`：按 Telegram 账号槽位隔离令牌，并用 Android Keystore AES-GCM 加密保存。
 - `BotgramTransport`：通用 TL 类／字段封送、HTTP 请求、取消绑定、错误回调、前台差分轮询；不做会话、消息或用户转换。
 - `ConnectionsManager`：绑定自建后端的账号走上述传输；未绑定账号保留原行为。绑定账号即使会话失效也不回落到 Telegram 传输。
 - `ApplicationLoader`：重启后恢复绑定账号的差分轮询。收到的响应仍由原 MessagesController／MessagesStorage 处理。
+
+HTTP 绑定账号不向原生 MTProto 层恢复用户 ID，也不响应原生层缺少 MTProto 密钥触发的登出通知；账号仅因主动登出或后端令牌失效退出。清除后台后启动仍使用本地账号配置和 Keystore 加密保存的有效 Bearer 令牌，不需要再次认证。
+
+HTTP 绑定账号在登录和启动时关闭手机通讯录同步，不创建 Android 通讯录同步账号、不自动读取或写入系统通讯录，也不因缺少同步权限显示提醒或联系人标签感叹号。应用内的联系人列表仍通过后端加载。
+
+Android Java 编译后运行 `Tools/Verify-BotgramAuth.ps1`，验证真实 `ConnectionsManager` 原生登出回调对 HTTP 绑定账号、排队后的绑定变化及未绑定原生账号的隔离行为。此宿主测试不代替真机清除后台、重开及登录界面操作验证。
 
 ## 服务端当前支持范围
 
