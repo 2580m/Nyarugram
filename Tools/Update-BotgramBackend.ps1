@@ -1,4 +1,4 @@
-param([string]$InstallRoot = 'D:\Botgram\Backend')
+param([string]$InstallRoot = 'D:\Botgram\Backend', [int]$Port = 0)
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath($InstallRoot).TrimEnd('\')
 if (-not $root.StartsWith('D:\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Deployment must remain on D:' }
@@ -6,18 +6,30 @@ $workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $source = Join-Path $workspace 'artifacts/backend'
 $configPath = Join-Path $root 'deployment.json'
 $config = Get-Content -LiteralPath $configPath -Raw -Encoding UTF8 | ConvertFrom-Json
+if ($Port -ne 0 -and ($Port -lt 1024 -or $Port -gt 65535)) { throw 'Use an unprivileged port from 1024 to 65535.' }
+$targetPort = if ($Port -eq 0) { [int]$config.Port } else { $Port }
+if ($targetPort -ne $config.Port -and (Get-NetTCPConnection -LocalPort $targetPort -State Listen -ErrorAction SilentlyContinue)) {
+    throw "Port $targetPort is already in use."
+}
 foreach ($path in @($config.Executable, $config.DataPath)) {
     if (-not ([IO.Path]::GetFullPath($path)).StartsWith($root + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Existing deployment paths leave the installation root' }
 }
-$version = (Get-FileHash -LiteralPath (Join-Path $source 'Botgram.Backend.dll') -Algorithm SHA256).Hash.Substring(0,12).ToLowerInvariant()
-if ($version -eq $config.Version) { Write-Output "Version $version is already deployed"; exit 0 }
+# Configuration-only releases (such as a default port change) must get their own directory too.
+$sourceFiles = @(Get-ChildItem -LiteralPath $source -File | Sort-Object Name)
+$manifest = ($sourceFiles | ForEach-Object { $_.Name + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }) -join "`n"
+$sha = [Security.Cryptography.SHA256]::Create()
+try { $version = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($manifest)))).Replace('-', '').Substring(0,12).ToLowerInvariant() }
+finally { $sha.Dispose() }
+if ($version -eq $config.Version -and $targetPort -eq $config.Port) { Write-Output "Version $version is already deployed on port $targetPort"; exit 0 }
 $release = Join-Path $root "releases/$version"
 if (-not (Test-Path -LiteralPath $release)) {
     New-Item -ItemType Directory -Path $release | Out-Null
     Copy-Item -Path (Join-Path $source '*') -Destination $release
 }
-if ((Get-FileHash -LiteralPath (Join-Path $release 'Botgram.Backend.dll') -Algorithm SHA256).Hash -ne
-    (Get-FileHash -LiteralPath (Join-Path $source 'Botgram.Backend.dll') -Algorithm SHA256).Hash) { throw 'Release hash mismatch' }
+foreach ($file in $sourceFiles) {
+    if ((Get-FileHash -LiteralPath (Join-Path $release $file.Name) -Algorithm SHA256).Hash -ne
+        (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash) { throw "Release hash mismatch: $($file.Name)" }
+}
 $backup = Join-Path $root ('backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
 New-Item -ItemType Directory -Path $backup | Out-Null
 Set-Acl -LiteralPath $backup -AclObject (Get-Acl -LiteralPath (Split-Path -Parent $config.DataPath))
@@ -44,6 +56,7 @@ try {
     $config.Version = $version
     $config.Executable = Join-Path $release 'Botgram.Backend.exe'
     $config.AppDirectory = $release
+    $config.Port = $targetPort
     $config | ConvertTo-Json | Set-Content -LiteralPath $configPath -Encoding UTF8
     & (Join-Path $root 'Start-BotgramBackend.ps1')
     $healthy = $false
@@ -55,7 +68,7 @@ try {
         Start-Sleep -Milliseconds 500
     }
     if (-not $healthy) { throw 'Updated backend failed its health check' }
-    [ordered]@{ Version=$version; Backup=$backup; Health='ok' } | ConvertTo-Json
+    [ordered]@{ Version=$version; Port=$targetPort; Backup=$backup; Health='ok' } | ConvertTo-Json
 } catch {
     & (Join-Path $root 'Stop-BotgramBackend.ps1')
     Wait-Stopped

@@ -51,10 +51,10 @@ $env:JAVA_TOOL_OPTIONS = '-Djava.net.preferIPv4Stack=true'
 ./Tools/Build-Botgram.ps1
 ```
 
-此 JDK 路径适用于当前电脑；其他环境先确认已安装路径。脚本使用 D 盘 Gradle 8.13，任务为 `:TMessagesProj_AppStandalone:assembleAfatDebug`，产物为 `TMessagesProj_AppStandalone/build/outputs/apk/afat/debug/app.apk`。需要准备依赖时使用 `Tools/Prepare-BotgramBuild.ps1`，不要对已有环境反复重新下载。
+此 JDK 路径适用于当前电脑；其他环境先确认已安装路径。脚本使用 D 盘 Gradle 8.13，任务为 `:TMessagesProj_AppStandalone:assembleAfatDebug`，产物为 `TMessagesProj_AppStandalone/build/outputs/apk/afat/debug/Nyarugram-debug.apk`。需要准备依赖时使用 `Tools/Prepare-BotgramBuild.ps1`，不要对已有环境反复重新下载。
 
 - 版本从 `gradle.properties` 读取。用户要求升级时同步调整 `APP_VERSION_NAME` 与递增的 `APP_VERSION_CODE`，检查最终 APK 元数据；不要为文档修改自行升版。
-- 当前包名为 `org.telegram.messenger.web`，可与 Play 版 Telegram 共存，可能与官网版冲突；不要未经任务要求更换包名或签名。
+- 当前包名为 `me.nyarugram.messenger`，可与 Telegram 共存；不要未经任务要求更换包名或签名。
 - 完成所有源代码修改后再构建，避免在编译过程中修改源文件。若发生这种情况，重新构建后再验证交付物。
 - 遇到 Gradle 端口绑定失败先检查运行环境并做有限重试，不随意终止其他应用、关闭防火墙或修改系统网络设置。
 
@@ -69,7 +69,7 @@ $env:JAVA_TOOL_OPTIONS = '-Djava.net.preferIPv4Stack=true'
 ./Tools/Verify-BotgramTL.ps1 -FixturePath ../Botgram.Backend/obj/gid-tl-fixtures.json
 ```
 
-交付 APK 时复制最终产物到 `artifacts/android/Botgram-debug.apk`，使用 D 盘 Android 构建工具验证签名、包名与版本，并检查本次新增资源。同步更新 `artifacts/build-info.json` 的实际哈希和验证信息，不填写未经执行的结果。
+安装后的应用显示名称为 `Nyarugram`。交付 APK 时复制最终产物到 `artifacts/android/Nyarugram-debug.apk`，使用 D 盘 Android 构建工具验证签名、包名与版本，并检查本次新增资源。同步更新 `artifacts/build-info.json` 的实际哈希和验证信息，不填写未经执行的结果。
 
 构建、后端集成测试和宿主 TL 验证不能代替真机测试；明确说明定位权限、页面操作、安装或端到端通信中尚未验证的部分。保持已有用户修改，避免无关格式化、依赖升级与生成文件改动。
 

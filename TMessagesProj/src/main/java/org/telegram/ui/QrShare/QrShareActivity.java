@@ -77,6 +77,9 @@ public class QrShareActivity extends BaseFragment {
         if (userId == 0 && chatId == 0) {
             userId = getUserConfig().getClientUserId();
         }
+        if (userId != 0 && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            return false;
+        }
         return super.onFragmentCreate();
     }
 

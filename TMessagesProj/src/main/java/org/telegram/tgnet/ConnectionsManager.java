@@ -330,7 +330,7 @@ public class ConnectionsManager extends BaseController {
             //noinspection unchecked
             T result = (T) res;
             if (executor != null) {
-                executor.execute(() -> completionBlock.run(result, err));
+                executor.execute(org.telegram.botgram.BotgramSessionScope.wrap(() -> completionBlock.run(result, err)));
             } else {
                 completionBlock.run(result, err);
             }
@@ -349,7 +349,7 @@ public class ConnectionsManager extends BaseController {
                 getMessagesController().processUpdates(result, false);
             }
             if (executor != null) {
-                executor.execute(() -> completionBlock.run(result, err));
+                executor.execute(org.telegram.botgram.BotgramSessionScope.wrap(() -> completionBlock.run(result, err)));
             } else {
                 completionBlock.run(result, err);
             }
@@ -389,9 +389,9 @@ public class ConnectionsManager extends BaseController {
 
     public int sendRequest(final TLObject object, final RequestDelegate onComplete, final RequestDelegateTimestamp onCompleteTimestamp, final QuickAckDelegate onQuickAck, final WriteToSocketDelegate onWriteToSocket, final int flags, final int datacenterId, final int connectionType, final boolean immediate) {
         final int requestToken = lastRequestToken.getAndIncrement();
-        Utilities.stageQueue.postRunnable(() -> {
+        Utilities.stageQueue.postRunnable(org.telegram.botgram.BotgramTransport.get(currentAccount).bindRequest(() -> {
             sendRequestInternal(object, onComplete, onCompleteTimestamp, onQuickAck, onWriteToSocket, flags, datacenterId, connectionType, immediate, requestToken);
-        });
+        }));
         return requestToken;
     }
 

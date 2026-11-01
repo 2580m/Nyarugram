@@ -21,6 +21,7 @@ public class DispatchQueue extends Thread {
     private static final int THREAD_PRIORITY_DEFAULT = -1000;
 
     private volatile Handler handler = null;
+    private final org.telegram.botgram.BotgramSessionScope.Queue sessionTasks = new org.telegram.botgram.BotgramSessionScope.Queue();
     private CountDownLatch syncLatch = new CountDownLatch(1);
     private long lastTaskTime;
     private static int indexPointer = 0;
@@ -62,7 +63,10 @@ public class DispatchQueue extends Thread {
     public void cancelRunnable(Runnable runnable) {
         try {
             syncLatch.await();
-            handler.removeCallbacks(runnable);
+            sessionTasks.cancel(runnable, () -> {
+                handler.removeCallbacks(runnable);
+                handler.removeCallbacksAndMessages(runnable);
+            });
         } catch (Exception e) {
             FileLog.e(e, false);
         }
@@ -72,7 +76,7 @@ public class DispatchQueue extends Thread {
         try {
             syncLatch.await();
             for (int i = 0; i < runnables.length; i++) {
-                handler.removeCallbacks(runnables[i]);
+                cancelRunnable(runnables[i]);
             }
         } catch (Exception e) {
             FileLog.e(e, false);
@@ -90,7 +94,11 @@ public class DispatchQueue extends Thread {
         } catch (Exception e) {
             FileLog.e(e, false);
         }
-        return handler.postAtFrontOfQueue(runnable);
+        return sessionTasks.post(runnable, delivery -> {
+            Message message = Message.obtain(handler, delivery);
+            message.obj = runnable;
+            return handler.sendMessageAtFrontOfQueue(message);
+        });
     }
 
     public boolean postRunnable(Runnable runnable, long delay) {
@@ -99,17 +107,14 @@ public class DispatchQueue extends Thread {
         } catch (Exception e) {
             FileLog.e(e, false);
         }
-        if (delay <= 0) {
-            return handler.post(runnable);
-        } else {
-            return handler.postDelayed(runnable, delay);
-        }
+        return sessionTasks.post(runnable, delivery -> handler.postAtTime(delivery, runnable,
+                SystemClock.uptimeMillis() + Math.max(0, delay)));
     }
 
     public void cleanupQueue() {
         try {
             syncLatch.await();
-            handler.removeCallbacksAndMessages(null);
+            sessionTasks.cancel(null, () -> handler.removeCallbacksAndMessages(null));
         } catch (Exception e) {
             FileLog.e(e, false);
         }
@@ -124,7 +129,7 @@ public class DispatchQueue extends Thread {
     }
 
     public void recycle() {
-        handler.getLooper().quit();
+        sessionTasks.cancel(null, () -> handler.getLooper().quit());
     }
 
     @Override

@@ -29,9 +29,12 @@ public final class BotgramSession {
 
     public BotgramSession(Context context, int account) {
         prefs = context.getSharedPreferences("botgram.session." + account, Context.MODE_PRIVATE);
-        server = prefs.getString("server", "http://10.0.2.2:5080");
+        String savedServer = prefs.getString("server", BotgramServerAddress.DEFAULT_ADDRESS);
+        server = BotgramServerAddress.migrateLegacy(savedServer);
+        if (!server.equals(savedServer)) prefs.edit().putString("server", server).apply();
         try {
             String encrypted = prefs.getString("token", null);
+            savedCiphertext = encrypted;
             if (encrypted == null) return;
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, key(), new GCMParameterSpec(128, Base64.decode(prefs.getString("iv", ""), Base64.NO_WRAP)));
@@ -92,7 +95,11 @@ public final class BotgramSession {
     }
 
     public void clear() {
-        token = null; userId = null; displayName = null;
-        prefs.edit().remove("token").remove("iv").remove("userId").remove("displayName").apply();
+        synchronized (prefs) {
+            token = null; userId = null; displayName = null;
+            if (savedCiphertext != null && savedCiphertext.equals(prefs.getString("token", null))) {
+                prefs.edit().remove("token").remove("iv").remove("userId").remove("displayName").apply();
+            }
+        }
     }
 }

@@ -39,7 +39,11 @@ Android Java 编译后运行 `Tools/Verify-BotgramAuth.ps1`，验证真实 `Conn
 
 ## 运行与构建
 
-后端默认 `http://127.0.0.1:5080`。模拟器登录地址填 `http://10.0.2.2:5080`；真机填写服务端局域网地址，服务需监听对应接口。公网使用 HTTPS。登录成功后，使用原搜索页面按完整用户名找到其他用户，打开原聊天页面。
+客户端默认连接 `https://nyarugram.moe.autos:8521`。服务器地址省略协议时使用 HTTPS，省略端口时默认 8521，而非 443。公网 RPC 与 WSS 共用 TLS 8521；仅调试构建允许显式 HTTP 本地开发地址，非调试构建拒绝 HTTP。登录成功后，使用原搜索页面按完整用户名找到其他用户，打开原聊天页面。
+
+前台 WSS 通过 Authorization Bearer 连接 `/api/ws`，仅将事件作为唤醒原 `getDifference` 的提示，事件游标不当作 Telegram pts。后台或切换账号时关闭旧连接，断线采用 1–30 秒退避重连；原差分轮询保留。HTTPS/WSS 均使用系统证书信任和主机名验证，不接受自签名绕过，不跟随携带凭据的重定向。WSS 握手 401 使对应会话退出；TLS 失败不降级 HTTP。尚未实现后台推送。
+
+登录和注册表单把服务器地址与右侧端口分开输入，端口默认 8521。粘贴带端口的完整 HTTP(S) 地址时自动拆分；保存会话仍使用完整地址。升级后已保存的旧 5080 端口迁移至 8521，其他自定义端口保留。登录/注册切换采用淡出、轻微滑动和淡入动画，保留表单内容。`Tools/Verify-BotgramServerAddress.ps1` 验证地址组合、端口边界、IPv6 与旧地址迁移。
 
 所有新下载的构建依赖放在 **D:\BotgramBuild**：
 
@@ -54,7 +58,7 @@ Android Java 编译后运行 `Tools/Verify-BotgramAuth.ps1`，验证真实 `Conn
 ./Tools/Build-Botgram.ps1
 ```
 
-构建目标为 `:TMessagesProj_AppStandalone:assembleAfatDebug`。沿用仓库的开发签名配置，不作为正式发布包。后端集成测试：
+默认构建目标为 `:TMessagesProj_AppStandalone:assembleAfatDebug`，输出文件名为 `Nyarugram-debug.apk`，交付路径为 `artifacts/android/Nyarugram-debug.apk`。运行 `./Tools/Build-Botgram.ps1 -Variant Standalone` 构建非调试、R8 混淆及资源压缩版本，原始输出为 `TMessagesProj_AppStandalone/build/outputs/apk/afat/standalone/app.apk`，交付路径为 `artifacts/android/Nyarugram-standalone.apk`。两者安装后的显示名称均为 `Nyarugram`（所有系统语言一致），沿用仓库的开发签名配置，不作为私有生产签名的正式发布包。后端集成测试：
 
 ```powershell
 cd ../Botgram.Backend
@@ -67,10 +71,12 @@ Android Java 编译完成后可运行 `./Tools/Verify-BotgramTL.ps1`，使用刚
 
 ## 本次验证结果
 
-- `assembleAfatDebug` 完整通过，包含 arm64-v8a、armeabi-v7a、x86、x86_64；APK 位于 `artifacts/android/Botgram-debug.apk`（约 115 MB）。
-- APK v1／v2 签名校验通过；包名 `org.telegram.messenger.web`，最低 Android API 23、目标 API 36，使用仓库开发签名。
+- `assembleAfatDebug` 完整通过，包含 arm64-v8a、armeabi-v7a、x86、x86_64；APK 位于 `artifacts/android/Nyarugram-debug.apk`（约 115 MB），安装显示名称已通过 APK 元数据检查为 `Nyarugram`。
+- `assembleAfatStandalone` 完整通过；非调试 APK 约 68 MiB，确认未标记 debuggable，R8 后仍包含默认 HTTPS 主机、HTTP 拒绝逻辑及 WSS 路径。
+- 两个 APK v1／v2 签名校验通过；版本 `13.1.2`（72389），包名 `me.nyarugram.messenger`，最低 Android API 23、目标 API 36，使用仓库开发签名。
 - 后端 Release 发布成功，交付包为 `artifacts/Botgram.Backend.zip`。
-- 后端集成回归、51 个响应类型与源代码匹配检查、24 个真实响应的原 TL 二进制往返检查均通过。
+- 后端集成回归及 56 个响应类型与源代码匹配检查通过；本次宿主检查完成 29 个基础响应、2 个 GID 响应和 26 个联系人响应的原 TL 二进制往返，以及 34 项地址检查和 6 项账号隔离断言。
+- 公网 `https://nyarugram.moe.autos:8521` 的受信任证书、TLS 1.2 / 1.3、隔离账号注册登录和双向文字、Bearer WSS、断线重放及退出失效检查通过；TLS 1.0 / 1.1 被拒绝。正式数据目录不含测试账号。
 - 未执行手机／模拟器安装和端到端收发测试。原生通话、附件及其余未支持 API 的限制仍然存在。
 
 后端集成测试包含 TL 身份稳定性、单聊、原响应类型、群聊、差分、去重与权限隔离。Android 编译和设备验证的实际结果以本次交付说明为准，不应把服务端通过测试理解为手机收发或语音已经验证。

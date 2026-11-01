@@ -2504,7 +2504,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             actionBar.backButtonImageView.setContentDescription(getString(R.string.QrCode));
             actionBar.backButtonImageView.setImageResource(R.drawable.outline_header_qr_24);
             actionBar.backButtonImageView.setColorFilter(getThemedColor(Theme.key_actionBarDefaultIcon), PorterDuff.Mode.SRC_IN);
+            if (isBotgramUserProfile()) {
+                actionBar.backButtonImageView.setVisibility(View.GONE);
+            }
             actionBar.backButtonImageView.setOnClickListener(v -> {
+                if (isBotgramUserProfile()) return;
                 Bundle args = new Bundle();
                 args.putLong("chat_id", chatId);
                 args.putLong("user_id", userId);
@@ -2839,6 +2843,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 //                    }
                     presentFragment(new PeerColorActivity(0).startOnProfile().setOnApplied(ProfileActivity.this));
                 } else if (id == copy_link_profile) {
+                    if (isBotgramUserProfile()) return;
                     TLRPC.User user = getMessagesController().getUser(userId);
                     AndroidUtilities.addToClipboard(getMessagesController().linkPrefix + "/" + UserObject.getPublicUsername(user));
                 } else if (id == set_username) {
@@ -3985,12 +3990,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         ItemOptions itemOptions = ItemOptions.makeOptions(this, actionsView);
                         itemOptions.setLongPressSelectionEnabled(false);
                         itemOptions.setGravity(Gravity.LEFT);
-                        itemOptions.add(R.drawable.msg_qrcode, getString(R.string.QrCode), () -> {
-                            Bundle args = new Bundle();
-                            args.putLong("chat_id", chatId);
-                            args.putLong("user_id", userId);
-                            presentFragment(new QrShareActivity(args));
-                        });
+                        if (!isBotgramUserProfile()) {
+                            itemOptions.add(R.drawable.msg_qrcode, getString(R.string.QrCode), () -> {
+                                Bundle args = new Bundle();
+                                args.putLong("chat_id", chatId);
+                                args.putLong("user_id", userId);
+                                presentFragment(new QrShareActivity(args));
+                            });
+                        }
                         itemOptions.add(R.drawable.msg_copy, getString(R.string.ProfileCopyUsername), () -> {
                             AndroidUtilities.addToClipboard("@" + UserObject.getPublicUsername(user));
                         });
@@ -5855,7 +5862,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    private boolean isBotgramUserProfile() {
+        return userId != 0 && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled();
+    }
+
     private void onShareClicked() {
+        if (isBotgramUserProfile()) return;
         try {
             String text = null;
             if (userId != 0) {
@@ -11816,8 +11828,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                         otherItem.addSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
                         if (isBot) {
-                            otherItem.addSubItem(share, R.drawable.msg_share, LocaleController.getString(R.string.BotShare));
-                            shareAction = true;
+                            if (!isBotgramUserProfile()) {
+                                otherItem.addSubItem(share, R.drawable.msg_share, LocaleController.getString(R.string.BotShare));
+                                shareAction = true;
+                            }
                         } else {
                             otherItem.addSubItem(add_contact, R.drawable.msg_addcontact, LocaleController.getString(R.string.AddContact));
                         }
@@ -13236,7 +13250,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             } else {
                                 text = "—";
                             }
-                            containsQr = !myProfile;
+                            containsQr = !myProfile && !isBotgramUserProfile();
                         } else if (currentChat != null) {
                             TLRPC.Chat chat = getMessagesController().getChat(chatId);
                             username = ChatObject.getPublicUsername(chat);
@@ -13903,6 +13917,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             span = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
+                    if (isBotgramUserProfile()) {
+                        AndroidUtilities.addToClipboard("@" + usernameRaw);
+                        undoView.showWithAction(0, UndoView.ACTION_USERNAME_COPIED, null);
+                        return;
+                    }
                     if (!usernameObj.editable) {
                         if (loadingSpan == this) return;
                         setLoadingSpan(this);
@@ -16233,7 +16252,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final boolean hasUsername = UserObject.getPublicUsername(user) != null;
         setUsernameItem.setIcon(hasUsername ? R.drawable.menu_username_change : R.drawable.menu_username_set);
         setUsernameItem.setText(hasUsername ? getString(R.string.ProfileUsernameEdit) : getString(R.string.ProfileUsernameSet));
-        linkItem.setVisibility(UserObject.getPublicUsername(user) != null ? View.VISIBLE : View.GONE);
+        linkItem.setVisibility(hasUsername && !isBotgramUserProfile() ? View.VISIBLE : View.GONE);
     }
 
     private void updateEditColorIcon() {

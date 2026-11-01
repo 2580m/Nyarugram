@@ -1,4 +1,4 @@
-param([string]$InstallRoot = 'D:\Botgram\Backend', [string]$InterfaceAlias = '以太网 5', [int]$Port = 5080)
+param([string]$InstallRoot = 'D:\Botgram\Backend', [string]$InterfaceAlias = '以太网 5', [int]$Port = 8521)
 $ErrorActionPreference = 'Stop'
 $workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $root = [IO.Path]::GetFullPath($InstallRoot).TrimEnd('\')

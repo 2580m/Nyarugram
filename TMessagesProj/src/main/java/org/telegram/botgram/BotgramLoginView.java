@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.InputType;
+import android.text.InputFilter;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.View;
@@ -19,6 +22,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextBoldCursor;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.OutlineTextContainerView;
 import org.telegram.ui.Components.SlideView;
@@ -37,14 +41,14 @@ public final class BotgramLoginView extends SlideView {
     private final ArrayList<EditTextBoldCursor> fields = new ArrayList<>();
     private final LinearLayout form;
     private final TextView title, subtitle, switchMode;
-    private final EditTextBoldCursor server, username, displayName, password;
+    private final EditTextBoldCursor server, port, username, displayName, password;
     private final Completion completion;
     private final Consumer<Boolean> loading;
     private final Consumer<String> showError;
     private final int account;
     private volatile boolean disposed;
     private volatile int attempt;
-    private boolean registering, busy;
+    private boolean registering, busy, modeAnimating, splittingAddress;
     private Future<?> request;
 
     public BotgramLoginView(Context context, Activity activity, int account, Completion completion,
@@ -69,8 +73,48 @@ public final class BotgramLoginView extends SlideView {
         form.addView(title, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 0, 16, 0));
         subtitle = label(context, 14, false);
         form.addView(subtitle, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 8, 16, 20));
-        server = field(context, R.string.BotgramServer, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-        server.setText(context.getSharedPreferences("botgram.session." + account, Context.MODE_PRIVATE).getString("server", "http://10.0.2.2:5080"));
+        LinearLayout endpointRow = new LinearLayout(context);
+        endpointRow.setOrientation(HORIZONTAL);
+        endpointRow.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        form.addView(endpointRow, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 62, 0, 0, 0, 10));
+        server = field(context, R.string.BotgramServer, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI, endpointRow);
+        port = field(context, R.string.BotgramPort, InputType.TYPE_CLASS_NUMBER, endpointRow);
+        endpointRow.getChildAt(0).setLayoutParams(LayoutHelper.createLinear(0, 62, 1f));
+        endpointRow.getChildAt(1).setLayoutParams(LayoutHelper.createLinear(96, 62, 10, 0, 0, 0));
+        port.setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+        server.setTextDirection(View.TEXT_DIRECTION_LTR);
+        port.setTextDirection(View.TEXT_DIRECTION_LTR);
+        String savedServer = context.getSharedPreferences("botgram.session." + account, Context.MODE_PRIVATE)
+                .getString("server", BotgramServerAddress.DEFAULT_ADDRESS);
+        try {
+            BotgramServerAddress address = BotgramServerAddress.parse(BotgramServerAddress.migrateLegacy(savedServer));
+            server.setText(address.host);
+            port.setText(address.port);
+        } catch (IllegalArgumentException error) {
+            server.setText(savedServer);
+            port.setText(Integer.toString(BotgramServerAddress.DEFAULT_PORT));
+        }
+        server.addTextChangedListener(new TextWatcher() {
+            private int changedCount;
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) { changedCount = count; }
+            @Override public void afterTextChanged(Editable text) {
+                if (splittingAddress || changedCount <= 1) return;
+                try {
+                    String input = text.toString().trim();
+                    BotgramServerAddress address = BotgramServerAddress.parse(input);
+                    // Leave host-only edits alone. Split an explicitly entered/pasted port.
+                    if (!input.equals(address.host) && input.matches(".*:[0-9]+/?$")) {
+                        splittingAddress = true;
+                        server.setText(address.host);
+                        server.setSelection(server.length());
+                        port.setText(address.port);
+                    }
+                } catch (IllegalArgumentException ignored) {
+                    // Partial input is validated on submit, without interrupting typing.
+                } finally { splittingAddress = false; }
+            }
+        });
         username = field(context, R.string.Username, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         displayName = field(context, R.string.BotgramDisplayName, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         password = field(context, R.string.LoginPassword, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -88,9 +132,8 @@ public final class BotgramLoginView extends SlideView {
         switchMode.setPadding(AndroidUtilities.dp(12), AndroidUtilities.dp(16), AndroidUtilities.dp(12), AndroidUtilities.dp(16));
         form.addView(switchMode, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 4, 0, 0));
         switchMode.setOnClickListener(view -> {
-            if (busy) return;
-            registering = !registering;
-            updateMode();
+            if (busy || modeAnimating) return;
+            changeMode(!registering);
         });
         updateMode();
         updateColors();
@@ -106,6 +149,10 @@ public final class BotgramLoginView extends SlideView {
     }
 
     private EditTextBoldCursor field(Context context, int label, int inputType) {
+        return field(context, label, inputType, form);
+    }
+
+    private EditTextBoldCursor field(Context context, int label, int inputType, LinearLayout parent) {
         OutlineTextContainerView outline = new OutlineTextContainerView(context);
         outline.setText(LocaleController.getString(label));
         EditTextBoldCursor field = new EditTextBoldCursor(context);
@@ -124,8 +171,29 @@ public final class BotgramLoginView extends SlideView {
         outline.addView(field, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 56, Gravity.TOP));
         outlines.add(outline);
         fields.add(field);
-        form.addView(outline, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 62, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 10));
+        parent.addView(outline, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 62, Gravity.CENTER_HORIZONTAL, 0, 0, 0, parent == form ? 10 : 0));
         return field;
+    }
+
+    private void changeMode(boolean register) {
+        if (registering == register || disposed) return;
+        if (!register && displayName.hasFocus()) password.requestFocus();
+        registering = register;
+        if (!isLaidOut()) { updateMode(); return; }
+        modeAnimating = true;
+        switchMode.setEnabled(false);
+        // Swap layout while faded out, so the extra registration field never jumps on screen.
+        form.animate().alpha(0f).translationY(-AndroidUtilities.dp(8)).setDuration(100)
+                .setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(() -> {
+                    if (disposed) return;
+                    updateMode();
+                    form.setTranslationY(AndroidUtilities.dp(8));
+                    form.animate().alpha(1f).translationY(0f).setDuration(220)
+                            .setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(() -> {
+                                modeAnimating = false;
+                                switchMode.setEnabled(!busy);
+                            }).start();
+                }).start();
     }
 
     private void updateMode() {
@@ -136,7 +204,7 @@ public final class BotgramLoginView extends SlideView {
     }
 
     @Override public void onNextPressed(String code) {
-        if (busy || disposed) return;
+        if (busy || modeAnimating || disposed) return;
         for (EditTextBoldCursor field : fields) {
             if (field == displayName && !registering) continue;
             if (field.getText().toString().trim().isEmpty()) {
@@ -146,7 +214,21 @@ public final class BotgramLoginView extends SlideView {
                 return;
             }
         }
-        final String address = server.getText().toString().trim(), name = username.getText().toString().trim();
+        final String address;
+        try {
+            String portText = port.getText().toString().trim();
+            if (!portText.matches("[0-9]{1,5}") || Integer.parseInt(portText) < 1 || Integer.parseInt(portText) > 65535) {
+                port.requestFocus();
+                port.setError(LocaleController.getString(R.string.BotgramInvalidPort));
+                return;
+            }
+            address = BotgramServerAddress.join(server.getText().toString(), portText);
+        } catch (IllegalArgumentException error) {
+            server.requestFocus();
+            server.setError(LocaleController.getString(R.string.BotgramInvalidServer));
+            return;
+        }
+        final String name = username.getText().toString().trim();
         final String secret = password.getText().toString(), display = displayName.getText().toString().trim();
         final boolean register = registering;
         final int id = ++attempt;
@@ -164,16 +246,18 @@ public final class BotgramLoginView extends SlideView {
                     if (disposed || id != attempt) return;
                     BotgramSession saved = new BotgramSession(getContext().getApplicationContext(), account);
                     if (!saved.save(api.baseUrl, response, () -> !disposed && id == attempt)) return;
-                    AndroidUtilities.runOnUIThread(() -> {
+                    AndroidUtilities.runOnUIThread(() -> BotgramTransport.get(account).whenReady(() -> {
                         if (disposed || id != attempt) {
                             Utilities.globalQueue.postRunnable(saved::clearIfCurrent);
                             return;
                         }
-                        BotgramTransport.get(account).authenticated(saved);
-                        password.setText("");
-                        setBusy(false);
-                        completion.done(user);
-                    });
+                        BotgramTransport.get(account).authenticated(saved, () -> !disposed && id == attempt, () -> {
+                            if (disposed || id != attempt) return;
+                            password.setText("");
+                            setBusy(false);
+                            completion.done(user);
+                        });
+                    }));
                 } catch (Exception error) {
                     AndroidUtilities.runOnUIThread(() -> {
                         if (disposed || id != attempt) return;
@@ -215,9 +299,10 @@ public final class BotgramLoginView extends SlideView {
     }
 
     @Override public boolean onBackPressed(boolean invoked) {
+        if (modeAnimating) return false;
         if (busy) { if (invoked) onCancelPressed(); return false; }
         if (registering) {
-            if (invoked) { registering = false; updateMode(); }
+            if (invoked) changeMode(false);
             return false;
         }
         return true;
@@ -225,6 +310,7 @@ public final class BotgramLoginView extends SlideView {
 
     public void dispose() {
         disposed = true;
+        form.animate().cancel();
         ++attempt;
         location.dispose();
         worker.shutdownNow();

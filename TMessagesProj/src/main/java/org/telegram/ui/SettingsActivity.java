@@ -307,6 +307,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             public void onItemClick(int id) {
                 if (id == -1) {
                     if (hasMainTabs) {
+                        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return;
                         // no back on the main tab: the left button opens the QR code (with the search open, the action bar closes it instead)
                         final Bundle args = new Bundle();
                         args.putLong("user_id", getUserConfig().getClientUserId());
@@ -1703,6 +1704,13 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         // (shrinks away and grows back with the other icon; stays visible, so the title does not move)
         final ImageView button = actionBar.getBackButton();
         if (button == null) return;
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            button.setImageResource(R.drawable.ic_ab_back);
+            button.setContentDescription(getString(R.string.AccDescrGoBack));
+            leftButtonIsBack = true;
+            FragmentFloatingButton.setAnimatedVisibility(button, searchVisible);
+            return;
+        }
         final boolean back = searchVisible > 0.5f;
         if (back != leftButtonIsBack) {
             leftButtonIsBack = back;

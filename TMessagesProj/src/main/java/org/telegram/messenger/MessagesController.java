@@ -16129,7 +16129,8 @@ public class MessagesController extends BaseController implements NotificationCe
     public void performLogout(int type) {
         org.telegram.botgram.BotgramTransport botgram = org.telegram.botgram.BotgramTransport.get(currentAccount);
         if (botgram.enabled()) {
-            botgram.logout(type == 1);
+            botgram.logout(type == 1, () -> performLogoutCleanup());
+            return;
         } else if (type == 1) {
             GramWalletStorage.wipeForUser(ApplicationLoader.applicationContext, currentAccount, getUserConfig().getClientUserId());
             unregistedPush();
@@ -16147,6 +16148,10 @@ public class MessagesController extends BaseController implements NotificationCe
         } else {
             getConnectionsManager().cleanup(type == 2);
         }
+        performLogoutCleanup();
+    }
+
+    private void performLogoutCleanup() {
         getUserConfig().clearConfig();
         SharedPrefsHelper.cleanupAccount(currentAccount);
 

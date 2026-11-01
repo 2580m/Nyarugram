@@ -1,4 +1,7 @@
-param([string]$DependencyRoot = 'D:\BotgramBuild')
+param(
+    [string]$DependencyRoot = 'D:\BotgramBuild',
+    [ValidateSet('Debug', 'Standalone')][string]$Variant = 'Debug'
+)
 $ErrorActionPreference = 'Stop'
 $workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 & (Join-Path $PSScriptRoot 'Verify-BotgramM49.ps1')
@@ -19,6 +22,6 @@ if ($env:HTTPS_PROXY) {
     $proxy = [Uri]$env:HTTPS_PROXY
     $arguments += @("-Dhttps.proxyHost=$($proxy.Host)", "-Dhttps.proxyPort=$($proxy.Port)", "-Dhttp.proxyHost=$($proxy.Host)", "-Dhttp.proxyPort=$($proxy.Port)")
 }
-$arguments += ':TMessagesProj_AppStandalone:assembleAfatDebug'
+$arguments += ":TMessagesProj_AppStandalone:assembleAfat$Variant"
 & $gradle @arguments
 exit $LASTEXITCODE
