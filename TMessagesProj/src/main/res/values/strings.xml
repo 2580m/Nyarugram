@@ -11648,6 +11648,9 @@
     <string name="BotgramLogsSaved">Logs saved to the selected location.</string>
     <string name="BotgramNoLogs">No log entries are available yet.</string>
     <string name="BotgramLogsPreviewInfo">Preview shows up to the last 256 KB. Use Save Logs to export the complete files.</string>
+    <string name="BotgramContactGidInfo">Enter the contact’s GID, for example +030 12345678.</string>
+    <string name="BotgramContactGidInvalid">Enter a valid three-digit M49 region and eight digits other than 00000000.</string>
+    <string name="BotgramContactGidNotFound">No account was found with this GID.</string>
     <string name="BotgramGid">GID</string>
     <string name="BotgramChangeGid">Change GID</string>
     <string name="BotgramGeographicRegion">Geographic Region</string>
