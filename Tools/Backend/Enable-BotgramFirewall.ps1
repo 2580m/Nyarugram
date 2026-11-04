@@ -1,3 +1,4 @@
+param([int]$PreviousPort = 0)
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 try {
@@ -21,7 +22,21 @@ try {
             -Protocol TCP -LocalPort $config.Port -InterfaceAlias $config.InterfaceAlias -RemoteAddress LocalSubnet `
             -Profile Private -EdgeTraversalPolicy Block | Out-Null
     }
-    [ordered]@{ Success=$true; Rule=$name; Port=$config.Port; Interface=$config.InterfaceAlias; Profile='Private'; RemoteAddress='LocalSubnet' } |
+    if ($PreviousPort -ne 0 -and $PreviousPort -ne $config.Port) {
+        if ($PreviousPort -lt 1024 -or $PreviousPort -gt 65535) { throw 'Invalid previous port.' }
+        $oldName = 'BotgramBackend-LAN-' + $PreviousPort
+        $oldRule = Get-NetFirewallRule -Name $oldName -ErrorAction SilentlyContinue
+        if ($oldRule) {
+            $oldFilter = $oldRule | Get-NetFirewallPortFilter
+            $oldAddress = $oldRule | Get-NetFirewallAddressFilter
+            $oldInterface = $oldRule | Get-NetFirewallInterfaceFilter
+            if ($oldRule.Direction -ne 'Inbound' -or $oldRule.Action -ne 'Allow' -or $oldRule.Profile.ToString() -ne 'Private' -or
+                $oldFilter.LocalPort -ne $PreviousPort.ToString() -or $oldAddress.RemoteAddress -ne 'LocalSubnet' -or
+                $oldInterface.InterfaceAlias -ne $config.InterfaceAlias) { throw 'Previous rule differs from the expected LAN-only rule.' }
+            $oldRule | Remove-NetFirewallRule
+        }
+    }
+    [ordered]@{ Success=$true; Rule=$name; Port=$config.Port; PreviousPort=$PreviousPort; Interface=$config.InterfaceAlias; Profile='Private'; RemoteAddress='LocalSubnet' } |
         ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root 'firewall-result.json') -Encoding UTF8
 } catch {
     [ordered]@{ Success=$false; Error=$_.Exception.Message } | ConvertTo-Json |

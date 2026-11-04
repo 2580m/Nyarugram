@@ -94,7 +94,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
 
         dummyCell = new PremiumGiftTierCell(getContext());
 
-        initData();
+        if (!org.telegram.botgram.BotgramGiftPolicy.isDisabled()) initData();
         recyclerListView.setOnItemClickListener((view, position) -> {
             if (view instanceof PremiumGiftTierCell) {
                 PremiumGiftTierCell giftTierCell = (PremiumGiftTierCell) view;
@@ -297,6 +297,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
     }
 
     private void onGiftPremium() {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
         GiftTier tier = giftTiers.get(selectedTierIndex);
         if (BuildVars.useInvoiceBilling()) {
             if (getBaseFragment().getParentActivity() instanceof LaunchActivity) {
@@ -338,6 +339,12 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
                 }));
             }
         }
+    }
+
+    @Override
+    public void show() {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
+        super.show();
     }
 
     @Override

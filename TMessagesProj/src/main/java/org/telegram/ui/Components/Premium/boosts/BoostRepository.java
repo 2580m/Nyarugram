@@ -106,7 +106,21 @@ public class BoostRepository {
         return peers;
     }
 
+    private static boolean blockGiftCode(BaseFragment fragment, Utilities.Callback<TLRPC.TL_error> onError) {
+        int account = fragment == null ? UserConfig.selectedAccount : fragment.getCurrentAccount();
+        if (!org.telegram.botgram.BotgramGiftPolicy.block(fragment == null ? null : fragment.getContext(), account,
+                fragment == null ? null : fragment.getResourceProvider())) return false;
+        if (onError != null) {
+            TLRPC.TL_error error = new TLRPC.TL_error();
+            error.code = 403;
+            error.text = "NYARUGRAM_GIFTS_UNAVAILABLE";
+            onError.run(error);
+        }
+        return true;
+    }
+
     public static void payGiftCode(List<TLObject> users, TLRPC.TL_premiumGiftCodeOption option, TLRPC.Chat chat, TLRPC.TL_textWithEntities message, BaseFragment baseFragment, Utilities.Callback<Void> onSuccess, Utilities.Callback<TLRPC.TL_error> onError) {
+        if (blockGiftCode(baseFragment, onError)) return;
         invalidateGiftOptionsToCache(UserConfig.selectedAccount);
         if (!isGoogleBillingAvailable()) {
             payGiftCodeByInvoice(users, option, chat, message, baseFragment, onSuccess, onError);
@@ -123,6 +137,7 @@ public class BoostRepository {
     }
 
     public static void payGiftCodeByInvoice(List<TLObject> users, TLRPC.TL_premiumGiftCodeOption option, TLRPC.Chat chat, TLRPC.TL_textWithEntities message, BaseFragment baseFragment, Utilities.Callback<Void> onSuccess, Utilities.Callback<TLRPC.TL_error> onError) {
+        if (blockGiftCode(baseFragment, onError)) return;
         MessagesController controller = MessagesController.getInstance(UserConfig.selectedAccount);
         ConnectionsManager connection = ConnectionsManager.getInstance(UserConfig.selectedAccount);
 
@@ -190,6 +205,7 @@ public class BoostRepository {
     }
 
     public static void payGiftCodeByGoogle(List<TLObject> users, TLRPC.TL_premiumGiftCodeOption option, TLRPC.Chat chat, TLRPC.TL_textWithEntities message, BaseFragment baseFragment, Utilities.Callback<Void> onSuccess, Utilities.Callback<TLRPC.TL_error> onError) {
+        if (blockGiftCode(baseFragment, onError)) return;
         MessagesController controller = MessagesController.getInstance(UserConfig.selectedAccount);
         ConnectionsManager connection = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         TLRPC.TL_inputStorePaymentPremiumGiftCode payload = new TLRPC.TL_inputStorePaymentPremiumGiftCode();
@@ -227,8 +243,10 @@ public class BoostRepository {
                 }
                 if (response != null) {
                     BillingController.getInstance().addResultListener(list.get(0).getProductId(), billingResult1 -> {
-                        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             AndroidUtilities.runOnUIThread(() -> onSuccess.run(null));
+                        } else {
+                            AndroidUtilities.runOnUIThread(() -> onError.run(null));
                         }
                     });
                     BillingController.getInstance().setOnCanceled(() -> {

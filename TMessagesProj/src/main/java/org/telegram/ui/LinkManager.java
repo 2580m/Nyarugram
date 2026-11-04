@@ -766,6 +766,10 @@ public class LinkManager {
             }
 
             if (!TextUtils.isEmpty(third) && "2sv".equalsIgnoreCase(second)) {
+                if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                    presentFragment(TwoStepVerificationSetupActivity.forAuthenticator(currentAccount));
+                    return true;
+                }
                 init();
                 setRequestId(getConnectionsManager().sendRequest(new TL_account.getPassword(), (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                     done();
@@ -1204,6 +1208,7 @@ public class LinkManager {
                 return true;
             }
             if ("gift".equalsIgnoreCase(second)) {
+                if (org.telegram.botgram.BotgramGiftPolicy.block(activity, currentAccount, null)) return true;
                 StarsController.getInstance(currentAccount).getGiftOptions();
                 UserSelectorBottomSheet.open(UserSelectorBottomSheet.TYPE_STARS, 0, BirthdayController.getInstance(currentAccount).getState());
                 return true;
@@ -1235,6 +1240,7 @@ public class LinkManager {
         }
 
         if ("send-gift".equalsIgnoreCase(first)) {
+            if (org.telegram.botgram.BotgramGiftPolicy.block(activity, currentAccount, null)) return true;
             if ("self".equalsIgnoreCase(second)) {
                 new GiftSheet(activity, currentAccount, getUserConfig().getClientUserId(), null, null).show();
                 return true;

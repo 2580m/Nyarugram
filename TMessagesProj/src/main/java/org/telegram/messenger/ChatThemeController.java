@@ -351,42 +351,56 @@ public class ChatThemeController extends BaseController {
 
     public void saveChatWallpaper(long dialogId, TLRPC.WallPaper wallPaper) {
         if (wallPaper != null) {
-            if (wallPaper.document == null) {
+            if (wallPaper.document == null && !(wallPaper instanceof TLRPC.TL_wallPaperNoFile)) {
                 return;
             }
             SerializedData data = new SerializedData(wallPaper.getObjectSize());
             wallPaper.serializeToStream(data);
             String wallpaperString = Utilities.bytesToHex(data.toByteArray());
+            data.cleanup();
 
             getEmojiSharedPreferences().edit()
-                    .putString("chatWallpaper_" + currentAccount + "_" + dialogId, wallpaperString)
+                    .putString(wallpaperKey(dialogId), wallpaperString)
                     .apply();
         } else {
             getEmojiSharedPreferences().edit()
-                    .remove("chatWallpaper_" + currentAccount + "_" + dialogId)
+                    .remove(wallpaperKey(dialogId))
                     .apply();
         }
+
+    }
+
+    private String wallpaperKey(long dialogId) {
+        return org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()
+                ? "botgramWallpaper_" + currentAccount + "_" + getUserConfig().getClientUserId() + "_" + dialogId
+                : "chatWallpaper_" + currentAccount + "_" + dialogId;
     }
 
     public TLRPC.WallPaper getDialogWallpaper(long dialogId) {
         if (dialogId >= 0) {
             TLRPC.UserFull userFull = getMessagesController().getUserFull(dialogId);
-            if (userFull != null) {
+            if (userFull != null && (userFull.wallpaper != null || !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled())) {
                 return userFull.wallpaper;
             }
         } else {
             TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-dialogId);
-            if (chatFull != null) {
+            if (chatFull != null && (chatFull.wallpaper != null || !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled())) {
                 return chatFull.wallpaper;
             }
         }
-        String wallpaperString = getEmojiSharedPreferences().getString("chatWallpaper_" + currentAccount + "_" + dialogId, null);
+        return getStoredWallpaper(dialogId);
+    }
+
+    public TLRPC.WallPaper getStoredWallpaper(long dialogId) {
+        String wallpaperString = getEmojiSharedPreferences().getString(wallpaperKey(dialogId), null);
         if (wallpaperString != null) {
             SerializedData serializedData = new SerializedData(Utilities.hexToBytes(wallpaperString));
             try {
                 return TLRPC.WallPaper.TLdeserialize(serializedData, serializedData.readInt32(true), true);
             } catch (Throwable e) {
                 FileLog.e(e);
+            } finally {
+                serializedData.cleanup();
             }
         }
         return null;
@@ -595,7 +609,7 @@ public class ChatThemeController extends BaseController {
         if (update.peer instanceof TLRPC.TL_peerUser) {
             TLRPC.UserFull userFull = getMessagesController().getUserFull(update.peer.user_id);
             if (userFull != null) {
-                if (wallpaperEquals(userFull.wallpaper, update.wallpaper)) {
+                if (wallpaperEquals(userFull.wallpaper, update.wallpaper) && userFull.wallpaper_overridden == update.wallpaper_overridden) {
                     return;
                 }
                 final long dialogId = userFull.id;
@@ -604,7 +618,7 @@ public class ChatThemeController extends BaseController {
                     userFull.wallpaper = update.wallpaper;
                     userFull.flags |= 16777216;
                 } else {
-                    userFull.wallpaper_overridden = false;
+                    userFull.wallpaper_overridden = update.wallpaper_overridden;
                     userFull.wallpaper = null;
                     userFull.flags &=~ 16777216;
                 }
@@ -635,6 +649,7 @@ public class ChatThemeController extends BaseController {
                 });
             }
         }
+        saveChatWallpaper(DialogObject.getPeerDialogId(update.peer), update.wallpaper);
     }
 
     public static boolean wallpaperEquals(TLRPC.WallPaper a, TLRPC.WallPaper b) {
@@ -645,10 +660,20 @@ public class ChatThemeController extends BaseController {
             return a.id == b.id;
         }
         if (a instanceof TLRPC.TL_wallPaperNoFile && b instanceof TLRPC.TL_wallPaperNoFile) {
-            if (a.settings != null && b.settings != null) {
-                return TextUtils.equals(getWallpaperEmoticon(a), getWallpaperEmoticon(b));
+            if (a.id != b.id || a.dark != b.dark || a.isDefault != b.isDefault) {
+                return false;
             }
-            return a.id == b.id;
+            if (a.settings != null && b.settings != null) {
+                TLRPC.WallPaperSettings x = a.settings, y = b.settings;
+                return x.flags == y.flags && x.blur == y.blur && x.motion == y.motion
+                        && x.background_color == y.background_color
+                        && x.second_background_color == y.second_background_color
+                        && x.third_background_color == y.third_background_color
+                        && x.fourth_background_color == y.fourth_background_color
+                        && x.rotation == y.rotation && x.intensity == y.intensity
+                        && TextUtils.equals(x.emoticon, y.emoticon);
+            }
+            return a.settings == b.settings;
         }
         return false;
     }
@@ -673,6 +698,10 @@ public class ChatThemeController extends BaseController {
     }
 
     public void clearWallpaper(long dialogId, boolean notify, boolean onlyRevert) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramWallpaperActions.set(currentAccount, dialogId, null, null, false, onlyRevert, null);
+            return;
+        }
         TLRPC.TL_messages_setChatWallPaper req = new TLRPC.TL_messages_setChatWallPaper();
         if (dialogId >= 0) {
             TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(dialogId);
@@ -711,6 +740,16 @@ public class ChatThemeController extends BaseController {
     }
 
     public int setWallpaperToPeer(long dialogId, String wallpaperLocalPath, Theme.OverrideWallpaperInfo wallpaperInfo, MessageObject serverWallpaper, Runnable callback) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            if (serverWallpaper != null || wallpaperLocalPath != null || !wallpaperInfo.isColor()) {
+                org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, true);
+                return 0;
+            }
+            TLRPC.TL_inputWallPaperNoFile input = new TLRPC.TL_inputWallPaperNoFile();
+            input.id = wallpaperInfo.wallpaperId;
+            return org.telegram.botgram.BotgramWallpaperActions.set(currentAccount, dialogId, input,
+                    org.telegram.botgram.BotgramWallpaperActions.settings(wallpaperInfo), wallpaperInfo.forBoth, false, callback);
+        }
         TLRPC.TL_messages_setChatWallPaper req = new TLRPC.TL_messages_setChatWallPaper();
         if (dialogId >= 0) {
             TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(dialogId);

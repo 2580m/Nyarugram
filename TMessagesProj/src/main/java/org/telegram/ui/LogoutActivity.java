@@ -165,6 +165,10 @@ public class LogoutActivity extends BaseFragment {
     }
 
     public void showLogOutDialog() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            showLogOutDialog(0);
+            return;
+        }
         final AlertDialog progressDialog = new AlertDialog(getContext(), AlertDialog.ALERT_TYPE_SPINNER);
         progressDialog.showDelayed(500);
         GramWallet.ensureLocalWalletBalances(currentAccount, () -> {

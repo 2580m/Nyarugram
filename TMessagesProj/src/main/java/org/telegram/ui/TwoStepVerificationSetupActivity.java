@@ -178,6 +178,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     private Runnable monkeyEndCallback;
 
     private Runnable openedSettings;
+    private boolean authenticatorIntro;
+
+    public static TwoStepVerificationSetupActivity forAuthenticator(int account) {
+        TwoStepVerificationSetupActivity fragment = new TwoStepVerificationSetupActivity(TYPE_INTRO, new TL_account.TL_password());
+        fragment.currentAccount = account;
+        fragment.authenticatorIntro = true;
+        return fragment;
+    }
     public void setOnOpenedSettings(Runnable openedSettings) {
         this.openedSettings = openedSettings;
     }
@@ -944,8 +952,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         switch (currentType) {
             case TYPE_INTRO: {
                 titleTextView.setText(LocaleController.getString(R.string.TwoStepVerificationTitle));
-                descriptionText.setText(LocaleController.getString(R.string.SetAdditionalPasswordInfo));
-                buttonTextView.setText(LocaleController.getString(R.string.TwoStepVerificationSetPassword));
+                descriptionText.setText(LocaleController.getString(authenticatorIntro ? R.string.BotgramAuthenticatorIntro : R.string.SetAdditionalPasswordInfo));
+                buttonTextView.setText(LocaleController.getString(authenticatorIntro ? R.string.BotgramAuthenticatorEnable : R.string.TwoStepVerificationSetPassword));
                 descriptionText.setVisibility(View.VISIBLE);
 
                 imageView.setAnimation(R.raw.tsv_setup_intro, 140, 140);
@@ -1281,6 +1289,13 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     public void onResume() {
         super.onResume();
         paused = false;
+        if (authenticatorIntro && buttonTextView != null) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).accountRequest(
+                    api -> api.object("GET", "/api/security/totp", null).getBoolean("enabled"),
+                    () -> !isFinished, (enabled, error) -> {
+                        if (error == null) buttonTextView.setText(LocaleController.getString(enabled ? R.string.BotgramAuthenticatorManage : R.string.BotgramAuthenticatorEnable));
+                    });
+        }
 
         AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid);
         if (isCustomKeyboardVisible()) {
@@ -1295,6 +1310,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         }
         switch (currentType) {
             case TYPE_INTRO: {
+                if (authenticatorIntro) {
+                    presentFragment(new org.telegram.botgram.BotgramTotpActivity(currentAccount));
+                    return;
+                }
                 if (currentPassword == null) {
                     needShowProgress();
                     doneAfterPasswordLoad = true;
@@ -1994,7 +2013,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         fragment.setBlockingAlert(otherwiseReloginDays);
                         presentFragment(fragment, true);
                     } else {
-                        if ("EMAIL_INVALID".equals(error.text)) {
+                        if ("EMAIL_RECOVERY_NOT_CONFIGURED".equals(error.text)) {
+                            showAlertWithText(LocaleController.getString(R.string.AppName), LocaleController.getString(R.string.BotgramRecoveryEmailUnavailable));
+                        } else if ("EMAIL_INVALID".equals(error.text)) {
                             showAlertWithText(LocaleController.getString(R.string.AppName), LocaleController.getString(R.string.PasswordEmailInvalid));
                         } else if ("EMAIL_NOT_ALLOWED".equals(error.text)) {
                             showAlertWithText(LocaleController.getString(R.string.AppName), LocaleController.getString(R.string.EmailNotAllowed));

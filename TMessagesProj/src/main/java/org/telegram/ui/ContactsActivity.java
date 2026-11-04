@@ -223,7 +223,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.encryptedChatCreated);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.closeChats);
-        checkPermission = UserConfig.getInstance(currentAccount).syncContacts;
+        checkPermission = getContactsController().isPhoneBookSyncEnabled();
         if (arguments != null) {
             onlyUsers = arguments.getBoolean("onlyUsers", false);
             destroyAfterSelect = arguments.getBoolean("destroyAfterSelect", false);
@@ -1244,7 +1244,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
     @Override
     public void onBecomeFullyVisible() {
         super.onBecomeFullyVisible();
-        if (checkPermission && Build.VERSION.SDK_INT >= 23) {
+        if (checkPermission && getContactsController().isPhoneBookSyncEnabled() && Build.VERSION.SDK_INT >= 23) {
             Activity activity = getParentActivity();
             if (activity != null) {
                 checkPermission = false;
@@ -1283,7 +1283,7 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
     @TargetApi(Build.VERSION_CODES.M)
     private void askForPermissons(boolean alert) {
         Activity activity = getParentActivity();
-        if (activity == null || !UserConfig.getInstance(currentAccount).syncContacts || activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED/* && activity.checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED*/) {
+        if (activity == null || !getContactsController().isPhoneBookSyncEnabled() || activity.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED/* && activity.checkSelfPermission(Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED*/) {
             return;
         }
         if (alert && askAboutContacts) {

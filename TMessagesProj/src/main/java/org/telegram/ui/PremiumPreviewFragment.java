@@ -78,6 +78,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_account;
 import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EdgeToEdgeSupportMode;
@@ -265,6 +266,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     private Insets insets = Insets.NONE;
     private boolean forcePremium;
+    private org.telegram.botgram.BotgramPremiumPage nyarugramPage;
     float progressToFull;
 
     public static int serverStringToFeatureType(String s) {
@@ -526,6 +528,13 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public View createView(Context context) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            nyarugramPage = new org.telegram.botgram.BotgramPremiumPage(this, () -> {
+                updateButtonText(true);
+                backgroundView.updateText();
+                updateRows();
+            });
+        }
         iBlur3Capture = (canvas, position) -> Blur3Utils.captureRelativeParent(listView, canvas, position, listView, contentView);
 
         hasOwnBackground = true;
@@ -552,7 +561,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
         premiumFeatures.clear();
         morePremiumFeatures.clear();
-        if (type == FEATURES_PREMIUM) {
+        if (nyarugramPage != null) {
+            premiumFeatures.add(new PremiumFeatureData(PREMIUM_FEATURE_PROFILE_BADGE, R.drawable.msg_premium_badge,
+                    getString(R.string.PremiumPreviewProfileBadge), getString(R.string.BotgramPremiumBadgeInfo)));
+            premiumFeatures.add(new PremiumFeatureData(PREMIUM_FEATURE_APPLICATION_ICONS, R.drawable.msg_premium_icons,
+                    getString(R.string.PremiumPreviewAppIcon), getString(R.string.BotgramPremiumIconsInfo)));
+        } else if (type == FEATURES_PREMIUM) {
             fillPremiumFeaturesList(premiumFeatures, currentAccount, false);
         } else {
             fillBusinessFeaturesList(premiumFeatures, currentAccount, false);
@@ -868,6 +882,13 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             if (view instanceof PremiumFeatureCell) {
                 PremiumFeatureCell cell = (PremiumFeatureCell) view;
 
+                if (nyarugramPage != null) {
+                    showDialog(new AlertDialog.Builder(getParentActivity(), getResourceProvider())
+                            .setTitle(cell.data.title).setMessage(cell.data.description)
+                            .setPositiveButton(getString(R.string.OK), null).create());
+                    return;
+                }
+
                 if (type == FEATURES_BUSINESS && getUserConfig().isPremium()) {
                     if (cell.data.type == PREMIUM_FEATURE_BUSINESS_LOCATION) {
                         presentFragment(new LocationActivity());
@@ -970,12 +991,13 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         updateRows();
 
         backgroundView.imageView.startEnterAnimation(-180, 200);
-        if (forcePremium) {
-            AndroidUtilities.runOnUIThread(() -> getMediaDataController().loadPremiumPromo(false), 400);
+        if (nyarugramPage == null) {
+            if (forcePremium) {
+                AndroidUtilities.runOnUIThread(() -> getMediaDataController().loadPremiumPromo(false), 400);
+            }
+            MediaDataController.getInstance(currentAccount).preloadPremiumPreviewStickers();
+            sentShowScreenStat(source);
         }
-        MediaDataController.getInstance(currentAccount).preloadPremiumPreviewStickers();
-
-        sentShowScreenStat(source);
 
         ViewCompat.setOnApplyWindowInsetsListener(fragmentView, this::onApplyWindowInsets);
 
@@ -1130,6 +1152,12 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     }
 
     public static void buyPremium(BaseFragment fragment, SubscriptionTier tier, String source, boolean forcePremium, BillingFlowParams.SubscriptionUpdateParams updateParams) {
+        final int targetAccount = fragment == null ? UserConfig.selectedAccount : fragment.getCurrentAccount();
+        if (org.telegram.botgram.BotgramTransport.get(targetAccount).enabled()) {
+            BaseFragment target = fragment == null ? LaunchActivity.getSafeLastFragment() : fragment;
+            if (target != null) target.presentFragment(new PremiumPreviewFragment("nyarugram"));
+            return;
+        }
         if (BuildVars.IS_BILLING_UNAVAILABLE) {
             if (fragment == null) {
                 new PremiumNotAvailableBottomSheet(fragment).show();
@@ -1452,7 +1480,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             showAdsInfoRow = rowCount++;
         }
 
-        AndroidUtilities.updateViewVisibilityAnimated(buttonContainer, !getUserConfig().isPremium() || currentSubscriptionTier != null && currentSubscriptionTier.getMonths() < subscriptionTiers.get(selectedTierIndex).getMonths() && !forcePremium, 1f, false);
+        AndroidUtilities.updateViewVisibilityAnimated(buttonContainer, nyarugramPage != null || !getUserConfig().isPremium() || currentSubscriptionTier != null && currentSubscriptionTier.getMonths() < subscriptionTiers.get(selectedTierIndex).getMonths() && !forcePremium, 1f, false);
 
         int buttonHeight = buttonContainer.getVisibility() == View.VISIBLE ? dp(64) : 0;
         layoutManager.setAdditionalHeight(buttonHeight + statusBarHeight - dp(16));
@@ -1466,6 +1494,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     @Override
     public boolean onFragmentCreate() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            return type != FEATURES_BUSINESS && super.onFragmentCreate();
+        }
         if (getMessagesController().premiumFeaturesBlocked()) {
             return false;
         }
@@ -1488,6 +1519,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     @Override
     public void onFragmentDestroy() {
+        if (nyarugramPage != null) nyarugramPage.pause();
         super.onFragmentDestroy();
 
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingProductDetailsUpdated);
@@ -1623,6 +1655,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     privacyCell.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(getString(R.string.ShowAdsInfo), () -> {
                         showDialog(new RevenueSharingAdsInfoBottomSheet(getContext(), false, getResourceProvider(), null));
                     }), true));
+                } else if (position == statusRow && nyarugramPage != null) {
+                    privacyCell.setText(getString(R.string.BotgramPremiumInfo));
                 } else if (position == statusRow && type == FEATURES_BUSINESS) {
                     privacyCell.setText(getString(R.string.PremiumPreviewMoreBusinessFeaturesInfo));
                 } else if (position == statusRow) {
@@ -1869,7 +1903,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
                 @Override
                 public boolean isEnabled(RecyclerView.ViewHolder holder) {
-                    return !subscriptionTiers.get(holder.getAdapterPosition()).subscriptionOption.current;
+                    return nyarugramPage == null && !subscriptionTiers.get(holder.getAdapterPosition()).subscriptionOption.current;
                 }
 
                 @Override
@@ -1979,6 +2013,13 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             subscriptionTiers.clear();
             selectedTierIndex = -1;
             currentSubscriptionTier = null;
+            if (nyarugramPage != null) {
+                subscriptionTiers.add(new SubscriptionTier());
+                selectedTierIndex = 0;
+                updateButtonText(false);
+                tierListView.getAdapter().notifyDataSetChanged();
+                return;
+            }
             long pricePerYearMax = 0;
             if (getMediaDataController().getPremiumPromo() != null) {
                 for (TLRPC.TL_premiumSubscriptionOption option : getMediaDataController().getPremiumPromo().period_options) {
@@ -2068,7 +2109,11 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         private boolean setTierListViewVisibility;
         private boolean tierListViewVisible;
         public void updateText() {
-            if (type == FEATURES_PREMIUM) {
+            if (nyarugramPage != null) {
+                titleView.setText(getString(R.string.TelegramPremium));
+                subtitleView.setText(getString(nyarugramPage.isPremium()
+                        ? R.string.BotgramPremiumActive : R.string.BotgramPremiumSubtitle));
+            } else if (type == FEATURES_PREMIUM) {
                 titleView.setText(getString(forcePremium ? R.string.TelegramPremiumSubscribedTitle : R.string.TelegramPremium));
                 subtitleView.setText(AndroidUtilities.replaceTags(getString(getUserConfig().isPremium() || forcePremium ? R.string.TelegramPremiumSubscribedSubtitle : R.string.TelegramPremiumSubtitle)));
             } else if (type == FEATURES_BUSINESS) {
@@ -2076,7 +2121,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 subtitleView.setText(AndroidUtilities.replaceTags(getString(getUserConfig().isPremium() || forcePremium ? R.string.TelegramBusinessSubscribedSubtitleTemp : R.string.TelegramBusinessSubtitleTemp)));
             }
             subtitleView.getLayoutParams().width = Math.min(AndroidUtilities.displaySize.x - dp(42), HintView2.cutInFancyHalf(subtitleView.getText(), subtitleView.getPaint()));
-            boolean tierNotVisible = forcePremium || BuildVars.IS_BILLING_UNAVAILABLE || IS_PREMIUM_TIERS_UNAVAILABLE || subscriptionTiers.size() <= 1;
+            boolean tierNotVisible = nyarugramPage == null && (forcePremium || BuildVars.IS_BILLING_UNAVAILABLE || IS_PREMIUM_TIERS_UNAVAILABLE || subscriptionTiers.size() <= 1);
             if (!setTierListViewVisibility || !tierNotVisible) {
                 tierListView.setVisibility(tierNotVisible ? GONE : VISIBLE);
                 setTierListViewVisibility = true;
@@ -2127,6 +2172,14 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         if (premiumButtonView == null) {
             return;
         }
+        if (nyarugramPage != null) {
+            premiumButtonView.setButton(getString(nyarugramPage.isLoading() ? R.string.Loading
+                    : nyarugramPage.isPremium() ? R.string.BotgramPremiumActive : R.string.BotgramPremiumSubscribeLifetime), null, animated);
+            premiumButtonView.setFlickerDisabled(true);
+            buttonContainerInternal.setEnabled(!nyarugramPage.isLoading() && !nyarugramPage.isPremium());
+            buttonContainerInternal.setOnClickListener(v -> nyarugramPage.activate());
+            return;
+        }
         if (getUserConfig().isPremium() && currentSubscriptionTier != null && selectedTierIndex < subscriptionTiers.size() && subscriptionTiers.get(selectedTierIndex).getMonths() < currentSubscriptionTier.getMonths()) {
             return;
         }
@@ -2170,6 +2223,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     @Override
     public void onResume() {
         super.onResume();
+        if (nyarugramPage != null) {
+            nyarugramPage.resume();
+        }
         if (backgroundView != null && backgroundView.imageView != null) {
             backgroundView.imageView.setPaused(false);
             backgroundView.imageView.setDialogVisible(false);
@@ -2186,6 +2242,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     @Override
     public void onPause() {
         super.onPause();
+        if (nyarugramPage != null) nyarugramPage.pause();
         if (backgroundView != null && backgroundView.imageView != null) {
             backgroundView.imageView.setDialogVisible(true);
         }
@@ -2367,6 +2424,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     public final static class SubscriptionTier {
         public final TLRPC.TL_premiumSubscriptionOption subscriptionOption;
+        public final boolean lifetime;
         private int discount;
         private long pricePerMonth;
         private long pricePerYear;
@@ -2379,6 +2437,14 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
         public SubscriptionTier(TLRPC.TL_premiumSubscriptionOption subscriptionOption) {
             this.subscriptionOption = subscriptionOption;
+            lifetime = false;
+        }
+
+        public SubscriptionTier() {
+            subscriptionOption = new TLRPC.TL_premiumSubscriptionOption();
+            subscriptionOption.months = 1;
+            subscriptionOption.currency = "USD";
+            lifetime = true;
         }
 
         public ProductDetails getGooglePlayProductDetails() {
@@ -2574,7 +2640,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
     @Override
     public boolean isSupportEdgeToEdge() {
-        return true;
+        return !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled();
     }
 
     @Override

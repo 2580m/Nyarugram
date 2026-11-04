@@ -5071,7 +5071,8 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
             if (selfId != fromId || isForChannel) {
                 final TLRPC.User fromUser = MessagesController.getInstance(currentAccount).getUser(fromId);
                 tableView.addRowUser(getString(R.string.Gift2From), currentAccount, fromId, () -> openProfile(fromId), fromId != selfId && fromId != UserObject.ANONYMOUS && !fromBot && !UserObject.isDeleted(fromUser) && !isForChannel ? getString(R.string.Gift2ButtonSendGift) : null, () -> {
-                    new GiftSheet(getContext(), currentAccount, fromId, this::dismiss).show();
+                    if (!org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider))
+                        new GiftSheet(getContext(), currentAccount, fromId, this::dismiss).show();
                 });
             }
             tableView.addRow(getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(savedStarGift.date * 1000L)), LocaleController.getInstance().getFormatterDay().format(new Date(savedStarGift.date * 1000L))));
@@ -5415,17 +5416,20 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
             if (auctionPeer != null) {
                 long auctionToDid = DialogObject.getPeerDialogId(auctionPeer);
                 tableView.addRowUser(getString(R.string.Gift2To), currentAccount, auctionToDid, () -> openProfile(auctionToDid), null, isForChannel ? null : () -> {
-                    new GiftSheet(getContext(), currentAccount, auctionToDid, this::dismiss).show();
+                    if (!org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider))
+                        new GiftSheet(getContext(), currentAccount, auctionToDid, this::dismiss).show();
                 });
             } else {
                 if (fromId != selfId || prepaid_upgrade || isForChannel) {
                     tableView.addRowUser(getString(R.string.Gift2From), currentAccount, fromId, () -> openProfile(fromId), fromId != selfId && fromId != UserObject.ANONYMOUS && !UserObject.isDeleted(fromUser) && !fromBot && !isForChannel ? getString(R.string.Gift2ButtonSendGift) : null, isForChannel ? null : () -> {
-                        new GiftSheet(getContext(), currentAccount, fromId, this::dismiss).show();
+                        if (!org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider))
+                            new GiftSheet(getContext(), currentAccount, fromId, this::dismiss).show();
                     });
                 }
                 if (toId != selfId || isForChannel) {
                     tableView.addRowUser(getString(R.string.Gift2To), currentAccount, toId, () -> openProfile(toId), null, isForChannel ? null : () -> {
-                        new GiftSheet(getContext(), currentAccount, toId, this::dismiss).show();
+                        if (!org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider))
+                            new GiftSheet(getContext(), currentAccount, toId, this::dismiss).show();
                     });
                 }
             }

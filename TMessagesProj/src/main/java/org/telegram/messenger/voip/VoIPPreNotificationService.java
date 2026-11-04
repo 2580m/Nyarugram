@@ -392,6 +392,30 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
     public static State currentState;
 //    public static Intent pendingNotificationService;
 
+    /**
+     * Brings the call screen to the front for an incoming call. Full-screen intent notifications are
+     * downgraded to heads-up notifications while the device is unlocked, and Android blocks activity
+     * launches from the background unless the app can draw overlays.
+     */
+    public static void openCallScreen(Context context, int account) {
+        if (ApplicationLoader.mainInterfacePaused && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && !Settings.canDrawOverlays(context)) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("VoIPPreNotification.openCallScreen(): overlay permission is missing");
+            }
+            return;
+        }
+        Intent intent = new Intent(context, LaunchActivity.class);
+        intent.setAction("voip");
+        intent.putExtra("currentAccount", account);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        try {
+            context.startActivity(intent);
+        } catch (Throwable e) {
+            FileLog.e(e);
+        }
+    }
+
     public static void show(Context context, Intent intent, TL_phone.PhoneCall call) {
         FileLog.d("VoIPPreNotification.show()");
 

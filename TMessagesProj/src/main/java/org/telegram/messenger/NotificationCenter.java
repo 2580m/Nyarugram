@@ -412,13 +412,15 @@ public class NotificationCenter {
         void didReceivedNotification(int id, int account, Object... args);
     }
 
-    private static class DelayedPost {
+    private class DelayedPost {
 
         private DelayedPost(int id, Object[] args) {
             this.id = id;
             this.args = args;
+            delivery = org.telegram.botgram.BotgramSessionScope.guard(() -> postNotificationNameInternal(id, true, args));
         }
 
+        private final Runnable delivery;
         private int id;
         private Object[] args;
     }
@@ -551,7 +553,7 @@ public class NotificationCenter {
             delayedPosts.clear();
             for (int a = 0; a < delayedPostsTmp.size(); a++) {
                 DelayedPost delayedPost = delayedPostsTmp.get(a);
-                postNotificationNameInternal(delayedPost.id, true, delayedPost.args);
+                delayedPost.delivery.run();
             }
             delayedPostsTmp.clear();
         }
@@ -916,16 +918,31 @@ public class NotificationCenter {
         boolean needPostpone(int id, int currentAccount, Object[] args);
     }
 
+    private static final class IdleTask implements Runnable {
+        final Runnable original;
+        final Runnable delivery;
+        IdleTask(Runnable task) {
+            original = task;
+            delivery = org.telegram.botgram.BotgramSessionScope.guard(task);
+        }
+        @Override public void run() { delivery.run(); }
+    }
+
     public void doOnIdle(Runnable runnable) {
         if (isAnimationInProgress()) {
-            delayedRunnables.add(runnable);
+            delayedRunnables.add(new IdleTask(runnable));
         } else {
             runnable.run();
         }
     }
 
     public void removeDelayed(Runnable runnable) {
-        delayedRunnables.remove(runnable);
+        for (int i = delayedRunnables.size() - 1; i >= 0; i--) {
+            Runnable task = delayedRunnables.get(i);
+            if (task == runnable || task instanceof IdleTask && ((IdleTask) task).original == runnable) {
+                delayedRunnables.remove(i);
+            }
+        }
     }
 
     private static class AllowedNotifications {

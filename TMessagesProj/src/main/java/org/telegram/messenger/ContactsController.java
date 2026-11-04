@@ -388,6 +388,11 @@ public class ContactsController extends BaseController {
 
     public void checkAppAccount() {
         systemAccount = null;
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            // Load app contacts without creating an Android phone-book sync account.
+            if (getUserConfig().isClientActivated()) readContacts();
+            return;
+        }
         Utilities.globalQueue.postRunnable(() -> {
             AccountManager am = AccountManager.get(ApplicationLoader.applicationContext);
             try {
@@ -569,6 +574,7 @@ public class ContactsController extends BaseController {
     }
 
     private boolean checkContactsInternal() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return false;
         boolean reload = false;
         try {
             if (!hasContactsPermission()) {
@@ -629,8 +635,12 @@ public class ContactsController extends BaseController {
         return count > 3;
     }
 
+    public boolean isPhoneBookSyncEnabled() {
+        return !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled() && getUserConfig().syncContacts;
+    }
+
     public HashMap<String, Contact> readContactsFromPhoneBook() {
-        if (!getUserConfig().syncContacts) {
+        if (!isPhoneBookSyncEnabled()) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("contacts sync disabled");
             }

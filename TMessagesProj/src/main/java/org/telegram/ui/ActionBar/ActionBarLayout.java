@@ -1757,6 +1757,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             return false;
         }
         if (transitionAnimationInProgress && (transitionAnimationStartTime < System.currentTimeMillis() - 1500 || inPreviewMode)) {
+            if (BuildVars.LOGS_ENABLED) {
+                BaseFragment fragment = getLastFragment();
+                FileLog.d("UI_TRACE transition_fallback page=" + (fragment == null ? "none" : fragment.getClass().getSimpleName())
+                        + " elapsed_ms=" + (System.currentTimeMillis() - transitionAnimationStartTime));
+            }
             onAnimationEndCheck(true);
         }
         return transitionAnimationInProgress;
@@ -1925,7 +1930,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     onAnimationEndCheck(false);
                 }
             }
-        });
+        }, 16);
     }
 
     @Override

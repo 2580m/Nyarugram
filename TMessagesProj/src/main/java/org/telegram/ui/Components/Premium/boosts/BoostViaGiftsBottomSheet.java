@@ -333,6 +333,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
             }
 
             if (selectedBoostSubType == BoostTypeCell.TYPE_SPECIFIC_USERS) {
+                if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
                 List<TLRPC.TL_premiumGiftCodeOption> options = BoostRepository.filterGiftOptions(giftCodeOptions, selectedUsers.size());
                 for (int i = 0; i < options.size(); i++) {
                     TLRPC.TL_premiumGiftCodeOption option = options.get(i);

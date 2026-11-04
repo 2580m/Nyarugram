@@ -89,7 +89,14 @@ public final class BotgramRegistrationLocation implements LocationListener {
         Consumer<String> done = callback; callback = null;
         if (!disposed && done != null) done.accept(country);
     }
-    public void dispose() { disposed = true; callback = null; handler.removeCallbacksAndMessages(null); removeUpdates(); geocoder.shutdownNow(); }
+    public void cancel() {
+        generation++;
+        callback = null;
+        resolving = false;
+        handler.removeCallbacksAndMessages(null);
+        removeUpdates();
+    }
+    public void dispose() { disposed = true; cancel(); geocoder.shutdownNow(); }
     @Override public void onProviderDisabled(String provider) { finish(null); }
     @Override public void onProviderEnabled(String provider) { }
     @Override public void onStatusChanged(String provider, int status, Bundle extras) { }

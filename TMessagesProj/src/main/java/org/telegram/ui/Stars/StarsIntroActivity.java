@@ -4263,7 +4263,8 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                 }
                             }
                         }, didUser != null && !UserObject.isDeleted(didUser) && !UserObject.areGiftsDisabled(did) ? getString(R.string.Gift2ButtonSendGift) : null, () -> {
-                            new GiftSheet(context, currentAccount, did, sheet[0]::dismiss).show();
+                            if (!org.telegram.botgram.BotgramGiftPolicy.block(context, currentAccount, resourcesProvider))
+                                new GiftSheet(context, currentAccount, did, sheet[0]::dismiss).show();
                         });
                     }
                     tableView.addRowUser(getString(R.string.StarGiveawayPrizeTo), currentAccount, selfId, () -> {
@@ -4302,7 +4303,8 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                             }
                         }
                     }, didUser != null && !UserObject.isDeleted(didUser) && !UserObject.areGiftsDisabled(did) ? getString(R.string.Gift2ButtonSendGift) : null, () -> {
-                        new GiftSheet(context, currentAccount, did, sheet[0]::dismiss).show();
+                        if (!org.telegram.botgram.BotgramGiftPolicy.block(context, currentAccount, resourcesProvider))
+                            new GiftSheet(context, currentAccount, did, sheet[0]::dismiss).show();
                     });
                 }
             }

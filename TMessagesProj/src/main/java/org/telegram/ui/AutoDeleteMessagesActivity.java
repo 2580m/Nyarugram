@@ -95,7 +95,11 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
 
         FrameLayout stickerHeaderCell = new FrameLayout(context);
         StickerImageView backupImageView = new StickerImageView(context, currentAccount);
-        backupImageView.setStickerNum(10);
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            backupImageView.setLocalAnimation(R.raw.nyarugram_auto_delete_hello);
+        } else {
+            backupImageView.setStickerNum(10);
+        }
         stickerHeaderCell.addView(backupImageView, LayoutHelper.createFrame(130, 130, Gravity.CENTER));
         stickerHeaderCell.setTag(RecyclerListView.TAG_NOT_SECTION);
 

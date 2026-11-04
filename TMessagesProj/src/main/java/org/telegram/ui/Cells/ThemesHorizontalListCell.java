@@ -66,8 +66,6 @@ import java.util.HashMap;
 
 public class ThemesHorizontalListCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
 
-    public static byte[] bytes = new byte[1024];
-
     private boolean drawDivider;
     private LinearLayoutManager horizontalLayoutManager;
     private HashMap<String, Theme.ThemeInfo> loadingThemes = new HashMap<>();
@@ -164,6 +162,10 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
         private long lastDrawTime;
 
         private boolean pressed;
+        private int previewGeneration;
+        private boolean previewLoading;
+        private Theme.ThemeInfo loadedPreview;
+        private Bitmap previewBitmap;
 
         public InnerThemeView(Context context) {
             super(context);
@@ -210,10 +212,11 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             return pressed;
         }
 
-        private boolean parseTheme() {
+        private boolean readThemePreview(Theme.ThemeInfo themeInfo) {
             if (themeInfo == null || themeInfo.pathToFile == null) {
                 return false;
             }
+            byte[] bytes = new byte[1024];
             boolean finished = false;
             File file = new File(themeInfo.pathToFile);
             try (FileInputStream stream = new FileInputStream(file)) {
@@ -327,37 +330,91 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                     }
                     stream.getChannel().position(currentPosition);
                 }
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 FileLog.e(e);
+                return false;
             }
-
-            if (themeInfo.pathToWallpaper != null && !themeInfo.badWallpaper) {
-                file = new File(themeInfo.pathToWallpaper);
-                if (!file.exists()) {
-                    if (!loadingWallpapers.containsKey(themeInfo)) {
-                        loadingWallpapers.put(themeInfo, themeInfo.slug);
-                        TL_account.getWallPaper req = new TL_account.getWallPaper();
-                        TLRPC.TL_inputWallPaperSlug inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
-                        inputWallPaperSlug.slug = themeInfo.slug;
-                        req.wallpaper = inputWallPaperSlug;
-                        ConnectionsManager.getInstance(themeInfo.account).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                            if (response instanceof TLRPC.TL_wallPaper) {
-                                TLRPC.WallPaper wallPaper = (TLRPC.WallPaper) response;
-                                String name = FileLoader.getAttachFileName(wallPaper.document);
-                                if (!loadingThemes.containsKey(name)) {
-                                    loadingThemes.put(name, themeInfo);
-                                    FileLoader.getInstance(themeInfo.account).loadFile(wallPaper.document, wallPaper, FileLoader.PRIORITY_NORMAL, 1);
-                                }
-                            } else {
-                                themeInfo.badWallpaper = true;
-                            }
-                        }));
-                    }
-                    return false;
-                }
-            }
-            themeInfo.previewParsed = true;
             return true;
+        }
+
+        private void requestThemePreview() {
+            if (themeInfo == null || themeInfo.pathToFile == null || previewLoading) return;
+            final Theme.ThemeInfo target = themeInfo;
+            final int generation = ++previewGeneration;
+            final Theme.ThemeInfo parsed = new Theme.ThemeInfo(target);
+            parsed.pathToFile = target.pathToFile;
+            parsed.setPreviewInColor(Theme.getDefaultColor(Theme.key_chat_inBubble));
+            parsed.setPreviewOutColor(Theme.getDefaultColor(Theme.key_chat_outBubble));
+            previewLoading = true;
+            Utilities.globalQueue.postRunnable(() -> {
+                final boolean exists = new File(parsed.pathToFile).exists();
+                final boolean valid = exists && readThemePreview(parsed);
+                final boolean wallpaperExists = parsed.pathToWallpaper == null || new File(parsed.pathToWallpaper).exists();
+                final Bitmap bitmap = valid && wallpaperExists && (parsed.previewWallpaperOffset > 0 || parsed.pathToWallpaper != null)
+                        ? AndroidUtilities.getScaledBitmap(AndroidUtilities.dp(76), AndroidUtilities.dp(97),
+                                parsed.pathToWallpaper, parsed.pathToFile, parsed.previewWallpaperOffset) : null;
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (generation != previewGeneration || themeInfo != target) return;
+                    previewLoading = false;
+                    loadedPreview = target;
+                    previewBitmap = bitmap;
+                    if (valid) {
+                        target.setPreviewInColor(parsed.getPreviewInColor());
+                        target.setPreviewOutColor(parsed.getPreviewOutColor());
+                        target.setPreviewBackgroundColor(parsed.getPreviewBackgroundColor());
+                        target.previewBackgroundGradientColor1 = parsed.previewBackgroundGradientColor1;
+                        target.previewBackgroundGradientColor2 = parsed.previewBackgroundGradientColor2;
+                        target.previewBackgroundGradientColor3 = parsed.previewBackgroundGradientColor3;
+                        target.previewWallpaperOffset = parsed.previewWallpaperOffset;
+                        target.pathToWallpaper = parsed.pathToWallpaper;
+                        target.slug = parsed.slug;
+                        target.isBlured = parsed.isBlured;
+                        target.patternBgColor = parsed.patternBgColor;
+                        target.patternBgGradientColor1 = parsed.patternBgGradientColor1;
+                        target.patternBgGradientColor2 = parsed.patternBgGradientColor2;
+                        target.patternBgGradientColor3 = parsed.patternBgGradientColor3;
+                        target.patternBgGradientRotation = parsed.patternBgGradientRotation;
+                        target.patternIntensity = parsed.patternIntensity;
+                        target.previewParsed = true;
+                        target.themeLoaded = true;
+                    }
+                    if (!exists && target.info != null && target.info.document != null) {
+                        String name = FileLoader.getAttachFileName(target.info.document);
+                        if (!loadingThemes.containsKey(name)) {
+                            loadingThemes.put(name, target);
+                            FileLoader.getInstance(target.account).loadFile(target.info.document, target.info, FileLoader.PRIORITY_NORMAL, 1);
+                        }
+                    }
+                    if (valid && !wallpaperExists && !target.badWallpaper) requestWallpaper(target);
+                    placeholderAlpha = target.themeLoaded ? 0.0f : placeholderAlpha;
+                    applyTheme();
+                });
+            });
+        }
+
+        private void requestWallpaper(Theme.ThemeInfo themeInfo) {
+            if (!loadingWallpapers.containsKey(themeInfo)) {
+                loadingWallpapers.put(themeInfo, themeInfo.slug);
+                TL_account.getWallPaper req = new TL_account.getWallPaper();
+                TLRPC.TL_inputWallPaperSlug inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
+                inputWallPaperSlug.slug = themeInfo.slug;
+                req.wallpaper = inputWallPaperSlug;
+                ConnectionsManager.getInstance(themeInfo.account).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                    if (response instanceof TLRPC.TL_wallPaper) {
+                        TLRPC.WallPaper wallPaper = (TLRPC.TL_wallPaper) response;
+                        String name = FileLoader.getAttachFileName(wallPaper.document);
+                        if (!loadingThemes.containsKey(name)) {
+                            loadingThemes.put(name, themeInfo);
+                            FileLoader.getInstance(themeInfo.account).loadFile(wallPaper.document, wallPaper, FileLoader.PRIORITY_NORMAL, 1);
+                        }
+                    } else {
+                        loadingWallpapers.remove(themeInfo);
+                        themeInfo.badWallpaper = true;
+                        FileLog.e("Theme preview wallpaper could not be loaded");
+                        checkVisibleTheme(themeInfo);
+                    }
+                }));
+            }
         }
 
         private void applyTheme() {
@@ -385,7 +442,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 backgroundDrawable = drawable;
                 hsv = AndroidUtilities.rgbToHsv(Color.red(themeInfo.getPreviewBackgroundColor()), Color.green(themeInfo.getPreviewBackgroundColor()), Color.blue(themeInfo.getPreviewBackgroundColor()));
             } else if (themeInfo.previewWallpaperOffset > 0 || themeInfo.pathToWallpaper != null) {
-                Bitmap wallpaper = AndroidUtilities.getScaledBitmap(AndroidUtilities.dp(76), AndroidUtilities.dp(97), themeInfo.pathToWallpaper, themeInfo.pathToFile, themeInfo.previewWallpaperOffset);
+                Bitmap wallpaper = previewBitmap;
                 if (wallpaper != null) {
                     backgroundDrawable = new BitmapDrawable(wallpaper);
                     bitmapShader = new BitmapShader(wallpaper, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
@@ -411,6 +468,12 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
         }
 
         public void setTheme(Theme.ThemeInfo theme, boolean last, boolean first) {
+            if (themeInfo != theme) {
+                previewGeneration++;
+                previewLoading = false;
+                previewBitmap = null;
+                loadedPreview = null;
+            }
             themeInfo = theme;
             isFirst = first;
             isLast = last;
@@ -423,22 +486,12 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             if (themeInfo.pathToFile != null && !themeInfo.previewParsed) {
                 themeInfo.setPreviewInColor(Theme.getDefaultColor(Theme.key_chat_inBubble));
                 themeInfo.setPreviewOutColor(Theme.getDefaultColor(Theme.key_chat_outBubble));
-                File file = new File(themeInfo.pathToFile);
-                boolean fileExists = file.exists();
-                boolean parsed = fileExists && parseTheme();
-                if ((!parsed || !fileExists) && themeInfo.info != null) {
+                if (themeInfo.info != null) {
                     if (themeInfo.info.document != null) {
                         themeInfo.themeLoaded = false;
                         placeholderAlpha = 1.0f;
                         loadingDrawable = getResources().getDrawable(R.drawable.msg_theme).mutate();
                         Theme.setDrawableColor(loadingDrawable, loadingColor = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText7));
-                        if (!fileExists) {
-                            String name = FileLoader.getAttachFileName(themeInfo.info.document);
-                            if (!loadingThemes.containsKey(name)) {
-                                loadingThemes.put(name, themeInfo);
-                                FileLoader.getInstance(themeInfo.account).loadFile(themeInfo.info.document, themeInfo.info, FileLoader.PRIORITY_NORMAL, 1);
-                            }
-                        }
                     } else {
                         loadingDrawable = getResources().getDrawable(R.drawable.preview_custom).mutate();
                         Theme.setDrawableColor(loadingDrawable, loadingColor = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText7));
@@ -446,22 +499,26 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 }
             }
             applyTheme();
+            if (themeInfo.pathToFile != null && (loadedPreview != themeInfo || !themeInfo.previewParsed)) {
+                requestThemePreview();
+            }
         }
 
         @Override
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
+            if (themeInfo != null && (loadedPreview != themeInfo || !themeInfo.previewParsed)) {
+                requestThemePreview();
+            }
             Theme.ThemeInfo t = currentType == ThemeActivity.THEME_TYPE_NIGHT ? Theme.getCurrentNightTheme() : Theme.getCurrentTheme();
             button.setChecked(themeInfo == t, false);
-            if (themeInfo != null && themeInfo.info != null && !themeInfo.themeLoaded) {
-                String name = FileLoader.getAttachFileName(themeInfo.info.document);
-                if (!loadingThemes.containsKey(name) && !loadingWallpapers.containsKey(themeInfo)) {
-                    themeInfo.themeLoaded = true;
-                    placeholderAlpha = 0.0f;
-                    parseTheme();
-                    applyTheme();
-                }
-            }
+        }
+
+        @Override
+        protected void onDetachedFromWindow() {
+            previewGeneration++;
+            previewLoading = false;
+            super.onDetachedFromWindow();
         }
 
         public void updateCurrentThemeCheck() {
@@ -845,7 +902,16 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             }
         } else if (id == NotificationCenter.fileLoadFailed) {
             String fileName = (String) args[0];
-            loadingThemes.remove(fileName);
+            Theme.ThemeInfo info = loadingThemes.remove(fileName);
+            if (info != null) {
+                if (loadingWallpapers.remove(info) != null) {
+                    info.badWallpaper = true;
+                    FileLog.e("Theme preview wallpaper download failed");
+                    checkVisibleTheme(info);
+                } else {
+                    FileLog.e("Theme preview file download failed");
+                }
+            }
         }
     }
 
@@ -856,10 +922,10 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             if (child instanceof InnerThemeView) {
                 InnerThemeView view = (InnerThemeView) child;
                 if (view.themeInfo == info) {
-                    if (view.parseTheme()) {
-                        view.themeInfo.themeLoaded = true;
-                        view.applyTheme();
-                    }
+                    view.previewGeneration++;
+                    view.previewLoading = false;
+                    view.loadedPreview = null;
+                    view.requestThemePreview();
                 }
             }
         }

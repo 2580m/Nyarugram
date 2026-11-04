@@ -534,7 +534,8 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                             Object object = selectedWallPapers.valueAt(b);
                             if (object instanceof ColorWallpaper) {
                                 ColorWallpaper colorWallpaper = (ColorWallpaper) object;
-                                if (colorWallpaper.parentWallpaper != null && colorWallpaper.parentWallpaper.id < 0) {
+                                if (!org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()
+                                        && colorWallpaper.parentWallpaper != null && colorWallpaper.parentWallpaper.id < 0) {
                                     getMessagesStorage().deleteWallpaper(colorWallpaper.parentWallpaper.id);
                                     localWallPapers.remove(colorWallpaper);
                                     localDict.remove(colorWallpaper.getHash());
@@ -549,6 +550,14 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                             TLRPC.WallPaper wallPaper = (TLRPC.WallPaper) object;
                             TL_account.saveWallPaper req = new TL_account.saveWallPaper();
                             req.settings = new TLRPC.TL_wallPaperSettings();
+                            if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                                if (!(wallPaper.settings instanceof TLRPC.TL_wallPaperSettings)) {
+                                    deleteCount[0]--;
+                                    org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, true);
+                                    continue;
+                                }
+                                req.settings = (TLRPC.TL_wallPaperSettings) wallPaper.settings;
+                            }
                             req.unsave = true;
 
                             if (object instanceof TLRPC.TL_wallPaperNoFile) {
@@ -562,7 +571,8 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                                 req.wallpaper = inputWallPaper;
                             }
 
-                            if (wallPaper.slug != null && wallPaper.slug.equals(selectedBackgroundSlug)) {
+                            if (!org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()
+                                    && wallPaper.slug != null && wallPaper.slug.equals(selectedBackgroundSlug)) {
                                 selectedBackgroundSlug = Theme.hasWallpaperFromTheme() ? Theme.THEME_BACKGROUND_SLUG : Theme.DEFAULT_BACKGROUND_SLUG;
                                 Theme.getActiveTheme().setOverrideWallpaper(null);
                                 Theme.reloadWallpaper(true);
@@ -570,6 +580,11 @@ public class WallpapersListActivity extends BaseFragment implements Notification
 
                             ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                                 deleteCount[0]--;
+                                if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                                    if (error != null || !(response instanceof TLRPC.TL_boolTrue))
+                                        org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, error != null && error.code == 501);
+                                    else getMessagesStorage().deleteWallpaper(wallPaper.id);
+                                }
                                 if (deleteCount[0] == 0) {
                                     loadWallpapers(true);
                                 }
@@ -753,6 +768,11 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                     progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
                     progressDialog.setCanCancel(false);
                     progressDialog.show();
+                    if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                        progressDialog.dismiss();
+                        org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, true);
+                        return;
+                    }
                     TL_account.resetWallPapers req = new TL_account.resetWallPapers();
                     ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> loadWallpapers(false)));
                 });

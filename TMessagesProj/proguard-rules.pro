@@ -21,7 +21,9 @@
 -keep class org.telegram.messenger.voip.* { *; }
 -keep class org.telegram.SQLite.** { *; }
 -keep class org.telegram.tgnet.ConnectionsManager { *; }
-# TL class and public field names are the HTTPS compatibility protocol schema.
+# GeneratedMessageLite uses its own field metadata after shrinking.
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite { <fields>; }
+# Legacy JSON compatibility and login still use these TL names.
 -keep class org.telegram.tgnet.TLRPC$* { *; }
 -keep class org.telegram.tgnet.tl.** { *; }
 -keep class org.telegram.tgnet.Vector { *; }

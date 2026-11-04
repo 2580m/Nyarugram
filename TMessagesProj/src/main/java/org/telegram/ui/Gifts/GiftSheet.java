@@ -202,9 +202,12 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         this.closeParentSheet = closeParentSheet;
         setBackgroundColor(Theme.getColor(Theme.key_dialogGiftsBackground));
         fixNavigationBar(Theme.getColor(Theme.key_dialogGiftsBackground));
-        myGifts = StarsController.getInstance(currentAccount).getProfileGiftsList(UserConfig.getInstance(currentAccount).getClientUserId());
+        final boolean giftsDisabled = org.telegram.botgram.BotgramGiftPolicy.isDisabled();
+        myGifts = giftsDisabled
+                ? new StarsController.GiftsList(currentAccount, UserConfig.getInstance(currentAccount).getClientUserId(), false)
+                : StarsController.getInstance(currentAccount).getProfileGiftsList(UserConfig.getInstance(currentAccount).getClientUserId());
 
-        StarsController.getInstance(currentAccount).loadStarGifts();
+        if (!giftsDisabled) StarsController.getInstance(currentAccount).loadStarGifts();
 
         final BackupImageView avatarImageView = new BackupImageView(context);
         avatarImageView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -214,33 +217,35 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             final TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(dialogId);
             this.name = UserObject.getForcedFirstName(user);
             avatarDrawable.setInfo(user);
-            avatarImageView.setForUserOrChat(user, avatarDrawable);
+            if (!giftsDisabled) avatarImageView.setForUserOrChat(user, avatarDrawable);
 
             final TLRPC.UserFull userFull = MessagesController.getInstance(currentAccount).getUserFull(dialogId);
             userSettings = dialogId != UserConfig.getInstance(currentAccount).getClientUserId() && userFull != null ? userFull.disallowed_stargifts : null;
-            if (userFull == null) {
+            if (userFull == null && !giftsDisabled) {
                 MessagesController.getInstance(currentAccount).loadFullUser(user, 0, true);
             }
         } else {
             final TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-dialogId);
             this.name = chat == null ? "" : chat.title;
             avatarDrawable.setInfo(chat);
-            avatarImageView.setForUserOrChat(chat, avatarDrawable);
+            if (!giftsDisabled) avatarImageView.setForUserOrChat(chat, avatarDrawable);
         }
         topPadding = 0.10f;
 
-        balanceView = new StarsIntroActivity.StarsBalanceView(context, currentAccount, resourcesProvider);
-        ScaleStateListAnimator.apply(balanceView);
-        balanceView.setOnClickListener(v -> {
-            if (balanceView.lastBalance <= 0) return;
-            final BaseFragment lastFragment = LaunchActivity.getLastFragment();
-            if (lastFragment != null) {
-                final BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
-                bottomSheetParams.transitionFromLeft = true;
-                bottomSheetParams.allowNestedScroll = false;
-                lastFragment.showAsSheet(new StarsIntroActivity(), bottomSheetParams);
-            }
-        });
+        balanceView = giftsDisabled ? null : new StarsIntroActivity.StarsBalanceView(context, currentAccount, resourcesProvider);
+        if (balanceView != null) {
+            ScaleStateListAnimator.apply(balanceView);
+            balanceView.setOnClickListener(v -> {
+                if (balanceView.lastBalance <= 0) return;
+                final BaseFragment lastFragment = LaunchActivity.getLastFragment();
+                if (lastFragment != null) {
+                    final BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
+                    bottomSheetParams.transitionFromLeft = true;
+                    bottomSheetParams.allowNestedScroll = false;
+                    lastFragment.showAsSheet(new StarsIntroActivity(), bottomSheetParams);
+                }
+            });
+        }
 
         // Gift Premium header
         premiumHeaderView = new FrameLayout(context);
@@ -269,7 +274,9 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             dismiss();
             lastFragment.presentFragment(ProfileActivity.of(dialogId));
         });
-        topView.addView(balanceView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT | Gravity.TOP, 0, -3, -10, 0));
+        if (balanceView != null) {
+            topView.addView(balanceView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT | Gravity.TOP, 0, -3, -10, 0));
+        }
 
         final LinearLayout bottomView = new LinearLayout(context);
         bottomView.setOrientation(LinearLayout.VERTICAL);
@@ -372,7 +379,8 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         } else {
             starsHeaderView.addView(subtitleLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 9, 0, 6));
 
-            final StarsController.GiftsList list = StarsController.getInstance(currentAccount).getProfileGiftsList(dialogId);
+            final StarsController.GiftsList list = giftsDisabled ? new StarsController.GiftsList(currentAccount, dialogId, false)
+                    : StarsController.getInstance(currentAccount).getProfileGiftsList(dialogId);
             final Runnable setSubtitle = () -> {
                 for (int a = 0; a < 2; ++a) {
                     final SpannableStringBuilder subtitle = new SpannableStringBuilder();
@@ -432,7 +440,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 public void onViewDetachedFromWindow(@NonNull View v) {}
             });
 
-            if (list.gifts.size() < 3) {
+            if (!giftsDisabled && list.gifts.size() < 3) {
                 list.load();
             }
             NotificationCenter.getInstance(currentAccount).listen(subtitleStarsView, NotificationCenter.starUserGiftsLoaded, args -> {
@@ -666,15 +674,17 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         adapter.update(false);
         updateTitle();
 
-        if (BirthdayController.getInstance(currentAccount).isToday(dialogId)) {
+        if (!giftsDisabled && BirthdayController.getInstance(currentAccount).isToday(dialogId)) {
             setBirthday();
         }
 
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.billingProductDetailsUpdated);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starGiftsLoaded);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.userInfoDidLoad);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starGiftSoldOut);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starUserGiftsLoaded);
+        if (!giftsDisabled) {
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.billingProductDetailsUpdated);
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starGiftsLoaded);
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.userInfoDidLoad);
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starGiftSoldOut);
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starUserGiftsLoaded);
+        }
 
         actionBar.setTitle(getTitle());
         NotificationCenter.listenEmojiLoading(actionBar.getTitleTextView());
@@ -703,6 +713,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
 
     @Override
     public void show() {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
         if (MessagesController.getInstance(currentAccount).isFrozen()) {
             AccountFrozenAlert.show(currentAccount);
             return;
@@ -836,6 +847,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
 
     private void updatePremiumTiers() {
         premiumTiers.clear();
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) return;
         if (premiumTiers.isEmpty() && options != null && !options.isEmpty()) {
             List<QueryProductDetailsParams.Product> products = new ArrayList<>();
             long pricePerMonthMax = 0;
@@ -1042,7 +1054,8 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                     giftsCount++;
                 }
             }
-            if (selectedTab == TAB_MY_GIFTS && myGifts != null && !myGifts.endReached) {
+            if (!org.telegram.botgram.BotgramGiftPolicy.isDisabled()
+                    && selectedTab == TAB_MY_GIFTS && myGifts != null && !myGifts.endReached) {
                 myGifts.load();
                 items.add(UItem.asFlicker(4, FlickerLoadingView.STAR_GIFT).setSpanCount(1));
                 items.add(UItem.asFlicker(5, FlickerLoadingView.STAR_GIFT).setSpanCount(1));

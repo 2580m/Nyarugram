@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
+import java.util.function.BooleanSupplier;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -24,12 +25,16 @@ public final class BotgramSession {
     public String userId;
     public String displayName;
     public String token;
+    private String savedCiphertext;
 
     public BotgramSession(Context context, int account) {
         prefs = context.getSharedPreferences("botgram.session." + account, Context.MODE_PRIVATE);
-        server = prefs.getString("server", "http://10.0.2.2:5080");
+        String savedServer = prefs.getString("server", "");
+        server = BotgramServerAddress.migrateLegacy(savedServer);
+        if (!server.equals(savedServer)) prefs.edit().putString("server", server).apply();
         try {
             String encrypted = prefs.getString("token", null);
+            savedCiphertext = encrypted;
             if (encrypted == null) return;
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, key(), new GCMParameterSpec(128, Base64.decode(prefs.getString("iv", ""), Base64.NO_WRAP)));
@@ -53,24 +58,64 @@ public final class BotgramSession {
     }
 
     public void save(String server, JSONObject response) throws Exception {
+        save(server, response, () -> true);
+    }
+
+    public boolean save(String server, JSONObject response, BooleanSupplier active) throws Exception {
         JSONObject user = response.getJSONObject("user");
         String newToken = response.getString("token");
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, key());
         String encrypted = Base64.encodeToString(cipher.doFinal(newToken.getBytes(StandardCharsets.UTF_8)), Base64.NO_WRAP);
-        if (!prefs.edit().putString("server", server).putString("token", encrypted)
-                .putString("iv", Base64.encodeToString(cipher.getIV(), Base64.NO_WRAP))
-                .putString("userId", user.getString("id")).putString("displayName", user.getString("displayName")).commit()) {
-            throw new java.io.IOException("无法保存登录状态");
+        synchronized (prefs) {
+            if (!active.getAsBoolean()) return false;
+            if (!prefs.edit().putString("server", server).putString("token", encrypted)
+                    .putString("iv", Base64.encodeToString(cipher.getIV(), Base64.NO_WRAP))
+                    .putString("userId", user.getString("id")).putString("displayName", user.getString("displayName")).remove("protocol").commit()) {
+                throw new java.io.IOException("Unable to save login session");
+            }
+            this.server = server;
+            this.token = newToken;
+            this.userId = user.getString("id");
+            this.displayName = user.getString("displayName");
+            savedCiphertext = encrypted;
+            if (!active.getAsBoolean()) {
+                clearIfCurrent();
+                return false;
+            }
+            return true;
         }
-        this.server = server;
-        this.token = newToken;
-        this.userId = user.getString("id");
-        this.displayName = user.getString("displayName");
+    }
+
+    public String protocol() {
+        synchronized (prefs) {
+            return savedCiphertext != null && savedCiphertext.equals(prefs.getString("token", null))
+                    ? prefs.getString("protocol", null) : null;
+        }
+    }
+
+    public void pinProtocol(String protocol) throws java.io.IOException {
+        synchronized (prefs) {
+            if (token == null || savedCiphertext == null || !savedCiphertext.equals(prefs.getString("token", null)))
+                throw new java.io.IOException("Session no longer current");
+            if (!prefs.edit().putString("protocol", protocol).commit())
+                throw new java.io.IOException("Unable to pin session protocol");
+        }
+    }
+
+    // A late/cancelled login must never erase a newer session for the same slot.
+    public void clearIfCurrent() {
+        synchronized (prefs) {
+            if (savedCiphertext != null && savedCiphertext.equals(prefs.getString("token", null))) clear();
+        }
     }
 
     public void clear() {
-        token = null; userId = null; displayName = null;
-        prefs.edit().remove("token").remove("iv").remove("userId").remove("displayName").commit();
+        synchronized (prefs) {
+            token = null; userId = null; displayName = null;
+            if (savedCiphertext != null && savedCiphertext.equals(prefs.getString("token", null))) {
+                prefs.edit().remove("token").remove("iv").remove("userId").remove("displayName").remove("protocol").apply();
+            }
+        }
     }
 }

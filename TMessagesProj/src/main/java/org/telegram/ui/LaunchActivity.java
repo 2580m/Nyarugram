@@ -855,6 +855,37 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         //    refreshRateController = new RefreshRateController(this);
         //}
         checkFrameMetrics();
+        AndroidUtilities.runOnUIThread(this::maybeShowCallOverlayDialog, 1000);
+    }
+
+    private void maybeShowCallOverlayDialog() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || isFinishing()) {
+            return;
+        }
+        if (!UserConfig.getInstance(currentAccount).isClientActivated()
+                || AndroidUtilities.needShowPasscode(true) || SharedConfig.isWaitingForPasscodeEnter) {
+            return;
+        }
+        if (Settings.canDrawOverlays(this)) {
+            return;
+        }
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        if (preferences.getBoolean("botgramCallOverlayAsked", false)) {
+            return;
+        }
+        preferences.edit().putBoolean("botgramCallOverlayAsked", true).apply();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(LocaleController.getString(R.string.BotgramCallOverlayTitle));
+        builder.setMessage(LocaleController.getString(R.string.BotgramCallOverlayMessage));
+        builder.setPositiveButton(LocaleController.getString(R.string.Enable), (dialog, which) -> {
+            try {
+                startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())));
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.show();
     }
 
     public void checkFrameMetrics() {
@@ -1537,6 +1568,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         final boolean isVoipAnswerIntent = action != null && action.equals("voip_answer");
         if ((isVoipIntent || isVoipAnswerIntent) && !isNew && ApplicationLoader.mainInterfacePaused) {
             voipLaunchedInBackground = true;
+        }
+        if (isVoipIntent || isVoipAnswerIntent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                setShowWhenLocked(true);
+                setTurnScreenOn(true);
+            } else {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
         }
         if (!fromPassword && (AndroidUtilities.needShowPasscode(true) || SharedConfig.isWaitingForPasscodeEnter)) {
             showPasscodeActivity(true, false, -1, -1, null, null);
@@ -2737,6 +2776,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         presentFragment(new StarsIntroActivity());
                                         return pushOpened;
                                     } else if (url.startsWith("tg:send_gift") || url.startsWith("tg://send_gift")) {
+                                        if (org.telegram.botgram.BotgramGiftPolicy.block(this, intentAccount[0], null)) {
+                                            if (progress != null) progress.end();
+                                            return pushOpened;
+                                        }
                                         String toParam = data.getQueryParameter("to");
                                         if (toParam != null && toParam.startsWith("@")) {
                                             toParam = toParam.substring(1);
@@ -7302,7 +7345,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         } else if (id == NotificationCenter.didUpdateConnectionState) {
             int state = ConnectionsManager.getInstance(account).getConnectionState();
-            if (currentConnectionState != state) {
+            if (currentConnectionState != state || org.telegram.botgram.BotgramTransport.get(account).enabled()) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("switch to state " + state);
                 }

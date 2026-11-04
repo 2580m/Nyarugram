@@ -248,6 +248,17 @@ public class PremiumTierCell extends ViewGroup {
         this.tier = tier;
         this.hasDivider = hasDivider;
 
+        if (tier.lifetime) {
+            isDrawingGradient = false;
+            titleView.setText(LocaleController.getString(R.string.BotgramPremiumLifetime));
+            pricePerMonthView.setText(LocaleController.getString(R.string.BotgramPremiumLifetimePrice));
+            discountView.setVisibility(GONE);
+            pricePerYearStrikeView.setVisibility(GONE);
+            pricePerYearView.setVisibility(GONE);
+            requestLayout();
+            return;
+        }
+
         switch (tier.getMonths()) {
             default:
                 titleView.setText(

@@ -2928,6 +2928,8 @@ public class AndroidUtilities {
         runnable.run();
     }
 
+    private static final org.telegram.botgram.BotgramSessionScope.Queue sessionUiTasks = new org.telegram.botgram.BotgramSessionScope.Queue();
+
     public static void runOnUIThread(Runnable runnable) {
         runOnUIThread(runnable, 0);
     }
@@ -2936,18 +2938,18 @@ public class AndroidUtilities {
         if (ApplicationLoader.applicationHandler == null) {
             return;
         }
-        if (delay == 0) {
-            ApplicationLoader.applicationHandler.post(runnable);
-        } else {
-            ApplicationLoader.applicationHandler.postDelayed(runnable, delay);
-        }
+        sessionUiTasks.post(runnable, delivery -> ApplicationLoader.applicationHandler.postAtTime(delivery,
+                runnable, android.os.SystemClock.uptimeMillis() + Math.max(0, delay)));
     }
 
     public static void cancelRunOnUIThread(Runnable runnable) {
-        if (ApplicationLoader.applicationHandler == null) {
+        if (runnable == null || ApplicationLoader.applicationHandler == null) {
             return;
         }
-        ApplicationLoader.applicationHandler.removeCallbacks(runnable);
+        sessionUiTasks.cancel(runnable, () -> {
+            ApplicationLoader.applicationHandler.removeCallbacks(runnable);
+            ApplicationLoader.applicationHandler.removeCallbacksAndMessages(runnable);
+        });
     }
 
     public static boolean isValidWallChar(char ch) {

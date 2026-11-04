@@ -57,6 +57,8 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 
 import org.telegram.PhoneFormat.PhoneFormat;
+import org.telegram.botgram.BotgramGeography;
+import org.telegram.botgram.BotgramTransport;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
@@ -110,6 +112,8 @@ import java.util.Objects;
 
 public class NewContactBottomSheet extends BottomSheet implements AdapterView.OnItemSelectedListener {
 
+    private boolean gidMode;
+    private boolean dismissed;
     private LinearLayout contentLayout;
     private ContextProgressView editDoneItemProgress;
     private OutlineEditText firstNameField;
@@ -163,6 +167,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         smoothKeyboardAnimationEnabled = true;
         classGuid = ConnectionsManager.generateClassGuid();
         this.parentFragment = parentFragment;
+        currentAccount = parentFragment.getCurrentAccount();
+        gidMode = BotgramTransport.get(currentAccount).enabled();
         setCustomView(createView(getContext()));
         setTitle(LocaleController.getString(R.string.NewContactTitle), true);
     }
@@ -224,7 +230,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
         phoneOutlineView = new OutlineTextContainerView(context);
         phoneOutlineView.addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 4, 8, 16, 8));
-        phoneOutlineView.setText(LocaleController.getString(R.string.PhoneNumber));
+        phoneOutlineView.setText(getString(gidMode ? R.string.BotgramGid : R.string.PhoneNumber));
         contentLayout.addView(phoneOutlineView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 58, 0, 12, 0, 6));
 
         underPhoneTextView = new LinkSpanDrawable.LinksTextView(context);
@@ -255,6 +261,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         countryFlag.setFocusable(false);
         countryFlag.setGravity(Gravity.CENTER);
         countryContainer.setOnClickListener((v) -> {
+            if (gidMode) {
+                showGidRegions();
+                return;
+            }
             CountrySelectActivity countrySelectActivity = new CountrySelectActivity(true);
             countrySelectActivity.setCountrySelectActivityDelegate(new CountrySelectActivity.CountrySelectActivityDelegate() {
                 @Override
@@ -294,7 +304,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         codeField.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         codeField.setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         codeField.setBackground(null);
-        codeField.setContentDescription(LocaleController.getString(R.string.LoginAccessibilityCountryCode));
+        codeField.setContentDescription(getString(gidMode ? R.string.BotgramGeographicRegion : R.string.LoginAccessibilityCountryCode));
         linearLayout.addView(codeField, LayoutHelper.createLinear(55, 36, -9, 0, 0, 0));
         codeField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -310,6 +320,20 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             @Override
             public void afterTextChanged(Editable editable) {
                 if (ignoreOnTextChange) {
+                    return;
+                }
+                if (gidMode) {
+                    ignoreOnTextChange = true;
+                    String digits = codeField.getText().toString().replaceAll("[^0-9]", "");
+                    codeField.setText(digits.substring(0, Math.min(3, digits.length())));
+                    codeField.setSelection(codeField.length());
+                    if (digits.length() > 3) {
+                        phoneField.setText(digits.substring(3));
+                        phoneField.requestFocus();
+                        phoneField.setSelection(phoneField.length());
+                    }
+                    updateGidRegion();
+                    ignoreOnTextChange = false;
                     return;
                 }
                 ignoreOnTextChange = true;
@@ -455,7 +479,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         phoneField.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         phoneField.setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         phoneField.setBackground(null);
-        phoneField.setContentDescription(LocaleController.getString(R.string.PhoneNumber));
+        phoneField.setContentDescription(getString(gidMode ? R.string.BotgramGid : R.string.PhoneNumber));
         linearLayout.addView(phoneField, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36));
         phoneField.addTextChangedListener(new TextWatcher() {
 
@@ -480,7 +504,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!LoginActivity.ENABLE_PASTED_TEXT_PROCESSING || ignoreOnPhoneChange || ignoreOnPhoneChangePaste) {
+                if (gidMode || !LoginActivity.ENABLE_PASTED_TEXT_PROCESSING || ignoreOnPhoneChange || ignoreOnPhoneChangePaste) {
                     return;
                 }
 
@@ -522,6 +546,19 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             @Override
             public void afterTextChanged(Editable s) {
                 if (ignoreOnPhoneChange) {
+                    return;
+                }
+                if (gidMode) {
+                    ignoreOnPhoneChange = true;
+                    String digits = s.toString().replaceAll("[^0-9]", "");
+                    if (digits.length() == 11) {
+                        codeField.setText(digits.substring(0, 3));
+                        digits = digits.substring(3);
+                    }
+                    s.replace(0, s.length(), digits);
+                    phoneField.setSelection(phoneField.length());
+                    phoneField.onTextChange();
+                    ignoreOnPhoneChange = false;
                     return;
                 }
                 int start = phoneField.getSelectionStart();
@@ -703,6 +740,16 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         });
         updateQrButtonVisible(false);
 
+        if (gidMode) {
+            checkLayout.setVisibility(View.GONE);
+            codeField.setInputType(InputType.TYPE_CLASS_NUMBER);
+            phoneField.setInputType(InputType.TYPE_CLASS_NUMBER);
+            codeField.setHint("030");
+            phoneField.setHintText("12345678");
+            underPhoneTextView.setText(getString(R.string.BotgramContactGidInfo));
+            countryFlag.setText("—");
+            countryFlag.setContentDescription(getString(R.string.BotgramGeographicRegion));
+        } else {
         HashMap<String, String> languageMap = new HashMap<>();
 
         try {
@@ -785,6 +832,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             }
         }
 
+
+        }
 
         doneButtonContainer = new FrameLayout(getContext());
         doneButton = new TextView(context);
@@ -869,7 +918,46 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         }
     }
 
+    private void showGidRegions() {
+        ArrayList<BotgramGeography.Region> regions = new ArrayList<>();
+        for (BotgramGeography.Region region : BotgramGeography.regions()) {
+            if (!"001".equals(region.code)) regions.add(region);
+        }
+        CharSequence[] labels = new CharSequence[regions.size()];
+        for (int i = 0; i < regions.size(); i++) {
+            BotgramGeography.Region region = regions.get(i);
+            labels[i] = region.abbreviation + " · " + region.label() + "  +" + region.code;
+        }
+        new AlertDialog.Builder(getContext(), resourcesProvider)
+            .setTitle(getString(R.string.BotgramGeographicRegion))
+            .setItems(labels, (dialog, which) -> {
+                codeField.setText(regions.get(which).code);
+                phoneField.requestFocus();
+                AndroidUtilities.showKeyboard(phoneField);
+            }).show();
+    }
+
+    private void updateGidRegion() {
+        countryFlag.setText("—");
+        for (BotgramGeography.Region region : BotgramGeography.regions()) {
+            if (region.code.equals(codeField.getText().toString())) {
+                countryFlag.setText(region.abbreviation);
+                break;
+            }
+        }
+    }
+
+    private boolean validGid() {
+        String number = phoneField.getText().toString();
+        if (!number.matches("[0-9]{8}") || "00000000".equals(number)) return false;
+        for (BotgramGeography.Region region : BotgramGeography.regions()) {
+            if (region.code.equals(codeField.getText().toString())) return true;
+        }
+        return false;
+    }
+
     private void updatedTextPhone() {
+        if (gidMode) return;
         final String phone = (codeField.getText().toString() + phoneField.getText().toString()).replaceAll("[^\\d]+", "");
         boolean isFull = false;
         for (int i = Math.min(3, phone.length()); i >= 0; i--) {
@@ -1029,7 +1117,12 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             return;
         }
 
-        if (checkBox.isChecked()) {
+        if (gidMode && !validGid()) {
+            phoneField.setError(getString(R.string.BotgramContactGidInvalid));
+            AndroidUtilities.shakeView(phoneOutlineView);
+            return;
+        }
+        if (!gidMode && checkBox.isChecked()) {
             PermissionRequest.ensurePermission(R.raw.permission_request_contacts, R.string.PermissionNoContactsSaving, Manifest.permission.WRITE_CONTACTS, granted -> {
                 if (granted) {
                     done();
@@ -1064,10 +1157,14 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         int reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> {
             final TLRPC.TL_contacts_importedContacts res = (TLRPC.TL_contacts_importedContacts) response;
             AndroidUtilities.runOnUIThread(() -> {
+                if (dismissed) return;
                 donePressed = false;
                 if (res != null) {
                     if (!res.users.isEmpty()) {
                         MessagesController.getInstance(currentAccount).putUsers(res.users, false);
+                        if (gidMode) {
+                            ContactsController.getInstance(currentAccount).loadContacts(false, 0);
+                        }
                         MessagesController.getInstance(currentAccount).openChatOrProfileWith(res.users.get(0), null, parentFragment, 1, false);
                         dismiss();
                     } else {
@@ -1075,6 +1172,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                             return;
                         }
                         showEditDoneProgress(false, true);
+                        if (gidMode) {
+                            underPhoneTextView.setText(getString(R.string.BotgramContactGidNotFound));
+                            return;
+                        }
                         AlertsCreator.createContactInviteDialog(parentFragment, inputPhoneContact.first_name, inputPhoneContact.last_name, inputPhoneContact.phone);
                     }
                 } else {
@@ -1085,7 +1186,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         }, ConnectionsManager.RequestFlagFailOnServerErrors);
         ConnectionsManager.getInstance(currentAccount).bindRequestToGuid(reqId, classGuid);
 
-        if (checkBox.isChecked()) {
+        if (!gidMode && checkBox.isChecked()) {
             saveContact(getContext(), phone, firstName, lastName, null, account);
         }
     }
@@ -1136,6 +1237,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     public NewContactBottomSheet setInitialPhoneNumber(String value, boolean withCountryCode) {
+        if (gidMode) {
+            codeField.setText(value == null ? "" : value.replaceAll("[^0-9]", ""));
+            return this;
+        }
         initialPhoneNumber = value;
         initialPhoneNumberWithCountryCode = withCountryCode;
 
@@ -1317,6 +1422,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
     @Override
     public void dismiss() {
+        dismissed = true;
+        ConnectionsManager.getInstance(currentAccount).cancelRequestsForGuid(classGuid);
         super.dismiss();
         AndroidUtilities.runOnUIThread(() -> {
             AndroidUtilities.hideKeyboard(contentLayout);

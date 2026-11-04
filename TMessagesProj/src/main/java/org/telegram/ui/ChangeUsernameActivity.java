@@ -824,7 +824,7 @@ public class ChangeUsernameActivity extends BaseFragment {
                     if (username.startsWith("@")) {
                         username = username.substring(1);
                     }
-                    if (username.length() > 0) {
+                    if (username.length() > 0 && !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
                         String url = "https://" + MessagesController.getInstance(currentAccount).linkPrefix + "/" + username;
                         String text = LocaleController.formatString("UsernameHelpLink", R.string.UsernameHelpLink, url);
                         int index = text.indexOf(url);
@@ -852,7 +852,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             tme.setLines(1);
             tme.setPadding(0, 0, 0, 0);
             tme.setSingleLine(true);
-            tme.setText(getMessagesController().linkPrefix + "/");
+            tme.setText(org.telegram.botgram.BotgramTransport.get(currentAccount).enabled() ? "@" : getMessagesController().linkPrefix + "/");
             tme.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             tme.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             tme.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);

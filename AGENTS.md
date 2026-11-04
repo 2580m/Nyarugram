@@ -28,10 +28,11 @@ Botgram 是保留 Telegram Android 原页面、接入自建后端的客户端。
 
 ## 当前产品约定
 
-- Settings 与旧版个人设置页均不显示 Money、Telegram Premium、Telegram Business、Help 和 Devices；同时考虑搜索和深链接入口，避免恢复已移除功能。
+- Settings 与旧版个人设置页恢复 Nyarugram Premium：默认未激活，点击开通并收到自身后端确认后免费激活；不要走 Telegram 支付。Money、Telegram Business、Help 和 Devices 仍隐藏，同时考虑搜索和深链接入口。
 - Debug 区块及版本号隐藏菜单仅保留“保存日志”和“查看日志”，复用 Telegram UI。日志导出使用系统文件选择器，预览最多读取末尾 256 KiB。
 - 简体中文随 APK 离线打包。英文文案放在 `res/values/strings.xml`；自定义中文同时维护 `Tools/Import-BotgramChinese.ps1` 的本地翻译字典，再运行脚本生成 `values-zh/strings.xml`。不要只修改会被重新生成覆盖的中文文件。
-- GID 显示格式为 `+区域代码 八位数字`，例如 `+030 12345678`；三位区域代码保留前导零，后八位不可全零。
+- 用户可见名称为 Gram ID，显示格式为 `+区域代码 八位数字`，例如 `+030 12345678`；三位区域代码保留前导零，后八位不可全零。API、wire、内部类和资源键仍可用 GID，不重命名协议字段。
+- 所有账号的发送礼物暂时禁用，点击使用原生弹窗提示“暂无可用的礼物”；在构造联网与礼物支付前拦截，不禁用普通订阅、充值、抽奖或共享礼物外观组件。Gram 收入只移除 Fragment 充值，保留收益、统计及提现。
 - M49 使用地理大区、次区域和中间区域，手动选择共 29 项，不包含 World，也不包含国家代码。字母简称是应用展示简称，不是官方 M49 字母编码。
 - 注册时请求近似定位，将反查的国家代码交给后端映射最具体区域；定位失败用 World `001`。不发送或存储经纬度，不用 SIM 或 IP 静默替代定位。
 - GID 分配及碰撞校验由后端负责；不因修改 GID 更换账号 UUID、TL ID 或聊天关联。TL `phone` 字段仅承载兼容用的十一位 GID，不能将其拨号或写入系统电话簿。
@@ -51,10 +52,10 @@ $env:JAVA_TOOL_OPTIONS = '-Djava.net.preferIPv4Stack=true'
 ./Tools/Build-Botgram.ps1
 ```
 
-此 JDK 路径适用于当前电脑；其他环境先确认已安装路径。脚本使用 D 盘 Gradle 8.13，任务为 `:TMessagesProj_AppStandalone:assembleAfatDebug`，产物为 `TMessagesProj_AppStandalone/build/outputs/apk/afat/debug/app.apk`。需要准备依赖时使用 `Tools/Prepare-BotgramBuild.ps1`，不要对已有环境反复重新下载。
+此 JDK 路径适用于当前电脑；其他环境先确认已安装路径。脚本使用 D 盘 Gradle 8.13，任务为 `:TMessagesProj_AppStandalone:assembleAfatDebug`，产物为 `TMessagesProj_AppStandalone/build/outputs/apk/afat/debug/Nyarugram-debug.apk`。需要准备依赖时使用 `Tools/Prepare-BotgramBuild.ps1`，不要对已有环境反复重新下载。
 
 - 版本从 `gradle.properties` 读取。用户要求升级时同步调整 `APP_VERSION_NAME` 与递增的 `APP_VERSION_CODE`，检查最终 APK 元数据；不要为文档修改自行升版。
-- 当前包名为 `org.telegram.messenger.web`，可与 Play 版 Telegram 共存，可能与官网版冲突；不要未经任务要求更换包名或签名。
+- 当前包名为 `me.nyarugram.messenger`，可与 Telegram 共存；不要未经任务要求更换包名或签名。
 - 完成所有源代码修改后再构建，避免在编译过程中修改源文件。若发生这种情况，重新构建后再验证交付物。
 - 遇到 Gradle 端口绑定失败先检查运行环境并做有限重试，不随意终止其他应用、关闭防火墙或修改系统网络设置。
 
@@ -69,7 +70,7 @@ $env:JAVA_TOOL_OPTIONS = '-Djava.net.preferIPv4Stack=true'
 ./Tools/Verify-BotgramTL.ps1 -FixturePath ../Botgram.Backend/obj/gid-tl-fixtures.json
 ```
 
-交付 APK 时复制最终产物到 `artifacts/android/Botgram-debug.apk`，使用 D 盘 Android 构建工具验证签名、包名与版本，并检查本次新增资源。同步更新 `artifacts/build-info.json` 的实际哈希和验证信息，不填写未经执行的结果。
+安装后的应用显示名称为 `Nyarugram`。交付 APK 时复制最终产物到 `artifacts/android/Nyarugram-debug.apk`，使用 D 盘 Android 构建工具验证签名、包名与版本，并检查本次新增资源。同步更新 `artifacts/build-info.json` 的实际哈希和验证信息，不填写未经执行的结果。
 
 构建、后端集成测试和宿主 TL 验证不能代替真机测试；明确说明定位权限、页面操作、安装或端到端通信中尚未验证的部分。保持已有用户修改，避免无关格式化、依赖升级与生成文件改动。
 

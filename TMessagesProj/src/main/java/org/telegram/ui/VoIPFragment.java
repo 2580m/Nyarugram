@@ -488,6 +488,14 @@ public class VoIPFragment implements
             instance.callingUserTextureView.renderer.release();
             instance.currentUserTextureView.renderer.release();
             instance.callingUserMiniTextureRenderer.release();
+            if (instance.activity != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    instance.activity.setShowWhenLocked(false);
+                    instance.activity.setTurnScreenOn(false);
+                } else {
+                    instance.activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            }
             instance.destroy();
         }
         instance = null;

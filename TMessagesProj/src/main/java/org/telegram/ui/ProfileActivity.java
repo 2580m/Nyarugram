@@ -2236,6 +2236,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         sharedMediaPreloader.addDelegate(this);
 
+        getNotificationCenter().addObserver(this, NotificationCenter.didUpdateConnectionState);
         getNotificationCenter().addObserver(this, NotificationCenter.updateInterfaces);
         getNotificationCenter().addObserver(this, NotificationCenter.didReceiveNewMessages);
         getNotificationCenter().addObserver(this, NotificationCenter.closeChats);
@@ -2385,6 +2386,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             sharedMediaPreloader.removeDelegate(this);
         }
 
+        getNotificationCenter().removeObserver(this, NotificationCenter.didUpdateConnectionState);
         getNotificationCenter().removeObserver(this, NotificationCenter.updateInterfaces);
         getNotificationCenter().removeObserver(this, NotificationCenter.closeChats);
         getNotificationCenter().removeObserver(this, NotificationCenter.closeProfileActivity);
@@ -2504,7 +2506,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             actionBar.backButtonImageView.setContentDescription(getString(R.string.QrCode));
             actionBar.backButtonImageView.setImageResource(R.drawable.outline_header_qr_24);
             actionBar.backButtonImageView.setColorFilter(getThemedColor(Theme.key_actionBarDefaultIcon), PorterDuff.Mode.SRC_IN);
+            if (isBotgramUserProfile()) {
+                actionBar.backButtonImageView.setVisibility(View.GONE);
+            }
             actionBar.backButtonImageView.setOnClickListener(v -> {
+                if (isBotgramUserProfile()) return;
                 Bundle args = new Bundle();
                 args.putLong("chat_id", chatId);
                 args.putLong("user_id", userId);
@@ -2839,6 +2845,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 //                    }
                     presentFragment(new PeerColorActivity(0).startOnProfile().setOnApplied(ProfileActivity.this));
                 } else if (id == copy_link_profile) {
+                    if (isBotgramUserProfile()) return;
                     TLRPC.User user = getMessagesController().getUser(userId);
                     AndroidUtilities.addToClipboard(getMessagesController().linkPrefix + "/" + UserObject.getPublicUsername(user));
                 } else if (id == set_username) {
@@ -3985,12 +3992,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         ItemOptions itemOptions = ItemOptions.makeOptions(this, actionsView);
                         itemOptions.setLongPressSelectionEnabled(false);
                         itemOptions.setGravity(Gravity.LEFT);
-                        itemOptions.add(R.drawable.msg_qrcode, getString(R.string.QrCode), () -> {
-                            Bundle args = new Bundle();
-                            args.putLong("chat_id", chatId);
-                            args.putLong("user_id", userId);
-                            presentFragment(new QrShareActivity(args));
-                        });
+                        if (!isBotgramUserProfile()) {
+                            itemOptions.add(R.drawable.msg_qrcode, getString(R.string.QrCode), () -> {
+                                Bundle args = new Bundle();
+                                args.putLong("chat_id", chatId);
+                                args.putLong("user_id", userId);
+                                presentFragment(new QrShareActivity(args));
+                            });
+                        }
                         itemOptions.add(R.drawable.msg_copy, getString(R.string.ProfileCopyUsername), () -> {
                             AndroidUtilities.addToClipboard("@" + UserObject.getPublicUsername(user));
                         });
@@ -5773,7 +5782,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (currentChat != null) {
             HintsController.Hint.ChannelGiftHint.doNotShowAgain();
         }
-        showDialog(new GiftSheet(getContext(), currentAccount, getDialogId(), null, null));
+        if (!org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, getResourceProvider())) {
+            showDialog(new GiftSheet(getContext(), currentAccount, getDialogId(), null, null));
+        }
     }
 
     private void onCallClicked(boolean isVideoCall) {
@@ -5855,7 +5866,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    private boolean isBotgramUserProfile() {
+        return userId != 0 && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled();
+    }
+
     private void onShareClicked() {
+        if (isBotgramUserProfile()) return;
         try {
             String text = null;
             if (userId != 0) {
@@ -7134,7 +7150,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             o.add(R.drawable.msg_copy, getString(R.string.Copy), () -> {
                 try {
                     android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                    android.content.ClipData clip = android.content.ClipData.newPlainText("GID", org.telegram.botgram.BotgramGeography.format(user.phone));
+                    android.content.ClipData clip = android.content.ClipData.newPlainText(getString(R.string.BotgramGid), org.telegram.botgram.BotgramGeography.format(user.phone));
                     clipboard.setPrimaryClip(clip);
                     if (AndroidUtilities.shouldShowClipboardToast()) {
                         BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.BotgramGidCopied)).show();
@@ -8723,7 +8739,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @SuppressWarnings("unchecked")
     @Override
     public void didReceivedNotification(int id, int account, final Object... args) {
-        if (id == NotificationCenter.uploadStoryEnd || id == NotificationCenter.chatWasBoostedByUser) {
+        if (id == NotificationCenter.didUpdateConnectionState) {
+            if (userId == getUserConfig().getClientUserId() && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                updateProfileData(false);
+            }
+        } else if (id == NotificationCenter.uploadStoryEnd || id == NotificationCenter.chatWasBoostedByUser) {
             checkCanSendStoryForPosting();
         } else if (id == NotificationCenter.updateInterfaces) {
             int mask = (Integer) args[0];
@@ -10336,6 +10356,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 languageRow = rowCount++;
                 devicesSectionRow = rowCount++;
+                premiumRow = rowCount++;
                 if (getMessagesController().starsPurchaseAvailable()) {
                     starsRow = rowCount++;
                 }
@@ -10928,6 +10949,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private MessagesController.PeerColor peerColor;
 
+    private String selfConnectionStatus() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            int state = getConnectionsManager().getConnectionState();
+            if (state == ConnectionsManager.ConnectionStateWaitingForNetwork) {
+                return LocaleController.getString(R.string.WaitingForNetwork);
+            }
+            if (state != ConnectionsManager.ConnectionStateConnected) {
+                return LocaleController.getString(R.string.Connecting);
+            }
+        }
+        return LocaleController.getString(R.string.Online);
+    }
+
     private void updateProfileData(boolean reload) {
         if (avatarContainer == null || nameTextView == null || getParentActivity() == null) {
             return;
@@ -11048,7 +11082,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (userInfo != null && userInfo.stars_rating != null && userInfo.stars_rating.stars < 0) {
                         newString2 = getString(R.string.StarRatingLevelNegative).toLowerCase(Locale.ROOT);
                     } else {
-                        newString2 = LocaleController.getString(R.string.Online);
+                        newString2 = selfConnectionStatus();
                     }
                 }
             } else if (user.id == UserObject.VERIFY) {
@@ -11254,7 +11288,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (userInfo != null && userInfo.stars_rating != null && userInfo.stars_rating.stars < 0) {
                     onlineTextView[3].setText(newString2 = getString(R.string.StarRatingLevelNegative).toLowerCase(Locale.ROOT));
                 } else {
-                    onlineTextView[3].setText(LocaleController.getString(R.string.Online));
+                    onlineTextView[3].setText(selfConnectionStatus());
                 }
             } else {
                 if (user.photo != null && user.photo.personal && user.photo.has_video) {
@@ -11816,8 +11850,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                         otherItem.addSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
                         if (isBot) {
-                            otherItem.addSubItem(share, R.drawable.msg_share, LocaleController.getString(R.string.BotShare));
-                            shareAction = true;
+                            if (!isBotgramUserProfile()) {
+                                otherItem.addSubItem(share, R.drawable.msg_share, LocaleController.getString(R.string.BotShare));
+                                shareAction = true;
+                            }
                         } else {
                             otherItem.addSubItem(add_contact, R.drawable.msg_addcontact, LocaleController.getString(R.string.AddContact));
                         }
@@ -13019,7 +13055,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             if (type == SettingsSuggestionCell.TYPE_PHONE) {
                                 presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANGE_PHONE_NUMBER));
                             } else {
-                                presentFragment(new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_VERIFY, null));
+                                presentFragment(org.telegram.botgram.BotgramTransport.get(currentAccount).enabled() ? TwoStepVerificationSetupActivity.forAuthenticator(currentAccount) : new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_VERIFY, null));
                             }
                         }
                     };
@@ -13236,7 +13272,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             } else {
                                 text = "—";
                             }
-                            containsQr = !myProfile;
+                            containsQr = !myProfile && !isBotgramUserProfile();
                         } else if (currentChat != null) {
                             TLRPC.Chat chat = getMessagesController().getChat(chatId);
                             username = ChatObject.getPublicUsername(chat);
@@ -13903,6 +13939,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             span = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
+                    if (isBotgramUserProfile()) {
+                        AndroidUtilities.addToClipboard("@" + usernameRaw);
+                        undoView.showWithAction(0, UndoView.ACTION_USERNAME_COPIED, null);
+                        return;
+                    }
                     if (!usernameObj.editable) {
                         if (loadingSpan == this) return;
                         setLoadingSpan(this);
@@ -14259,7 +14300,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     new SearchResult(13, getString(R.string.RepeatNotifications), "repeatRow", getString(R.string.NotificationsAndSounds), R.drawable.msg_notifications, () -> f.presentFragment(new NotificationsSettingsActivity())),
 
                     new SearchResult(100, getString(R.string.PrivacySettings), R.drawable.msg_secret, () -> f.presentFragment(new PrivacySettingsActivity())).withLink("tg://settings/privacy"),
-                    new SearchResult(109, getString(R.string.TwoStepVerification), getString(R.string.PrivacySettings), R.drawable.msg2_secret, () -> f.presentFragment(new TwoStepVerificationActivity())).withLink("tg://settings/privacy/2sv"),
+                    new SearchResult(109, getString(R.string.TwoStepVerification), getString(R.string.PrivacySettings), R.drawable.msg2_secret, () -> f.presentFragment(org.telegram.botgram.BotgramTransport.get(currentAccount).enabled() ? TwoStepVerificationSetupActivity.forAuthenticator(currentAccount) : new TwoStepVerificationActivity())).withLink("tg://settings/privacy/2sv"),
                     new SearchResult(124, getString(R.string.AutoDeleteMessages), getString(R.string.PrivacySettings), R.drawable.msg2_secret, () -> {
                         if (UserConfig.getInstance(currentAccount).getGlobalTTl() >= 0) {
                             f.presentFragment(new AutoDeleteMessagesActivity());
@@ -14478,6 +14519,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         private static boolean isPremiumFeatureAvailable(int currentAccount, int feature) {
+            if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return feature == -1;
             if (MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && !UserConfig.getInstance(currentAccount).isPremium())
                 return false;
             if (feature == -1)
@@ -15198,6 +15240,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             args.putLong("user_id", userId);
             presentFragment(new QrShareActivity(args));
         } else if (parent.getTag() != null && ((int) parent.getTag()) == birthdayRow) {
+            if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, getResourceProvider())) return;
             if (userId == getUserConfig().getClientUserId()) {
                 presentFragment(new PremiumPreviewFragment("my_profile_gift"));
                 return;
@@ -16233,7 +16276,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final boolean hasUsername = UserObject.getPublicUsername(user) != null;
         setUsernameItem.setIcon(hasUsername ? R.drawable.menu_username_change : R.drawable.menu_username_set);
         setUsernameItem.setText(hasUsername ? getString(R.string.ProfileUsernameEdit) : getString(R.string.ProfileUsernameSet));
-        linkItem.setVisibility(UserObject.getPublicUsername(user) != null ? View.VISIBLE : View.GONE);
+        linkItem.setVisibility(hasUsername && !isBotgramUserProfile() ? View.VISIBLE : View.GONE);
     }
 
     private void updateEditColorIcon() {

@@ -212,6 +212,22 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     }
 
     public void launchBillingFlow(Activity activity, AccountInstance accountInstance, TLRPC.InputStorePaymentPurpose paymentPurpose, List<BillingFlowParams.ProductDetailsParams> productDetails, BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, boolean checkedConsume) {
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()
+                && org.telegram.botgram.BotgramGiftPolicy.isGiftPurpose(paymentPurpose)) {
+            final int account = accountInstance.getCurrentAccount();
+            final Object owner = accountInstance.getUserConfig().getAccountSessionMarker();
+            FileLog.e("Gift billing flow rejected: NYARUGRAM_GIFTS_UNAVAILABLE");
+            android.os.Handler handler = ApplicationLoader.applicationHandler;
+            if (handler == null || !handler.post(() -> {
+                if (accountInstance.getUserConfig().getAccountSessionMarker() != owner) return;
+                if (UserConfig.selectedAccount == account) {
+                    org.telegram.botgram.BotgramGiftPolicy.notifyBlocked(account);
+                }
+            })) {
+                FileLog.e("Could not enqueue rejected gift billing result");
+            }
+            return;
+        }
         if (!isReady() || activity == null) {
             return;
         }
@@ -407,7 +423,10 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                             } else {
                                 FileLog.d("BillingController.onPurchasesUpdatedInternal: " + purchase.getOrderId() + " purchase is purchased and failed to assign: " + (error == null ? null : error.text));
 
-                                if (onCanceled != null) {
+                                boolean giftBlocked = error != null
+                                        && "NYARUGRAM_GIFTS_UNAVAILABLE".equals(error.text)
+                                        && org.telegram.botgram.BotgramGiftPolicy.isGiftPurpose(req.purpose);
+                                if (onCanceled != null && !giftBlocked) {
                                     onCanceled.run();
                                     onCanceled = null;
                                 }

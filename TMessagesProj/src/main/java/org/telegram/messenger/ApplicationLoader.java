@@ -248,6 +248,10 @@ public class ApplicationLoader extends Application {
         SharedPrefsHelper.init(applicationContext);
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) { //TODO improve account
             UserConfig.getInstance(a).loadConfig();
+            if (org.telegram.botgram.BotgramTransport.get(a).enabled() && UserConfig.getInstance(a).syncContacts) {
+                UserConfig.getInstance(a).syncContacts = false;
+                UserConfig.getInstance(a).saveConfig(false);
+            }
             MessagesController.getInstance(a);
             if (a == 0) {
                 SharedConfig.pushStringStatus = "__FIREBASE_GENERATING_SINCE_" + ConnectionsManager.getInstance(a).getCurrentTime() + "__";
@@ -371,11 +375,16 @@ public class ApplicationLoader extends Application {
         if (preferences.contains("pushService")) {
             enabled = preferences.getBoolean("pushService", true);
         } else {
-            enabled = MessagesController.getMainSettings(UserConfig.selectedAccount).getBoolean("keepAliveService", false);
+            enabled = true;
         }
         if (enabled) {
             try {
-                applicationContext.startService(new Intent(applicationContext, NotificationsService.class));
+                Intent intent = new Intent(applicationContext, NotificationsService.class);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    applicationContext.startForegroundService(intent);
+                } else {
+                    applicationContext.startService(intent);
+                }
             } catch (Throwable ignore) {
 
             }
