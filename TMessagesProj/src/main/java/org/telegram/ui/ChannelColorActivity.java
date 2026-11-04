@@ -1946,6 +1946,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (themeInfo == null || themeInfo.pathToFile == null) {
                 return false;
             }
+            byte[] bytes = new byte[1024];
             boolean finished = false;
             File file = new File(themeInfo.pathToFile);
             try (FileInputStream stream = new FileInputStream(file)) {
@@ -1953,14 +1954,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 int idx;
                 int read;
                 int linesRead = 0;
-                while ((read = stream.read(ThemesHorizontalListCell.bytes)) != -1) {
+                while ((read = stream.read(bytes)) != -1) {
                     int previousPosition = currentPosition;
                     int start = 0;
                     for (int a = 0; a < read; a++) {
-                        if (ThemesHorizontalListCell.bytes[a] == '\n') {
+                        if (bytes[a] == '\n') {
                             linesRead++;
                             int len = a - start + 1;
-                            String line = new String(ThemesHorizontalListCell.bytes, start, len - 1, "UTF-8");
+                            String line = new String(bytes, start, len - 1, "UTF-8");
                             if (line.startsWith("WLS=")) {
                                 String wallpaperLink = line.substring(4);
                                 Uri uri = Uri.parse(wallpaperLink);

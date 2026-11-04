@@ -899,6 +899,10 @@ public class StarsController {
     }
 
     public void buyGift(Activity activity, TL_stars.TL_starsGiftOption option, long user_id, Utilities.Callback2<Boolean, String> whenDone) {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(activity, currentAccount, null)) {
+            if (whenDone != null) whenDone.run(false, "NYARUGRAM_GIFTS_UNAVAILABLE");
+            return;
+        }
         if (activity == null) {
             return;
         }
@@ -2445,6 +2449,11 @@ public class StarsController {
     }
 
     public void buyPremiumGift(long dialogId, Object option, TLRPC.TL_textWithEntities text, Utilities.Callback2<Boolean, String> whenDone) {
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) {
+            org.telegram.botgram.BotgramGiftPolicy.notifyBlocked(currentAccount);
+            if (whenDone != null) whenDone.run(false, "NYARUGRAM_GIFTS_UNAVAILABLE");
+            return;
+        }
         final Context context = LaunchActivity.instance != null ? LaunchActivity.instance : ApplicationLoader.applicationContext;
         final Theme.ResourcesProvider resourcesProvider = getResourceProvider();
 
@@ -2617,6 +2626,11 @@ public class StarsController {
     }
 
     public void buyStarGift(TL_stars.StarGift gift, boolean anonymous, boolean upgraded, long dialogId, TLRPC.TL_textWithEntities text, Utilities.Callback2<Boolean, String> whenDone) {
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) {
+            org.telegram.botgram.BotgramGiftPolicy.notifyBlocked(currentAccount);
+            if (whenDone != null) whenDone.run(false, "NYARUGRAM_GIFTS_UNAVAILABLE");
+            return;
+        }
         final Context context = LaunchActivity.instance != null ? LaunchActivity.instance : ApplicationLoader.applicationContext;
         final Theme.ResourcesProvider resourcesProvider = getResourceProvider();
 
@@ -2801,6 +2815,11 @@ public class StarsController {
     }
 
     public void getResellingGiftForm(TL_stars.StarGift gift, long dialogId, TLRPC.TL_textWithEntities message, boolean hideMyName, Utilities.Callback<TLRPC.TL_payments_paymentFormStarGift> whenDone) {
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) {
+            org.telegram.botgram.BotgramGiftPolicy.notifyBlocked(currentAccount);
+            if (whenDone != null) whenDone.run(null);
+            return;
+        }
         final Context context = LaunchActivity.instance != null ? LaunchActivity.instance : ApplicationLoader.applicationContext;
         final Theme.ResourcesProvider resourcesProvider = getResourceProvider();
 
@@ -2864,6 +2883,11 @@ public class StarsController {
     }
 
     public void buyResellingGift(TLRPC.TL_payments_paymentFormStarGift form, TL_stars.StarGift gift, long dialogId, TLRPC.TL_textWithEntities message, boolean hideMyName, Utilities.Callback2<Boolean, String> whenDone) {
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) {
+            org.telegram.botgram.BotgramGiftPolicy.notifyBlocked(currentAccount);
+            if (whenDone != null) whenDone.run(false, "NYARUGRAM_GIFTS_UNAVAILABLE");
+            return;
+        }
         final Context context = LaunchActivity.instance != null ? LaunchActivity.instance : ApplicationLoader.applicationContext;
         final Theme.ResourcesProvider resourcesProvider = getResourceProvider();
 

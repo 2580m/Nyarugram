@@ -86,6 +86,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     private LinearLayoutManager layoutManager;
 
     private TL_account.Password currentPassword;
+    private Boolean authenticatorEnabled;
     public ArrayList<TL_account.Passkey> currentPasskeys;
 
     private int privacySectionRow;
@@ -177,13 +178,18 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     private boolean[] clear = new boolean[2];
     private SessionsActivity devicesActivityPreload;
     private SessionsActivity webSessionsActivityPreload;
+    private boolean initialLoadsStarted;
+    private final org.telegram.botgram.BotgramUiTrace uiTrace = new org.telegram.botgram.BotgramUiTrace("privacy_settings");
+    private final Runnable initialLoadsRunnable = this::loadInitialSettings;
+    private final Runnable refreshListRunnable = () -> {
+        if (!isFinished && listAdapter != null) listAdapter.notifyDataSetChanged();
+    };
 
     @Override
     public boolean onFragmentCreate() {
+        uiTrace.mark("fragment_create.begin");
         super.onFragmentCreate();
 
-        getContactsController().loadPrivacySettings();
-        getMessagesController().getBlockedPeers(true);
         currentSync = newSync = getUserConfig().syncContacts;
         currentSuggest = newSuggest = getUserConfig().suggestContacts;
         TLRPC.GlobalPrivacySettings privacySettings = getContactsController().getGlobalPrivacySettings();
@@ -194,15 +200,11 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
 
         updateRows();
-        loadPasswordSettings();
-        loadPasskeys();
 
         getNotificationCenter().addObserver(this, NotificationCenter.privacyRulesUpdated);
         getNotificationCenter().addObserver(this, NotificationCenter.blockedUsersDidLoad);
         getNotificationCenter().addObserver(this, NotificationCenter.didSetOrRemoveTwoStepPassword);
         getNotificationCenter().addObserver(this, NotificationCenter.didUpdateGlobalAutoDeleteTimer);
-
-        getUserConfig().loadGlobalTTl();
 
         devicesActivityPreload = new SessionsActivity(SessionsActivity.TYPE_DEVICES);
         devicesActivityPreload.setDelegate(() -> {
@@ -210,7 +212,6 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 listAdapter.notifyItemChanged(sessionsRow);
             }
         });
-        devicesActivityPreload.loadSessions(false);
 
         webSessionsActivityPreload = new SessionsActivity(SessionsActivity.TYPE_WEB_SESSIONS);
         webSessionsActivityPreload.setDelegate(() -> {
@@ -221,13 +222,41 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 }
             }
         });
-        webSessionsActivityPreload.loadSessions(false);
-
+        uiTrace.mark("fragment_create.end");
         return true;
+    }
+
+    private void loadInitialSettings() {
+        if (initialLoadsStarted || isFinished) return;
+        initialLoadsStarted = true;
+        uiTrace.mark("initial_loads.begin");
+        getContactsController().loadPrivacySettings();
+        getMessagesController().getBlockedPeers(true);
+        loadPasswordSettings();
+        loadPasskeys();
+        getUserConfig().loadGlobalTTl();
+        devicesActivityPreload.loadSessions(false);
+        webSessionsActivityPreload.loadSessions(false);
+        BotBiometry.getBots(getContext(), currentAccount, bots -> {
+            if (isFinished) return;
+            biometryBots.clear();
+            biometryBots.addAll(bots);
+            updateRows(true);
+        });
+        uiTrace.mark("initial_loads.end");
+    }
+
+    private void requestListRefresh() {
+        if (isFinished || listView == null || listAdapter == null) return;
+        listView.removeCallbacks(refreshListRunnable);
+        listView.postOnAnimation(refreshListRunnable);
     }
 
     @Override
     public void onFragmentDestroy() {
+        uiTrace.close();
+        if (fragmentView != null) fragmentView.removeCallbacks(initialLoadsRunnable);
+        if (listView != null) listView.removeCallbacks(refreshListRunnable);
         super.onFragmentDestroy();
         getNotificationCenter().removeObserver(this, NotificationCenter.privacyRulesUpdated);
         getNotificationCenter().removeObserver(this, NotificationCenter.blockedUsersDidLoad);
@@ -277,6 +306,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     @Override
     public View createView(Context context) {
+        uiTrace.mark("create_view.begin");
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         actionBar.setAllowOverlayTitle(true);
         actionBar.setTitle(getString(R.string.PrivacySettings));
@@ -468,6 +498,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                         .setNegativeButton(getString(R.string.Cancel), null)
                         .show();
             } else if (position == passwordRow) {
+                if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                    presentFragment(TwoStepVerificationSetupActivity.forAuthenticator(currentAccount));
+                    return;
+                }
                 if (currentPassword == null) {
                     return;
                 }
@@ -660,10 +694,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             }
         });
 
-        BotBiometry.getBots(getContext(), currentAccount, bots -> {
-            biometryBots.clear();
-            biometryBots.addAll(bots);
-            updateRows(true);
+        uiTrace.mark("create_view.end");
+        androidx.core.view.OneShotPreDrawListener.add(fragmentView, () -> {
+            uiTrace.mark("first_pre_draw");
+            fragmentView.postOnAnimation(() -> uiTrace.mark("first_frame_after_layout"));
         });
 
         return fragmentView;
@@ -678,9 +712,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 noncontactsValue = privacySettings.new_noncontact_peers_require_premium;
                 feeValue = (privacySettings.flags & 32) != 0;
             }
-            if (listAdapter != null) {
-                listAdapter.notifyDataSetChanged();
-            }
+            requestListRefresh();
         } else if (id == NotificationCenter.blockedUsersDidLoad) {
             listAdapter.notifyItemChanged(blockedRow);
         } else if (id == NotificationCenter.didSetOrRemoveTwoStepPassword) {
@@ -796,7 +828,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         secretWebpageRow = rowCount++;
         secretDetailRow = rowCount++;
         if (listAdapter != null && notify) {
-            listAdapter.notifyDataSetChanged();
+            requestListRefresh();
         }
     }
 
@@ -840,11 +872,21 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     private void loadPasswordSettings() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).accountRequest(
+                    api -> api.object("GET", "/api/security/totp", null).getBoolean("enabled"),
+                    () -> !isFinished, (enabled, error) -> {
+                        if (error == null) authenticatorEnabled = enabled;
+                        if (listAdapter != null) listAdapter.notifyItemChanged(passwordRow);
+                    });
+            return;
+        }
         TL_account.getPassword req = new TL_account.getPassword();
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (response != null) {
                 TL_account.Password password = (TL_account.Password) response;
                 AndroidUtilities.runOnUIThread(() -> {
+                    if (isFinished) return;
                     currentPassword = password;
                     initPassword();
                 });
@@ -854,7 +896,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     private void loadPasskeys() {
         getConnectionsManager().sendRequestTyped(new TL_account.getPasskeys(), AndroidUtilities::runOnUIThread, (passkeys, error) -> {
-            if (passkeys != null) {
+            if (passkeys != null && !isFinished) {
                 currentPasskeys = passkeys.passkeys;
                 updateRows();
             }
@@ -1003,9 +1045,32 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     @Override
     public void onResume() {
+        uiTrace.mark("resume.begin");
         super.onResume();
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
+        if (initialLoadsStarted && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) loadPasswordSettings();
+        if (initialLoadsStarted) requestListRefresh();
+        uiTrace.mark("resume.end");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (fragmentView != null) fragmentView.removeCallbacks(initialLoadsRunnable);
+        if (listView != null) listView.removeCallbacks(refreshListRunnable);
+    }
+
+    @Override
+    public void onTransitionAnimationStart(boolean isOpen, boolean backward) {
+        super.onTransitionAnimationStart(isOpen, backward);
+        uiTrace.mark(isOpen ? "transition.open.begin" : "transition.close.begin");
+    }
+
+    @Override
+    public void onTransitionAnimationEnd(boolean isOpen, boolean backward) {
+        super.onTransitionAnimationEnd(isOpen, backward);
+        uiTrace.mark(isOpen ? "transition.open.end" : "transition.close.end");
+        if (isOpen && !initialLoadsStarted && !isFinished && fragmentView != null) {
+            fragmentView.postOnAnimation(initialLoadsRunnable);
         }
     }
 
@@ -1047,6 +1112,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            uiTrace.mark("cell_create.begin.type_" + viewType);
             View view;
             switch (viewType) {
                 case 0:
@@ -1069,6 +1135,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     view = new TextCheckCell(mContext);
                     break;
             }
+            uiTrace.mark("cell_create.end.type_" + viewType);
             return new RecyclerListView.Holder(view);
         }
 
@@ -1339,7 +1406,11 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     } else if (position == passwordRow) {
                         value = "";
                         int icon = R.drawable.menu_2sv;
-                        if (currentPassword == null) {
+                        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                            showLoading = authenticatorEnabled == null;
+                            value = authenticatorEnabled == null ? "" : getString(authenticatorEnabled ? R.string.PasswordOn : R.string.PasswordOff);
+                            if (Boolean.TRUE.equals(authenticatorEnabled)) icon = R.drawable.menu_2sv_on;
+                        } else if (currentPassword == null) {
                             showLoading = true;
                         } else if (currentPassword.has_password) {
                             icon = R.drawable.menu_2sv_on;

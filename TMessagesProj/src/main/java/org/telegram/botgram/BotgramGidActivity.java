@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -27,18 +26,16 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalFragment;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 /** GID editor built from Telegram's standard settings, input and region-list components. */
 public final class BotgramGidActivity extends UniversalFragment {
-    private final ExecutorService worker = Executors.newSingleThreadExecutor();
     private BotgramGeography.Region selected;
     private EditTextBoldCursor number;
     private TextView prefix;
     private LinearLayout input;
-    private boolean saving, destroyed;
+    private boolean saving;
+    private volatile boolean destroyed;
 
     @Override public View createView(Context context) {
         TLRPC.User user = getUserConfig().getCurrentUser();
@@ -66,7 +63,7 @@ public final class BotgramGidActivity extends UniversalFragment {
         number.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         number.setHint(getString(R.string.BotgramGid));
         if (gid.matches("[0-9]{11}")) number.setText(gid.substring(3));
-        input.addView(number, LayoutHelper.createLinear(0, 48, 1));
+        input.addView(number, LayoutHelper.createLinear(0, 48, 1.0f));
         return super.createView(context);
     }
     @Override protected CharSequence getTitle() { return getString(R.string.BotgramChangeGid); }
@@ -74,7 +71,7 @@ public final class BotgramGidActivity extends UniversalFragment {
         items.add(UItem.asButton(1, getString(R.string.BotgramGeographicRegion), selected.abbreviation + " · " + selected.label() + "  +" + selected.code));
         items.add(UItem.asShadow(null));
         items.add(UItem.asHeader(getString(R.string.BotgramGid)));
-        items.add(UItem.asCustom(input));
+        items.add(UItem.asCustom(input, 72));
         items.add(UItem.asShadow(getString(R.string.BotgramGidInputInfo)));
         items.add(UItem.asButton(2, getString(saving ? R.string.Loading : R.string.Done)));
     }
@@ -93,24 +90,26 @@ public final class BotgramGidActivity extends UniversalFragment {
         String digits = number.getText().toString();
         if ("001".equals(selected.code)) { error(getString(R.string.BotgramSelectRegion)); return; }
         if (!digits.matches("[0-9]{8}") || "00000000".equals(digits)) { number.setError(getString(R.string.BotgramGidInvalid)); return; }
-        BotgramSession session = new BotgramSession(ApplicationLoader.applicationContext, currentAccount);
-        if (session.token == null) { error(getString(R.string.ErrorOccurred)); return; }
         String region = selected.code;
         saving = true; number.setEnabled(false); listView.adapter.update(true);
-        worker.execute(() -> {
-            TLRPC.User updated = null; String failure = null;
-            try {
-                JSONObject result = new BotgramApi(session.server, session.token).object("PUT", "/api/me/gid",
-                        BotgramApi.json("regionCode", region, "number", digits));
-                updated = (TLRPC.User) BotgramTransport.decode(result, TLRPC.User.class, 0);
-            } catch (Exception e) {
-                failure = e instanceof BotgramApi.ApiError && ((BotgramApi.ApiError)e).status == 409
-                        ? getString(R.string.BotgramGidTaken) : getString(R.string.ErrorOccurred);
-            }
-            TLRPC.User result = updated; String message = failure;
-            AndroidUtilities.runOnUIThread(() -> {
-                BotgramSession active = new BotgramSession(ApplicationLoader.applicationContext, currentAccount);
-                if (result != null && session.token.equals(active.token) && session.server.equals(active.server)) {
+        final long userId = getUserConfig().getClientUserId();
+        BotgramTransport transport = BotgramTransport.get(currentAccount);
+        BotgramPremiumState confirmedPremium = transport.premiumState();
+        transport.accountRequest(api -> {
+            JSONObject response = api.object("PUT", "/api/me/gid",
+                    BotgramApi.json("regionCode", region, "number", digits));
+            Object value = response.opt("premium");
+            if (value == JSONObject.NULL) value = null;
+            if (value != null && !(value instanceof Boolean))
+                throw new BotgramApi.ApiError(502, "BOTGRAM_GID_PREMIUM_INVALID");
+            TLRPC.User result = (TLRPC.User) BotgramTransport.decode(response, TLRPC.User.class, 0);
+            if (result.id != userId || !(region + digits).equals(result.phone))
+                throw new BotgramApi.ApiError(502, "BOTGRAM_GID_RESPONSE_INVALID");
+            result.premium = confirmedPremium.resolve(userId, (Boolean) value);
+            result.flags = result.premium ? result.flags | (1 << 28) : result.flags & ~(1 << 28);
+            return result;
+        }, () -> !destroyed, (result, failure) -> {
+                if (result != null) {
                     getMessagesController().putUser(result, false);
                     getUserConfig().setCurrentUser(result); getUserConfig().saveConfig(true);
                     ArrayList<TLRPC.User> users = new ArrayList<>(); users.add(result);
@@ -118,11 +117,11 @@ public final class BotgramGidActivity extends UniversalFragment {
                     getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                     getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_PHONE);
                     if (!destroyed) finishFragment();
-                } else if (!destroyed) {
+                } else {
                     saving = false; number.setEnabled(true); listView.adapter.update(true);
-                    error(message == null ? getString(R.string.ErrorOccurred) : message);
+                    error(getString(failure != null && failure.code == 409 ? R.string.BotgramGidTaken
+                            : failure != null && failure.code == 400 ? R.string.BotgramGidInvalid : R.string.ErrorOccurred));
                 }
-            });
         });
     }
     private void error(String message) {
@@ -131,7 +130,7 @@ public final class BotgramGidActivity extends UniversalFragment {
                 .setPositiveButton(getString(R.string.OK), null).create());
     }
     @Override protected boolean onLongClick(UItem item, View view, int position, float x, float y) { return false; }
-    @Override public void onFragmentDestroy() { destroyed = true; worker.shutdownNow(); super.onFragmentDestroy(); }
+    @Override public void onFragmentDestroy() { destroyed = true; super.onFragmentDestroy(); }
 
     private static final class Regions extends UniversalFragment {
         private final ArrayList<BotgramGeography.Region> regions = new ArrayList<>();

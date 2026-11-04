@@ -29,7 +29,7 @@ public final class BotgramSession {
 
     public BotgramSession(Context context, int account) {
         prefs = context.getSharedPreferences("botgram.session." + account, Context.MODE_PRIVATE);
-        String savedServer = prefs.getString("server", BotgramServerAddress.DEFAULT_ADDRESS);
+        String savedServer = prefs.getString("server", "");
         server = BotgramServerAddress.migrateLegacy(savedServer);
         if (!server.equals(savedServer)) prefs.edit().putString("server", server).apply();
         try {
@@ -71,7 +71,7 @@ public final class BotgramSession {
             if (!active.getAsBoolean()) return false;
             if (!prefs.edit().putString("server", server).putString("token", encrypted)
                     .putString("iv", Base64.encodeToString(cipher.getIV(), Base64.NO_WRAP))
-                    .putString("userId", user.getString("id")).putString("displayName", user.getString("displayName")).commit()) {
+                    .putString("userId", user.getString("id")).putString("displayName", user.getString("displayName")).remove("protocol").commit()) {
                 throw new java.io.IOException("Unable to save login session");
             }
             this.server = server;
@@ -87,6 +87,22 @@ public final class BotgramSession {
         }
     }
 
+    public String protocol() {
+        synchronized (prefs) {
+            return savedCiphertext != null && savedCiphertext.equals(prefs.getString("token", null))
+                    ? prefs.getString("protocol", null) : null;
+        }
+    }
+
+    public void pinProtocol(String protocol) throws java.io.IOException {
+        synchronized (prefs) {
+            if (token == null || savedCiphertext == null || !savedCiphertext.equals(prefs.getString("token", null)))
+                throw new java.io.IOException("Session no longer current");
+            if (!prefs.edit().putString("protocol", protocol).commit())
+                throw new java.io.IOException("Unable to pin session protocol");
+        }
+    }
+
     // A late/cancelled login must never erase a newer session for the same slot.
     public void clearIfCurrent() {
         synchronized (prefs) {
@@ -98,7 +114,7 @@ public final class BotgramSession {
         synchronized (prefs) {
             token = null; userId = null; displayName = null;
             if (savedCiphertext != null && savedCiphertext.equals(prefs.getString("token", null))) {
-                prefs.edit().remove("token").remove("iv").remove("userId").remove("displayName").apply();
+                prefs.edit().remove("token").remove("iv").remove("userId").remove("displayName").remove("protocol").apply();
             }
         }
     }

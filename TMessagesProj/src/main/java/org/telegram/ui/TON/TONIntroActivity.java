@@ -39,7 +39,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.utils.tlutils.AmountUtils;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stars;
@@ -84,17 +83,15 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
     private View emptyLayout;
     private FireworksOverlay fireworksOverlay;
 
-    private final boolean allowTopUp;
     private LinearLayout balanceLayout;
     private LinearLayout starBalanceLayout;
     private SpannableStringBuilder starBalanceIcon;
     private AnimatedTextView starBalanceTextView;
     private AnimatedTextView starBalanceTitleView;
 
+    private FrameLayout buttonsLayout;
     private FrameLayout oneButtonsLayout;
-    private ButtonWithCounterView buyButton;
     private LinearLayout twoButtonsLayout;
-    private ButtonWithCounterView topUpButton;
     private ButtonWithCounterView withdrawButton;
 
     public static boolean allowTopUp() {
@@ -102,7 +99,6 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
     }
 
     public TONIntroActivity() {
-        allowTopUp = allowTopUp();
         setWhiteBackground(true);
     }
 
@@ -256,7 +252,7 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
         starBalanceTitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourceProvider));
         balanceLayout.addView(starBalanceTitleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, Gravity.CENTER, 24, 0, 24, 8));
 
-        FrameLayout buttonsLayout = new FrameLayout(getContext());
+        buttonsLayout = new FrameLayout(getContext());
 
         oneButtonsLayout = new FrameLayout(getContext()) {
             @Override
@@ -267,16 +263,6 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
         };
         buttonsLayout.addView(oneButtonsLayout);
 
-        if (allowTopUp) {
-            buyButton = new ButtonWithCounterView(getContext(), resourceProvider).setRound();
-            buyButton.setRound();
-            buyButton.setText(getString(R.string.TopUpViaFragment), false);
-            buyButton.setOnClickListener(v -> {
-                Browser.openUrlInSystemBrowser(getContext(), getString(R.string.TopUpViaFragmentLink));
-            });
-            oneButtonsLayout.addView(buyButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.FILL));
-        }
-
         twoButtonsLayout = new LinearLayout(getContext()) {
             @Override
             public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -286,20 +272,8 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
         };
         buttonsLayout.addView(twoButtonsLayout);
 
-        topUpButton = new ButtonWithCounterView(getContext(), resourceProvider).setRound();
-        SpannableStringBuilder ssb = new SpannableStringBuilder("x  ");
-        ssb.setSpan(new ColoredImageSpan(R.drawable.mini_topup, ColoredImageSpan.ALIGN_CENTER), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ssb.append(getString(R.string.TonTopUp));
-        topUpButton.setText(ssb, false);
-        topUpButton.setOnClickListener(v -> {
-            Browser.openUrlInSystemBrowser(getContext(), getString(R.string.TopUpViaFragmentLink));
-        });
-        if (allowTopUp) {
-            twoButtonsLayout.addView(topUpButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, Gravity.CENTER, 1, 0, 0, 8, 0));
-        }
-
         withdrawButton = new ButtonWithCounterView(getContext(), resourceProvider).setRound();
-        ssb = new SpannableStringBuilder("x  ");
+        SpannableStringBuilder ssb = new SpannableStringBuilder("x  ");
         ssb.setSpan(new ColoredImageSpan(R.drawable.mini_stats, ColoredImageSpan.ALIGN_CENTER), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         ssb.append(getString(R.string.TonStats));
         withdrawButton.setText(ssb, false);
@@ -350,6 +324,7 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
 
     private boolean twoButtons;
     private void updateButtonsLayouts(boolean two, boolean animated) {
+        buttonsLayout.setVisibility(two ? View.VISIBLE : View.GONE);
         if (twoButtons == two) return;
         twoButtons = two;
         if (animated) {
@@ -622,12 +597,12 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
 
         items.add(UItem.asFullyCustom(getHeader(getContext())));
         items.add(UItem.asCustom(balanceLayout));
-        if (allowTopUp) {
+        if (allowTopUp()) {
             items.add(UItem.asShadow(getString(R.string.GramEarningsHint)));
         }
 
         if (hadTransactions = c.hasTransactions()) {
-            if (!allowTopUp) items.add(UItem.asShadow(null));
+            if (!allowTopUp()) items.add(UItem.asShadow(null));
             items.add(UItem.asFullscreenCustom(transactionsLayout, ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + dp(24) + AndroidUtilities.navigationBarHeight));
         } else {
             items.add(UItem.asCustomShadow(emptyLayout));
@@ -758,17 +733,8 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
             topUpButton = new ButtonWithCounterView(getContext(), getResourcesProvider());
             footerView.addView(topUpButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, Gravity.CENTER, 20, 10, 20, 20));
 
-            if (canToUpFragment || allowTopUp()) {
-                topUpButton.setText(getString(R.string.TopUpViaFragment), false);
-                topUpButton.setOnClickListener(v -> {
-                    Browser.openUrlInSystemBrowser(getContext(), getString(R.string.TopUpViaFragmentLink));
-                });
-            } else {
-                topUpButton.setText(getString(R.string.Close), false);
-                topUpButton.setOnClickListener(v -> {
-                   dismiss();
-                });
-            }
+            topUpButton.setText(getString(R.string.Close), false);
+            topUpButton.setOnClickListener(v -> dismiss());
 
             if (adapter != null) {
                 adapter.update(false);

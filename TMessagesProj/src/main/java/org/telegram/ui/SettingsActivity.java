@@ -695,7 +695,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 getString(R.string.YourPasswordHeader),
                 getString(R.string.YourPasswordRemember),
                 getString(R.string.YourPasswordRememberNo), v -> {
-                    presentFragment(new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_VERIFY, null));
+                    presentFragment(org.telegram.botgram.BotgramTransport.get(currentAccount).enabled() ? TwoStepVerificationSetupActivity.forAuthenticator(currentAccount) : new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_VERIFY, null));
                 },
                 getString(R.string.YourPasswordRememberYes), v -> {
                     getMessagesController().removeSuggestion(0, "VALIDATE_PASSWORD");
@@ -712,6 +712,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             items.add(UItem.asShadow(null));
         }
 
+        items.add(SettingCell.Factory.of(27, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.outline_saved_24, getString(R.string.SavedMessages)));
         items.add(SettingCell.Factory.of(1, IconBackgroundColors.BLUE.top, IconBackgroundColors.BLUE.bottom, R.drawable.settings_account, getString(R.string.SettingsAccount), getString(R.string.BotgramAccountInfo)));
         items.add(SettingCell.Factory.of(2, IconBackgroundColors.ORANGE.top, IconBackgroundColors.ORANGE.bottom, R.drawable.settings_chat, getString(R.string.SettingsChat), getString(R.string.SettingsChatInfo)));
         items.add(SettingCell.Factory.of(3, IconBackgroundColors.GREEN.top, IconBackgroundColors.GREEN.bottom, R.drawable.settings_privacy, getString(R.string.SettingsPrivacySecurity), getString(R.string.SettingsPrivacySecurityInfo)));
@@ -727,6 +728,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             long balance = c.getBalance().amount;
             items.add(SettingCell.Factory.of(12, 0xFFEFA612, 0xFFE77512, R.drawable.settings_stars, getString(R.string.TelegramStars), null, c.balanceAvailable() && balance > 0 ? StarsIntroActivity.formatStarsAmount(c.getBalance(), 0.85f, ' ') : ""));
         }
+        items.add(SettingCell.Factory.of(11, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom,
+                R.drawable.msg_settings_premium, getString(R.string.TelegramPremium)));
         StarsController.getInstance(currentAccount, true).getBalance();
         if (ApplicationLoader.isBetaBuild() || ApplicationLoader.isStandaloneBuild() || ApplicationLoader.isHuaweiStoreBuild() || (StarsController.getInstance(currentAccount, true).balanceAvailable() && (StarsController.getInstance(currentAccount, true).hasTransactions() || StarsController.getInstance(currentAccount, true).getBalance().positive()))) {
             final StarsController c = StarsController.getTonInstance(currentAccount);
@@ -815,6 +818,11 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             return;
         }
         switch (item.id) {
+            case 27:
+                Bundle args = new Bundle();
+                args.putLong("user_id", getUserConfig().getClientUserId());
+                presentFragment(new ChatActivity(args));
+                break;
             case 1:
                 presentSettingFragment(new UserInfoActivity());
                 break;

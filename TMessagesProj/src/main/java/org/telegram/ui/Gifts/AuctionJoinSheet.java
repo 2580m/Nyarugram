@@ -261,6 +261,7 @@ public class AuctionJoinSheet extends BottomSheetWithRecyclerListView implements
         buttonView = new ButtonWithCounterView(context, resourcesProvider);
         buttonView.setRound();
         buttonView.setOnClickListener(v -> {
+            if (org.telegram.botgram.BotgramGiftPolicy.block(context, currentAccount, resourcesProvider)) return;
             if (auction != null && !auction.isFinished()) {
                 if ((dialogId == 0 || dialogId == UserConfig.getInstance(currentAccount).getClientUserId()) && auction.previewAttributes != null) {
                     new AuctionWearingSheet(context, resourcesProvider, dialogId, auction.gift, auction.previewAttributes, closeParentSheet, false).show();
@@ -625,6 +626,7 @@ public class AuctionJoinSheet extends BottomSheetWithRecyclerListView implements
                             long dialogId,
                             long giftId,
                             Runnable closeParentSheet) {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(context, currentAccount, resourcesProvider)) return;
         GiftAuctionController.getInstance(currentAccount).getOrRequestAuction(giftId, (auction, err) -> {
             if (auction != null) {
                 show(context, resourcesProvider, currentAccount, dialogId, auction, closeParentSheet);
@@ -638,6 +640,7 @@ public class AuctionJoinSheet extends BottomSheetWithRecyclerListView implements
                             long dialogId,
                             GiftAuctionController.Auction auction,
                             Runnable closeParentSheet) {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(context, currentAccount, resourcesProvider)) return;
         if (auction == null) {
             return; // loading
         }

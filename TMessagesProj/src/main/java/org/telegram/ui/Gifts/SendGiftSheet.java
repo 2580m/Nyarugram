@@ -167,7 +167,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
         this.currentAccount = currentAccount;
         this.dialogId = dialogId;
         this.starGift = starGift;
-        if (starGift != null && starGift.auction) {
+        if (starGift != null && starGift.auction && !org.telegram.botgram.BotgramGiftPolicy.isDisabled()) {
             auction = GiftAuctionController.getInstance(currentAccount).subscribeToGiftAuction(starGift.id, this);
         }
 
@@ -322,7 +322,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
         send_paid_messages_stars = starGift != null ? MessagesController.getInstance(currentAccount).getSendPaidMessagesStars(dialogId) : 0;
 
         messageObject = new MessageObject(currentAccount, message, false, false);
-        actionCell.setMessageObject(messageObject, true);
+        if (!org.telegram.botgram.BotgramGiftPolicy.isDisabled()) actionCell.setMessageObject(messageObject, true);
         chatLinearLayout.addView(actionCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL, 0, send_paid_messages_stars > 0 ? 0 : 8, 0, 8));
 
         chatView.addView(chatLinearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL));
@@ -343,6 +343,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
 
             @Override
             protected void onTextChanged(CharSequence newText) {
+                if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) return;
                 TLRPC.TL_textWithEntities txt;
                 if (action instanceof TLRPC.TL_messageActionStarGift) {
                     txt = ((TLRPC.TL_messageActionStarGift) action).message = new TLRPC.TL_textWithEntities();
@@ -639,6 +640,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
     }
 
     private void setButtonText(boolean animated) {
+        if (org.telegram.botgram.BotgramGiftPolicy.isDisabled()) return;
         if (auction != null) {
             final int currentTime = ConnectionsManager.getInstance(currentAccount).getCurrentTime();
             if (auction.isUpcoming(currentTime)) {
@@ -744,6 +746,10 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
     }
 
     private void buyPremiumTier() {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) {
+            button.setLoading(false);
+            return;
+        }
         final TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(dialogId);
         if (user == null) {
             button.setLoading(false);
@@ -978,6 +984,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
 
     @Override
     public void show() {
+        if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
         if (messageEdit != null) {
             messageEdit.editTextEmoji.onResume();
         }

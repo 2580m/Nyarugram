@@ -427,6 +427,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private int lastSizeHash;
     private ValueAnimator valueAnimator;
     private boolean setupFinished;
+    private boolean botgramWallpaperPending;
     private TextView patternTitleView;
 
     public static void showFor(ChatActivity chatActivity, MessageObject message) {
@@ -2433,6 +2434,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     private void applyWallpaperBackground(boolean forBoth) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            applyBotgramWallpaper(forBoth);
+            return;
+        }
         if (dialogId < 0) {
             if (boostsStatus != null && boostsStatus.level < getCustomWallpaperLevelMin()) {
                 getMessagesController().getBoostsController().userCanBoostChannel(dialogId, boostsStatus, canApplyBoost -> {
@@ -2777,6 +2782,49 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 delegate.didSetNewBackground(tlwallPaper);
             }
             finishFragment();
+        }
+    }
+
+    private void applyBotgramWallpaper(boolean forBoth) {
+        if (botgramWallpaperPending) return;
+        if (forBoth && !getUserConfig().isPremium()) {
+            showDialog(new PremiumFeatureBottomSheet(this, PremiumPreviewFragment.PREMIUM_FEATURE_WALLPAPER, true));
+            return;
+        }
+        if (!(currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) || selectedPattern != null || serverWallpaper != null) {
+            org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, true);
+            return;
+        }
+        WallpapersListActivity.ColorWallpaper color = (WallpapersListActivity.ColorWallpaper) currentWallpaper;
+        boolean clear = Theme.DEFAULT_BACKGROUND_SLUG.equals(color.slug) || Theme.THEME_BACKGROUND_SLUG.equals(color.slug);
+        Theme.OverrideWallpaperInfo info = new Theme.OverrideWallpaperInfo();
+        info.slug = Theme.COLOR_BACKGROUND_SLUG;
+        info.color = backgroundColor;
+        info.gradientColor1 = backgroundGradientColor1;
+        info.gradientColor2 = backgroundGradientColor2;
+        info.gradientColor3 = backgroundGradientColor3;
+        info.rotation = backgroundRotation;
+        info.isBlurred = isBlurred;
+        info.isMotion = isMotion;
+        info.intensity = shouldShowBrightnessControll && dimAmount >= 0 ? dimAmount : currentIntensity;
+        if (color.parentWallpaper != null) info.wallpaperId = color.parentWallpaper.id;
+        botgramWallpaperPending = true;
+        java.util.function.Consumer<TLRPC.WallPaper> success = wallpaper -> {
+            if (isFinished || getParentActivity() == null || UserConfig.selectedAccount != currentAccount) return;
+            setupFinished = true;
+            if (delegate != null) delegate.didSetNewBackground(wallpaper);
+            finishFragment();
+        };
+        Runnable finished = () -> botgramWallpaperPending = false;
+        if (dialogId == 0) {
+            org.telegram.botgram.BotgramWallpaperActions.installWithResult(currentAccount, clear ? null : info, success, finished);
+        } else {
+            TLRPC.TL_inputWallPaperNoFile input = new TLRPC.TL_inputWallPaperNoFile();
+            input.id = info.wallpaperId;
+            int requestId = org.telegram.botgram.BotgramWallpaperActions.set(currentAccount, dialogId,
+                    clear ? null : input, clear ? null : org.telegram.botgram.BotgramWallpaperActions.settings(info),
+                    forBoth, false, success, finished);
+            getConnectionsManager().bindRequestToGuid(requestId, classGuid);
         }
     }
 

@@ -6087,6 +6087,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             ArrayList<TLRPC.User> users = state.today;
             dialogsHintCellVisible = true;
             dialogsHintCell.setOnClickListener(v -> {
+                if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, getResourceProvider())) return;
                 if (state != null && state.today.size() == 1) {
                     showDialog(new GiftSheet(getContext(), currentAccount, state.today.get(0).id, null, null).setBirthday());
                     return;

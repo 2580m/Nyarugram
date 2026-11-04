@@ -1,4 +1,4 @@
-# GID (13.1.2)
+# Gram ID (wire name: GID)
 
 GIDs replace phone numbers in this fork: `+030 12345678`. The first three digits
 are a UN M49 geographic region; the final eight digits are random, preserve leading
@@ -24,7 +24,9 @@ GID changes are delivered through the original `TL_updateUserPhone` class. The T
 `phone` field carries the eleven GID digits as an internal compatibility field; REST
 user objects expose a formatted `gid`. No phone verification or SMS is used.
 
-Settings → Account → Personal Info shows the GID. The existing Telegram change-number
+Settings → Account → Personal Info shows the Gram ID. Visible labels use "Gram ID";
+internal identifiers, resource keys, `gid` APIs and the TL `phone` field remain unchanged.
+The existing Telegram change-number
 intro is reused with GID text; the editor and region picker use Telegram's standard
 list, input and dialog components. The picker includes all 29 M49 geographic regions
 other than World. It uses letter abbreviations in place of flags. These letters are
@@ -32,6 +34,16 @@ app display abbreviations; M49 itself standardizes the numeric codes. A user wit
 World GID must choose another region to submit a change. The server rejects unknown
 regions, country codes, World changes, non-eight-digit suffixes, all-zero suffixes,
 and collisions (409 `gid_taken`). Checking and saving occur in one transaction.
+
+The eight-digit editor uses the floating-point layout weight overload
+(`createLinear(0, 48, 1.0f)`), not the integer gravity overload that left its width zero.
+Both region and suffix are submitted on the session-owned background request queue;
+late callbacks from a closed page or replaced session are discarded. The response
+must preserve the user's TL identity and match all eleven requested digits before
+updating the original profile UI. A response with an explicit Premium value updates
+the current session's confirmed value; an older response without that field preserves
+only that session's confirmed value. These changes still require compilation and device
+validation; they do not imply a new APK has been delivered.
 
 API additions:
 

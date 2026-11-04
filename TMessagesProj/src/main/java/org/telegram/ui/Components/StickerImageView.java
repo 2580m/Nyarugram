@@ -8,6 +8,8 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -16,6 +18,9 @@ public class StickerImageView extends BackupImageView implements NotificationCen
     int currentAccount;
     int stickerNum;
     String stickerPackName = AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME;
+    private int localAnimationResource;
+    private int localGeneration;
+    private boolean localAnimationLoaded;
 
     public StickerImageView(Context context, int currentAccount) {
         super(context);
@@ -33,15 +38,62 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         this.stickerPackName = stickerPackName;
     }
 
+    public void setLocalAnimation(int resource) {
+        localAnimationResource = resource;
+        localAnimationLoaded = false;
+        localGeneration++;
+        if (isAttachedToWindow()) loadLocalAnimation();
+    }
+
+    private void loadLocalAnimation() {
+        if (localAnimationLoaded) return;
+        final int owner = ++localGeneration;
+        final int resource = localAnimationResource;
+        final Context context = getContext().getApplicationContext();
+        Utilities.globalQueue.postRunnable(() -> {
+            java.io.File temporary = null;
+            try {
+                long installed = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).lastUpdateTime;
+                java.io.File file = new java.io.File(context.getCacheDir(), "offline-sticker-" + resource + "-" + installed + ".gif");
+                if (!file.exists()) {
+                    temporary = java.io.File.createTempFile("offline-sticker-", ".tmp", context.getCacheDir());
+                    try (java.io.InputStream input = context.getResources().openRawResource(resource);
+                         java.io.FileOutputStream output = new java.io.FileOutputStream(temporary)) {
+                        byte[] bytes = new byte[8192];
+                        int count;
+                        while ((count = input.read(bytes)) != -1) output.write(bytes, 0, count);
+                    }
+                    if (!temporary.renameTo(file) && !file.exists()) throw new java.io.IOException("Offline animation cache rename failed");
+                }
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (owner != localGeneration || !isAttachedToWindow()) return;
+                    localAnimationLoaded = true;
+                    imageReceiver.setAllowStartAnimation(true);
+                    imageReceiver.setAspectFit(true);
+                    setImage(ImageLocation.getForPath(file.getAbsolutePath()), "130_130", "gif", null, this);
+                });
+            } catch (Exception error) {
+                FileLog.e(error);
+            } finally {
+                if (temporary != null) temporary.delete();
+            }
+        });
+    }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (localAnimationResource != 0) {
+            loadLocalAnimation();
+            return;
+        }
         setSticker();
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        localGeneration++;
         super.onDetachedFromWindow();
         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
     }
@@ -57,6 +109,7 @@ public class StickerImageView extends BackupImageView implements NotificationCen
     }
 
     public void setSticker() {
+        if (localAnimationResource != 0) return;
         String imageFilter = null;
         TLRPC.Document document = null;
         TLRPC.TL_messages_stickerSet set = null;

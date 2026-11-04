@@ -336,6 +336,7 @@ public class MediaDataController extends BaseController {
     private TLRPC.Document greetingsSticker;
     public final RingtoneDataStore ringtoneDataStore;
     public final ArrayList<ChatThemeBottomSheet.ChatThemeItem> defaultEmojiThemes = new ArrayList<>();
+    private int emojiPreviewGeneration;
 
     public final ArrayList<TLRPC.Document> premiumPreviewStickers = new ArrayList<>();
     boolean previewStickersLoading;
@@ -347,6 +348,8 @@ public class MediaDataController extends BaseController {
     private boolean[] emojiStatusesFetching = new boolean[4];
 
     public void cleanup() {
+        emojiPreviewGeneration++;
+        defaultEmojiThemes.clear();
         for (int a = 0; a < recentStickers.length; a++) {
             if (recentStickers[a] != null) {
                 recentStickers[a].clear();
@@ -9569,36 +9572,20 @@ public class MediaDataController extends BaseController {
     public void loadEmojiThemes() {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config_" + currentAccount, Context.MODE_PRIVATE);
         int count = preferences.getInt("count", 0);
-        ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
-        previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(currentAccount)));
+        ArrayList<TLRPC.TL_theme> themes = new ArrayList<>();
         for (int i = 0; i < count; ++i) {
             String value = preferences.getString("theme_" + i, "");
             SerializedData serializedData = new SerializedData(Utilities.hexToBytes(value));
             try {
                 TLRPC.TL_theme theme = TLRPC.Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
-                EmojiThemes fullTheme = EmojiThemes.createPreviewFullTheme(currentAccount, theme);
-                if (fullTheme.items.size() >= 4) {
-                    previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(fullTheme));
-                }
-
-                ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < previewItems.size(); i++) {
-                            if (previewItems.get(i) != null && previewItems.get(i).chatTheme != null) {
-                                previewItems.get(i).chatTheme.loadPreviewColors(0);
-                            }
-                        }
-                        AndroidUtilities.runOnUIThread(() -> {
-                            defaultEmojiThemes.clear();
-                            defaultEmojiThemes.addAll(previewItems);
-                        });
-                    }
-                });
+                if (theme != null) themes.add(theme);
             } catch (Throwable e) {
                 FileLog.e(e);
+            } finally {
+                serializedData.cleanup();
             }
         }
+        prepareEmojiPreviewThemes(themes);
     }
 
     public void generateEmojiPreviewThemes(final ArrayList<TLRPC.TL_theme> emojiPreviewThemes, int currentAccount) {
@@ -9610,37 +9597,33 @@ public class MediaDataController extends BaseController {
             SerializedData data = new SerializedData(tlChatTheme.getObjectSize());
             tlChatTheme.serializeToStream(data);
             editor.putString("theme_" + i, Utilities.bytesToHex(data.toByteArray()));
+            data.cleanup();
         }
         editor.apply();
+        prepareEmojiPreviewThemes(emojiPreviewThemes);
+    }
 
-        if (!emojiPreviewThemes.isEmpty()) {
-            final ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
-            previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(currentAccount)));
-            for (int i = 0; i < emojiPreviewThemes.size(); i++) {
-                TLRPC.TL_theme theme = emojiPreviewThemes.get(i);
-                EmojiThemes chatTheme = EmojiThemes.createPreviewFullTheme(currentAccount, theme);
-                ChatThemeBottomSheet.ChatThemeItem item = new ChatThemeBottomSheet.ChatThemeItem(chatTheme);
-                if (chatTheme.items.size() >= 4) {
-                    previewItems.add(item);
-                }
+    private void prepareEmojiPreviewThemes(ArrayList<TLRPC.TL_theme> themes) {
+        final int generation = ++emojiPreviewGeneration;
+        final ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
+        previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme(currentAccount)));
+        for (TLRPC.TL_theme theme : themes) {
+            EmojiThemes chatTheme = EmojiThemes.createPreviewFullTheme(currentAccount, theme);
+            if (chatTheme.items.size() >= 4) {
+                previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(chatTheme));
             }
-            ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < previewItems.size(); i++) {
-                        previewItems.get(i).chatTheme.loadPreviewColors(currentAccount);
-                    }
-                    AndroidUtilities.runOnUIThread(() -> {
-                        defaultEmojiThemes.clear();
-                        defaultEmojiThemes.addAll(previewItems);
-                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
-                    });
-                }
-            });
-        } else {
-            defaultEmojiThemes.clear();
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
         }
+        ChatThemeController.chatThemeQueue.postRunnable(() -> {
+            for (ChatThemeBottomSheet.ChatThemeItem item : previewItems) {
+                item.chatTheme.loadPreviewColors(currentAccount);
+            }
+            AndroidUtilities.runOnUIThread(() -> {
+                if (generation != emojiPreviewGeneration) return;
+                defaultEmojiThemes.clear();
+                defaultEmojiThemes.addAll(previewItems);
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
+            });
+        });
     }
 
     //---------------- EMOJI END ----------------

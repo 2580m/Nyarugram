@@ -7,8 +7,6 @@ import java.util.Locale;
 /** Endpoint parsing shared by the credentials form and saved-session migration. */
 public final class BotgramServerAddress {
     public static final int DEFAULT_PORT = 8521;
-    public static final String DEFAULT_HOST = "https://nyarugram.moe.autos";
-    public static final String DEFAULT_ADDRESS = DEFAULT_HOST + ":" + DEFAULT_PORT;
 
     public final String host;
     public final String port;
@@ -21,14 +19,17 @@ public final class BotgramServerAddress {
     public static BotgramServerAddress parse(String input) {
         URI uri = endpoint(input);
         return new BotgramServerAddress(origin(uri, -1),
-                Integer.toString(uri.getPort() == -1 ? DEFAULT_PORT : uri.getPort()));
+                uri.getPort() == -1 ? "" : Integer.toString(uri.getPort()));
     }
 
     public static String join(String host, String port) {
-        if (port == null || !port.matches("[0-9]{1,5}")) throw new IllegalArgumentException("Invalid port");
-        int value = Integer.parseInt(port);
+        URI uri = endpoint(host);
+        String enteredPort = port == null ? "" : port.trim();
+        if (enteredPort.isEmpty()) return origin(uri, uri.getPort() == -1 ? DEFAULT_PORT : uri.getPort());
+        if (!enteredPort.matches("[0-9]{1,5}")) throw new IllegalArgumentException("Invalid port");
+        int value = Integer.parseInt(enteredPort);
         if (value < 1 || value > 65535) throw new IllegalArgumentException("Invalid port");
-        return origin(endpoint(host), value);
+        return origin(uri, value);
     }
 
     public static String migrateLegacy(String input) {

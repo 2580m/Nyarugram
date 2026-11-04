@@ -30,6 +30,8 @@ public class UserConfig extends BaseController {
     private final Object sync = new Object();
     private volatile boolean configLoaded;
     private TLRPC.User currentUser;
+    // Same-user refreshes retain ownership; logout and identity changes replace it.
+    private Object accountSessionMarker = new Object();
     public boolean registeredForPush;
     public int lastSendMessageId = -210000;
     public int lastBroadcastId = -1;
@@ -258,9 +260,23 @@ public class UserConfig extends BaseController {
         }
     }
 
+    public Object getAccountSessionMarker() {
+        synchronized (sync) {
+            return accountSessionMarker;
+        }
+    }
+
+    private void updateAccountSessionMarker(TLRPC.User user) {
+        if ((currentUser == null) != (user == null)
+                || currentUser != null && user != null && currentUser.id != user.id) {
+            accountSessionMarker = new Object();
+        }
+    }
+
     public void setCurrentUser(TLRPC.User user) {
         synchronized (sync) {
             TLRPC.User oldUser = currentUser;
+            updateAccountSessionMarker(user);
             currentUser = user;
             clientUserId = user.id;
             checkPremiumSelf(oldUser, user);
@@ -367,7 +383,9 @@ public class UserConfig extends BaseController {
                 byte[] bytes = Base64.decode(string, Base64.DEFAULT);
                 if (bytes != null) {
                     SerializedData data = new SerializedData(bytes);
-                    currentUser = TLRPC.User.TLdeserialize(data, data.readInt32(false), false);
+                    TLRPC.User loadedUser = TLRPC.User.TLdeserialize(data, data.readInt32(false), false);
+                    updateAccountSessionMarker(loadedUser);
+                    currentUser = loadedUser;
                     data.cleanup();
                 }
             }
@@ -463,8 +481,11 @@ public class UserConfig extends BaseController {
 
         sharingMyLocationUntil = 0;
         lastMyLocationShareTime = 0;
-        currentUser = null;
-        clientUserId = 0;
+        synchronized (sync) {
+            accountSessionMarker = new Object();
+            currentUser = null;
+            clientUserId = 0;
+        }
         registeredForPush = false;
         contactsSavedCount = 0;
         lastSendMessageId = -210000;

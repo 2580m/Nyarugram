@@ -41,7 +41,7 @@ public final class BotgramLoginView extends SlideView {
     private final ArrayList<EditTextBoldCursor> fields = new ArrayList<>();
     private final LinearLayout form;
     private final TextView title, subtitle, switchMode;
-    private final EditTextBoldCursor server, port, username, displayName, password;
+    private final EditTextBoldCursor server, port, username, displayName, password, additionalPassword;
     private final Completion completion;
     private final Consumer<Boolean> loading;
     private final Consumer<String> showError;
@@ -85,14 +85,14 @@ public final class BotgramLoginView extends SlideView {
         server.setTextDirection(View.TEXT_DIRECTION_LTR);
         port.setTextDirection(View.TEXT_DIRECTION_LTR);
         String savedServer = context.getSharedPreferences("botgram.session." + account, Context.MODE_PRIVATE)
-                .getString("server", BotgramServerAddress.DEFAULT_ADDRESS);
+                .getString("server", "");
         try {
             BotgramServerAddress address = BotgramServerAddress.parse(BotgramServerAddress.migrateLegacy(savedServer));
             server.setText(address.host);
             port.setText(address.port);
         } catch (IllegalArgumentException error) {
             server.setText(savedServer);
-            port.setText(Integer.toString(BotgramServerAddress.DEFAULT_PORT));
+            port.setText("");
         }
         server.addTextChangedListener(new TextWatcher() {
             private int changedCount;
@@ -128,6 +128,18 @@ public final class BotgramLoginView extends SlideView {
         });
         password.setSaveEnabled(false);
         password.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        additionalPassword = field(context, R.string.BotgramAuthenticatorCode, InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        additionalPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        additionalPassword.setTypeface(Typeface.DEFAULT);
+        additionalPassword.setSaveEnabled(false);
+        additionalPassword.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        additionalPassword.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        additionalPassword.setOnEditorActionListener((view, action, event) -> {
+            if (action != EditorInfo.IME_ACTION_DONE) return false;
+            onNextPressed(null);
+            return true;
+        });
+        ((View) additionalPassword.getParent()).setVisibility(GONE);
         switchMode = label(context, 15, false);
         switchMode.setPadding(AndroidUtilities.dp(12), AndroidUtilities.dp(16), AndroidUtilities.dp(12), AndroidUtilities.dp(16));
         form.addView(switchMode, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 4, 0, 0));
@@ -179,6 +191,8 @@ public final class BotgramLoginView extends SlideView {
         if (registering == register || disposed) return;
         if (!register && displayName.hasFocus()) password.requestFocus();
         registering = register;
+        additionalPassword.setText("");
+        ((View) additionalPassword.getParent()).setVisibility(GONE);
         if (!isLaidOut()) { updateMode(); return; }
         modeAnimating = true;
         switchMode.setEnabled(false);
@@ -206,7 +220,9 @@ public final class BotgramLoginView extends SlideView {
     @Override public void onNextPressed(String code) {
         if (busy || modeAnimating || disposed) return;
         for (EditTextBoldCursor field : fields) {
+            if (field == port) continue;
             if (field == displayName && !registering) continue;
+            if (field == additionalPassword && ((View) field.getParent()).getVisibility() != VISIBLE) continue;
             if (field.getText().toString().trim().isEmpty()) {
                 field.requestFocus();
                 AndroidUtilities.shakeView(field);
@@ -217,7 +233,7 @@ public final class BotgramLoginView extends SlideView {
         final String address;
         try {
             String portText = port.getText().toString().trim();
-            if (!portText.matches("[0-9]{1,5}") || Integer.parseInt(portText) < 1 || Integer.parseInt(portText) > 65535) {
+            if (!portText.isEmpty() && (!portText.matches("[0-9]{1,5}") || Integer.parseInt(portText) < 1 || Integer.parseInt(portText) > 65535)) {
                 port.requestFocus();
                 port.setError(LocaleController.getString(R.string.BotgramInvalidPort));
                 return;
@@ -231,6 +247,8 @@ public final class BotgramLoginView extends SlideView {
         final String name = username.getText().toString().trim();
         final String secret = password.getText().toString(), display = displayName.getText().toString().trim();
         final boolean register = registering;
+        final boolean needsAdditionalPassword = !register && ((View) additionalPassword.getParent()).getVisibility() == VISIBLE;
+        final String secondSecret = additionalPassword.getText().toString();
         final int id = ++attempt;
         setBusy(true);
         Consumer<String> authenticate = country -> {
@@ -238,9 +256,11 @@ public final class BotgramLoginView extends SlideView {
             request = worker.submit(() -> {
                 try {
                     BotgramApi api = new BotgramApi(address, null);
+                    JSONObject credentials = BotgramApi.json("username", name, "password", secret, "displayName", display,
+                            "locationCountry", country == null ? JSONObject.NULL : country);
+                    if (needsAdditionalPassword) credentials.put("totpCode", secondSecret.trim());
                     JSONObject response = api.object("POST", register ? "/api/auth/register" : "/api/auth/login",
-                        BotgramApi.json("username", name, "password", secret, "displayName", display,
-                            "locationCountry", country == null ? JSONObject.NULL : country));
+                        credentials);
                     JSONObject identity = new BotgramApi(api.baseUrl, response.getString("token")).object("GET", "/api/telegram/me", null);
                     TLRPC.User user = (TLRPC.User) BotgramTransport.decode(identity, TLRPC.User.class, 0);
                     if (disposed || id != attempt) return;
@@ -254,6 +274,7 @@ public final class BotgramLoginView extends SlideView {
                         BotgramTransport.get(account).authenticated(saved, () -> !disposed && id == attempt, () -> {
                             if (disposed || id != attempt) return;
                             password.setText("");
+                            additionalPassword.setText("");
                             setBusy(false);
                             completion.done(user);
                         });
@@ -262,6 +283,12 @@ public final class BotgramLoginView extends SlideView {
                     AndroidUtilities.runOnUIThread(() -> {
                         if (disposed || id != attempt) return;
                         setBusy(false);
+                        if ("TOTP_REQUIRED".equals(error.getMessage())) {
+                            ((View) additionalPassword.getParent()).setVisibility(VISIBLE);
+                            additionalPassword.requestFocus();
+                            AndroidUtilities.showKeyboard(additionalPassword);
+                            return;
+                        }
                         showError.accept(errorText(error));
                     });
                 }
@@ -275,6 +302,9 @@ public final class BotgramLoginView extends SlideView {
 
     private String errorText(Exception error) {
         if (error instanceof BotgramApi.ApiError) {
+            if ("TOTP_CODE_INVALID".equals(error.getMessage())) return LocaleController.getString(R.string.BotgramAuthenticatorInvalid);
+            if ("TOTP_TOO_MANY_ATTEMPTS".equals(error.getMessage())) return LocaleController.getString(R.string.BotgramAuthenticatorWait);
+            if ("PASSWORD_HASH_INVALID".equals(error.getMessage())) return LocaleController.getString(R.string.CheckPasswordWrong);
             if ("invalid_credentials".equals(error.getMessage())) return LocaleController.getString(R.string.BotgramInvalidCredentials);
             if ("username_taken".equals(error.getMessage())) return LocaleController.getString(R.string.BotgramUsernameTaken);
             return LocaleController.getString(R.string.BotgramAuthenticationFailed);

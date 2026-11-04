@@ -25,6 +25,9 @@ import com.google.android.play.core.integrity.IntegrityTokenResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.botgram.BotgramGiftPolicy;
+import org.telegram.botgram.BotgramNativeGiftRequests;
+import org.telegram.botgram.BotgramSessionScope;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -383,16 +386,72 @@ public class ConnectionsManager extends BaseController {
 
     public int sendRequestSync(final TLObject object, final RequestDelegate onComplete, final QuickAckDelegate onQuickAck, final WriteToSocketDelegate onWriteToSocket, final int flags, final int datacenterId, final int connectionType, final boolean immediate) {
         final int requestToken = lastRequestToken.getAndIncrement();
+        if (blockNativeGiftRequest(object, onComplete, null, requestToken)) return requestToken;
         sendRequestInternal(object, onComplete, null, onQuickAck, onWriteToSocket, flags, datacenterId, connectionType, immediate, requestToken);
         return requestToken;
     }
 
     public int sendRequest(final TLObject object, final RequestDelegate onComplete, final RequestDelegateTimestamp onCompleteTimestamp, final QuickAckDelegate onQuickAck, final WriteToSocketDelegate onWriteToSocket, final int flags, final int datacenterId, final int connectionType, final boolean immediate) {
         final int requestToken = lastRequestToken.getAndIncrement();
+        if (blockNativeGiftRequest(object, onComplete, onCompleteTimestamp, requestToken)) return requestToken;
         Utilities.stageQueue.postRunnable(org.telegram.botgram.BotgramTransport.get(currentAccount).bindRequest(() -> {
             sendRequestInternal(object, onComplete, onCompleteTimestamp, onQuickAck, onWriteToSocket, flags, datacenterId, connectionType, immediate, requestToken);
         }));
         return requestToken;
+    }
+
+    private final BotgramNativeGiftRequests nativeGiftRequests = new BotgramNativeGiftRequests();
+
+    private boolean isNativeGiftRequestCurrent(BotgramNativeGiftRequests.Pending request) {
+        return !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()
+                && nativeGiftRequests.canDeliver(request, getUserConfig().getAccountSessionMarker());
+    }
+
+    private boolean blockNativeGiftRequest(TLObject object, RequestDelegate onComplete,
+                                           RequestDelegateTimestamp onCompleteTimestamp, int token) {
+        if (!BotgramGiftPolicy.isDisabled() || !BotgramGiftPolicy.isGiftRequest(object)
+                || org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) return false;
+        BotgramNativeGiftRequests.Pending pending = nativeGiftRequests.begin(token, getUserConfig().getAccountSessionMarker());
+        Runnable response = () -> {
+            try {
+                object.freeResources();
+                if (!isNativeGiftRequestCurrent(pending)) return;
+                TLRPC.TL_error error = new TLRPC.TL_error();
+                error.code = 403;
+                error.text = "NYARUGRAM_GIFTS_UNAVAILABLE";
+                if (onComplete != null) {
+                    onComplete.run(null, error);
+                } else if (onCompleteTimestamp != null) {
+                    onCompleteTimestamp.run(null, error, System.currentTimeMillis() / 1000);
+                } else {
+                    FileLog.e("Gift request rejected: " + error.text);
+                }
+            } finally {
+                nativeGiftRequests.finishResponse(pending);
+            }
+        };
+        Runnable notice = () -> {
+            try {
+                if (!(object instanceof TLRPC.TL_payments_assignPlayMarketTransaction)
+                        && currentAccount == UserConfig.selectedAccount && isNativeGiftRequestCurrent(pending)) {
+                    BotgramGiftPolicy.notifyBlocked(currentAccount);
+                }
+            } finally {
+                nativeGiftRequests.finishNotice(pending);
+            }
+        };
+        BotgramSessionScope.detached(() -> {
+            if (!Utilities.stageQueue.postRunnable(response)) {
+                FileLog.e("Could not enqueue rejected gift request");
+                response.run();
+            }
+            android.os.Handler handler = ApplicationLoader.applicationHandler;
+            if (handler == null || !handler.post(notice)) {
+                FileLog.e("Could not enqueue gift-unavailable notice");
+                nativeGiftRequests.finishNotice(pending);
+            }
+        });
+        return true;
     }
 
     private void sendRequestInternal(TLObject object, RequestDelegate onComplete, RequestDelegateTimestamp onCompleteTimestamp, QuickAckDelegate onQuickAck, WriteToSocketDelegate onWriteToSocket, int flags, int datacenterId, int connectionType, boolean immediate, int requestToken) {
@@ -400,6 +459,7 @@ public class ConnectionsManager extends BaseController {
             org.telegram.botgram.BotgramTransport.get(currentAccount).send(object, onComplete, onCompleteTimestamp, onQuickAck, requestToken);
             return;
         }
+        if (blockNativeGiftRequest(object, onComplete, onCompleteTimestamp, requestToken)) return;
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + object + " with token = " + requestToken);
         }
@@ -594,6 +654,17 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void cancelRequest(int token, boolean notifyServer, Runnable onCancelled) {
+        if (nativeGiftRequests.cancel(token)) {
+            if (onCancelled != null) {
+                BotgramSessionScope.detached(() -> {
+                    if (!Utilities.stageQueue.postRunnable(onCancelled)) {
+                        FileLog.e("Could not enqueue gift-request cancellation");
+                        onCancelled.run();
+                    }
+                });
+            }
+            return;
+        }
         if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
             org.telegram.botgram.BotgramTransport.get(currentAccount).cancel(token);
             if (onCancelled != null) Utilities.stageQueue.postRunnable(onCancelled);
@@ -610,10 +681,12 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void cleanup(boolean resetKeys) {
+        nativeGiftRequests.cancelAll();
         native_cleanUp(currentAccount, resetKeys);
     }
 
     public void cancelRequestsForGuid(int guid) {
+        nativeGiftRequests.cancelGuid(guid);
         if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
             org.telegram.botgram.BotgramTransport.get(currentAccount).cancelGuid(guid);
             return;
@@ -624,6 +697,7 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void bindRequestToGuid(int requestToken, int guid) {
+        if (nativeGiftRequests.bind(requestToken, guid)) return;
         if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
             org.telegram.botgram.BotgramTransport.get(currentAccount).bind(requestToken, guid);
             return;
@@ -652,6 +726,9 @@ public class ConnectionsManager extends BaseController {
     }
 
     public void checkConnection() {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            org.telegram.botgram.BotgramTransport.get(currentAccount).networkChanged(ApplicationLoader.isNetworkOnlineRealtime());
+        }
         byte selectedStrategy = getIpStrategy();
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("selected ip strategy " + selectedStrategy);

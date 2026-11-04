@@ -8424,6 +8424,7 @@ public class ChatActivity extends BaseFragment implements
             undoView.showWithAction(dialog_id, UndoView.ACTION_TEXT_INFO, LocaleController.getString(R.string.BroadcastGroupInfo));
         });
         bottomChannelButtonsLayout.setButtonOnClickListener(ChatActivityChannelButtonsLayout.BUTTON_GIFT, v -> {
+            if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, getResourceProvider())) return;
             HintsController.Hint.ChannelGiftHint.doNotShowAgain();
             showDialog(new GiftSheet(getContext(), currentAccount, getDialogId(), null, null));
         });
@@ -34100,6 +34101,7 @@ public class ChatActivity extends BaseFragment implements
                 break;
             }
             case OPTION_GIFT: {
+                if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, getResourceProvider())) break;
                 showDialog(new GiftSheet(getContext(), currentAccount, getDialogId(), null, null));
                 break;
             }

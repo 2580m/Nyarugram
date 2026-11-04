@@ -12,10 +12,9 @@ public final class BotgramServerAddressSmoke {
         throw new AssertionError("Invalid endpoint accepted");
     }
     public static void main(String[] args) {
-        equal("https://nyarugram.moe.autos:8521", BotgramServerAddress.DEFAULT_ADDRESS);
-        equal("8521", BotgramServerAddress.parse("example.com").port);
+        equal("", BotgramServerAddress.parse("example.com").port);
         equal("https://example.com", BotgramServerAddress.parse("example.com").host);
-        equal("8521", BotgramServerAddress.parse("https://example.com").port);
+        equal("", BotgramServerAddress.parse("https://example.com").port);
         equal("https://example.com:8521", BotgramServerAddress.join(BotgramServerAddress.parse("https://example.com").host, BotgramServerAddress.parse("https://example.com").port));
         equal("https://example.com", BotgramServerAddress.parse("https://example.com:443/").host);
         equal("443", BotgramServerAddress.parse("https://example.com:443/").port);
@@ -25,11 +24,18 @@ public final class BotgramServerAddressSmoke {
         equal("http://[::1]:8521", BotgramServerAddress.join("http://[::1]", "8521"));
         equal("https://example.com:65535", BotgramServerAddress.join("example.com", "65535"));
         equal("https://example.com:1", BotgramServerAddress.join("example.com", "1"));
+        equal("https://example.com:8521", BotgramServerAddress.join("example.com", ""));
+        equal("https://example.com:8521", BotgramServerAddress.join("example.com", null));
+        equal("https://example.com:8521", BotgramServerAddress.join("example.com", "  "));
+        equal("http://example.com:8521", BotgramServerAddress.join("http://example.com", ""));
+        equal("https://example.com:8443", BotgramServerAddress.join("https://example.com:8443", ""));
+        equal("http://[::1]:18524", BotgramServerAddress.join("http://[::1]:18524", ""));
+        equal("https://example.com:8443", BotgramServerAddress.join("https://example.com:443", "8443"));
         for (String endpoint : new String[]{"", "ftp://example.com", "http://u:p@example.com", "https://example.com/path",
                 "http://example.com?token=x", "http://example.com#fragment", "http://example.com:0", "http://example.com:65536"}) {
             invalid(() -> BotgramServerAddress.parse(endpoint));
         }
-        for (String port : new String[]{"", "0", "65536", "-1", "abc", "8521/path", "999999999999"}) {
+        for (String port : new String[]{"0", "65536", "-1", "abc", "8521/path", "999999999999"}) {
             invalid(() -> BotgramServerAddress.join("localhost", port));
         }
         equal("http://10.0.2.2:8521", BotgramServerAddress.migrateLegacy("http://10.0.2.2:5080"));

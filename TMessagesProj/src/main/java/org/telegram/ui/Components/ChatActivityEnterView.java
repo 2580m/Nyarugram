@@ -3754,6 +3754,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         giftButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
         attachLayout.addView(giftButton, 0, LayoutHelper.createFrame(DEFAULT_HEIGHT, DEFAULT_HEIGHT, Gravity.CENTER_VERTICAL | Gravity.RIGHT));
         giftButton.setOnClickListener(v -> {
+            if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
             SharedPreferences.Editor edit = MessagesController.getInstance(currentAccount).getMainSettings().edit();
             if (BirthdayController.isToday(parentFragment.getCurrentUserInfo())) {
                 edit.putBoolean(Calendar.getInstance().get(Calendar.YEAR) + "show_gift_for_" + parentFragment.getDialogId(), false);

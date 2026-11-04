@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $classes = Join-Path $workspace 'TMessagesProj/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes'
 if (!(Test-Path (Join-Path $classes 'org/telegram/tgnet/ConnectionsManager.class'))) { throw 'Compile Android Java classes first' }
-$output = [IO.Path]::GetFullPath((Join-Path $DependencyRoot 'tmp/auth-isolation'))
+$output = [IO.Path]::GetFullPath((Join-Path $DependencyRoot ('tmp/auth-isolation/' + [Guid]::NewGuid().ToString('N'))))
 if (!$output.StartsWith('D:\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Host test outputs must remain on D:' }
 New-Item -ItemType Directory -Force -Path $output | Out-Null
 $android = Join-Path $DependencyRoot 'android-sdk/platforms/android-36/android.jar'

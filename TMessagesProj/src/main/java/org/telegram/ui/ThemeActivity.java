@@ -137,6 +137,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     private ArrayList<Theme.ThemeInfo> darkThemes = new ArrayList<>();
     private ArrayList<Theme.ThemeInfo> defaultThemes = new ArrayList<>();
     private int currentType;
+    private final org.telegram.botgram.BotgramUiTrace uiTrace = new org.telegram.botgram.BotgramUiTrace("chat_settings");
 
     private Theme.ThemeInfo sharingTheme;
     private Theme.ThemeAccent sharingAccent;
@@ -458,6 +459,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         super();
         currentType = type;
         updateRows(true);
+        uiTrace.mark("constructor.rows_ready");
     }
 
     private boolean setBubbleRadius(int size, boolean layout) {
@@ -660,7 +662,18 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             newThemeInfoRow = rowCount++;
             themeHeaderRow = rowCount++;
 
-            themeListRow2 = rowCount++;
+            if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+                themeListRow = rowCount++;
+                hasThemeAccents = Theme.getCurrentTheme().hasAccentColors();
+                if (hasThemeAccents) {
+                    themeAccentListRow = rowCount++;
+                }
+                if (themesHorizontalListCell != null) {
+                    themesHorizontalListCell.setDrawDivider(hasThemeAccents);
+                }
+            } else {
+                themeListRow2 = rowCount++;
+            }
             themeInfoRow = rowCount++;
 
             bubbleRadiusHeaderRow = rowCount++;
@@ -832,6 +845,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public boolean onFragmentCreate() {
+        uiTrace.mark("fragment_create.begin");
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.locationPermissionGranted);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewWallpapper);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.themeListUpdated);
@@ -845,15 +859,19 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         getNotificationCenter().addObserver(this, NotificationCenter.themeUploadedToServer);
         getNotificationCenter().addObserver(this, NotificationCenter.themeUploadError);
         getNotificationCenter().addObserver(this, NotificationCenter.webBrowserSettingsUpdate);
-        if (currentType == THEME_TYPE_BASIC) {
-            Theme.loadRemoteThemes(currentAccount, true);
-            Theme.checkCurrentRemoteTheme(true);
+        if (currentType == THEME_TYPE_BASIC && !org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            Theme.loadRemoteThemes(currentAccount, false);
+            Theme.checkCurrentRemoteTheme(false);
         }
-        return super.onFragmentCreate();
+        boolean created = super.onFragmentCreate();
+        uiTrace.mark("fragment_create.end");
+        return created;
     }
 
     @Override
     public void onFragmentDestroy() {
+        uiTrace.mark("destroy");
+        uiTrace.close();
         super.onFragmentDestroy();
         stopLocationUpdate();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.locationPermissionGranted);
@@ -936,6 +954,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public View createView(Context context) {
+        uiTrace.mark("create_view.begin");
         lastIsDarkTheme = !Theme.isCurrentThemeDay();
 
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -962,10 +981,12 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             menuItem.addSubItem(reset_settings, R.drawable.msg_reset, getString("ThemeResetToDefaults", R.string.ThemeResetToDefaults));
 
             if (getMessagesController().getContentSettings() == null) {
+                uiTrace.mark("content_settings.request");
                 getMessagesController().getContentSettings(settings -> {
+                    uiTrace.mark("content_settings.callback");
                     if (listView != null && listView.isAttachedToWindow() && listAdapter != null) {
                         if ((sensitiveContentRow >= 0) == (settings != null && settings.sensitive_can_change)) {
-                            listAdapter.notifyItemChanged(sensitiveContentRow);
+                            if (sensitiveContentRow >= 0) listAdapter.notifyItemChanged(sensitiveContentRow);
                         } else {
                             updateRows(true);
                         }
@@ -1508,6 +1529,11 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             }, 200);
         }
 
+        uiTrace.mark("create_view.end");
+        androidx.core.view.OneShotPreDrawListener.add(fragmentView, () -> {
+            uiTrace.mark("first_pre_draw");
+            fragmentView.postOnAnimation(() -> uiTrace.mark("first_frame_after_layout"));
+        });
         return fragmentView;
     }
 
@@ -1542,14 +1568,24 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public void onResume() {
+        uiTrace.mark("resume.begin");
         super.onResume();
         if (listAdapter != null) {
             updateRows(true);
         }
+        uiTrace.mark("resume.end");
+    }
+
+    @Override
+    public void onTransitionAnimationStart(boolean isOpen, boolean backward) {
+        super.onTransitionAnimationStart(isOpen, backward);
+        uiTrace.mark(isOpen ? "transition.open.begin" : "transition.close.begin");
     }
 
     @Override
     public void onTransitionAnimationEnd(boolean isOpen, boolean backward) {
+        super.onTransitionAnimationEnd(isOpen, backward);
+        uiTrace.mark(isOpen ? "transition.open.end" : "transition.close.end");
         if (isOpen) {
             AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid);
             AndroidUtilities.setAdjustResizeToNothing(getParentActivity(), classGuid);
@@ -2227,6 +2263,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            uiTrace.mark("cell_create.begin.type_" + viewType);
             View view;
             switch (viewType) {
                 case TYPE_TEXT_SETTING:
@@ -2266,7 +2303,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     view = new TextCheckCell(mContext);
                     break;
                 case TYPE_TEXT_SIZE:
+                    uiTrace.mark("text_preview.create.begin");
                     view = new TextSizeCell(mContext);
+                    uiTrace.mark("text_preview.create.end");
                     break;
                 case TYPE_CHAT_LIST:
                     view = new ChatListCell(mContext) {
@@ -2464,6 +2503,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     view = new PeerColorActivity.ChangeNameColorCell(currentAccount, 0, mContext, getResourceProvider());
                     break;
             }
+            uiTrace.mark("cell_create.end.type_" + viewType);
             return new RecyclerListView.Holder(view);
         }
 

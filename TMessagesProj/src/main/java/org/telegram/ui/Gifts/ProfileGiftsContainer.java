@@ -1370,6 +1370,7 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
         button2.addView(button, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER));
         button2.setOnClickListener(v -> {
             if (!collections.isMine() || viewPager.getCurrentPosition() == 0) {
+                if (org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
                 if (sendToSpecificDialog) {
                     new GiftSheet(getContext(), currentAccount, dialogId, null, null)
                         .setBirthday(BirthdayController.getInstance(currentAccount).isToday(dialogId))

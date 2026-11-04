@@ -122,6 +122,8 @@ public class UserSelectorBottomSheet extends BottomSheetWithRecyclerListView imp
         if (fragment == null) {
             return null;
         }
+        if (type != TYPE_CALL && org.telegram.botgram.BotgramGiftPolicy.block(
+                fragment.getParentActivity(), fragment.getCurrentAccount(), fragment.getResourceProvider())) return null;
         if (instance != null) {
             return instance;
         }
@@ -1267,6 +1269,12 @@ public class UserSelectorBottomSheet extends BottomSheetWithRecyclerListView imp
 
     protected int getType() {
         return TYPE_PREMIUM;
+    }
+
+    @Override
+    public void show() {
+        if (type != TYPE_CALL && org.telegram.botgram.BotgramGiftPolicy.block(getContext(), currentAccount, resourcesProvider)) return;
+        super.show();
     }
 
     @Override

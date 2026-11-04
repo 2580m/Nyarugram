@@ -2943,7 +2943,7 @@ public class AndroidUtilities {
     }
 
     public static void cancelRunOnUIThread(Runnable runnable) {
-        if (ApplicationLoader.applicationHandler == null) {
+        if (runnable == null || ApplicationLoader.applicationHandler == null) {
             return;
         }
         sessionUiTasks.cancel(runnable, () -> {

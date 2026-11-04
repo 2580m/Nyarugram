@@ -1,0 +1,17 @@
+{
+  "resource": "TMessagesProj/src/main/res/raw/nyarugram_auto_delete_hello.gif",
+  "originPack": "tg_placeholders_android",
+  "originIndex": 10,
+  "sourceUrl": "https://assets.stickers.wiki/img/61f74ff4b7b0fe26f60d4a19d1778048.webp",
+  "sourcePage": "https://stickers.wiki/whatsapp/tg_placeholders_android/",
+  "retrieved": "2026-11-04",
+  "sourceSha256": "2ad707313045099afdc0a366f2e01f3a84d564597dbf3dd30d36becc679b9da3",
+  "resourceSha256": "118e8b31f73be1f69b79ed147a2e84e4724932502c38710372051f26a9d824a8",
+  "dimensions": [
+    156,
+    156
+  ],
+  "frames": 90,
+  "loop": 0,
+  "conversion": "animated WebP to GIF for existing Telegram AnimatedFileDrawable support on Android API23+"
+}

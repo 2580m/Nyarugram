@@ -7298,6 +7298,13 @@ public class MessagesController extends BaseController implements NotificationCe
         return fullUsers.get(uid);
     }
 
+    public long[] getWallpaperPeerIds() {
+        long[] peers = new long[fullUsers.size() + fullChats.size()];
+        for (int i = 0; i < fullUsers.size(); i++) peers[i] = fullUsers.keyAt(i);
+        for (int i = 0; i < fullChats.size(); i++) peers[fullUsers.size() + i] = -fullChats.keyAt(i);
+        return peers;
+    }
+
     public TLRPC.ChatFull getChatFull(long chatId) {
         return fullChats.get(chatId);
     }
@@ -7665,10 +7672,17 @@ public class MessagesController extends BaseController implements NotificationCe
         int reqId = getConnectionsManager().sendRequest(request, (response, error) -> {
             if (error == null) {
                 TLRPC.TL_messages_chatFull res = (TLRPC.TL_messages_chatFull) response;
+                org.telegram.botgram.BotgramProtobufResponseMapper.preserveUnknownWallpaper(res, getChatFull(chatId));
                 getMessagesStorage().putUsersAndChats(res.users, res.chats, true, true);
-                getMessagesStorage().updateChatInfo(res.full_chat, false);
                 getStoriesController().updateStoriesFromFullPeer(dialogId, res.full_chat.stories);
-                ChatThemeController.getInstance(currentAccount).saveChatWallpaper(-chatId, res.full_chat.wallpaper);
+                if (!(res instanceof org.telegram.botgram.BotgramProtobufResponseMapper.FullGroup)
+                        || ((org.telegram.botgram.BotgramProtobufResponseMapper.FullGroup) res).wallpaperKnown) {
+                    ChatThemeController.getInstance(currentAccount).saveChatWallpaper(-chatId, res.full_chat.wallpaper);
+                } else if (res.full_chat.wallpaper == null) {
+                    res.full_chat.wallpaper = ChatThemeController.getInstance(currentAccount).getStoredWallpaper(-chatId);
+                    if (res.full_chat.wallpaper != null) res.full_chat.flags2 |= 128;
+                }
+                getMessagesStorage().updateChatInfo(res.full_chat, false);
                 if (ChatObject.isChannel(chat)) {
                     Integer value = dialogs_read_inbox_max.get(dialogId);
                     if (value == null) {
@@ -7788,13 +7802,20 @@ public class MessagesController extends BaseController implements NotificationCe
         int reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error == null) {
                 TLRPC.TL_users_userFull res = (TLRPC.TL_users_userFull) response;
+                org.telegram.botgram.BotgramProtobufResponseMapper.preserveUnknownWallpaper(res, getUserFull(user.id));
                 TLRPC.UserFull userFull = res.full_user;
                 putUsers(res.users, false);
                 putChats(res.chats, false);
                 res.full_user.user = getUser(res.full_user.id);
-                getMessagesStorage().updateUserInfo(userFull, false);
                 getStoriesController().updateStoriesFromFullPeer(dialogId, userFull.stories);
-                ChatThemeController.getInstance(currentAccount).saveChatWallpaper(res.full_user.id, res.full_user.wallpaper);
+                if (!(res instanceof org.telegram.botgram.BotgramProtobufResponseMapper.FullUser)
+                        || ((org.telegram.botgram.BotgramProtobufResponseMapper.FullUser) res).wallpaperKnown) {
+                    ChatThemeController.getInstance(currentAccount).saveChatWallpaper(res.full_user.id, res.full_user.wallpaper);
+                } else if (res.full_user.wallpaper == null) {
+                    res.full_user.wallpaper = ChatThemeController.getInstance(currentAccount).getStoredWallpaper(res.full_user.id);
+                    if (res.full_user.wallpaper != null) res.full_user.flags |= 16777216;
+                }
+                getMessagesStorage().updateUserInfo(userFull, false);
 
                 if (whenReceivedFullUser != null) {
                     whenReceivedFullUser.run(userFull);
@@ -9129,6 +9150,30 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void saveWallpaperToServer(File path, Theme.OverrideWallpaperInfo info, boolean install, long taskId) {
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            if (path != null || !info.isColor()) {
+                org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, true);
+            } else if (install) {
+                org.telegram.botgram.BotgramWallpaperActions.install(currentAccount, info, () -> {
+                    if (taskId != 0) getMessagesStorage().removePendingTask(taskId);
+                }, null);
+            } else {
+                TL_account.saveWallPaper request = new TL_account.saveWallPaper();
+                TLRPC.TL_inputWallPaperNoFile input = new TLRPC.TL_inputWallPaperNoFile();
+                input.id = info.wallpaperId;
+                request.wallpaper = input;
+                request.settings = org.telegram.botgram.BotgramWallpaperActions.settings(info);
+                getConnectionsManager().sendRequest(request, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                    if (error != null || !(response instanceof TLRPC.TL_boolTrue)) {
+                        org.telegram.botgram.BotgramWallpaperActions.error(currentAccount, error != null && error.code == 501);
+                        return;
+                    }
+                    if (taskId != 0) getMessagesStorage().removePendingTask(taskId);
+                    getMessagesStorage().getWallpapers();
+                }));
+            }
+            return;
+        }
         if (uploadingWallpaper != null) {
             File finalPath = new File(ApplicationLoader.getFilesDirFixed(), info.originalFileName);
             if (path != null && (path.getAbsolutePath().equals(uploadingWallpaper) || path.equals(finalPath))) {
@@ -10428,6 +10473,10 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void processChatInfo(long chatId, TLRPC.ChatFull info, ArrayList<TLRPC.User> usersArr, ArrayList<TLRPC.Chat> chatsArr, boolean fromCache, boolean force, boolean byChannelUsers, ArrayList<Integer> pinnedMessages, HashMap<Integer, MessageObject> pinnedMessagesMap, int totalPinnedCount, boolean pinnedEndReached) {
+        if (fromCache && info instanceof TLRPC.TL_chatFull && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            info.wallpaper = ChatThemeController.getInstance(currentAccount).getStoredWallpaper(-chatId);
+            if (info.wallpaper != null) info.flags2 |= 128;
+        }
         AndroidUtilities.runOnUIThread(() -> {
             if (fromCache && chatId > 0 && !byChannelUsers) {
                 long lastLoadedTime = loadedFullChats.get(chatId, 0);
@@ -11729,6 +11778,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
 
                                 loadMessagesInternal(dialogId, mergeDialogId, loadInfo, count, max_id, offset_date, false, minDate, classGuid, load_type, dialog.top_message, 0, threadMessageId, loadIndex, first_unread, dialog.unread_count, last_date, queryFromServer, dialog.unread_mentions_count, false, processMessages, isTopic, null, 0L);
+                            } else {
+                                loadMessagesInternal(dialogId, mergeDialogId, loadInfo, count, max_id, offset_date, false, minDate, classGuid, load_type, last_message_id, 0, threadMessageId, loadIndex, first_unread, unread_count, last_date, queryFromServer, mentionsCount, false, processMessages, isTopic, null, 0L);
                             }
                         } else {
                             AndroidUtilities.runOnUIThread(() -> {
@@ -12550,6 +12601,11 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (onEmptyCallback != null && dialogsRes.dialogs.isEmpty()) {
                         AndroidUtilities.runOnUIThread(onEmptyCallback);
                     }
+                } else {
+                    AndroidUtilities.runOnUIThread(() -> {
+                        loadingDialogs.put(folderId, false);
+                        getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload);
+                    });
                 }
             });
         }
@@ -20575,6 +20631,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 } else {
                                     ApplicationLoader.applicationContext.startService(intent);
                                 }
+                                VoIPPreNotificationService.openCallScreen(ApplicationLoader.applicationContext, currentAccount);
                                 if (ApplicationLoader.mainInterfacePaused || !ApplicationLoader.isScreenOn) {
                                     ignoreSetOnline = true;
                                 }
