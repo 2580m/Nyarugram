@@ -403,6 +403,247 @@ public final class BotgramRpc {
     // @@protoc_insertion_point(enum_scope:botgram.rpc.v1.PrivacyRuleKind)
   }
 
+  /**
+   * Protobuf enum {@code botgram.rpc.v1.PhoneCallState}
+   */
+  public enum PhoneCallState
+      implements com.google.protobuf.Internal.EnumLite {
+    /**
+     * <code>PHONE_CALL_STATE_UNSPECIFIED = 0;</code>
+     */
+    PHONE_CALL_STATE_UNSPECIFIED(0),
+    /**
+     * <code>PHONE_CALL_STATE_WAITING = 1;</code>
+     */
+    PHONE_CALL_STATE_WAITING(1),
+    /**
+     * <code>PHONE_CALL_STATE_REQUESTED = 2;</code>
+     */
+    PHONE_CALL_STATE_REQUESTED(2),
+    /**
+     * <code>PHONE_CALL_STATE_ACCEPTED = 3;</code>
+     */
+    PHONE_CALL_STATE_ACCEPTED(3),
+    /**
+     * <code>PHONE_CALL_STATE_ACTIVE = 4;</code>
+     */
+    PHONE_CALL_STATE_ACTIVE(4),
+    /**
+     * <code>PHONE_CALL_STATE_DISCARDED = 5;</code>
+     */
+    PHONE_CALL_STATE_DISCARDED(5),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>PHONE_CALL_STATE_UNSPECIFIED = 0;</code>
+     */
+    public static final int PHONE_CALL_STATE_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>PHONE_CALL_STATE_WAITING = 1;</code>
+     */
+    public static final int PHONE_CALL_STATE_WAITING_VALUE = 1;
+    /**
+     * <code>PHONE_CALL_STATE_REQUESTED = 2;</code>
+     */
+    public static final int PHONE_CALL_STATE_REQUESTED_VALUE = 2;
+    /**
+     * <code>PHONE_CALL_STATE_ACCEPTED = 3;</code>
+     */
+    public static final int PHONE_CALL_STATE_ACCEPTED_VALUE = 3;
+    /**
+     * <code>PHONE_CALL_STATE_ACTIVE = 4;</code>
+     */
+    public static final int PHONE_CALL_STATE_ACTIVE_VALUE = 4;
+    /**
+     * <code>PHONE_CALL_STATE_DISCARDED = 5;</code>
+     */
+    public static final int PHONE_CALL_STATE_DISCARDED_VALUE = 5;
+
+
+    @java.lang.Override
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The number of the enum to look for.
+     * @return The enum associated with the given number.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static PhoneCallState valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static PhoneCallState forNumber(int value) {
+      switch (value) {
+        case 0: return PHONE_CALL_STATE_UNSPECIFIED;
+        case 1: return PHONE_CALL_STATE_WAITING;
+        case 2: return PHONE_CALL_STATE_REQUESTED;
+        case 3: return PHONE_CALL_STATE_ACCEPTED;
+        case 4: return PHONE_CALL_STATE_ACTIVE;
+        case 5: return PHONE_CALL_STATE_DISCARDED;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<PhoneCallState>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        PhoneCallState> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<PhoneCallState>() {
+            @java.lang.Override
+            public PhoneCallState findValueByNumber(int number) {
+              return PhoneCallState.forNumber(number);
+            }
+          };
+
+    public static com.google.protobuf.Internal.EnumVerifier 
+        internalGetVerifier() {
+      return PhoneCallStateVerifier.INSTANCE;
+    }
+
+    private static final class PhoneCallStateVerifier implements 
+         com.google.protobuf.Internal.EnumVerifier { 
+            static final com.google.protobuf.Internal.EnumVerifier           INSTANCE = new PhoneCallStateVerifier();
+            @java.lang.Override
+            public boolean isInRange(int number) {
+              return PhoneCallState.forNumber(number) != null;
+            }
+          };
+
+    private final int value;
+
+    private PhoneCallState(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:botgram.rpc.v1.PhoneCallState)
+  }
+
+  /**
+   * Protobuf enum {@code botgram.rpc.v1.PhoneCallDiscardReason}
+   */
+  public enum PhoneCallDiscardReason
+      implements com.google.protobuf.Internal.EnumLite {
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_UNSPECIFIED = 0;</code>
+     */
+    PHONE_CALL_DISCARD_REASON_UNSPECIFIED(0),
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_HANGUP = 1;</code>
+     */
+    PHONE_CALL_DISCARD_REASON_HANGUP(1),
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_MISSED = 2;</code>
+     */
+    PHONE_CALL_DISCARD_REASON_MISSED(2),
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_BUSY = 3;</code>
+     */
+    PHONE_CALL_DISCARD_REASON_BUSY(3),
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_DISCONNECT = 4;</code>
+     */
+    PHONE_CALL_DISCARD_REASON_DISCONNECT(4),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_UNSPECIFIED = 0;</code>
+     */
+    public static final int PHONE_CALL_DISCARD_REASON_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_HANGUP = 1;</code>
+     */
+    public static final int PHONE_CALL_DISCARD_REASON_HANGUP_VALUE = 1;
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_MISSED = 2;</code>
+     */
+    public static final int PHONE_CALL_DISCARD_REASON_MISSED_VALUE = 2;
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_BUSY = 3;</code>
+     */
+    public static final int PHONE_CALL_DISCARD_REASON_BUSY_VALUE = 3;
+    /**
+     * <code>PHONE_CALL_DISCARD_REASON_DISCONNECT = 4;</code>
+     */
+    public static final int PHONE_CALL_DISCARD_REASON_DISCONNECT_VALUE = 4;
+
+
+    @java.lang.Override
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The number of the enum to look for.
+     * @return The enum associated with the given number.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static PhoneCallDiscardReason valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static PhoneCallDiscardReason forNumber(int value) {
+      switch (value) {
+        case 0: return PHONE_CALL_DISCARD_REASON_UNSPECIFIED;
+        case 1: return PHONE_CALL_DISCARD_REASON_HANGUP;
+        case 2: return PHONE_CALL_DISCARD_REASON_MISSED;
+        case 3: return PHONE_CALL_DISCARD_REASON_BUSY;
+        case 4: return PHONE_CALL_DISCARD_REASON_DISCONNECT;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<PhoneCallDiscardReason>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        PhoneCallDiscardReason> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<PhoneCallDiscardReason>() {
+            @java.lang.Override
+            public PhoneCallDiscardReason findValueByNumber(int number) {
+              return PhoneCallDiscardReason.forNumber(number);
+            }
+          };
+
+    public static com.google.protobuf.Internal.EnumVerifier 
+        internalGetVerifier() {
+      return PhoneCallDiscardReasonVerifier.INSTANCE;
+    }
+
+    private static final class PhoneCallDiscardReasonVerifier implements 
+         com.google.protobuf.Internal.EnumVerifier { 
+            static final com.google.protobuf.Internal.EnumVerifier           INSTANCE = new PhoneCallDiscardReasonVerifier();
+            @java.lang.Override
+            public boolean isInRange(int number) {
+              return PhoneCallDiscardReason.forNumber(number) != null;
+            }
+          };
+
+    private final int value;
+
+    private PhoneCallDiscardReason(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:botgram.rpc.v1.PhoneCallDiscardReason)
+  }
+
   public interface RpcRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.RpcRequest)
       com.google.protobuf.MessageLiteOrBuilder {
@@ -424,6 +665,25 @@ public final class BotgramRpc {
      */
     com.google.protobuf.ByteString
         getRequestIdBytes();
+
+    /**
+     * <pre>
+     * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+     * </pre>
+     *
+     * <code>optional bool foreground = 3;</code>
+     * @return Whether the foreground field is set.
+     */
+    boolean hasForeground();
+    /**
+     * <pre>
+     * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+     * </pre>
+     *
+     * <code>optional bool foreground = 3;</code>
+     * @return The foreground.
+     */
+    boolean getForeground();
 
     /**
      * <code>.botgram.rpc.v1.GetStateRequest get_state = 100;</code>
@@ -722,6 +982,138 @@ public final class BotgramRpc {
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.AccountPrivacyRequest getAccountPrivacy();
 
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     * @return Whether the addContact field is set.
+     */
+    boolean hasAddContact();
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     * @return The addContact.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest getAddContact();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     * @return Whether the requestCall field is set.
+     */
+    boolean hasRequestCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     * @return The requestCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest getRequestCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     * @return Whether the receivedCall field is set.
+     */
+    boolean hasReceivedCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     * @return The receivedCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest getReceivedCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     * @return Whether the acceptCall field is set.
+     */
+    boolean hasAcceptCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     * @return The acceptCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest getAcceptCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     * @return Whether the confirmCall field is set.
+     */
+    boolean hasConfirmCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     * @return The confirmCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest getConfirmCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     * @return Whether the discardCall field is set.
+     */
+    boolean hasDiscardCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     * @return The discardCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest getDiscardCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     * @return Whether the sendSignalingData field is set.
+     */
+    boolean hasSendSignalingData();
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     * @return The sendSignalingData.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest getSendSignalingData();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     * @return Whether the getCallConfig field is set.
+     */
+    boolean hasGetCallConfig();
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     * @return The getCallConfig.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest getGetCallConfig();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     * @return Whether the saveCallDebug field is set.
+     */
+    boolean hasSaveCallDebug();
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     * @return The saveCallDebug.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest getSaveCallDebug();
+
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     * @return Whether the getDhConfig field is set.
+     */
+    boolean hasGetDhConfig();
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     * @return The getDhConfig.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest getGetDhConfig();
+
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     * @return Whether the getSpecialContacts field is set.
+     */
+    boolean hasGetSpecialContacts();
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     * @return The getSpecialContacts.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest getGetSpecialContacts();
+
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     * @return Whether the setSpecialContact field is set.
+     */
+    boolean hasSetSpecialContact();
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     * @return The setSpecialContact.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest getSetSpecialContact();
+
     public org.telegram.botgram.protocol.v1.BotgramRpc.RpcRequest.OperationCase getOperationCase();
   }
   /**
@@ -740,6 +1132,7 @@ public final class BotgramRpc {
     private RpcRequest() {
       requestId_ = "";
     }
+    private int bitField0_;
     private int operationCase_ = 0;
     private java.lang.Object operation_;
     public enum OperationCase {
@@ -770,6 +1163,18 @@ public final class BotgramRpc {
       INSTALL_WALLPAPER(124),
       SET_CHAT_WALLPAPER(125),
       ACCOUNT_PRIVACY(126),
+      ADD_CONTACT(127),
+      REQUEST_CALL(128),
+      RECEIVED_CALL(129),
+      ACCEPT_CALL(130),
+      CONFIRM_CALL(131),
+      DISCARD_CALL(132),
+      SEND_SIGNALING_DATA(133),
+      GET_CALL_CONFIG(134),
+      SAVE_CALL_DEBUG(135),
+      GET_DH_CONFIG(136),
+      GET_SPECIAL_CONTACTS(137),
+      SET_SPECIAL_CONTACT(138),
       OPERATION_NOT_SET(0);
       private final int value;
       private OperationCase(int value) {
@@ -812,6 +1217,18 @@ public final class BotgramRpc {
           case 124: return INSTALL_WALLPAPER;
           case 125: return SET_CHAT_WALLPAPER;
           case 126: return ACCOUNT_PRIVACY;
+          case 127: return ADD_CONTACT;
+          case 128: return REQUEST_CALL;
+          case 129: return RECEIVED_CALL;
+          case 130: return ACCEPT_CALL;
+          case 131: return CONFIRM_CALL;
+          case 132: return DISCARD_CALL;
+          case 133: return SEND_SIGNALING_DATA;
+          case 134: return GET_CALL_CONFIG;
+          case 135: return SAVE_CALL_DEBUG;
+          case 136: return GET_DH_CONFIG;
+          case 137: return GET_SPECIAL_CONTACTS;
+          case 138: return SET_SPECIAL_CONTACT;
           case 0: return OPERATION_NOT_SET;
           default: return null;
         }
@@ -904,6 +1321,56 @@ public final class BotgramRpc {
       checkByteStringIsUtf8(value);
       requestId_ = value.toStringUtf8();
 
+    }
+
+    public static final int FOREGROUND_FIELD_NUMBER = 3;
+    private boolean foreground_;
+    /**
+     * <pre>
+     * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+     * </pre>
+     *
+     * <code>optional bool foreground = 3;</code>
+     * @return Whether the foreground field is set.
+     */
+    @java.lang.Override
+    public boolean hasForeground() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+     * </pre>
+     *
+     * <code>optional bool foreground = 3;</code>
+     * @return The foreground.
+     */
+    @java.lang.Override
+    public boolean getForeground() {
+      return foreground_;
+    }
+    /**
+     * <pre>
+     * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+     * </pre>
+     *
+     * <code>optional bool foreground = 3;</code>
+     * @param value The foreground to set.
+     */
+    private void setForeground(boolean value) {
+      bitField0_ |= 0x00000001;
+      foreground_ = value;
+    }
+    /**
+     * <pre>
+     * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+     * </pre>
+     *
+     * <code>optional bool foreground = 3;</code>
+     */
+    private void clearForeground() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      foreground_ = false;
     }
 
     public static final int GET_STATE_FIELD_NUMBER = 100;
@@ -2256,6 +2723,606 @@ public final class BotgramRpc {
       }
     }
 
+    public static final int ADD_CONTACT_FIELD_NUMBER = 127;
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     */
+    @java.lang.Override
+    public boolean hasAddContact() {
+      return operationCase_ == 127;
+    }
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest getAddContact() {
+      if (operationCase_ == 127) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     */
+    private void setAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 127;
+    }
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     */
+    private void mergeAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest value) {
+      value.getClass();
+  if (operationCase_ == 127 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 127;
+    }
+    /**
+     * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+     */
+    private void clearAddContact() {
+      if (operationCase_ == 127) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int REQUEST_CALL_FIELD_NUMBER = 128;
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     */
+    @java.lang.Override
+    public boolean hasRequestCall() {
+      return operationCase_ == 128;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest getRequestCall() {
+      if (operationCase_ == 128) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     */
+    private void setRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 128;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     */
+    private void mergeRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest value) {
+      value.getClass();
+  if (operationCase_ == 128 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 128;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+     */
+    private void clearRequestCall() {
+      if (operationCase_ == 128) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int RECEIVED_CALL_FIELD_NUMBER = 129;
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     */
+    @java.lang.Override
+    public boolean hasReceivedCall() {
+      return operationCase_ == 129;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest getReceivedCall() {
+      if (operationCase_ == 129) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     */
+    private void setReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 129;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     */
+    private void mergeReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest value) {
+      value.getClass();
+  if (operationCase_ == 129 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 129;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+     */
+    private void clearReceivedCall() {
+      if (operationCase_ == 129) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int ACCEPT_CALL_FIELD_NUMBER = 130;
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     */
+    @java.lang.Override
+    public boolean hasAcceptCall() {
+      return operationCase_ == 130;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest getAcceptCall() {
+      if (operationCase_ == 130) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     */
+    private void setAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 130;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     */
+    private void mergeAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest value) {
+      value.getClass();
+  if (operationCase_ == 130 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 130;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+     */
+    private void clearAcceptCall() {
+      if (operationCase_ == 130) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int CONFIRM_CALL_FIELD_NUMBER = 131;
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     */
+    @java.lang.Override
+    public boolean hasConfirmCall() {
+      return operationCase_ == 131;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest getConfirmCall() {
+      if (operationCase_ == 131) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     */
+    private void setConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 131;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     */
+    private void mergeConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest value) {
+      value.getClass();
+  if (operationCase_ == 131 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 131;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+     */
+    private void clearConfirmCall() {
+      if (operationCase_ == 131) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int DISCARD_CALL_FIELD_NUMBER = 132;
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     */
+    @java.lang.Override
+    public boolean hasDiscardCall() {
+      return operationCase_ == 132;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest getDiscardCall() {
+      if (operationCase_ == 132) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     */
+    private void setDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 132;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     */
+    private void mergeDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest value) {
+      value.getClass();
+  if (operationCase_ == 132 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 132;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+     */
+    private void clearDiscardCall() {
+      if (operationCase_ == 132) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int SEND_SIGNALING_DATA_FIELD_NUMBER = 133;
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     */
+    @java.lang.Override
+    public boolean hasSendSignalingData() {
+      return operationCase_ == 133;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest getSendSignalingData() {
+      if (operationCase_ == 133) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     */
+    private void setSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 133;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     */
+    private void mergeSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest value) {
+      value.getClass();
+  if (operationCase_ == 133 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 133;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+     */
+    private void clearSendSignalingData() {
+      if (operationCase_ == 133) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int GET_CALL_CONFIG_FIELD_NUMBER = 134;
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     */
+    @java.lang.Override
+    public boolean hasGetCallConfig() {
+      return operationCase_ == 134;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest getGetCallConfig() {
+      if (operationCase_ == 134) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     */
+    private void setGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 134;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     */
+    private void mergeGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest value) {
+      value.getClass();
+  if (operationCase_ == 134 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 134;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+     */
+    private void clearGetCallConfig() {
+      if (operationCase_ == 134) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int SAVE_CALL_DEBUG_FIELD_NUMBER = 135;
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     */
+    @java.lang.Override
+    public boolean hasSaveCallDebug() {
+      return operationCase_ == 135;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest getSaveCallDebug() {
+      if (operationCase_ == 135) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     */
+    private void setSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 135;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     */
+    private void mergeSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest value) {
+      value.getClass();
+  if (operationCase_ == 135 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 135;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+     */
+    private void clearSaveCallDebug() {
+      if (operationCase_ == 135) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int GET_DH_CONFIG_FIELD_NUMBER = 136;
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     */
+    @java.lang.Override
+    public boolean hasGetDhConfig() {
+      return operationCase_ == 136;
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest getGetDhConfig() {
+      if (operationCase_ == 136) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     */
+    private void setGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 136;
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     */
+    private void mergeGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest value) {
+      value.getClass();
+  if (operationCase_ == 136 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 136;
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+     */
+    private void clearGetDhConfig() {
+      if (operationCase_ == 136) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int GET_SPECIAL_CONTACTS_FIELD_NUMBER = 137;
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     */
+    @java.lang.Override
+    public boolean hasGetSpecialContacts() {
+      return operationCase_ == 137;
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest getGetSpecialContacts() {
+      if (operationCase_ == 137) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     */
+    private void setGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 137;
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     */
+    private void mergeGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest value) {
+      value.getClass();
+  if (operationCase_ == 137 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 137;
+    }
+    /**
+     * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+     */
+    private void clearGetSpecialContacts() {
+      if (operationCase_ == 137) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int SET_SPECIAL_CONTACT_FIELD_NUMBER = 138;
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     */
+    @java.lang.Override
+    public boolean hasSetSpecialContact() {
+      return operationCase_ == 138;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest getSetSpecialContact() {
+      if (operationCase_ == 138) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     */
+    private void setSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 138;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     */
+    private void mergeSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest value) {
+      value.getClass();
+  if (operationCase_ == 138 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 138;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+     */
+    private void clearSetSpecialContact() {
+      if (operationCase_ == 138) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
     public static org.telegram.botgram.protocol.v1.BotgramRpc.RpcRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2444,6 +3511,58 @@ public final class BotgramRpc {
           com.google.protobuf.ByteString value) {
         copyOnWrite();
         instance.setRequestIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <pre>
+       * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+       * </pre>
+       *
+       * <code>optional bool foreground = 3;</code>
+       * @return Whether the foreground field is set.
+       */
+      @java.lang.Override
+      public boolean hasForeground() {
+        return instance.hasForeground();
+      }
+      /**
+       * <pre>
+       * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+       * </pre>
+       *
+       * <code>optional bool foreground = 3;</code>
+       * @return The foreground.
+       */
+      @java.lang.Override
+      public boolean getForeground() {
+        return instance.getForeground();
+      }
+      /**
+       * <pre>
+       * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+       * </pre>
+       *
+       * <code>optional bool foreground = 3;</code>
+       * @param value The foreground to set.
+       * @return This builder for chaining.
+       */
+      public Builder setForeground(boolean value) {
+        copyOnWrite();
+        instance.setForeground(value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Explicit foreground activity for this authenticated session. Omission does not refresh presence.
+       * </pre>
+       *
+       * <code>optional bool foreground = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearForeground() {
+        copyOnWrite();
+        instance.clearForeground();
         return this;
       }
 
@@ -3743,6 +4862,582 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+       */
+      @java.lang.Override
+      public boolean hasAddContact() {
+        return instance.hasAddContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest getAddContact() {
+        return instance.getAddContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+       */
+      public Builder setAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest value) {
+        copyOnWrite();
+        instance.setAddContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+       */
+      public Builder setAddContact(
+          org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setAddContact(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+       */
+      public Builder mergeAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest value) {
+        copyOnWrite();
+        instance.mergeAddContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.AddContactRequest add_contact = 127;</code>
+       */
+      public Builder clearAddContact() {
+        copyOnWrite();
+        instance.clearAddContact();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+       */
+      @java.lang.Override
+      public boolean hasRequestCall() {
+        return instance.hasRequestCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest getRequestCall() {
+        return instance.getRequestCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+       */
+      public Builder setRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest value) {
+        copyOnWrite();
+        instance.setRequestCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+       */
+      public Builder setRequestCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setRequestCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+       */
+      public Builder mergeRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest value) {
+        copyOnWrite();
+        instance.mergeRequestCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneRequestCallRequest request_call = 128;</code>
+       */
+      public Builder clearRequestCall() {
+        copyOnWrite();
+        instance.clearRequestCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+       */
+      @java.lang.Override
+      public boolean hasReceivedCall() {
+        return instance.hasReceivedCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest getReceivedCall() {
+        return instance.getReceivedCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+       */
+      public Builder setReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest value) {
+        copyOnWrite();
+        instance.setReceivedCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+       */
+      public Builder setReceivedCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setReceivedCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+       */
+      public Builder mergeReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest value) {
+        copyOnWrite();
+        instance.mergeReceivedCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneReceivedCallRequest received_call = 129;</code>
+       */
+      public Builder clearReceivedCall() {
+        copyOnWrite();
+        instance.clearReceivedCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+       */
+      @java.lang.Override
+      public boolean hasAcceptCall() {
+        return instance.hasAcceptCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest getAcceptCall() {
+        return instance.getAcceptCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+       */
+      public Builder setAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest value) {
+        copyOnWrite();
+        instance.setAcceptCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+       */
+      public Builder setAcceptCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setAcceptCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+       */
+      public Builder mergeAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest value) {
+        copyOnWrite();
+        instance.mergeAcceptCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneAcceptCallRequest accept_call = 130;</code>
+       */
+      public Builder clearAcceptCall() {
+        copyOnWrite();
+        instance.clearAcceptCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+       */
+      @java.lang.Override
+      public boolean hasConfirmCall() {
+        return instance.hasConfirmCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest getConfirmCall() {
+        return instance.getConfirmCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+       */
+      public Builder setConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest value) {
+        copyOnWrite();
+        instance.setConfirmCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+       */
+      public Builder setConfirmCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setConfirmCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+       */
+      public Builder mergeConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest value) {
+        copyOnWrite();
+        instance.mergeConfirmCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneConfirmCallRequest confirm_call = 131;</code>
+       */
+      public Builder clearConfirmCall() {
+        copyOnWrite();
+        instance.clearConfirmCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+       */
+      @java.lang.Override
+      public boolean hasDiscardCall() {
+        return instance.hasDiscardCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest getDiscardCall() {
+        return instance.getDiscardCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+       */
+      public Builder setDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest value) {
+        copyOnWrite();
+        instance.setDiscardCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+       */
+      public Builder setDiscardCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setDiscardCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+       */
+      public Builder mergeDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest value) {
+        copyOnWrite();
+        instance.mergeDiscardCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneDiscardCallRequest discard_call = 132;</code>
+       */
+      public Builder clearDiscardCall() {
+        copyOnWrite();
+        instance.clearDiscardCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+       */
+      @java.lang.Override
+      public boolean hasSendSignalingData() {
+        return instance.hasSendSignalingData();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest getSendSignalingData() {
+        return instance.getSendSignalingData();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+       */
+      public Builder setSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest value) {
+        copyOnWrite();
+        instance.setSendSignalingData(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+       */
+      public Builder setSendSignalingData(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSendSignalingData(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+       */
+      public Builder mergeSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest value) {
+        copyOnWrite();
+        instance.mergeSendSignalingData(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSendSignalingDataRequest send_signaling_data = 133;</code>
+       */
+      public Builder clearSendSignalingData() {
+        copyOnWrite();
+        instance.clearSendSignalingData();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+       */
+      @java.lang.Override
+      public boolean hasGetCallConfig() {
+        return instance.hasGetCallConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest getGetCallConfig() {
+        return instance.getGetCallConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+       */
+      public Builder setGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest value) {
+        copyOnWrite();
+        instance.setGetCallConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+       */
+      public Builder setGetCallConfig(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setGetCallConfig(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+       */
+      public Builder mergeGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest value) {
+        copyOnWrite();
+        instance.mergeGetCallConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneGetCallConfigRequest get_call_config = 134;</code>
+       */
+      public Builder clearGetCallConfig() {
+        copyOnWrite();
+        instance.clearGetCallConfig();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+       */
+      @java.lang.Override
+      public boolean hasSaveCallDebug() {
+        return instance.hasSaveCallDebug();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest getSaveCallDebug() {
+        return instance.getSaveCallDebug();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+       */
+      public Builder setSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest value) {
+        copyOnWrite();
+        instance.setSaveCallDebug(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+       */
+      public Builder setSaveCallDebug(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSaveCallDebug(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+       */
+      public Builder mergeSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest value) {
+        copyOnWrite();
+        instance.mergeSaveCallDebug(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneSaveCallDebugRequest save_call_debug = 135;</code>
+       */
+      public Builder clearSaveCallDebug() {
+        copyOnWrite();
+        instance.clearSaveCallDebug();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+       */
+      @java.lang.Override
+      public boolean hasGetDhConfig() {
+        return instance.hasGetDhConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest getGetDhConfig() {
+        return instance.getGetDhConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+       */
+      public Builder setGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest value) {
+        copyOnWrite();
+        instance.setGetDhConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+       */
+      public Builder setGetDhConfig(
+          org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setGetDhConfig(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+       */
+      public Builder mergeGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest value) {
+        copyOnWrite();
+        instance.mergeGetDhConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetDhConfigRequest get_dh_config = 136;</code>
+       */
+      public Builder clearGetDhConfig() {
+        copyOnWrite();
+        instance.clearGetDhConfig();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+       */
+      @java.lang.Override
+      public boolean hasGetSpecialContacts() {
+        return instance.hasGetSpecialContacts();
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest getGetSpecialContacts() {
+        return instance.getGetSpecialContacts();
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+       */
+      public Builder setGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest value) {
+        copyOnWrite();
+        instance.setGetSpecialContacts(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+       */
+      public Builder setGetSpecialContacts(
+          org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setGetSpecialContacts(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+       */
+      public Builder mergeGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest value) {
+        copyOnWrite();
+        instance.mergeGetSpecialContacts(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.GetSpecialContactsRequest get_special_contacts = 137;</code>
+       */
+      public Builder clearGetSpecialContacts() {
+        copyOnWrite();
+        instance.clearGetSpecialContacts();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+       */
+      @java.lang.Override
+      public boolean hasSetSpecialContact() {
+        return instance.hasSetSpecialContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest getSetSpecialContact() {
+        return instance.getSetSpecialContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+       */
+      public Builder setSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest value) {
+        copyOnWrite();
+        instance.setSetSpecialContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+       */
+      public Builder setSetSpecialContact(
+          org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSetSpecialContact(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+       */
+      public Builder mergeSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest value) {
+        copyOnWrite();
+        instance.mergeSetSpecialContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SetSpecialContactRequest set_special_contact = 138;</code>
+       */
+      public Builder clearSetSpecialContact() {
+        copyOnWrite();
+        instance.clearSetSpecialContact();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.RpcRequest)
     }
     @java.lang.Override
@@ -3761,8 +5456,10 @@ public final class BotgramRpc {
             java.lang.Object[] objects = new java.lang.Object[] {
               "operation_",
               "operationCase_",
+              "bitField0_",
               "protocolMajor_",
               "requestId_",
+              "foreground_",
               org.telegram.botgram.protocol.v1.BotgramRpc.GetStateRequest.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.GetDifferenceRequest.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.GetDialogsRequest.class,
@@ -3790,12 +5487,26 @@ public final class BotgramRpc {
               org.telegram.botgram.protocol.v1.BotgramRpc.InstallWallpaperRequest.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.SetChatWallpaperRequest.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.AccountPrivacyRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.class,
             };
             java.lang.String info =
-                "\u0000\u001d\u0001\u0000\u0001~\u001d\u0000\u0000\u0000\u0001\u000b\u0002\u0208d" +
-                "<\u0000e<\u0000f<\u0000g<\u0000h<\u0000i<\u0000j<\u0000k<\u0000l<\u0000m<\u0000n" +
-                "<\u0000o<\u0000p<\u0000q<\u0000r<\u0000s<\u0000t<\u0000u<\u0000v<\u0000w<\u0000x" +
-                "<\u0000y<\u0000z<\u0000{<\u0000|<\u0000}<\u0000~<\u0000";
+                "\u0000*\u0001\u0001\u0001\u008a*\u0000\u0000\u0000\u0001\u000b\u0002\u0208\u0003" +
+                "\u1007\u0000d<\u0000e<\u0000f<\u0000g<\u0000h<\u0000i<\u0000j<\u0000k<\u0000l<\u0000" +
+                "m<\u0000n<\u0000o<\u0000p<\u0000q<\u0000r<\u0000s<\u0000t<\u0000u<\u0000v<\u0000" +
+                "w<\u0000x<\u0000y<\u0000z<\u0000{<\u0000|<\u0000}<\u0000~<\u0000<\u0000\u0080<\u0000" +
+                "\u0081<\u0000\u0082<\u0000\u0083<\u0000\u0084<\u0000\u0085<\u0000\u0086<\u0000\u0087" +
+                "<\u0000\u0088<\u0000\u0089<\u0000\u008a<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -4180,6 +5891,138 @@ public final class BotgramRpc {
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.AccountPrivacyResponse getAccountPrivacy();
 
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     * @return Whether the addContact field is set.
+     */
+    boolean hasAddContact();
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     * @return The addContact.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.Updates getAddContact();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     * @return Whether the requestCall field is set.
+     */
+    boolean hasRequestCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     * @return The requestCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getRequestCall();
+
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     * @return Whether the receivedCall field is set.
+     */
+    boolean hasReceivedCall();
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     * @return The receivedCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getReceivedCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     * @return Whether the acceptCall field is set.
+     */
+    boolean hasAcceptCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     * @return The acceptCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getAcceptCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     * @return Whether the confirmCall field is set.
+     */
+    boolean hasConfirmCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     * @return The confirmCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getConfirmCall();
+
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     * @return Whether the discardCall field is set.
+     */
+    boolean hasDiscardCall();
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     * @return The discardCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.Updates getDiscardCall();
+
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     * @return Whether the sendSignalingData field is set.
+     */
+    boolean hasSendSignalingData();
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     * @return The sendSignalingData.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getSendSignalingData();
+
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     * @return Whether the getCallConfig field is set.
+     */
+    boolean hasGetCallConfig();
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     * @return The getCallConfig.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.DataJson getGetCallConfig();
+
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     * @return Whether the saveCallDebug field is set.
+     */
+    boolean hasSaveCallDebug();
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     * @return The saveCallDebug.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getSaveCallDebug();
+
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     * @return Whether the getDhConfig field is set.
+     */
+    boolean hasGetDhConfig();
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     * @return The getDhConfig.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig getGetDhConfig();
+
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     * @return Whether the getSpecialContacts field is set.
+     */
+    boolean hasGetSpecialContacts();
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     * @return The getSpecialContacts.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getGetSpecialContacts();
+
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     * @return Whether the setSpecialContact field is set.
+     */
+    boolean hasSetSpecialContact();
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     * @return The setSpecialContact.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getSetSpecialContact();
+
     public org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse.OutcomeCase getOutcomeCase();
   }
   /**
@@ -4224,6 +6067,18 @@ public final class BotgramRpc {
       INSTALL_WALLPAPER(124),
       SET_CHAT_WALLPAPER(125),
       ACCOUNT_PRIVACY(126),
+      ADD_CONTACT(127),
+      REQUEST_CALL(128),
+      RECEIVED_CALL(129),
+      ACCEPT_CALL(130),
+      CONFIRM_CALL(131),
+      DISCARD_CALL(132),
+      SEND_SIGNALING_DATA(133),
+      GET_CALL_CONFIG(134),
+      SAVE_CALL_DEBUG(135),
+      GET_DH_CONFIG(136),
+      GET_SPECIAL_CONTACTS(137),
+      SET_SPECIAL_CONTACT(138),
       OUTCOME_NOT_SET(0);
       private final int value;
       private OutcomeCase(int value) {
@@ -4267,6 +6122,18 @@ public final class BotgramRpc {
           case 124: return INSTALL_WALLPAPER;
           case 125: return SET_CHAT_WALLPAPER;
           case 126: return ACCOUNT_PRIVACY;
+          case 127: return ADD_CONTACT;
+          case 128: return REQUEST_CALL;
+          case 129: return RECEIVED_CALL;
+          case 130: return ACCEPT_CALL;
+          case 131: return CONFIRM_CALL;
+          case 132: return DISCARD_CALL;
+          case 133: return SEND_SIGNALING_DATA;
+          case 134: return GET_CALL_CONFIG;
+          case 135: return SAVE_CALL_DEBUG;
+          case 136: return GET_DH_CONFIG;
+          case 137: return GET_SPECIAL_CONTACTS;
+          case 138: return SET_SPECIAL_CONTACT;
           case 0: return OUTCOME_NOT_SET;
           default: return null;
         }
@@ -5756,6 +7623,606 @@ public final class BotgramRpc {
      */
     private void clearAccountPrivacy() {
       if (outcomeCase_ == 126) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int ADD_CONTACT_FIELD_NUMBER = 127;
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     */
+    @java.lang.Override
+    public boolean hasAddContact() {
+      return outcomeCase_ == 127;
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.Updates getAddContact() {
+      if (outcomeCase_ == 127) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.Updates) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.Updates.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     */
+    private void setAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 127;
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     */
+    private void mergeAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+      value.getClass();
+  if (outcomeCase_ == 127 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.Updates.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.Updates.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.Updates) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 127;
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+     */
+    private void clearAddContact() {
+      if (outcomeCase_ == 127) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int REQUEST_CALL_FIELD_NUMBER = 128;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     */
+    @java.lang.Override
+    public boolean hasRequestCall() {
+      return outcomeCase_ == 128;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getRequestCall() {
+      if (outcomeCase_ == 128) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     */
+    private void setRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 128;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     */
+    private void mergeRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+      value.getClass();
+  if (outcomeCase_ == 128 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 128;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+     */
+    private void clearRequestCall() {
+      if (outcomeCase_ == 128) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int RECEIVED_CALL_FIELD_NUMBER = 129;
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     */
+    @java.lang.Override
+    public boolean hasReceivedCall() {
+      return outcomeCase_ == 129;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getReceivedCall() {
+      if (outcomeCase_ == 129) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     */
+    private void setReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 129;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     */
+    private void mergeReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+      value.getClass();
+  if (outcomeCase_ == 129 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 129;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+     */
+    private void clearReceivedCall() {
+      if (outcomeCase_ == 129) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int ACCEPT_CALL_FIELD_NUMBER = 130;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     */
+    @java.lang.Override
+    public boolean hasAcceptCall() {
+      return outcomeCase_ == 130;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getAcceptCall() {
+      if (outcomeCase_ == 130) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     */
+    private void setAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 130;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     */
+    private void mergeAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+      value.getClass();
+  if (outcomeCase_ == 130 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 130;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+     */
+    private void clearAcceptCall() {
+      if (outcomeCase_ == 130) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int CONFIRM_CALL_FIELD_NUMBER = 131;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     */
+    @java.lang.Override
+    public boolean hasConfirmCall() {
+      return outcomeCase_ == 131;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getConfirmCall() {
+      if (outcomeCase_ == 131) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     */
+    private void setConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 131;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     */
+    private void mergeConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+      value.getClass();
+  if (outcomeCase_ == 131 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 131;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+     */
+    private void clearConfirmCall() {
+      if (outcomeCase_ == 131) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int DISCARD_CALL_FIELD_NUMBER = 132;
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     */
+    @java.lang.Override
+    public boolean hasDiscardCall() {
+      return outcomeCase_ == 132;
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.Updates getDiscardCall() {
+      if (outcomeCase_ == 132) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.Updates) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.Updates.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     */
+    private void setDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 132;
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     */
+    private void mergeDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+      value.getClass();
+  if (outcomeCase_ == 132 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.Updates.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.Updates.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.Updates) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 132;
+    }
+    /**
+     * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+     */
+    private void clearDiscardCall() {
+      if (outcomeCase_ == 132) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int SEND_SIGNALING_DATA_FIELD_NUMBER = 133;
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     */
+    @java.lang.Override
+    public boolean hasSendSignalingData() {
+      return outcomeCase_ == 133;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getSendSignalingData() {
+      if (outcomeCase_ == 133) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     */
+    private void setSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 133;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     */
+    private void mergeSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+      value.getClass();
+  if (outcomeCase_ == 133 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 133;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+     */
+    private void clearSendSignalingData() {
+      if (outcomeCase_ == 133) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int GET_CALL_CONFIG_FIELD_NUMBER = 134;
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     */
+    @java.lang.Override
+    public boolean hasGetCallConfig() {
+      return outcomeCase_ == 134;
+    }
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.DataJson getGetCallConfig() {
+      if (outcomeCase_ == 134) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.DataJson) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     */
+    private void setGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DataJson value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 134;
+    }
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     */
+    private void mergeGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DataJson value) {
+      value.getClass();
+  if (outcomeCase_ == 134 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.DataJson) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 134;
+    }
+    /**
+     * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+     */
+    private void clearGetCallConfig() {
+      if (outcomeCase_ == 134) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int SAVE_CALL_DEBUG_FIELD_NUMBER = 135;
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     */
+    @java.lang.Override
+    public boolean hasSaveCallDebug() {
+      return outcomeCase_ == 135;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getSaveCallDebug() {
+      if (outcomeCase_ == 135) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     */
+    private void setSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 135;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     */
+    private void mergeSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+      value.getClass();
+  if (outcomeCase_ == 135 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 135;
+    }
+    /**
+     * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+     */
+    private void clearSaveCallDebug() {
+      if (outcomeCase_ == 135) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int GET_DH_CONFIG_FIELD_NUMBER = 136;
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     */
+    @java.lang.Override
+    public boolean hasGetDhConfig() {
+      return outcomeCase_ == 136;
+    }
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig getGetDhConfig() {
+      if (outcomeCase_ == 136) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     */
+    private void setGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 136;
+    }
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     */
+    private void mergeGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig value) {
+      value.getClass();
+  if (outcomeCase_ == 136 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 136;
+    }
+    /**
+     * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+     */
+    private void clearGetDhConfig() {
+      if (outcomeCase_ == 136) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int GET_SPECIAL_CONTACTS_FIELD_NUMBER = 137;
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     */
+    @java.lang.Override
+    public boolean hasGetSpecialContacts() {
+      return outcomeCase_ == 137;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getGetSpecialContacts() {
+      if (outcomeCase_ == 137) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     */
+    private void setGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 137;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     */
+    private void mergeGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+      value.getClass();
+  if (outcomeCase_ == 137 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 137;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+     */
+    private void clearGetSpecialContacts() {
+      if (outcomeCase_ == 137) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int SET_SPECIAL_CONTACT_FIELD_NUMBER = 138;
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     */
+    @java.lang.Override
+    public boolean hasSetSpecialContact() {
+      return outcomeCase_ == 138;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getSetSpecialContact() {
+      if (outcomeCase_ == 138) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     */
+    private void setSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 138;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     */
+    private void mergeSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+      value.getClass();
+  if (outcomeCase_ == 138 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 138;
+    }
+    /**
+     * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+     */
+    private void clearSetSpecialContact() {
+      if (outcomeCase_ == 138) {
         outcomeCase_ = 0;
         outcome_ = null;
       }
@@ -7291,6 +9758,582 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+       */
+      @java.lang.Override
+      public boolean hasAddContact() {
+        return instance.hasAddContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.Updates getAddContact() {
+        return instance.getAddContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+       */
+      public Builder setAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+        copyOnWrite();
+        instance.setAddContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+       */
+      public Builder setAddContact(
+          org.telegram.botgram.protocol.v1.BotgramRpc.Updates.Builder builderForValue) {
+        copyOnWrite();
+        instance.setAddContact(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+       */
+      public Builder mergeAddContact(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+        copyOnWrite();
+        instance.mergeAddContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates add_contact = 127;</code>
+       */
+      public Builder clearAddContact() {
+        copyOnWrite();
+        instance.clearAddContact();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+       */
+      @java.lang.Override
+      public boolean hasRequestCall() {
+        return instance.hasRequestCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getRequestCall() {
+        return instance.getRequestCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+       */
+      public Builder setRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+        copyOnWrite();
+        instance.setRequestCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+       */
+      public Builder setRequestCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.Builder builderForValue) {
+        copyOnWrite();
+        instance.setRequestCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+       */
+      public Builder mergeRequestCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+        copyOnWrite();
+        instance.mergeRequestCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult request_call = 128;</code>
+       */
+      public Builder clearRequestCall() {
+        copyOnWrite();
+        instance.clearRequestCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+       */
+      @java.lang.Override
+      public boolean hasReceivedCall() {
+        return instance.hasReceivedCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getReceivedCall() {
+        return instance.getReceivedCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+       */
+      public Builder setReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+        copyOnWrite();
+        instance.setReceivedCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+       */
+      public Builder setReceivedCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.Builder builderForValue) {
+        copyOnWrite();
+        instance.setReceivedCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+       */
+      public Builder mergeReceivedCall(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+        copyOnWrite();
+        instance.mergeReceivedCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue received_call = 129;</code>
+       */
+      public Builder clearReceivedCall() {
+        copyOnWrite();
+        instance.clearReceivedCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+       */
+      @java.lang.Override
+      public boolean hasAcceptCall() {
+        return instance.hasAcceptCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getAcceptCall() {
+        return instance.getAcceptCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+       */
+      public Builder setAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+        copyOnWrite();
+        instance.setAcceptCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+       */
+      public Builder setAcceptCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.Builder builderForValue) {
+        copyOnWrite();
+        instance.setAcceptCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+       */
+      public Builder mergeAcceptCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+        copyOnWrite();
+        instance.mergeAcceptCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult accept_call = 130;</code>
+       */
+      public Builder clearAcceptCall() {
+        copyOnWrite();
+        instance.clearAcceptCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+       */
+      @java.lang.Override
+      public boolean hasConfirmCall() {
+        return instance.hasConfirmCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getConfirmCall() {
+        return instance.getConfirmCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+       */
+      public Builder setConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+        copyOnWrite();
+        instance.setConfirmCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+       */
+      public Builder setConfirmCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.Builder builderForValue) {
+        copyOnWrite();
+        instance.setConfirmCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+       */
+      public Builder mergeConfirmCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult value) {
+        copyOnWrite();
+        instance.mergeConfirmCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallResult confirm_call = 131;</code>
+       */
+      public Builder clearConfirmCall() {
+        copyOnWrite();
+        instance.clearConfirmCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+       */
+      @java.lang.Override
+      public boolean hasDiscardCall() {
+        return instance.hasDiscardCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.Updates getDiscardCall() {
+        return instance.getDiscardCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+       */
+      public Builder setDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+        copyOnWrite();
+        instance.setDiscardCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+       */
+      public Builder setDiscardCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.Updates.Builder builderForValue) {
+        copyOnWrite();
+        instance.setDiscardCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+       */
+      public Builder mergeDiscardCall(org.telegram.botgram.protocol.v1.BotgramRpc.Updates value) {
+        copyOnWrite();
+        instance.mergeDiscardCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.Updates discard_call = 132;</code>
+       */
+      public Builder clearDiscardCall() {
+        copyOnWrite();
+        instance.clearDiscardCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+       */
+      @java.lang.Override
+      public boolean hasSendSignalingData() {
+        return instance.hasSendSignalingData();
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getSendSignalingData() {
+        return instance.getSendSignalingData();
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+       */
+      public Builder setSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+        copyOnWrite();
+        instance.setSendSignalingData(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+       */
+      public Builder setSendSignalingData(
+          org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSendSignalingData(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+       */
+      public Builder mergeSendSignalingData(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+        copyOnWrite();
+        instance.mergeSendSignalingData(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue send_signaling_data = 133;</code>
+       */
+      public Builder clearSendSignalingData() {
+        copyOnWrite();
+        instance.clearSendSignalingData();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+       */
+      @java.lang.Override
+      public boolean hasGetCallConfig() {
+        return instance.hasGetCallConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.DataJson getGetCallConfig() {
+        return instance.getGetCallConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+       */
+      public Builder setGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DataJson value) {
+        copyOnWrite();
+        instance.setGetCallConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+       */
+      public Builder setGetCallConfig(
+          org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.Builder builderForValue) {
+        copyOnWrite();
+        instance.setGetCallConfig(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+       */
+      public Builder mergeGetCallConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DataJson value) {
+        copyOnWrite();
+        instance.mergeGetCallConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.DataJson get_call_config = 134;</code>
+       */
+      public Builder clearGetCallConfig() {
+        copyOnWrite();
+        instance.clearGetCallConfig();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+       */
+      @java.lang.Override
+      public boolean hasSaveCallDebug() {
+        return instance.hasSaveCallDebug();
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getSaveCallDebug() {
+        return instance.getSaveCallDebug();
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+       */
+      public Builder setSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+        copyOnWrite();
+        instance.setSaveCallDebug(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+       */
+      public Builder setSaveCallDebug(
+          org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSaveCallDebug(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+       */
+      public Builder mergeSaveCallDebug(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue value) {
+        copyOnWrite();
+        instance.mergeSaveCallDebug(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.BoolValue save_call_debug = 135;</code>
+       */
+      public Builder clearSaveCallDebug() {
+        copyOnWrite();
+        instance.clearSaveCallDebug();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+       */
+      @java.lang.Override
+      public boolean hasGetDhConfig() {
+        return instance.hasGetDhConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig getGetDhConfig() {
+        return instance.getGetDhConfig();
+      }
+      /**
+       * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+       */
+      public Builder setGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig value) {
+        copyOnWrite();
+        instance.setGetDhConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+       */
+      public Builder setGetDhConfig(
+          org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.Builder builderForValue) {
+        copyOnWrite();
+        instance.setGetDhConfig(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+       */
+      public Builder mergeGetDhConfig(org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig value) {
+        copyOnWrite();
+        instance.mergeGetDhConfig(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.DhConfig get_dh_config = 136;</code>
+       */
+      public Builder clearGetDhConfig() {
+        copyOnWrite();
+        instance.clearGetDhConfig();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+       */
+      @java.lang.Override
+      public boolean hasGetSpecialContacts() {
+        return instance.hasGetSpecialContacts();
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getGetSpecialContacts() {
+        return instance.getGetSpecialContacts();
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+       */
+      public Builder setGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+        copyOnWrite();
+        instance.setGetSpecialContacts(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+       */
+      public Builder setGetSpecialContacts(
+          org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.Builder builderForValue) {
+        copyOnWrite();
+        instance.setGetSpecialContacts(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+       */
+      public Builder mergeGetSpecialContacts(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+        copyOnWrite();
+        instance.mergeGetSpecialContacts(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts get_special_contacts = 137;</code>
+       */
+      public Builder clearGetSpecialContacts() {
+        copyOnWrite();
+        instance.clearGetSpecialContacts();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+       */
+      @java.lang.Override
+      public boolean hasSetSpecialContact() {
+        return instance.hasSetSpecialContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getSetSpecialContact() {
+        return instance.getSetSpecialContact();
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+       */
+      public Builder setSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+        copyOnWrite();
+        instance.setSetSpecialContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+       */
+      public Builder setSetSpecialContact(
+          org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.Builder builderForValue) {
+        copyOnWrite();
+        instance.setSetSpecialContact(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+       */
+      public Builder mergeSetSpecialContact(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts value) {
+        copyOnWrite();
+        instance.mergeSetSpecialContact(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.SpecialContacts set_special_contact = 138;</code>
+       */
+      public Builder clearSetSpecialContact() {
+        copyOnWrite();
+        instance.clearSetSpecialContact();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.RpcResponse)
     }
     @java.lang.Override
@@ -7339,12 +10382,26 @@ public final class BotgramRpc {
               org.telegram.botgram.protocol.v1.BotgramRpc.WallpaperMutationResult.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.ChatWallpaperResult.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.AccountPrivacyResponse.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.Updates.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.Updates.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.class,
             };
             java.lang.String info =
-                "\u0000\u001e\u0001\u0000\u0001~\u001e\u0000\u0000\u0000\u0001\u000b\u0002\u0208\n" +
-                "<\u0000d<\u0000e<\u0000f<\u0000g<\u0000h<\u0000i<\u0000j<\u0000k<\u0000l<\u0000m" +
-                "<\u0000n<\u0000o<\u0000p<\u0000q<\u0000r<\u0000s<\u0000t<\u0000u<\u0000v<\u0000w" +
-                "<\u0000x<\u0000y<\u0000z<\u0000{<\u0000|<\u0000}<\u0000~<\u0000";
+                "\u0000*\u0001\u0000\u0001\u008a*\u0000\u0000\u0000\u0001\u000b\u0002\u0208\n<\u0000" +
+                "d<\u0000e<\u0000f<\u0000g<\u0000h<\u0000i<\u0000j<\u0000k<\u0000l<\u0000m<\u0000" +
+                "n<\u0000o<\u0000p<\u0000q<\u0000r<\u0000s<\u0000t<\u0000u<\u0000v<\u0000w<\u0000" +
+                "x<\u0000y<\u0000z<\u0000{<\u0000|<\u0000}<\u0000~<\u0000<\u0000\u0080<\u0000\u0081" +
+                "<\u0000\u0082<\u0000\u0083<\u0000\u0084<\u0000\u0085<\u0000\u0086<\u0000\u0087<\u0000" +
+                "\u0088<\u0000\u0089<\u0000\u008a<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -8485,6 +11542,1000 @@ public final class BotgramRpc {
     private static volatile com.google.protobuf.Parser<EventHint> PARSER;
 
     public static com.google.protobuf.Parser<EventHint> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface GetSpecialContactsRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.GetSpecialContactsRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.GetSpecialContactsRequest}
+   */
+  public  static final class GetSpecialContactsRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          GetSpecialContactsRequest, GetSpecialContactsRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.GetSpecialContactsRequest)
+      GetSpecialContactsRequestOrBuilder {
+    private GetSpecialContactsRequest() {
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.GetSpecialContactsRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.GetSpecialContactsRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.GetSpecialContactsRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = null;java.lang.String info =
+                "\u0000\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.GetSpecialContactsRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest DEFAULT_INSTANCE;
+    static {
+      GetSpecialContactsRequest defaultInstance = new GetSpecialContactsRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        GetSpecialContactsRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<GetSpecialContactsRequest> PARSER;
+
+    public static com.google.protobuf.Parser<GetSpecialContactsRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface SetSpecialContactRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.SetSpecialContactRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     * @return Whether the user field is set.
+     */
+    boolean hasUser();
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     * @return The user.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser();
+
+    /**
+     * <code>bool enabled = 2;</code>
+     * @return The enabled.
+     */
+    boolean getEnabled();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.SetSpecialContactRequest}
+   */
+  public  static final class SetSpecialContactRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          SetSpecialContactRequest, SetSpecialContactRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.SetSpecialContactRequest)
+      SetSpecialContactRequestOrBuilder {
+    private SetSpecialContactRequest() {
+    }
+    private int bitField0_;
+    public static final int USER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector user_;
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasUser() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser() {
+      return user_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.getDefaultInstance() : user_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    private void setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+      value.getClass();
+  user_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+      value.getClass();
+  if (user_ != null &&
+          user_ != org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.getDefaultInstance()) {
+        user_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.newBuilder(user_).mergeFrom(value).buildPartial();
+      } else {
+        user_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    private void clearUser() {  user_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int ENABLED_FIELD_NUMBER = 2;
+    private boolean enabled_;
+    /**
+     * <code>bool enabled = 2;</code>
+     * @return The enabled.
+     */
+    @java.lang.Override
+    public boolean getEnabled() {
+      return enabled_;
+    }
+    /**
+     * <code>bool enabled = 2;</code>
+     * @param value The enabled to set.
+     */
+    private void setEnabled(boolean value) {
+      
+      enabled_ = value;
+    }
+    /**
+     * <code>bool enabled = 2;</code>
+     */
+    private void clearEnabled() {
+
+      enabled_ = false;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.SetSpecialContactRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.SetSpecialContactRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasUser() {
+        return instance.hasUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser() {
+        return instance.getUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+        copyOnWrite();
+        instance.setUser(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder setUser(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUser(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+        copyOnWrite();
+        instance.mergeUser(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder clearUser() {  copyOnWrite();
+        instance.clearUser();
+        return this;
+      }
+
+      /**
+       * <code>bool enabled = 2;</code>
+       * @return The enabled.
+       */
+      @java.lang.Override
+      public boolean getEnabled() {
+        return instance.getEnabled();
+      }
+      /**
+       * <code>bool enabled = 2;</code>
+       * @param value The enabled to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnabled(boolean value) {
+        copyOnWrite();
+        instance.setEnabled(value);
+        return this;
+      }
+      /**
+       * <code>bool enabled = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEnabled() {
+        copyOnWrite();
+        instance.clearEnabled();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.SetSpecialContactRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "user_",
+              "enabled_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.SetSpecialContactRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest DEFAULT_INSTANCE;
+    static {
+      SetSpecialContactRequest defaultInstance = new SetSpecialContactRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        SetSpecialContactRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<SetSpecialContactRequest> PARSER;
+
+    public static com.google.protobuf.Parser<SetSpecialContactRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface SpecialContactsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.SpecialContacts)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int64 revision = 1;</code>
+     * @return The revision.
+     */
+    long getRevision();
+
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> 
+        getUsersList();
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserRef getUsers(int index);
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    int getUsersCount();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.SpecialContacts}
+   */
+  public  static final class SpecialContacts extends
+      com.google.protobuf.GeneratedMessageLite<
+          SpecialContacts, SpecialContacts.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.SpecialContacts)
+      SpecialContactsOrBuilder {
+    private SpecialContacts() {
+      users_ = emptyProtobufList();
+    }
+    public static final int REVISION_FIELD_NUMBER = 1;
+    private long revision_;
+    /**
+     * <code>int64 revision = 1;</code>
+     * @return The revision.
+     */
+    @java.lang.Override
+    public long getRevision() {
+      return revision_;
+    }
+    /**
+     * <code>int64 revision = 1;</code>
+     * @param value The revision to set.
+     */
+    private void setRevision(long value) {
+      
+      revision_ = value;
+    }
+    /**
+     * <code>int64 revision = 1;</code>
+     */
+    private void clearRevision() {
+
+      revision_ = 0L;
+    }
+
+    public static final int USERS_FIELD_NUMBER = 2;
+    private com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> users_;
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> getUsersList() {
+      return users_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    public java.util.List<? extends org.telegram.botgram.protocol.v1.BotgramRpc.UserRefOrBuilder> 
+        getUsersOrBuilderList() {
+      return users_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    @java.lang.Override
+    public int getUsersCount() {
+      return users_.size();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserRef getUsers(int index) {
+      return users_.get(index);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserRefOrBuilder getUsersOrBuilder(
+        int index) {
+      return users_.get(index);
+    }
+    private void ensureUsersIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> tmp = users_;
+      if (!tmp.isModifiable()) {
+        users_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    private void setUsers(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+      value.getClass();
+  ensureUsersIsMutable();
+      users_.set(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    private void addUsers(org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+      value.getClass();
+  ensureUsersIsMutable();
+      users_.add(value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    private void addUsers(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+      value.getClass();
+  ensureUsersIsMutable();
+      users_.add(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    private void addAllUsers(
+        java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> values) {
+      ensureUsersIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, users_);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    private void clearUsers() {
+      users_ = emptyProtobufList();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+     */
+    private void removeUsers(int index) {
+      ensureUsersIsMutable();
+      users_.remove(index);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.SpecialContacts}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.SpecialContacts)
+        org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContactsOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int64 revision = 1;</code>
+       * @return The revision.
+       */
+      @java.lang.Override
+      public long getRevision() {
+        return instance.getRevision();
+      }
+      /**
+       * <code>int64 revision = 1;</code>
+       * @param value The revision to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRevision(long value) {
+        copyOnWrite();
+        instance.setRevision(value);
+        return this;
+      }
+      /**
+       * <code>int64 revision = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRevision() {
+        copyOnWrite();
+        instance.clearRevision();
+        return this;
+      }
+
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      @java.lang.Override
+      public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> getUsersList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getUsersList());
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      @java.lang.Override
+      public int getUsersCount() {
+        return instance.getUsersCount();
+      }/**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserRef getUsers(int index) {
+        return instance.getUsers(index);
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder setUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+        copyOnWrite();
+        instance.setUsers(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder setUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUsers(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder addUsers(org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+        copyOnWrite();
+        instance.addUsers(value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder addUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+        copyOnWrite();
+        instance.addUsers(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder addUsers(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.addUsers(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder addUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.addUsers(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder addAllUsers(
+          java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.UserRef> values) {
+        copyOnWrite();
+        instance.addAllUsers(values);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder clearUsers() {
+        copyOnWrite();
+        instance.clearUsers();
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserRef users = 2;</code>
+       */
+      public Builder removeUsers(int index) {
+        copyOnWrite();
+        instance.removeUsers(index);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.SpecialContacts)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "revision_",
+              "users_",
+              org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.class,
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0001\u0000\u0001\u0002\u0002\u001b" +
+                "";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.SpecialContacts)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts DEFAULT_INSTANCE;
+    static {
+      SpecialContacts defaultInstance = new SpecialContacts();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        SpecialContacts.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<SpecialContacts> PARSER;
+
+    public static com.google.protobuf.Parser<SpecialContacts> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }
@@ -24576,6 +28627,17 @@ public final class BotgramRpc {
      * @return The nyarugramPremium.
      */
     boolean getNyarugramPremium();
+
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     * @return Whether the status field is set.
+     */
+    boolean hasStatus();
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     * @return The status.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getStatus();
   }
   /**
    * Protobuf type {@code botgram.rpc.v1.UserSummary}
@@ -25010,6 +29072,52 @@ public final class BotgramRpc {
     private void clearNyarugramPremium() {
       bitField0_ = (bitField0_ & ~0x00000002);
       nyarugramPremium_ = false;
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 12;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus status_;
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     */
+    @java.lang.Override
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getStatus() {
+      return status_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.getDefaultInstance() : status_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     */
+    private void setStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+      value.getClass();
+  status_ = value;
+      bitField0_ |= 0x00000004;
+      }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+      value.getClass();
+  if (status_ != null &&
+          status_ != org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.getDefaultInstance()) {
+        status_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.newBuilder(status_).mergeFrom(value).buildPartial();
+      } else {
+        status_ = value;
+      }
+      bitField0_ |= 0x00000004;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+     */
+    private void clearStatus() {  status_ = null;
+      bitField0_ = (bitField0_ & ~0x00000004);
     }
 
     public static org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary parseFrom(
@@ -25549,6 +29657,53 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+       */
+      @java.lang.Override
+      public boolean hasStatus() {
+        return instance.hasStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getStatus() {
+        return instance.getStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+       */
+      public Builder setStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+        copyOnWrite();
+        instance.setStatus(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+       */
+      public Builder setStatus(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.Builder builderForValue) {
+        copyOnWrite();
+        instance.setStatus(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+       */
+      public Builder mergeStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+        copyOnWrite();
+        instance.mergeStatus(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 12;</code>
+       */
+      public Builder clearStatus() {  copyOnWrite();
+        instance.clearStatus();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.UserSummary)
     }
     @java.lang.Override
@@ -25577,11 +29732,12 @@ public final class BotgramRpc {
               "isContact_",
               "isMutualContact_",
               "nyarugramPremium_",
+              "status_",
             };
             java.lang.String info =
-                "\u0000\u000b\u0000\u0001\u0001\u000b\u000b\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
-                "\u0002\u0003\u0208\u0004\u0208\u0005\u0208\u0006\u0208\u0007\u0208\b\u0007\t\u0007" +
-                "\n\u0007\u000b\u1007\u0001";
+                "\u0000\f\u0000\u0001\u0001\f\f\u0000\u0000\u0000\u0001\u1009\u0000\u0002\u0002\u0003" +
+                "\u0208\u0004\u0208\u0005\u0208\u0006\u0208\u0007\u0208\b\u0007\t\u0007\n\u0007\u000b" +
+                "\u1007\u0001\f\u1009\u0002";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -25632,6 +29788,1329 @@ public final class BotgramRpc {
     private static volatile com.google.protobuf.Parser<UserSummary> PARSER;
 
     public static com.google.protobuf.Parser<UserSummary> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface UserStatusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.UserStatus)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int64 online_until_ms = 1;</code>
+     * @return Whether the onlineUntilMs field is set.
+     */
+    boolean hasOnlineUntilMs();
+    /**
+     * <code>int64 online_until_ms = 1;</code>
+     * @return The onlineUntilMs.
+     */
+    long getOnlineUntilMs();
+
+    /**
+     * <code>int64 last_seen_ms = 2;</code>
+     * @return Whether the lastSeenMs field is set.
+     */
+    boolean hasLastSeenMs();
+    /**
+     * <code>int64 last_seen_ms = 2;</code>
+     * @return The lastSeenMs.
+     */
+    long getLastSeenMs();
+
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.KindCase getKindCase();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.UserStatus}
+   */
+  public  static final class UserStatus extends
+      com.google.protobuf.GeneratedMessageLite<
+          UserStatus, UserStatus.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.UserStatus)
+      UserStatusOrBuilder {
+    private UserStatus() {
+    }
+    private int kindCase_ = 0;
+    private java.lang.Object kind_;
+    public enum KindCase {
+      ONLINE_UNTIL_MS(1),
+      LAST_SEEN_MS(2),
+      KIND_NOT_SET(0);
+      private final int value;
+      private KindCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static KindCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static KindCase forNumber(int value) {
+        switch (value) {
+          case 1: return ONLINE_UNTIL_MS;
+          case 2: return LAST_SEEN_MS;
+          case 0: return KIND_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    @java.lang.Override
+    public KindCase
+    getKindCase() {
+      return KindCase.forNumber(
+          kindCase_);
+    }
+
+    private void clearKind() {
+      kindCase_ = 0;
+      kind_ = null;
+    }
+
+    public static final int ONLINE_UNTIL_MS_FIELD_NUMBER = 1;
+    /**
+     * <code>int64 online_until_ms = 1;</code>
+     * @return Whether the onlineUntilMs field is set.
+     */
+    @java.lang.Override
+    public boolean hasOnlineUntilMs() {
+      return kindCase_ == 1;
+    }
+    /**
+     * <code>int64 online_until_ms = 1;</code>
+     * @return The onlineUntilMs.
+     */
+    @java.lang.Override
+    public long getOnlineUntilMs() {
+      if (kindCase_ == 1) {
+        return (java.lang.Long) kind_;
+      }
+      return 0L;
+    }
+    /**
+     * <code>int64 online_until_ms = 1;</code>
+     * @param value The onlineUntilMs to set.
+     */
+    private void setOnlineUntilMs(long value) {
+      kindCase_ = 1;
+      kind_ = value;
+    }
+    /**
+     * <code>int64 online_until_ms = 1;</code>
+     */
+    private void clearOnlineUntilMs() {
+      if (kindCase_ == 1) {
+        kindCase_ = 0;
+        kind_ = null;
+      }
+    }
+
+    public static final int LAST_SEEN_MS_FIELD_NUMBER = 2;
+    /**
+     * <code>int64 last_seen_ms = 2;</code>
+     * @return Whether the lastSeenMs field is set.
+     */
+    @java.lang.Override
+    public boolean hasLastSeenMs() {
+      return kindCase_ == 2;
+    }
+    /**
+     * <code>int64 last_seen_ms = 2;</code>
+     * @return The lastSeenMs.
+     */
+    @java.lang.Override
+    public long getLastSeenMs() {
+      if (kindCase_ == 2) {
+        return (java.lang.Long) kind_;
+      }
+      return 0L;
+    }
+    /**
+     * <code>int64 last_seen_ms = 2;</code>
+     * @param value The lastSeenMs to set.
+     */
+    private void setLastSeenMs(long value) {
+      kindCase_ = 2;
+      kind_ = value;
+    }
+    /**
+     * <code>int64 last_seen_ms = 2;</code>
+     */
+    private void clearLastSeenMs() {
+      if (kindCase_ == 2) {
+        kindCase_ = 0;
+        kind_ = null;
+      }
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.UserStatus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.UserStatus)
+        org.telegram.botgram.protocol.v1.BotgramRpc.UserStatusOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+      @java.lang.Override
+      public KindCase
+          getKindCase() {
+        return instance.getKindCase();
+      }
+
+      public Builder clearKind() {
+        copyOnWrite();
+        instance.clearKind();
+        return this;
+      }
+
+
+      /**
+       * <code>int64 online_until_ms = 1;</code>
+       * @return Whether the onlineUntilMs field is set.
+       */
+      @java.lang.Override
+      public boolean hasOnlineUntilMs() {
+        return instance.hasOnlineUntilMs();
+      }
+      /**
+       * <code>int64 online_until_ms = 1;</code>
+       * @return The onlineUntilMs.
+       */
+      @java.lang.Override
+      public long getOnlineUntilMs() {
+        return instance.getOnlineUntilMs();
+      }
+      /**
+       * <code>int64 online_until_ms = 1;</code>
+       * @param value The onlineUntilMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOnlineUntilMs(long value) {
+        copyOnWrite();
+        instance.setOnlineUntilMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 online_until_ms = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOnlineUntilMs() {
+        copyOnWrite();
+        instance.clearOnlineUntilMs();
+        return this;
+      }
+
+      /**
+       * <code>int64 last_seen_ms = 2;</code>
+       * @return Whether the lastSeenMs field is set.
+       */
+      @java.lang.Override
+      public boolean hasLastSeenMs() {
+        return instance.hasLastSeenMs();
+      }
+      /**
+       * <code>int64 last_seen_ms = 2;</code>
+       * @return The lastSeenMs.
+       */
+      @java.lang.Override
+      public long getLastSeenMs() {
+        return instance.getLastSeenMs();
+      }
+      /**
+       * <code>int64 last_seen_ms = 2;</code>
+       * @param value The lastSeenMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastSeenMs(long value) {
+        copyOnWrite();
+        instance.setLastSeenMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 last_seen_ms = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLastSeenMs() {
+        copyOnWrite();
+        instance.clearLastSeenMs();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.UserStatus)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "kind_",
+              "kindCase_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0001\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u00015\u0000\u00025" +
+                "\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.UserStatus)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus DEFAULT_INSTANCE;
+    static {
+      UserStatus defaultInstance = new UserStatus();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        UserStatus.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<UserStatus> PARSER;
+
+    public static com.google.protobuf.Parser<UserStatus> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PresenceChangedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PresenceChanged)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     * @return Whether the user field is set.
+     */
+    boolean hasUser();
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     * @return The user.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserRef getUser();
+
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     * @return Whether the status field is set.
+     */
+    boolean hasStatus();
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     * @return The status.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getStatus();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PresenceChanged}
+   */
+  public  static final class PresenceChanged extends
+      com.google.protobuf.GeneratedMessageLite<
+          PresenceChanged, PresenceChanged.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PresenceChanged)
+      PresenceChangedOrBuilder {
+    private PresenceChanged() {
+    }
+    private int bitField0_;
+    public static final int USER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.UserRef user_;
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasUser() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserRef getUser() {
+      return user_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.getDefaultInstance() : user_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     */
+    private void setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+      value.getClass();
+  user_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+      value.getClass();
+  if (user_ != null &&
+          user_ != org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.getDefaultInstance()) {
+        user_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.newBuilder(user_).mergeFrom(value).buildPartial();
+      } else {
+        user_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+     */
+    private void clearUser() {  user_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 2;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus status_;
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     */
+    @java.lang.Override
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getStatus() {
+      return status_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.getDefaultInstance() : status_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     */
+    private void setStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+      value.getClass();
+  status_ = value;
+      bitField0_ |= 0x00000002;
+      }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+      value.getClass();
+  if (status_ != null &&
+          status_ != org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.getDefaultInstance()) {
+        status_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.newBuilder(status_).mergeFrom(value).buildPartial();
+      } else {
+        status_ = value;
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+     */
+    private void clearStatus() {  status_ = null;
+      bitField0_ = (bitField0_ & ~0x00000002);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PresenceChanged}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PresenceChanged)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChangedOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasUser() {
+        return instance.hasUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserRef getUser() {
+        return instance.getUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+       */
+      public Builder setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+        copyOnWrite();
+        instance.setUser(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+       */
+      public Builder setUser(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUser(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+       */
+      public Builder mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserRef value) {
+        copyOnWrite();
+        instance.mergeUser(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserRef user = 1;</code>
+       */
+      public Builder clearUser() {  copyOnWrite();
+        instance.clearUser();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+       */
+      @java.lang.Override
+      public boolean hasStatus() {
+        return instance.hasStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus getStatus() {
+        return instance.getStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+       */
+      public Builder setStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+        copyOnWrite();
+        instance.setStatus(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+       */
+      public Builder setStatus(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus.Builder builderForValue) {
+        copyOnWrite();
+        instance.setStatus(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+       */
+      public Builder mergeStatus(org.telegram.botgram.protocol.v1.BotgramRpc.UserStatus value) {
+        copyOnWrite();
+        instance.mergeStatus(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserStatus status = 2;</code>
+       */
+      public Builder clearStatus() {  copyOnWrite();
+        instance.clearStatus();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PresenceChanged)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "user_",
+              "status_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\u1009\u0001";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PresenceChanged)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged DEFAULT_INSTANCE;
+    static {
+      PresenceChanged defaultInstance = new PresenceChanged();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PresenceChanged.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PresenceChanged> PARSER;
+
+    public static com.google.protobuf.Parser<PresenceChanged> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface AddContactRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.AddContactRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     * @return Whether the user field is set.
+     */
+    boolean hasUser();
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     * @return The user.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser();
+
+    /**
+     * <code>string first_name = 2;</code>
+     * @return The firstName.
+     */
+    java.lang.String getFirstName();
+    /**
+     * <code>string first_name = 2;</code>
+     * @return The bytes for firstName.
+     */
+    com.google.protobuf.ByteString
+        getFirstNameBytes();
+
+    /**
+     * <code>string last_name = 3;</code>
+     * @return The lastName.
+     */
+    java.lang.String getLastName();
+    /**
+     * <code>string last_name = 3;</code>
+     * @return The bytes for lastName.
+     */
+    com.google.protobuf.ByteString
+        getLastNameBytes();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.AddContactRequest}
+   */
+  public  static final class AddContactRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          AddContactRequest, AddContactRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.AddContactRequest)
+      AddContactRequestOrBuilder {
+    private AddContactRequest() {
+      firstName_ = "";
+      lastName_ = "";
+    }
+    private int bitField0_;
+    public static final int USER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector user_;
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasUser() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser() {
+      return user_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.getDefaultInstance() : user_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    private void setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+      value.getClass();
+  user_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+      value.getClass();
+  if (user_ != null &&
+          user_ != org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.getDefaultInstance()) {
+        user_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.newBuilder(user_).mergeFrom(value).buildPartial();
+      } else {
+        user_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    private void clearUser() {  user_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int FIRST_NAME_FIELD_NUMBER = 2;
+    private java.lang.String firstName_;
+    /**
+     * <code>string first_name = 2;</code>
+     * @return The firstName.
+     */
+    @java.lang.Override
+    public java.lang.String getFirstName() {
+      return firstName_;
+    }
+    /**
+     * <code>string first_name = 2;</code>
+     * @return The bytes for firstName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getFirstNameBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(firstName_);
+    }
+    /**
+     * <code>string first_name = 2;</code>
+     * @param value The firstName to set.
+     */
+    private void setFirstName(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      firstName_ = value;
+    }
+    /**
+     * <code>string first_name = 2;</code>
+     */
+    private void clearFirstName() {
+
+      firstName_ = getDefaultInstance().getFirstName();
+    }
+    /**
+     * <code>string first_name = 2;</code>
+     * @param value The bytes for firstName to set.
+     */
+    private void setFirstNameBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      firstName_ = value.toStringUtf8();
+
+    }
+
+    public static final int LAST_NAME_FIELD_NUMBER = 3;
+    private java.lang.String lastName_;
+    /**
+     * <code>string last_name = 3;</code>
+     * @return The lastName.
+     */
+    @java.lang.Override
+    public java.lang.String getLastName() {
+      return lastName_;
+    }
+    /**
+     * <code>string last_name = 3;</code>
+     * @return The bytes for lastName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLastNameBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(lastName_);
+    }
+    /**
+     * <code>string last_name = 3;</code>
+     * @param value The lastName to set.
+     */
+    private void setLastName(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      lastName_ = value;
+    }
+    /**
+     * <code>string last_name = 3;</code>
+     */
+    private void clearLastName() {
+
+      lastName_ = getDefaultInstance().getLastName();
+    }
+    /**
+     * <code>string last_name = 3;</code>
+     * @param value The bytes for lastName to set.
+     */
+    private void setLastNameBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      lastName_ = value.toStringUtf8();
+
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.AddContactRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.AddContactRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasUser() {
+        return instance.hasUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser() {
+        return instance.getUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+        copyOnWrite();
+        instance.setUser(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder setUser(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUser(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+        copyOnWrite();
+        instance.mergeUser(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder clearUser() {  copyOnWrite();
+        instance.clearUser();
+        return this;
+      }
+
+      /**
+       * <code>string first_name = 2;</code>
+       * @return The firstName.
+       */
+      @java.lang.Override
+      public java.lang.String getFirstName() {
+        return instance.getFirstName();
+      }
+      /**
+       * <code>string first_name = 2;</code>
+       * @return The bytes for firstName.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getFirstNameBytes() {
+        return instance.getFirstNameBytes();
+      }
+      /**
+       * <code>string first_name = 2;</code>
+       * @param value The firstName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFirstName(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setFirstName(value);
+        return this;
+      }
+      /**
+       * <code>string first_name = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFirstName() {
+        copyOnWrite();
+        instance.clearFirstName();
+        return this;
+      }
+      /**
+       * <code>string first_name = 2;</code>
+       * @param value The bytes for firstName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFirstNameBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setFirstNameBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>string last_name = 3;</code>
+       * @return The lastName.
+       */
+      @java.lang.Override
+      public java.lang.String getLastName() {
+        return instance.getLastName();
+      }
+      /**
+       * <code>string last_name = 3;</code>
+       * @return The bytes for lastName.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getLastNameBytes() {
+        return instance.getLastNameBytes();
+      }
+      /**
+       * <code>string last_name = 3;</code>
+       * @param value The lastName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastName(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setLastName(value);
+        return this;
+      }
+      /**
+       * <code>string last_name = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLastName() {
+        copyOnWrite();
+        instance.clearLastName();
+        return this;
+      }
+      /**
+       * <code>string last_name = 3;</code>
+       * @param value The bytes for lastName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastNameBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setLastNameBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.AddContactRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "user_",
+              "firstName_",
+              "lastName_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0001\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\u0208\u0003\u0208";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.AddContactRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest DEFAULT_INSTANCE;
+    static {
+      AddContactRequest defaultInstance = new AddContactRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        AddContactRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.AddContactRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<AddContactRequest> PARSER;
+
+    public static com.google.protobuf.Parser<AddContactRequest> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }
@@ -35850,6 +41329,39 @@ public final class BotgramRpc {
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.PeerWallpaperChanged getPeerWallpaperChanged();
 
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     * @return Whether the presenceChanged field is set.
+     */
+    boolean hasPresenceChanged();
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     * @return The presenceChanged.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged getPresenceChanged();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     * @return Whether the phoneCall field is set.
+     */
+    boolean hasPhoneCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     * @return The phoneCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged getPhoneCall();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     * @return Whether the phoneCallSignaling field is set.
+     */
+    boolean hasPhoneCallSignaling();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     * @return The phoneCallSignaling.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData getPhoneCallSignaling();
+
     public org.telegram.botgram.protocol.v1.BotgramRpc.Update.KindCase getKindCase();
   }
   /**
@@ -35871,6 +41383,9 @@ public final class BotgramRpc {
       READ_OUTBOX(4),
       GID_CHANGED(5),
       PEER_WALLPAPER_CHANGED(6),
+      PRESENCE_CHANGED(7),
+      PHONE_CALL(8),
+      PHONE_CALL_SIGNALING(9),
       KIND_NOT_SET(0);
       private final int value;
       private KindCase(int value) {
@@ -35892,6 +41407,9 @@ public final class BotgramRpc {
           case 4: return READ_OUTBOX;
           case 5: return GID_CHANGED;
           case 6: return PEER_WALLPAPER_CHANGED;
+          case 7: return PRESENCE_CHANGED;
+          case 8: return PHONE_CALL;
+          case 9: return PHONE_CALL_SIGNALING;
           case 0: return KIND_NOT_SET;
           default: return null;
         }
@@ -36228,6 +41746,156 @@ public final class BotgramRpc {
      */
     private void clearPeerWallpaperChanged() {
       if (kindCase_ == 6) {
+        kindCase_ = 0;
+        kind_ = null;
+      }
+    }
+
+    public static final int PRESENCE_CHANGED_FIELD_NUMBER = 7;
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     */
+    @java.lang.Override
+    public boolean hasPresenceChanged() {
+      return kindCase_ == 7;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged getPresenceChanged() {
+      if (kindCase_ == 7) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged) kind_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     */
+    private void setPresenceChanged(org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged value) {
+      value.getClass();
+  kind_ = value;
+      kindCase_ = 7;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     */
+    private void mergePresenceChanged(org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged value) {
+      value.getClass();
+  if (kindCase_ == 7 &&
+          kind_ != org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.getDefaultInstance()) {
+        kind_ = org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged) kind_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        kind_ = value;
+      }
+      kindCase_ = 7;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+     */
+    private void clearPresenceChanged() {
+      if (kindCase_ == 7) {
+        kindCase_ = 0;
+        kind_ = null;
+      }
+    }
+
+    public static final int PHONE_CALL_FIELD_NUMBER = 8;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     */
+    @java.lang.Override
+    public boolean hasPhoneCall() {
+      return kindCase_ == 8;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged getPhoneCall() {
+      if (kindCase_ == 8) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged) kind_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     */
+    private void setPhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged value) {
+      value.getClass();
+  kind_ = value;
+      kindCase_ = 8;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     */
+    private void mergePhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged value) {
+      value.getClass();
+  if (kindCase_ == 8 &&
+          kind_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.getDefaultInstance()) {
+        kind_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged) kind_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        kind_ = value;
+      }
+      kindCase_ = 8;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+     */
+    private void clearPhoneCall() {
+      if (kindCase_ == 8) {
+        kindCase_ = 0;
+        kind_ = null;
+      }
+    }
+
+    public static final int PHONE_CALL_SIGNALING_FIELD_NUMBER = 9;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     */
+    @java.lang.Override
+    public boolean hasPhoneCallSignaling() {
+      return kindCase_ == 9;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData getPhoneCallSignaling() {
+      if (kindCase_ == 9) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData) kind_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     */
+    private void setPhoneCallSignaling(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData value) {
+      value.getClass();
+  kind_ = value;
+      kindCase_ = 9;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     */
+    private void mergePhoneCallSignaling(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData value) {
+      value.getClass();
+  if (kindCase_ == 9 &&
+          kind_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.getDefaultInstance()) {
+        kind_ = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData) kind_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        kind_ = value;
+      }
+      kindCase_ = 9;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+     */
+    private void clearPhoneCallSignaling() {
+      if (kindCase_ == 9) {
         kindCase_ = 0;
         kind_ = null;
       }
@@ -36654,6 +42322,150 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+       */
+      @java.lang.Override
+      public boolean hasPresenceChanged() {
+        return instance.hasPresenceChanged();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged getPresenceChanged() {
+        return instance.getPresenceChanged();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+       */
+      public Builder setPresenceChanged(org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged value) {
+        copyOnWrite();
+        instance.setPresenceChanged(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+       */
+      public Builder setPresenceChanged(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPresenceChanged(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+       */
+      public Builder mergePresenceChanged(org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged value) {
+        copyOnWrite();
+        instance.mergePresenceChanged(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PresenceChanged presence_changed = 7;</code>
+       */
+      public Builder clearPresenceChanged() {
+        copyOnWrite();
+        instance.clearPresenceChanged();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+       */
+      @java.lang.Override
+      public boolean hasPhoneCall() {
+        return instance.hasPhoneCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged getPhoneCall() {
+        return instance.getPhoneCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+       */
+      public Builder setPhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged value) {
+        copyOnWrite();
+        instance.setPhoneCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+       */
+      public Builder setPhoneCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPhoneCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+       */
+      public Builder mergePhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged value) {
+        copyOnWrite();
+        instance.mergePhoneCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallChanged phone_call = 8;</code>
+       */
+      public Builder clearPhoneCall() {
+        copyOnWrite();
+        instance.clearPhoneCall();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+       */
+      @java.lang.Override
+      public boolean hasPhoneCallSignaling() {
+        return instance.hasPhoneCallSignaling();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData getPhoneCallSignaling() {
+        return instance.getPhoneCallSignaling();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+       */
+      public Builder setPhoneCallSignaling(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData value) {
+        copyOnWrite();
+        instance.setPhoneCallSignaling(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+       */
+      public Builder setPhoneCallSignaling(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPhoneCallSignaling(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+       */
+      public Builder mergePhoneCallSignaling(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData value) {
+        copyOnWrite();
+        instance.mergePhoneCallSignaling(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallSignalingData phone_call_signaling = 9;</code>
+       */
+      public Builder clearPhoneCallSignaling() {
+        copyOnWrite();
+        instance.clearPhoneCallSignaling();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.Update)
     }
     @java.lang.Override
@@ -36678,10 +42490,13 @@ public final class BotgramRpc {
               org.telegram.botgram.protocol.v1.BotgramRpc.ReadReceipt.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.GidChanged.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.PeerWallpaperChanged.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PresenceChanged.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.class,
             };
             java.lang.String info =
-                "\u0000\u0006\u0001\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001<\u0000\u0002<" +
-                "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000";
+                "\u0000\t\u0001\u0000\u0001\t\t\u0000\u0000\u0000\u0001<\u0000\u0002<\u0000\u0003" +
+                "<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000\u0007<\u0000\b<\u0000\t<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -50316,6 +56131,12 @@ public final class BotgramRpc {
      * @return The wallpaper.
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.WallpaperState getWallpaper();
+
+    /**
+     * <code>bool video_calls_available = 11;</code>
+     * @return The videoCallsAvailable.
+     */
+    boolean getVideoCallsAvailable();
   }
   /**
    * Protobuf type {@code botgram.rpc.v1.UserFullResult}
@@ -50826,6 +56647,32 @@ public final class BotgramRpc {
      */
     private void clearWallpaper() {  wallpaper_ = null;
       bitField0_ = (bitField0_ & ~0x00000008);
+    }
+
+    public static final int VIDEO_CALLS_AVAILABLE_FIELD_NUMBER = 11;
+    private boolean videoCallsAvailable_;
+    /**
+     * <code>bool video_calls_available = 11;</code>
+     * @return The videoCallsAvailable.
+     */
+    @java.lang.Override
+    public boolean getVideoCallsAvailable() {
+      return videoCallsAvailable_;
+    }
+    /**
+     * <code>bool video_calls_available = 11;</code>
+     * @param value The videoCallsAvailable to set.
+     */
+    private void setVideoCallsAvailable(boolean value) {
+      
+      videoCallsAvailable_ = value;
+    }
+    /**
+     * <code>bool video_calls_available = 11;</code>
+     */
+    private void clearVideoCallsAvailable() {
+
+      videoCallsAvailable_ = false;
     }
 
     public static org.telegram.botgram.protocol.v1.BotgramRpc.UserFullResult parseFrom(
@@ -51450,6 +57297,34 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>bool video_calls_available = 11;</code>
+       * @return The videoCallsAvailable.
+       */
+      @java.lang.Override
+      public boolean getVideoCallsAvailable() {
+        return instance.getVideoCallsAvailable();
+      }
+      /**
+       * <code>bool video_calls_available = 11;</code>
+       * @param value The videoCallsAvailable to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideoCallsAvailable(boolean value) {
+        copyOnWrite();
+        instance.setVideoCallsAvailable(value);
+        return this;
+      }
+      /**
+       * <code>bool video_calls_available = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideoCallsAvailable() {
+        copyOnWrite();
+        instance.clearVideoCallsAvailable();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.UserFullResult)
     }
     @java.lang.Override
@@ -51479,11 +57354,12 @@ public final class BotgramRpc {
               "groups_",
               org.telegram.botgram.protocol.v1.BotgramRpc.GroupSummary.class,
               "wallpaper_",
+              "videoCallsAvailable_",
             };
             java.lang.String info =
-                "\u0000\n\u0000\u0001\u0001\n\n\u0000\u0002\u0000\u0001\u1009\u0000\u0002\u1009\u0001" +
-                "\u0003\u1009\u0002\u0004\u0208\u0005\u0004\u0006\u0007\u0007\u0007\b\u001b\t\u001b" +
-                "\n\u1009\u0003";
+                "\u0000\u000b\u0000\u0001\u0001\u000b\u000b\u0000\u0002\u0000\u0001\u1009\u0000\u0002" +
+                "\u1009\u0001\u0003\u1009\u0002\u0004\u0208\u0005\u0004\u0006\u0007\u0007\u0007\b" +
+                "\u001b\t\u001b\n\u1009\u0003\u000b\u0007";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -69636,6 +75512,9222 @@ public final class BotgramRpc {
     private static volatile com.google.protobuf.Parser<ChatWallpaperResult> PARSER;
 
     public static com.google.protobuf.Parser<ChatWallpaperResult> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneCallProtocolOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneCallProtocol)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>bool udp_p2p = 1;</code>
+     * @return The udpP2p.
+     */
+    boolean getUdpP2P();
+
+    /**
+     * <code>bool udp_reflector = 2;</code>
+     * @return The udpReflector.
+     */
+    boolean getUdpReflector();
+
+    /**
+     * <code>int32 min_layer = 3;</code>
+     * @return The minLayer.
+     */
+    int getMinLayer();
+
+    /**
+     * <code>int32 max_layer = 4;</code>
+     * @return The maxLayer.
+     */
+    int getMaxLayer();
+
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @return A list containing the libraryVersions.
+     */
+    java.util.List<java.lang.String>
+        getLibraryVersionsList();
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @return The count of libraryVersions.
+     */
+    int getLibraryVersionsCount();
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param index The index of the element to return.
+     * @return The libraryVersions at the given index.
+     */
+    java.lang.String getLibraryVersions(int index);
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param index The index of the element to return.
+     * @return The libraryVersions at the given index.
+     */
+    com.google.protobuf.ByteString
+        getLibraryVersionsBytes(int index);
+  }
+  /**
+   * <pre>
+   * 1:1 voice/video calls. The call ID is the existing stable TL call ID; the access
+   * hash remains a per-call capability and is verified like the TL-JSON transport.
+   * </pre>
+   *
+   * Protobuf type {@code botgram.rpc.v1.PhoneCallProtocol}
+   */
+  public  static final class PhoneCallProtocol extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneCallProtocol, PhoneCallProtocol.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneCallProtocol)
+      PhoneCallProtocolOrBuilder {
+    private PhoneCallProtocol() {
+      libraryVersions_ = com.google.protobuf.GeneratedMessageLite.emptyProtobufList();
+    }
+    public static final int UDP_P2P_FIELD_NUMBER = 1;
+    private boolean udpP2P_;
+    /**
+     * <code>bool udp_p2p = 1;</code>
+     * @return The udpP2p.
+     */
+    @java.lang.Override
+    public boolean getUdpP2P() {
+      return udpP2P_;
+    }
+    /**
+     * <code>bool udp_p2p = 1;</code>
+     * @param value The udpP2p to set.
+     */
+    private void setUdpP2P(boolean value) {
+      
+      udpP2P_ = value;
+    }
+    /**
+     * <code>bool udp_p2p = 1;</code>
+     */
+    private void clearUdpP2P() {
+
+      udpP2P_ = false;
+    }
+
+    public static final int UDP_REFLECTOR_FIELD_NUMBER = 2;
+    private boolean udpReflector_;
+    /**
+     * <code>bool udp_reflector = 2;</code>
+     * @return The udpReflector.
+     */
+    @java.lang.Override
+    public boolean getUdpReflector() {
+      return udpReflector_;
+    }
+    /**
+     * <code>bool udp_reflector = 2;</code>
+     * @param value The udpReflector to set.
+     */
+    private void setUdpReflector(boolean value) {
+      
+      udpReflector_ = value;
+    }
+    /**
+     * <code>bool udp_reflector = 2;</code>
+     */
+    private void clearUdpReflector() {
+
+      udpReflector_ = false;
+    }
+
+    public static final int MIN_LAYER_FIELD_NUMBER = 3;
+    private int minLayer_;
+    /**
+     * <code>int32 min_layer = 3;</code>
+     * @return The minLayer.
+     */
+    @java.lang.Override
+    public int getMinLayer() {
+      return minLayer_;
+    }
+    /**
+     * <code>int32 min_layer = 3;</code>
+     * @param value The minLayer to set.
+     */
+    private void setMinLayer(int value) {
+      
+      minLayer_ = value;
+    }
+    /**
+     * <code>int32 min_layer = 3;</code>
+     */
+    private void clearMinLayer() {
+
+      minLayer_ = 0;
+    }
+
+    public static final int MAX_LAYER_FIELD_NUMBER = 4;
+    private int maxLayer_;
+    /**
+     * <code>int32 max_layer = 4;</code>
+     * @return The maxLayer.
+     */
+    @java.lang.Override
+    public int getMaxLayer() {
+      return maxLayer_;
+    }
+    /**
+     * <code>int32 max_layer = 4;</code>
+     * @param value The maxLayer to set.
+     */
+    private void setMaxLayer(int value) {
+      
+      maxLayer_ = value;
+    }
+    /**
+     * <code>int32 max_layer = 4;</code>
+     */
+    private void clearMaxLayer() {
+
+      maxLayer_ = 0;
+    }
+
+    public static final int LIBRARY_VERSIONS_FIELD_NUMBER = 5;
+    private com.google.protobuf.Internal.ProtobufList<java.lang.String> libraryVersions_;
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @return A list containing the libraryVersions.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.String> getLibraryVersionsList() {
+      return libraryVersions_;
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @return The count of libraryVersions.
+     */
+    @java.lang.Override
+    public int getLibraryVersionsCount() {
+      return libraryVersions_.size();
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param index The index of the element to return.
+     * @return The libraryVersions at the given index.
+     */
+    @java.lang.Override
+    public java.lang.String getLibraryVersions(int index) {
+      return libraryVersions_.get(index);
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the libraryVersions at the given index.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLibraryVersionsBytes(int index) {
+      return com.google.protobuf.ByteString.copyFromUtf8(
+          libraryVersions_.get(index));
+    }
+    private void ensureLibraryVersionsIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<java.lang.String> tmp =
+          libraryVersions_;  if (!tmp.isModifiable()) {
+        libraryVersions_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param index The index to set the value at.
+     * @param value The libraryVersions to set.
+     */
+    private void setLibraryVersions(
+        int index, java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  ensureLibraryVersionsIsMutable();
+      libraryVersions_.set(index, value);
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param value The libraryVersions to add.
+     */
+    private void addLibraryVersions(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  ensureLibraryVersionsIsMutable();
+      libraryVersions_.add(value);
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param values The libraryVersions to add.
+     */
+    private void addAllLibraryVersions(
+        java.lang.Iterable<java.lang.String> values) {
+      ensureLibraryVersionsIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, libraryVersions_);
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     */
+    private void clearLibraryVersions() {
+      libraryVersions_ = com.google.protobuf.GeneratedMessageLite.emptyProtobufList();
+    }
+    /**
+     * <code>repeated string library_versions = 5;</code>
+     * @param value The bytes of the libraryVersions to add.
+     */
+    private void addLibraryVersionsBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      ensureLibraryVersionsIsMutable();
+      libraryVersions_.add(value.toStringUtf8());
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * <pre>
+     * 1:1 voice/video calls. The call ID is the existing stable TL call ID; the access
+     * hash remains a per-call capability and is verified like the TL-JSON transport.
+     * </pre>
+     *
+     * Protobuf type {@code botgram.rpc.v1.PhoneCallProtocol}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneCallProtocol)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocolOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>bool udp_p2p = 1;</code>
+       * @return The udpP2p.
+       */
+      @java.lang.Override
+      public boolean getUdpP2P() {
+        return instance.getUdpP2P();
+      }
+      /**
+       * <code>bool udp_p2p = 1;</code>
+       * @param value The udpP2p to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUdpP2P(boolean value) {
+        copyOnWrite();
+        instance.setUdpP2P(value);
+        return this;
+      }
+      /**
+       * <code>bool udp_p2p = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUdpP2P() {
+        copyOnWrite();
+        instance.clearUdpP2P();
+        return this;
+      }
+
+      /**
+       * <code>bool udp_reflector = 2;</code>
+       * @return The udpReflector.
+       */
+      @java.lang.Override
+      public boolean getUdpReflector() {
+        return instance.getUdpReflector();
+      }
+      /**
+       * <code>bool udp_reflector = 2;</code>
+       * @param value The udpReflector to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUdpReflector(boolean value) {
+        copyOnWrite();
+        instance.setUdpReflector(value);
+        return this;
+      }
+      /**
+       * <code>bool udp_reflector = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUdpReflector() {
+        copyOnWrite();
+        instance.clearUdpReflector();
+        return this;
+      }
+
+      /**
+       * <code>int32 min_layer = 3;</code>
+       * @return The minLayer.
+       */
+      @java.lang.Override
+      public int getMinLayer() {
+        return instance.getMinLayer();
+      }
+      /**
+       * <code>int32 min_layer = 3;</code>
+       * @param value The minLayer to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMinLayer(int value) {
+        copyOnWrite();
+        instance.setMinLayer(value);
+        return this;
+      }
+      /**
+       * <code>int32 min_layer = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMinLayer() {
+        copyOnWrite();
+        instance.clearMinLayer();
+        return this;
+      }
+
+      /**
+       * <code>int32 max_layer = 4;</code>
+       * @return The maxLayer.
+       */
+      @java.lang.Override
+      public int getMaxLayer() {
+        return instance.getMaxLayer();
+      }
+      /**
+       * <code>int32 max_layer = 4;</code>
+       * @param value The maxLayer to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMaxLayer(int value) {
+        copyOnWrite();
+        instance.setMaxLayer(value);
+        return this;
+      }
+      /**
+       * <code>int32 max_layer = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMaxLayer() {
+        copyOnWrite();
+        instance.clearMaxLayer();
+        return this;
+      }
+
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @return A list containing the libraryVersions.
+       */
+      @java.lang.Override
+      public java.util.List<java.lang.String>
+          getLibraryVersionsList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getLibraryVersionsList());
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @return The count of libraryVersions.
+       */
+      @java.lang.Override
+      public int getLibraryVersionsCount() {
+        return instance.getLibraryVersionsCount();
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @param index The index of the element to return.
+       * @return The libraryVersions at the given index.
+       */
+      @java.lang.Override
+      public java.lang.String getLibraryVersions(int index) {
+        return instance.getLibraryVersions(index);
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the libraryVersions at the given index.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getLibraryVersionsBytes(int index) {
+        return instance.getLibraryVersionsBytes(index);
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @param index The index to set the value at.
+       * @param value The libraryVersions to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLibraryVersions(
+          int index, java.lang.String value) {
+        copyOnWrite();
+        instance.setLibraryVersions(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @param value The libraryVersions to add.
+       * @return This builder for chaining.
+       */
+      public Builder addLibraryVersions(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.addLibraryVersions(value);
+        return this;
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @param values The libraryVersions to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllLibraryVersions(
+          java.lang.Iterable<java.lang.String> values) {
+        copyOnWrite();
+        instance.addAllLibraryVersions(values);
+        return this;
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLibraryVersions() {
+        copyOnWrite();
+        instance.clearLibraryVersions();
+        return this;
+      }
+      /**
+       * <code>repeated string library_versions = 5;</code>
+       * @param value The bytes of the libraryVersions to add.
+       * @return This builder for chaining.
+       */
+      public Builder addLibraryVersionsBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.addLibraryVersionsBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneCallProtocol)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "udpP2P_",
+              "udpReflector_",
+              "minLayer_",
+              "maxLayer_",
+              "libraryVersions_",
+            };
+            java.lang.String info =
+                "\u0000\u0005\u0000\u0000\u0001\u0005\u0005\u0000\u0001\u0000\u0001\u0007\u0002\u0007" +
+                "\u0003\u0004\u0004\u0004\u0005\u021a";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneCallProtocol)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol DEFAULT_INSTANCE;
+    static {
+      PhoneCallProtocol defaultInstance = new PhoneCallProtocol();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneCallProtocol.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneCallProtocol> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneCallProtocol> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneConnectionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneConnection)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int64 id = 1;</code>
+     * @return The id.
+     */
+    long getId();
+
+    /**
+     * <code>string ip = 2;</code>
+     * @return The ip.
+     */
+    java.lang.String getIp();
+    /**
+     * <code>string ip = 2;</code>
+     * @return The bytes for ip.
+     */
+    com.google.protobuf.ByteString
+        getIpBytes();
+
+    /**
+     * <code>string ipv6 = 3;</code>
+     * @return The ipv6.
+     */
+    java.lang.String getIpv6();
+    /**
+     * <code>string ipv6 = 3;</code>
+     * @return The bytes for ipv6.
+     */
+    com.google.protobuf.ByteString
+        getIpv6Bytes();
+
+    /**
+     * <code>int32 port = 4;</code>
+     * @return The port.
+     */
+    int getPort();
+
+    /**
+     * <code>bool turn = 5;</code>
+     * @return The turn.
+     */
+    boolean getTurn();
+
+    /**
+     * <code>bool stun = 6;</code>
+     * @return The stun.
+     */
+    boolean getStun();
+
+    /**
+     * <code>string username = 7;</code>
+     * @return The username.
+     */
+    java.lang.String getUsername();
+    /**
+     * <code>string username = 7;</code>
+     * @return The bytes for username.
+     */
+    com.google.protobuf.ByteString
+        getUsernameBytes();
+
+    /**
+     * <code>string password = 8;</code>
+     * @return The password.
+     */
+    java.lang.String getPassword();
+    /**
+     * <code>string password = 8;</code>
+     * @return The bytes for password.
+     */
+    com.google.protobuf.ByteString
+        getPasswordBytes();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneConnection}
+   */
+  public  static final class PhoneConnection extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneConnection, PhoneConnection.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneConnection)
+      PhoneConnectionOrBuilder {
+    private PhoneConnection() {
+      ip_ = "";
+      ipv6_ = "";
+      username_ = "";
+      password_ = "";
+    }
+    public static final int ID_FIELD_NUMBER = 1;
+    private long id_;
+    /**
+     * <code>int64 id = 1;</code>
+     * @return The id.
+     */
+    @java.lang.Override
+    public long getId() {
+      return id_;
+    }
+    /**
+     * <code>int64 id = 1;</code>
+     * @param value The id to set.
+     */
+    private void setId(long value) {
+      
+      id_ = value;
+    }
+    /**
+     * <code>int64 id = 1;</code>
+     */
+    private void clearId() {
+
+      id_ = 0L;
+    }
+
+    public static final int IP_FIELD_NUMBER = 2;
+    private java.lang.String ip_;
+    /**
+     * <code>string ip = 2;</code>
+     * @return The ip.
+     */
+    @java.lang.Override
+    public java.lang.String getIp() {
+      return ip_;
+    }
+    /**
+     * <code>string ip = 2;</code>
+     * @return The bytes for ip.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(ip_);
+    }
+    /**
+     * <code>string ip = 2;</code>
+     * @param value The ip to set.
+     */
+    private void setIp(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      ip_ = value;
+    }
+    /**
+     * <code>string ip = 2;</code>
+     */
+    private void clearIp() {
+
+      ip_ = getDefaultInstance().getIp();
+    }
+    /**
+     * <code>string ip = 2;</code>
+     * @param value The bytes for ip to set.
+     */
+    private void setIpBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      ip_ = value.toStringUtf8();
+
+    }
+
+    public static final int IPV6_FIELD_NUMBER = 3;
+    private java.lang.String ipv6_;
+    /**
+     * <code>string ipv6 = 3;</code>
+     * @return The ipv6.
+     */
+    @java.lang.Override
+    public java.lang.String getIpv6() {
+      return ipv6_;
+    }
+    /**
+     * <code>string ipv6 = 3;</code>
+     * @return The bytes for ipv6.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getIpv6Bytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(ipv6_);
+    }
+    /**
+     * <code>string ipv6 = 3;</code>
+     * @param value The ipv6 to set.
+     */
+    private void setIpv6(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      ipv6_ = value;
+    }
+    /**
+     * <code>string ipv6 = 3;</code>
+     */
+    private void clearIpv6() {
+
+      ipv6_ = getDefaultInstance().getIpv6();
+    }
+    /**
+     * <code>string ipv6 = 3;</code>
+     * @param value The bytes for ipv6 to set.
+     */
+    private void setIpv6Bytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      ipv6_ = value.toStringUtf8();
+
+    }
+
+    public static final int PORT_FIELD_NUMBER = 4;
+    private int port_;
+    /**
+     * <code>int32 port = 4;</code>
+     * @return The port.
+     */
+    @java.lang.Override
+    public int getPort() {
+      return port_;
+    }
+    /**
+     * <code>int32 port = 4;</code>
+     * @param value The port to set.
+     */
+    private void setPort(int value) {
+      
+      port_ = value;
+    }
+    /**
+     * <code>int32 port = 4;</code>
+     */
+    private void clearPort() {
+
+      port_ = 0;
+    }
+
+    public static final int TURN_FIELD_NUMBER = 5;
+    private boolean turn_;
+    /**
+     * <code>bool turn = 5;</code>
+     * @return The turn.
+     */
+    @java.lang.Override
+    public boolean getTurn() {
+      return turn_;
+    }
+    /**
+     * <code>bool turn = 5;</code>
+     * @param value The turn to set.
+     */
+    private void setTurn(boolean value) {
+      
+      turn_ = value;
+    }
+    /**
+     * <code>bool turn = 5;</code>
+     */
+    private void clearTurn() {
+
+      turn_ = false;
+    }
+
+    public static final int STUN_FIELD_NUMBER = 6;
+    private boolean stun_;
+    /**
+     * <code>bool stun = 6;</code>
+     * @return The stun.
+     */
+    @java.lang.Override
+    public boolean getStun() {
+      return stun_;
+    }
+    /**
+     * <code>bool stun = 6;</code>
+     * @param value The stun to set.
+     */
+    private void setStun(boolean value) {
+      
+      stun_ = value;
+    }
+    /**
+     * <code>bool stun = 6;</code>
+     */
+    private void clearStun() {
+
+      stun_ = false;
+    }
+
+    public static final int USERNAME_FIELD_NUMBER = 7;
+    private java.lang.String username_;
+    /**
+     * <code>string username = 7;</code>
+     * @return The username.
+     */
+    @java.lang.Override
+    public java.lang.String getUsername() {
+      return username_;
+    }
+    /**
+     * <code>string username = 7;</code>
+     * @return The bytes for username.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getUsernameBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(username_);
+    }
+    /**
+     * <code>string username = 7;</code>
+     * @param value The username to set.
+     */
+    private void setUsername(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      username_ = value;
+    }
+    /**
+     * <code>string username = 7;</code>
+     */
+    private void clearUsername() {
+
+      username_ = getDefaultInstance().getUsername();
+    }
+    /**
+     * <code>string username = 7;</code>
+     * @param value The bytes for username to set.
+     */
+    private void setUsernameBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      username_ = value.toStringUtf8();
+
+    }
+
+    public static final int PASSWORD_FIELD_NUMBER = 8;
+    private java.lang.String password_;
+    /**
+     * <code>string password = 8;</code>
+     * @return The password.
+     */
+    @java.lang.Override
+    public java.lang.String getPassword() {
+      return password_;
+    }
+    /**
+     * <code>string password = 8;</code>
+     * @return The bytes for password.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPasswordBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(password_);
+    }
+    /**
+     * <code>string password = 8;</code>
+     * @param value The password to set.
+     */
+    private void setPassword(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      password_ = value;
+    }
+    /**
+     * <code>string password = 8;</code>
+     */
+    private void clearPassword() {
+
+      password_ = getDefaultInstance().getPassword();
+    }
+    /**
+     * <code>string password = 8;</code>
+     * @param value The bytes for password to set.
+     */
+    private void setPasswordBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      password_ = value.toStringUtf8();
+
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneConnection}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneConnection)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnectionOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int64 id = 1;</code>
+       * @return The id.
+       */
+      @java.lang.Override
+      public long getId() {
+        return instance.getId();
+      }
+      /**
+       * <code>int64 id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(long value) {
+        copyOnWrite();
+        instance.setId(value);
+        return this;
+      }
+      /**
+       * <code>int64 id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        copyOnWrite();
+        instance.clearId();
+        return this;
+      }
+
+      /**
+       * <code>string ip = 2;</code>
+       * @return The ip.
+       */
+      @java.lang.Override
+      public java.lang.String getIp() {
+        return instance.getIp();
+      }
+      /**
+       * <code>string ip = 2;</code>
+       * @return The bytes for ip.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getIpBytes() {
+        return instance.getIpBytes();
+      }
+      /**
+       * <code>string ip = 2;</code>
+       * @param value The ip to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIp(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setIp(value);
+        return this;
+      }
+      /**
+       * <code>string ip = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIp() {
+        copyOnWrite();
+        instance.clearIp();
+        return this;
+      }
+      /**
+       * <code>string ip = 2;</code>
+       * @param value The bytes for ip to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setIpBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>string ipv6 = 3;</code>
+       * @return The ipv6.
+       */
+      @java.lang.Override
+      public java.lang.String getIpv6() {
+        return instance.getIpv6();
+      }
+      /**
+       * <code>string ipv6 = 3;</code>
+       * @return The bytes for ipv6.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getIpv6Bytes() {
+        return instance.getIpv6Bytes();
+      }
+      /**
+       * <code>string ipv6 = 3;</code>
+       * @param value The ipv6 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpv6(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setIpv6(value);
+        return this;
+      }
+      /**
+       * <code>string ipv6 = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIpv6() {
+        copyOnWrite();
+        instance.clearIpv6();
+        return this;
+      }
+      /**
+       * <code>string ipv6 = 3;</code>
+       * @param value The bytes for ipv6 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpv6Bytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setIpv6Bytes(value);
+        return this;
+      }
+
+      /**
+       * <code>int32 port = 4;</code>
+       * @return The port.
+       */
+      @java.lang.Override
+      public int getPort() {
+        return instance.getPort();
+      }
+      /**
+       * <code>int32 port = 4;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPort(int value) {
+        copyOnWrite();
+        instance.setPort(value);
+        return this;
+      }
+      /**
+       * <code>int32 port = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPort() {
+        copyOnWrite();
+        instance.clearPort();
+        return this;
+      }
+
+      /**
+       * <code>bool turn = 5;</code>
+       * @return The turn.
+       */
+      @java.lang.Override
+      public boolean getTurn() {
+        return instance.getTurn();
+      }
+      /**
+       * <code>bool turn = 5;</code>
+       * @param value The turn to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTurn(boolean value) {
+        copyOnWrite();
+        instance.setTurn(value);
+        return this;
+      }
+      /**
+       * <code>bool turn = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTurn() {
+        copyOnWrite();
+        instance.clearTurn();
+        return this;
+      }
+
+      /**
+       * <code>bool stun = 6;</code>
+       * @return The stun.
+       */
+      @java.lang.Override
+      public boolean getStun() {
+        return instance.getStun();
+      }
+      /**
+       * <code>bool stun = 6;</code>
+       * @param value The stun to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStun(boolean value) {
+        copyOnWrite();
+        instance.setStun(value);
+        return this;
+      }
+      /**
+       * <code>bool stun = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStun() {
+        copyOnWrite();
+        instance.clearStun();
+        return this;
+      }
+
+      /**
+       * <code>string username = 7;</code>
+       * @return The username.
+       */
+      @java.lang.Override
+      public java.lang.String getUsername() {
+        return instance.getUsername();
+      }
+      /**
+       * <code>string username = 7;</code>
+       * @return The bytes for username.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getUsernameBytes() {
+        return instance.getUsernameBytes();
+      }
+      /**
+       * <code>string username = 7;</code>
+       * @param value The username to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUsername(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setUsername(value);
+        return this;
+      }
+      /**
+       * <code>string username = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUsername() {
+        copyOnWrite();
+        instance.clearUsername();
+        return this;
+      }
+      /**
+       * <code>string username = 7;</code>
+       * @param value The bytes for username to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUsernameBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setUsernameBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>string password = 8;</code>
+       * @return The password.
+       */
+      @java.lang.Override
+      public java.lang.String getPassword() {
+        return instance.getPassword();
+      }
+      /**
+       * <code>string password = 8;</code>
+       * @return The bytes for password.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getPasswordBytes() {
+        return instance.getPasswordBytes();
+      }
+      /**
+       * <code>string password = 8;</code>
+       * @param value The password to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPassword(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setPassword(value);
+        return this;
+      }
+      /**
+       * <code>string password = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPassword() {
+        copyOnWrite();
+        instance.clearPassword();
+        return this;
+      }
+      /**
+       * <code>string password = 8;</code>
+       * @param value The bytes for password to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPasswordBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setPasswordBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneConnection)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "id_",
+              "ip_",
+              "ipv6_",
+              "port_",
+              "turn_",
+              "stun_",
+              "username_",
+              "password_",
+            };
+            java.lang.String info =
+                "\u0000\b\u0000\u0000\u0001\b\b\u0000\u0000\u0000\u0001\u0002\u0002\u0208\u0003\u0208" +
+                "\u0004\u0004\u0005\u0007\u0006\u0007\u0007\u0208\b\u0208";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneConnection)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection DEFAULT_INSTANCE;
+    static {
+      PhoneConnection defaultInstance = new PhoneConnection();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneConnection.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneConnection> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneConnection> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneCallRefOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneCallRef)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @return The callId.
+     */
+    long getCallId();
+
+    /**
+     * <code>int64 access_hash = 2;</code>
+     * @return The accessHash.
+     */
+    long getAccessHash();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneCallRef}
+   */
+  public  static final class PhoneCallRef extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneCallRef, PhoneCallRef.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneCallRef)
+      PhoneCallRefOrBuilder {
+    private PhoneCallRef() {
+    }
+    public static final int CALL_ID_FIELD_NUMBER = 1;
+    private long callId_;
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @return The callId.
+     */
+    @java.lang.Override
+    public long getCallId() {
+      return callId_;
+    }
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @param value The callId to set.
+     */
+    private void setCallId(long value) {
+      
+      callId_ = value;
+    }
+    /**
+     * <code>int64 call_id = 1;</code>
+     */
+    private void clearCallId() {
+
+      callId_ = 0L;
+    }
+
+    public static final int ACCESS_HASH_FIELD_NUMBER = 2;
+    private long accessHash_;
+    /**
+     * <code>int64 access_hash = 2;</code>
+     * @return The accessHash.
+     */
+    @java.lang.Override
+    public long getAccessHash() {
+      return accessHash_;
+    }
+    /**
+     * <code>int64 access_hash = 2;</code>
+     * @param value The accessHash to set.
+     */
+    private void setAccessHash(long value) {
+      
+      accessHash_ = value;
+    }
+    /**
+     * <code>int64 access_hash = 2;</code>
+     */
+    private void clearAccessHash() {
+
+      accessHash_ = 0L;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneCallRef}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneCallRef)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRefOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @return The callId.
+       */
+      @java.lang.Override
+      public long getCallId() {
+        return instance.getCallId();
+      }
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @param value The callId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCallId(long value) {
+        copyOnWrite();
+        instance.setCallId(value);
+        return this;
+      }
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCallId() {
+        copyOnWrite();
+        instance.clearCallId();
+        return this;
+      }
+
+      /**
+       * <code>int64 access_hash = 2;</code>
+       * @return The accessHash.
+       */
+      @java.lang.Override
+      public long getAccessHash() {
+        return instance.getAccessHash();
+      }
+      /**
+       * <code>int64 access_hash = 2;</code>
+       * @param value The accessHash to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccessHash(long value) {
+        copyOnWrite();
+        instance.setAccessHash(value);
+        return this;
+      }
+      /**
+       * <code>int64 access_hash = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccessHash() {
+        copyOnWrite();
+        instance.clearAccessHash();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneCallRef)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "callId_",
+              "accessHash_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u0002\u0002\u0002" +
+                "";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneCallRef)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef DEFAULT_INSTANCE;
+    static {
+      PhoneCallRef defaultInstance = new PhoneCallRef();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneCallRef.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneCallRef> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneCallRef> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneCallOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneCall)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @return The callId.
+     */
+    long getCallId();
+
+    /**
+     * <code>int64 access_hash = 2;</code>
+     * @return The accessHash.
+     */
+    long getAccessHash();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     * @return The enum numeric value on the wire for state.
+     */
+    int getStateValue();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     * @return The state.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState getState();
+
+    /**
+     * <code>int64 admin_tl_user_id = 4;</code>
+     * @return The adminTlUserId.
+     */
+    long getAdminTlUserId();
+
+    /**
+     * <code>int64 participant_tl_user_id = 5;</code>
+     * @return The participantTlUserId.
+     */
+    long getParticipantTlUserId();
+
+    /**
+     * <code>int64 date_ms = 6;</code>
+     * @return The dateMs.
+     */
+    long getDateMs();
+
+    /**
+     * <code>bool video = 7;</code>
+     * @return The video.
+     */
+    boolean getVideo();
+
+    /**
+     * <code>bool p2p_allowed = 8;</code>
+     * @return The p2pAllowed.
+     */
+    boolean getP2PAllowed();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     * @return Whether the protocol field is set.
+     */
+    boolean hasProtocol();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     * @return The protocol.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol();
+
+    /**
+     * <code>int64 receive_date_ms = 10;</code>
+     * @return The receiveDateMs.
+     */
+    long getReceiveDateMs();
+
+    /**
+     * <code>int64 start_date_ms = 11;</code>
+     * @return The startDateMs.
+     */
+    long getStartDateMs();
+
+    /**
+     * <code>bytes g_a_hash = 12;</code>
+     * @return The gAHash.
+     */
+    com.google.protobuf.ByteString getGAHash();
+
+    /**
+     * <code>bytes g_b = 13;</code>
+     * @return The gB.
+     */
+    com.google.protobuf.ByteString getGB();
+
+    /**
+     * <code>bytes g_a_or_b = 14;</code>
+     * @return The gAOrB.
+     */
+    com.google.protobuf.ByteString getGAOrB();
+
+    /**
+     * <code>int64 key_fingerprint = 15;</code>
+     * @return The keyFingerprint.
+     */
+    long getKeyFingerprint();
+
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> 
+        getConnectionsList();
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection getConnections(int index);
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    int getConnectionsCount();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     * @return The enum numeric value on the wire for discardReason.
+     */
+    int getDiscardReasonValue();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     * @return The discardReason.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason getDiscardReason();
+
+    /**
+     * <code>int32 duration = 18;</code>
+     * @return The duration.
+     */
+    int getDuration();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneCall}
+   */
+  public  static final class PhoneCall extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneCall, PhoneCall.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneCall)
+      PhoneCallOrBuilder {
+    private PhoneCall() {
+      gAHash_ = com.google.protobuf.ByteString.EMPTY;
+      gB_ = com.google.protobuf.ByteString.EMPTY;
+      gAOrB_ = com.google.protobuf.ByteString.EMPTY;
+      connections_ = emptyProtobufList();
+    }
+    private int bitField0_;
+    public static final int CALL_ID_FIELD_NUMBER = 1;
+    private long callId_;
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @return The callId.
+     */
+    @java.lang.Override
+    public long getCallId() {
+      return callId_;
+    }
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @param value The callId to set.
+     */
+    private void setCallId(long value) {
+      
+      callId_ = value;
+    }
+    /**
+     * <code>int64 call_id = 1;</code>
+     */
+    private void clearCallId() {
+
+      callId_ = 0L;
+    }
+
+    public static final int ACCESS_HASH_FIELD_NUMBER = 2;
+    private long accessHash_;
+    /**
+     * <code>int64 access_hash = 2;</code>
+     * @return The accessHash.
+     */
+    @java.lang.Override
+    public long getAccessHash() {
+      return accessHash_;
+    }
+    /**
+     * <code>int64 access_hash = 2;</code>
+     * @param value The accessHash to set.
+     */
+    private void setAccessHash(long value) {
+      
+      accessHash_ = value;
+    }
+    /**
+     * <code>int64 access_hash = 2;</code>
+     */
+    private void clearAccessHash() {
+
+      accessHash_ = 0L;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 3;
+    private int state_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     * @return The enum numeric value on the wire for state.
+     */
+    @java.lang.Override
+    public int getStateValue() {
+      return state_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState getState() {
+      org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState result = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState.forNumber(state_);
+      return result == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     * @param value The enum numeric value on the wire for state to set.
+     */
+    private void setStateValue(int value) {
+        state_ = value;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     * @param value The state to set.
+     */
+    private void setState(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState value) {
+      state_ = value.getNumber();
+
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+     */
+    private void clearState() {
+
+      state_ = 0;
+    }
+
+    public static final int ADMIN_TL_USER_ID_FIELD_NUMBER = 4;
+    private long adminTlUserId_;
+    /**
+     * <code>int64 admin_tl_user_id = 4;</code>
+     * @return The adminTlUserId.
+     */
+    @java.lang.Override
+    public long getAdminTlUserId() {
+      return adminTlUserId_;
+    }
+    /**
+     * <code>int64 admin_tl_user_id = 4;</code>
+     * @param value The adminTlUserId to set.
+     */
+    private void setAdminTlUserId(long value) {
+      
+      adminTlUserId_ = value;
+    }
+    /**
+     * <code>int64 admin_tl_user_id = 4;</code>
+     */
+    private void clearAdminTlUserId() {
+
+      adminTlUserId_ = 0L;
+    }
+
+    public static final int PARTICIPANT_TL_USER_ID_FIELD_NUMBER = 5;
+    private long participantTlUserId_;
+    /**
+     * <code>int64 participant_tl_user_id = 5;</code>
+     * @return The participantTlUserId.
+     */
+    @java.lang.Override
+    public long getParticipantTlUserId() {
+      return participantTlUserId_;
+    }
+    /**
+     * <code>int64 participant_tl_user_id = 5;</code>
+     * @param value The participantTlUserId to set.
+     */
+    private void setParticipantTlUserId(long value) {
+      
+      participantTlUserId_ = value;
+    }
+    /**
+     * <code>int64 participant_tl_user_id = 5;</code>
+     */
+    private void clearParticipantTlUserId() {
+
+      participantTlUserId_ = 0L;
+    }
+
+    public static final int DATE_MS_FIELD_NUMBER = 6;
+    private long dateMs_;
+    /**
+     * <code>int64 date_ms = 6;</code>
+     * @return The dateMs.
+     */
+    @java.lang.Override
+    public long getDateMs() {
+      return dateMs_;
+    }
+    /**
+     * <code>int64 date_ms = 6;</code>
+     * @param value The dateMs to set.
+     */
+    private void setDateMs(long value) {
+      
+      dateMs_ = value;
+    }
+    /**
+     * <code>int64 date_ms = 6;</code>
+     */
+    private void clearDateMs() {
+
+      dateMs_ = 0L;
+    }
+
+    public static final int VIDEO_FIELD_NUMBER = 7;
+    private boolean video_;
+    /**
+     * <code>bool video = 7;</code>
+     * @return The video.
+     */
+    @java.lang.Override
+    public boolean getVideo() {
+      return video_;
+    }
+    /**
+     * <code>bool video = 7;</code>
+     * @param value The video to set.
+     */
+    private void setVideo(boolean value) {
+      
+      video_ = value;
+    }
+    /**
+     * <code>bool video = 7;</code>
+     */
+    private void clearVideo() {
+
+      video_ = false;
+    }
+
+    public static final int P2P_ALLOWED_FIELD_NUMBER = 8;
+    private boolean p2PAllowed_;
+    /**
+     * <code>bool p2p_allowed = 8;</code>
+     * @return The p2pAllowed.
+     */
+    @java.lang.Override
+    public boolean getP2PAllowed() {
+      return p2PAllowed_;
+    }
+    /**
+     * <code>bool p2p_allowed = 8;</code>
+     * @param value The p2pAllowed to set.
+     */
+    private void setP2PAllowed(boolean value) {
+      
+      p2PAllowed_ = value;
+    }
+    /**
+     * <code>bool p2p_allowed = 8;</code>
+     */
+    private void clearP2PAllowed() {
+
+      p2PAllowed_ = false;
+    }
+
+    public static final int PROTOCOL_FIELD_NUMBER = 9;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol protocol_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     */
+    @java.lang.Override
+    public boolean hasProtocol() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+      return protocol_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance() : protocol_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     */
+    private void setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  protocol_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  if (protocol_ != null &&
+          protocol_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance()) {
+        protocol_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.newBuilder(protocol_).mergeFrom(value).buildPartial();
+      } else {
+        protocol_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+     */
+    private void clearProtocol() {  protocol_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int RECEIVE_DATE_MS_FIELD_NUMBER = 10;
+    private long receiveDateMs_;
+    /**
+     * <code>int64 receive_date_ms = 10;</code>
+     * @return The receiveDateMs.
+     */
+    @java.lang.Override
+    public long getReceiveDateMs() {
+      return receiveDateMs_;
+    }
+    /**
+     * <code>int64 receive_date_ms = 10;</code>
+     * @param value The receiveDateMs to set.
+     */
+    private void setReceiveDateMs(long value) {
+      
+      receiveDateMs_ = value;
+    }
+    /**
+     * <code>int64 receive_date_ms = 10;</code>
+     */
+    private void clearReceiveDateMs() {
+
+      receiveDateMs_ = 0L;
+    }
+
+    public static final int START_DATE_MS_FIELD_NUMBER = 11;
+    private long startDateMs_;
+    /**
+     * <code>int64 start_date_ms = 11;</code>
+     * @return The startDateMs.
+     */
+    @java.lang.Override
+    public long getStartDateMs() {
+      return startDateMs_;
+    }
+    /**
+     * <code>int64 start_date_ms = 11;</code>
+     * @param value The startDateMs to set.
+     */
+    private void setStartDateMs(long value) {
+      
+      startDateMs_ = value;
+    }
+    /**
+     * <code>int64 start_date_ms = 11;</code>
+     */
+    private void clearStartDateMs() {
+
+      startDateMs_ = 0L;
+    }
+
+    public static final int G_A_HASH_FIELD_NUMBER = 12;
+    private com.google.protobuf.ByteString gAHash_;
+    /**
+     * <code>bytes g_a_hash = 12;</code>
+     * @return The gAHash.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getGAHash() {
+      return gAHash_;
+    }
+    /**
+     * <code>bytes g_a_hash = 12;</code>
+     * @param value The gAHash to set.
+     */
+    private void setGAHash(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      gAHash_ = value;
+    }
+    /**
+     * <code>bytes g_a_hash = 12;</code>
+     */
+    private void clearGAHash() {
+
+      gAHash_ = getDefaultInstance().getGAHash();
+    }
+
+    public static final int G_B_FIELD_NUMBER = 13;
+    private com.google.protobuf.ByteString gB_;
+    /**
+     * <code>bytes g_b = 13;</code>
+     * @return The gB.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getGB() {
+      return gB_;
+    }
+    /**
+     * <code>bytes g_b = 13;</code>
+     * @param value The gB to set.
+     */
+    private void setGB(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      gB_ = value;
+    }
+    /**
+     * <code>bytes g_b = 13;</code>
+     */
+    private void clearGB() {
+
+      gB_ = getDefaultInstance().getGB();
+    }
+
+    public static final int G_A_OR_B_FIELD_NUMBER = 14;
+    private com.google.protobuf.ByteString gAOrB_;
+    /**
+     * <code>bytes g_a_or_b = 14;</code>
+     * @return The gAOrB.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getGAOrB() {
+      return gAOrB_;
+    }
+    /**
+     * <code>bytes g_a_or_b = 14;</code>
+     * @param value The gAOrB to set.
+     */
+    private void setGAOrB(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      gAOrB_ = value;
+    }
+    /**
+     * <code>bytes g_a_or_b = 14;</code>
+     */
+    private void clearGAOrB() {
+
+      gAOrB_ = getDefaultInstance().getGAOrB();
+    }
+
+    public static final int KEY_FINGERPRINT_FIELD_NUMBER = 15;
+    private long keyFingerprint_;
+    /**
+     * <code>int64 key_fingerprint = 15;</code>
+     * @return The keyFingerprint.
+     */
+    @java.lang.Override
+    public long getKeyFingerprint() {
+      return keyFingerprint_;
+    }
+    /**
+     * <code>int64 key_fingerprint = 15;</code>
+     * @param value The keyFingerprint to set.
+     */
+    private void setKeyFingerprint(long value) {
+      
+      keyFingerprint_ = value;
+    }
+    /**
+     * <code>int64 key_fingerprint = 15;</code>
+     */
+    private void clearKeyFingerprint() {
+
+      keyFingerprint_ = 0L;
+    }
+
+    public static final int CONNECTIONS_FIELD_NUMBER = 16;
+    private com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> connections_;
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> getConnectionsList() {
+      return connections_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    public java.util.List<? extends org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnectionOrBuilder> 
+        getConnectionsOrBuilderList() {
+      return connections_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    @java.lang.Override
+    public int getConnectionsCount() {
+      return connections_.size();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection getConnections(int index) {
+      return connections_.get(index);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnectionOrBuilder getConnectionsOrBuilder(
+        int index) {
+      return connections_.get(index);
+    }
+    private void ensureConnectionsIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> tmp = connections_;
+      if (!tmp.isModifiable()) {
+        connections_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    private void setConnections(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection value) {
+      value.getClass();
+  ensureConnectionsIsMutable();
+      connections_.set(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    private void addConnections(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection value) {
+      value.getClass();
+  ensureConnectionsIsMutable();
+      connections_.add(value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    private void addConnections(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection value) {
+      value.getClass();
+  ensureConnectionsIsMutable();
+      connections_.add(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    private void addAllConnections(
+        java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> values) {
+      ensureConnectionsIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, connections_);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    private void clearConnections() {
+      connections_ = emptyProtobufList();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+     */
+    private void removeConnections(int index) {
+      ensureConnectionsIsMutable();
+      connections_.remove(index);
+    }
+
+    public static final int DISCARD_REASON_FIELD_NUMBER = 17;
+    private int discardReason_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     * @return The enum numeric value on the wire for discardReason.
+     */
+    @java.lang.Override
+    public int getDiscardReasonValue() {
+      return discardReason_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     * @return The discardReason.
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason getDiscardReason() {
+      org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason result = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason.forNumber(discardReason_);
+      return result == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     * @param value The enum numeric value on the wire for discardReason to set.
+     */
+    private void setDiscardReasonValue(int value) {
+        discardReason_ = value;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     * @param value The discardReason to set.
+     */
+    private void setDiscardReason(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason value) {
+      discardReason_ = value.getNumber();
+
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+     */
+    private void clearDiscardReason() {
+
+      discardReason_ = 0;
+    }
+
+    public static final int DURATION_FIELD_NUMBER = 18;
+    private int duration_;
+    /**
+     * <code>int32 duration = 18;</code>
+     * @return The duration.
+     */
+    @java.lang.Override
+    public int getDuration() {
+      return duration_;
+    }
+    /**
+     * <code>int32 duration = 18;</code>
+     * @param value The duration to set.
+     */
+    private void setDuration(int value) {
+      
+      duration_ = value;
+    }
+    /**
+     * <code>int32 duration = 18;</code>
+     */
+    private void clearDuration() {
+
+      duration_ = 0;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneCall}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneCall)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @return The callId.
+       */
+      @java.lang.Override
+      public long getCallId() {
+        return instance.getCallId();
+      }
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @param value The callId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCallId(long value) {
+        copyOnWrite();
+        instance.setCallId(value);
+        return this;
+      }
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCallId() {
+        copyOnWrite();
+        instance.clearCallId();
+        return this;
+      }
+
+      /**
+       * <code>int64 access_hash = 2;</code>
+       * @return The accessHash.
+       */
+      @java.lang.Override
+      public long getAccessHash() {
+        return instance.getAccessHash();
+      }
+      /**
+       * <code>int64 access_hash = 2;</code>
+       * @param value The accessHash to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccessHash(long value) {
+        copyOnWrite();
+        instance.setAccessHash(value);
+        return this;
+      }
+      /**
+       * <code>int64 access_hash = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccessHash() {
+        copyOnWrite();
+        instance.clearAccessHash();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+       * @return The enum numeric value on the wire for state.
+       */
+      @java.lang.Override
+      public int getStateValue() {
+        return instance.getStateValue();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateValue(int value) {
+        copyOnWrite();
+        instance.setStateValue(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState getState() {
+        return instance.getState();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+       * @param value The enum numeric value on the wire for state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallState value) {
+        copyOnWrite();
+        instance.setState(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallState state = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        copyOnWrite();
+        instance.clearState();
+        return this;
+      }
+
+      /**
+       * <code>int64 admin_tl_user_id = 4;</code>
+       * @return The adminTlUserId.
+       */
+      @java.lang.Override
+      public long getAdminTlUserId() {
+        return instance.getAdminTlUserId();
+      }
+      /**
+       * <code>int64 admin_tl_user_id = 4;</code>
+       * @param value The adminTlUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAdminTlUserId(long value) {
+        copyOnWrite();
+        instance.setAdminTlUserId(value);
+        return this;
+      }
+      /**
+       * <code>int64 admin_tl_user_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAdminTlUserId() {
+        copyOnWrite();
+        instance.clearAdminTlUserId();
+        return this;
+      }
+
+      /**
+       * <code>int64 participant_tl_user_id = 5;</code>
+       * @return The participantTlUserId.
+       */
+      @java.lang.Override
+      public long getParticipantTlUserId() {
+        return instance.getParticipantTlUserId();
+      }
+      /**
+       * <code>int64 participant_tl_user_id = 5;</code>
+       * @param value The participantTlUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setParticipantTlUserId(long value) {
+        copyOnWrite();
+        instance.setParticipantTlUserId(value);
+        return this;
+      }
+      /**
+       * <code>int64 participant_tl_user_id = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearParticipantTlUserId() {
+        copyOnWrite();
+        instance.clearParticipantTlUserId();
+        return this;
+      }
+
+      /**
+       * <code>int64 date_ms = 6;</code>
+       * @return The dateMs.
+       */
+      @java.lang.Override
+      public long getDateMs() {
+        return instance.getDateMs();
+      }
+      /**
+       * <code>int64 date_ms = 6;</code>
+       * @param value The dateMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDateMs(long value) {
+        copyOnWrite();
+        instance.setDateMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 date_ms = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDateMs() {
+        copyOnWrite();
+        instance.clearDateMs();
+        return this;
+      }
+
+      /**
+       * <code>bool video = 7;</code>
+       * @return The video.
+       */
+      @java.lang.Override
+      public boolean getVideo() {
+        return instance.getVideo();
+      }
+      /**
+       * <code>bool video = 7;</code>
+       * @param value The video to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideo(boolean value) {
+        copyOnWrite();
+        instance.setVideo(value);
+        return this;
+      }
+      /**
+       * <code>bool video = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideo() {
+        copyOnWrite();
+        instance.clearVideo();
+        return this;
+      }
+
+      /**
+       * <code>bool p2p_allowed = 8;</code>
+       * @return The p2pAllowed.
+       */
+      @java.lang.Override
+      public boolean getP2PAllowed() {
+        return instance.getP2PAllowed();
+      }
+      /**
+       * <code>bool p2p_allowed = 8;</code>
+       * @param value The p2pAllowed to set.
+       * @return This builder for chaining.
+       */
+      public Builder setP2PAllowed(boolean value) {
+        copyOnWrite();
+        instance.setP2PAllowed(value);
+        return this;
+      }
+      /**
+       * <code>bool p2p_allowed = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearP2PAllowed() {
+        copyOnWrite();
+        instance.clearP2PAllowed();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+       */
+      @java.lang.Override
+      public boolean hasProtocol() {
+        return instance.hasProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+        return instance.getProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+       */
+      public Builder setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.setProtocol(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+       */
+      public Builder setProtocol(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.Builder builderForValue) {
+        copyOnWrite();
+        instance.setProtocol(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+       */
+      public Builder mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.mergeProtocol(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 9;</code>
+       */
+      public Builder clearProtocol() {  copyOnWrite();
+        instance.clearProtocol();
+        return this;
+      }
+
+      /**
+       * <code>int64 receive_date_ms = 10;</code>
+       * @return The receiveDateMs.
+       */
+      @java.lang.Override
+      public long getReceiveDateMs() {
+        return instance.getReceiveDateMs();
+      }
+      /**
+       * <code>int64 receive_date_ms = 10;</code>
+       * @param value The receiveDateMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setReceiveDateMs(long value) {
+        copyOnWrite();
+        instance.setReceiveDateMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 receive_date_ms = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearReceiveDateMs() {
+        copyOnWrite();
+        instance.clearReceiveDateMs();
+        return this;
+      }
+
+      /**
+       * <code>int64 start_date_ms = 11;</code>
+       * @return The startDateMs.
+       */
+      @java.lang.Override
+      public long getStartDateMs() {
+        return instance.getStartDateMs();
+      }
+      /**
+       * <code>int64 start_date_ms = 11;</code>
+       * @param value The startDateMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStartDateMs(long value) {
+        copyOnWrite();
+        instance.setStartDateMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 start_date_ms = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStartDateMs() {
+        copyOnWrite();
+        instance.clearStartDateMs();
+        return this;
+      }
+
+      /**
+       * <code>bytes g_a_hash = 12;</code>
+       * @return The gAHash.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getGAHash() {
+        return instance.getGAHash();
+      }
+      /**
+       * <code>bytes g_a_hash = 12;</code>
+       * @param value The gAHash to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGAHash(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setGAHash(value);
+        return this;
+      }
+      /**
+       * <code>bytes g_a_hash = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGAHash() {
+        copyOnWrite();
+        instance.clearGAHash();
+        return this;
+      }
+
+      /**
+       * <code>bytes g_b = 13;</code>
+       * @return The gB.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getGB() {
+        return instance.getGB();
+      }
+      /**
+       * <code>bytes g_b = 13;</code>
+       * @param value The gB to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGB(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setGB(value);
+        return this;
+      }
+      /**
+       * <code>bytes g_b = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGB() {
+        copyOnWrite();
+        instance.clearGB();
+        return this;
+      }
+
+      /**
+       * <code>bytes g_a_or_b = 14;</code>
+       * @return The gAOrB.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getGAOrB() {
+        return instance.getGAOrB();
+      }
+      /**
+       * <code>bytes g_a_or_b = 14;</code>
+       * @param value The gAOrB to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGAOrB(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setGAOrB(value);
+        return this;
+      }
+      /**
+       * <code>bytes g_a_or_b = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGAOrB() {
+        copyOnWrite();
+        instance.clearGAOrB();
+        return this;
+      }
+
+      /**
+       * <code>int64 key_fingerprint = 15;</code>
+       * @return The keyFingerprint.
+       */
+      @java.lang.Override
+      public long getKeyFingerprint() {
+        return instance.getKeyFingerprint();
+      }
+      /**
+       * <code>int64 key_fingerprint = 15;</code>
+       * @param value The keyFingerprint to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKeyFingerprint(long value) {
+        copyOnWrite();
+        instance.setKeyFingerprint(value);
+        return this;
+      }
+      /**
+       * <code>int64 key_fingerprint = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKeyFingerprint() {
+        copyOnWrite();
+        instance.clearKeyFingerprint();
+        return this;
+      }
+
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      @java.lang.Override
+      public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> getConnectionsList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getConnectionsList());
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      @java.lang.Override
+      public int getConnectionsCount() {
+        return instance.getConnectionsCount();
+      }/**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection getConnections(int index) {
+        return instance.getConnections(index);
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder setConnections(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection value) {
+        copyOnWrite();
+        instance.setConnections(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder setConnections(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection.Builder builderForValue) {
+        copyOnWrite();
+        instance.setConnections(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder addConnections(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection value) {
+        copyOnWrite();
+        instance.addConnections(value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder addConnections(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection value) {
+        copyOnWrite();
+        instance.addConnections(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder addConnections(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection.Builder builderForValue) {
+        copyOnWrite();
+        instance.addConnections(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder addConnections(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection.Builder builderForValue) {
+        copyOnWrite();
+        instance.addConnections(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder addAllConnections(
+          java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection> values) {
+        copyOnWrite();
+        instance.addAllConnections(values);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder clearConnections() {
+        copyOnWrite();
+        instance.clearConnections();
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PhoneConnection connections = 16;</code>
+       */
+      public Builder removeConnections(int index) {
+        copyOnWrite();
+        instance.removeConnections(index);
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+       * @return The enum numeric value on the wire for discardReason.
+       */
+      @java.lang.Override
+      public int getDiscardReasonValue() {
+        return instance.getDiscardReasonValue();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+       * @param value The discardReason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDiscardReasonValue(int value) {
+        copyOnWrite();
+        instance.setDiscardReasonValue(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+       * @return The discardReason.
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason getDiscardReason() {
+        return instance.getDiscardReason();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+       * @param value The enum numeric value on the wire for discardReason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDiscardReason(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason value) {
+        copyOnWrite();
+        instance.setDiscardReason(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason discard_reason = 17;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDiscardReason() {
+        copyOnWrite();
+        instance.clearDiscardReason();
+        return this;
+      }
+
+      /**
+       * <code>int32 duration = 18;</code>
+       * @return The duration.
+       */
+      @java.lang.Override
+      public int getDuration() {
+        return instance.getDuration();
+      }
+      /**
+       * <code>int32 duration = 18;</code>
+       * @param value The duration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDuration(int value) {
+        copyOnWrite();
+        instance.setDuration(value);
+        return this;
+      }
+      /**
+       * <code>int32 duration = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDuration() {
+        copyOnWrite();
+        instance.clearDuration();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneCall)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "callId_",
+              "accessHash_",
+              "state_",
+              "adminTlUserId_",
+              "participantTlUserId_",
+              "dateMs_",
+              "video_",
+              "p2PAllowed_",
+              "protocol_",
+              "receiveDateMs_",
+              "startDateMs_",
+              "gAHash_",
+              "gB_",
+              "gAOrB_",
+              "keyFingerprint_",
+              "connections_",
+              org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConnection.class,
+              "discardReason_",
+              "duration_",
+            };
+            java.lang.String info =
+                "\u0000\u0012\u0000\u0001\u0001\u0012\u0012\u0000\u0001\u0000\u0001\u0002\u0002\u0002" +
+                "\u0003\f\u0004\u0002\u0005\u0002\u0006\u0002\u0007\u0007\b\u0007\t\u1009\u0000\n" +
+                "\u0002\u000b\u0002\f\n\r\n\u000e\n\u000f\u0002\u0010\u001b\u0011\f\u0012\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneCall)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall DEFAULT_INSTANCE;
+    static {
+      PhoneCall defaultInstance = new PhoneCall();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneCall.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneCall> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneCall> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneCallResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneCallResult)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     * @return Whether the phoneCall field is set.
+     */
+    boolean hasPhoneCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     * @return The phoneCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getPhoneCall();
+
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> 
+        getUsersList();
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary getUsers(int index);
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    int getUsersCount();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneCallResult}
+   */
+  public  static final class PhoneCallResult extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneCallResult, PhoneCallResult.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneCallResult)
+      PhoneCallResultOrBuilder {
+    private PhoneCallResult() {
+      users_ = emptyProtobufList();
+    }
+    private int bitField0_;
+    public static final int PHONE_CALL_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall phoneCall_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPhoneCall() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getPhoneCall() {
+      return phoneCall_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.getDefaultInstance() : phoneCall_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    private void setPhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+      value.getClass();
+  phoneCall_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+      value.getClass();
+  if (phoneCall_ != null &&
+          phoneCall_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.getDefaultInstance()) {
+        phoneCall_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.newBuilder(phoneCall_).mergeFrom(value).buildPartial();
+      } else {
+        phoneCall_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    private void clearPhoneCall() {  phoneCall_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int USERS_FIELD_NUMBER = 2;
+    private com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> users_;
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> getUsersList() {
+      return users_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    public java.util.List<? extends org.telegram.botgram.protocol.v1.BotgramRpc.UserSummaryOrBuilder> 
+        getUsersOrBuilderList() {
+      return users_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    @java.lang.Override
+    public int getUsersCount() {
+      return users_.size();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary getUsers(int index) {
+      return users_.get(index);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserSummaryOrBuilder getUsersOrBuilder(
+        int index) {
+      return users_.get(index);
+    }
+    private void ensureUsersIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> tmp = users_;
+      if (!tmp.isModifiable()) {
+        users_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    private void setUsers(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary value) {
+      value.getClass();
+  ensureUsersIsMutable();
+      users_.set(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    private void addUsers(org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary value) {
+      value.getClass();
+  ensureUsersIsMutable();
+      users_.add(value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    private void addUsers(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary value) {
+      value.getClass();
+  ensureUsersIsMutable();
+      users_.add(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    private void addAllUsers(
+        java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> values) {
+      ensureUsersIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, users_);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    private void clearUsers() {
+      users_ = emptyProtobufList();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+     */
+    private void removeUsers(int index) {
+      ensureUsersIsMutable();
+      users_.remove(index);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneCallResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneCallResult)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResultOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPhoneCall() {
+        return instance.hasPhoneCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getPhoneCall() {
+        return instance.getPhoneCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder setPhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+        copyOnWrite();
+        instance.setPhoneCall(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder setPhoneCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPhoneCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder mergePhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+        copyOnWrite();
+        instance.mergePhoneCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder clearPhoneCall() {  copyOnWrite();
+        instance.clearPhoneCall();
+        return this;
+      }
+
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      @java.lang.Override
+      public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> getUsersList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getUsersList());
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      @java.lang.Override
+      public int getUsersCount() {
+        return instance.getUsersCount();
+      }/**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary getUsers(int index) {
+        return instance.getUsers(index);
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder setUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary value) {
+        copyOnWrite();
+        instance.setUsers(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder setUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUsers(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder addUsers(org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary value) {
+        copyOnWrite();
+        instance.addUsers(value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder addUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary value) {
+        copyOnWrite();
+        instance.addUsers(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder addUsers(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary.Builder builderForValue) {
+        copyOnWrite();
+        instance.addUsers(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder addUsers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary.Builder builderForValue) {
+        copyOnWrite();
+        instance.addUsers(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder addAllUsers(
+          java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary> values) {
+        copyOnWrite();
+        instance.addAllUsers(values);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder clearUsers() {
+        copyOnWrite();
+        instance.clearUsers();
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.UserSummary users = 2;</code>
+       */
+      public Builder removeUsers(int index) {
+        copyOnWrite();
+        instance.removeUsers(index);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneCallResult)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "phoneCall_",
+              "users_",
+              org.telegram.botgram.protocol.v1.BotgramRpc.UserSummary.class,
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0001\u0000\u0001\u1009\u0000\u0002" +
+                "\u001b";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneCallResult)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult DEFAULT_INSTANCE;
+    static {
+      PhoneCallResult defaultInstance = new PhoneCallResult();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneCallResult.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneCallResult> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneCallResult> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface BoolValueOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.BoolValue)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>bool value = 1;</code>
+     * @return The value.
+     */
+    boolean getValue();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.BoolValue}
+   */
+  public  static final class BoolValue extends
+      com.google.protobuf.GeneratedMessageLite<
+          BoolValue, BoolValue.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.BoolValue)
+      BoolValueOrBuilder {
+    private BoolValue() {
+    }
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private boolean value_;
+    /**
+     * <code>bool value = 1;</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public boolean getValue() {
+      return value_;
+    }
+    /**
+     * <code>bool value = 1;</code>
+     * @param value The value to set.
+     */
+    private void setValue(boolean value) {
+      
+      value_ = value;
+    }
+    /**
+     * <code>bool value = 1;</code>
+     */
+    private void clearValue() {
+
+      value_ = false;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.BoolValue}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.BoolValue)
+        org.telegram.botgram.protocol.v1.BotgramRpc.BoolValueOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>bool value = 1;</code>
+       * @return The value.
+       */
+      @java.lang.Override
+      public boolean getValue() {
+        return instance.getValue();
+      }
+      /**
+       * <code>bool value = 1;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValue(boolean value) {
+        copyOnWrite();
+        instance.setValue(value);
+        return this;
+      }
+      /**
+       * <code>bool value = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValue() {
+        copyOnWrite();
+        instance.clearValue();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.BoolValue)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "value_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.BoolValue)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue DEFAULT_INSTANCE;
+    static {
+      BoolValue defaultInstance = new BoolValue();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        BoolValue.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.BoolValue getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<BoolValue> PARSER;
+
+    public static com.google.protobuf.Parser<BoolValue> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface DataJsonOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.DataJson)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>string data = 1;</code>
+     * @return The data.
+     */
+    java.lang.String getData();
+    /**
+     * <code>string data = 1;</code>
+     * @return The bytes for data.
+     */
+    com.google.protobuf.ByteString
+        getDataBytes();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.DataJson}
+   */
+  public  static final class DataJson extends
+      com.google.protobuf.GeneratedMessageLite<
+          DataJson, DataJson.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.DataJson)
+      DataJsonOrBuilder {
+    private DataJson() {
+      data_ = "";
+    }
+    public static final int DATA_FIELD_NUMBER = 1;
+    private java.lang.String data_;
+    /**
+     * <code>string data = 1;</code>
+     * @return The data.
+     */
+    @java.lang.Override
+    public java.lang.String getData() {
+      return data_;
+    }
+    /**
+     * <code>string data = 1;</code>
+     * @return The bytes for data.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDataBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(data_);
+    }
+    /**
+     * <code>string data = 1;</code>
+     * @param value The data to set.
+     */
+    private void setData(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      data_ = value;
+    }
+    /**
+     * <code>string data = 1;</code>
+     */
+    private void clearData() {
+
+      data_ = getDefaultInstance().getData();
+    }
+    /**
+     * <code>string data = 1;</code>
+     * @param value The bytes for data to set.
+     */
+    private void setDataBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      data_ = value.toStringUtf8();
+
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.DataJson prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.DataJson}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.DataJson, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.DataJson)
+        org.telegram.botgram.protocol.v1.BotgramRpc.DataJsonOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>string data = 1;</code>
+       * @return The data.
+       */
+      @java.lang.Override
+      public java.lang.String getData() {
+        return instance.getData();
+      }
+      /**
+       * <code>string data = 1;</code>
+       * @return The bytes for data.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getDataBytes() {
+        return instance.getDataBytes();
+      }
+      /**
+       * <code>string data = 1;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
+       */
+      public Builder setData(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setData(value);
+        return this;
+      }
+      /**
+       * <code>string data = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearData() {
+        copyOnWrite();
+        instance.clearData();
+        return this;
+      }
+      /**
+       * <code>string data = 1;</code>
+       * @param value The bytes for data to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setDataBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.DataJson)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.DataJson();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "data_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u0208";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.DataJson> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.DataJson.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.DataJson>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.DataJson)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.DataJson DEFAULT_INSTANCE;
+    static {
+      DataJson defaultInstance = new DataJson();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        DataJson.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DataJson getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<DataJson> PARSER;
+
+    public static com.google.protobuf.Parser<DataJson> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneRequestCallRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneRequestCallRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     * @return Whether the user field is set.
+     */
+    boolean hasUser();
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     * @return The user.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser();
+
+    /**
+     * <code>int64 random_id = 2;</code>
+     * @return The randomId.
+     */
+    long getRandomId();
+
+    /**
+     * <code>bool video = 3;</code>
+     * @return The video.
+     */
+    boolean getVideo();
+
+    /**
+     * <code>bytes g_a_hash = 4;</code>
+     * @return The gAHash.
+     */
+    com.google.protobuf.ByteString getGAHash();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     * @return Whether the protocol field is set.
+     */
+    boolean hasProtocol();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     * @return The protocol.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneRequestCallRequest}
+   */
+  public  static final class PhoneRequestCallRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneRequestCallRequest, PhoneRequestCallRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneRequestCallRequest)
+      PhoneRequestCallRequestOrBuilder {
+    private PhoneRequestCallRequest() {
+      gAHash_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private int bitField0_;
+    public static final int USER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector user_;
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasUser() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser() {
+      return user_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.getDefaultInstance() : user_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    private void setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+      value.getClass();
+  user_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+      value.getClass();
+  if (user_ != null &&
+          user_ != org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.getDefaultInstance()) {
+        user_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.newBuilder(user_).mergeFrom(value).buildPartial();
+      } else {
+        user_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+     */
+    private void clearUser() {  user_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int RANDOM_ID_FIELD_NUMBER = 2;
+    private long randomId_;
+    /**
+     * <code>int64 random_id = 2;</code>
+     * @return The randomId.
+     */
+    @java.lang.Override
+    public long getRandomId() {
+      return randomId_;
+    }
+    /**
+     * <code>int64 random_id = 2;</code>
+     * @param value The randomId to set.
+     */
+    private void setRandomId(long value) {
+      
+      randomId_ = value;
+    }
+    /**
+     * <code>int64 random_id = 2;</code>
+     */
+    private void clearRandomId() {
+
+      randomId_ = 0L;
+    }
+
+    public static final int VIDEO_FIELD_NUMBER = 3;
+    private boolean video_;
+    /**
+     * <code>bool video = 3;</code>
+     * @return The video.
+     */
+    @java.lang.Override
+    public boolean getVideo() {
+      return video_;
+    }
+    /**
+     * <code>bool video = 3;</code>
+     * @param value The video to set.
+     */
+    private void setVideo(boolean value) {
+      
+      video_ = value;
+    }
+    /**
+     * <code>bool video = 3;</code>
+     */
+    private void clearVideo() {
+
+      video_ = false;
+    }
+
+    public static final int G_A_HASH_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString gAHash_;
+    /**
+     * <code>bytes g_a_hash = 4;</code>
+     * @return The gAHash.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getGAHash() {
+      return gAHash_;
+    }
+    /**
+     * <code>bytes g_a_hash = 4;</code>
+     * @param value The gAHash to set.
+     */
+    private void setGAHash(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      gAHash_ = value;
+    }
+    /**
+     * <code>bytes g_a_hash = 4;</code>
+     */
+    private void clearGAHash() {
+
+      gAHash_ = getDefaultInstance().getGAHash();
+    }
+
+    public static final int PROTOCOL_FIELD_NUMBER = 5;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol protocol_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     */
+    @java.lang.Override
+    public boolean hasProtocol() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+      return protocol_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance() : protocol_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     */
+    private void setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  protocol_ = value;
+      bitField0_ |= 0x00000002;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  if (protocol_ != null &&
+          protocol_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance()) {
+        protocol_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.newBuilder(protocol_).mergeFrom(value).buildPartial();
+      } else {
+        protocol_ = value;
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+     */
+    private void clearProtocol() {  protocol_ = null;
+      bitField0_ = (bitField0_ & ~0x00000002);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneRequestCallRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneRequestCallRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasUser() {
+        return instance.hasUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector getUser() {
+        return instance.getUser();
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder setUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+        copyOnWrite();
+        instance.setUser(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder setUser(
+          org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUser(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder mergeUser(org.telegram.botgram.protocol.v1.BotgramRpc.UserSelector value) {
+        copyOnWrite();
+        instance.mergeUser(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.UserSelector user = 1;</code>
+       */
+      public Builder clearUser() {  copyOnWrite();
+        instance.clearUser();
+        return this;
+      }
+
+      /**
+       * <code>int64 random_id = 2;</code>
+       * @return The randomId.
+       */
+      @java.lang.Override
+      public long getRandomId() {
+        return instance.getRandomId();
+      }
+      /**
+       * <code>int64 random_id = 2;</code>
+       * @param value The randomId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRandomId(long value) {
+        copyOnWrite();
+        instance.setRandomId(value);
+        return this;
+      }
+      /**
+       * <code>int64 random_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRandomId() {
+        copyOnWrite();
+        instance.clearRandomId();
+        return this;
+      }
+
+      /**
+       * <code>bool video = 3;</code>
+       * @return The video.
+       */
+      @java.lang.Override
+      public boolean getVideo() {
+        return instance.getVideo();
+      }
+      /**
+       * <code>bool video = 3;</code>
+       * @param value The video to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideo(boolean value) {
+        copyOnWrite();
+        instance.setVideo(value);
+        return this;
+      }
+      /**
+       * <code>bool video = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideo() {
+        copyOnWrite();
+        instance.clearVideo();
+        return this;
+      }
+
+      /**
+       * <code>bytes g_a_hash = 4;</code>
+       * @return The gAHash.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getGAHash() {
+        return instance.getGAHash();
+      }
+      /**
+       * <code>bytes g_a_hash = 4;</code>
+       * @param value The gAHash to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGAHash(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setGAHash(value);
+        return this;
+      }
+      /**
+       * <code>bytes g_a_hash = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGAHash() {
+        copyOnWrite();
+        instance.clearGAHash();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+       */
+      @java.lang.Override
+      public boolean hasProtocol() {
+        return instance.hasProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+        return instance.getProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+       */
+      public Builder setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.setProtocol(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+       */
+      public Builder setProtocol(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.Builder builderForValue) {
+        copyOnWrite();
+        instance.setProtocol(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+       */
+      public Builder mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.mergeProtocol(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 5;</code>
+       */
+      public Builder clearProtocol() {  copyOnWrite();
+        instance.clearProtocol();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneRequestCallRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "user_",
+              "randomId_",
+              "video_",
+              "gAHash_",
+              "protocol_",
+            };
+            java.lang.String info =
+                "\u0000\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\u0002\u0003\u0007\u0004\n\u0005\u1009\u0001";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneRequestCallRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest DEFAULT_INSTANCE;
+    static {
+      PhoneRequestCallRequest defaultInstance = new PhoneRequestCallRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneRequestCallRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneRequestCallRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneRequestCallRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneRequestCallRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneReceivedCallRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneReceivedCallRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneReceivedCallRequest}
+   */
+  public  static final class PhoneReceivedCallRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneReceivedCallRequest, PhoneReceivedCallRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneReceivedCallRequest)
+      PhoneReceivedCallRequestOrBuilder {
+    private PhoneReceivedCallRequest() {
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneReceivedCallRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneReceivedCallRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneReceivedCallRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u1009\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneReceivedCallRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest DEFAULT_INSTANCE;
+    static {
+      PhoneReceivedCallRequest defaultInstance = new PhoneReceivedCallRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneReceivedCallRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneReceivedCallRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneReceivedCallRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneReceivedCallRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneAcceptCallRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneAcceptCallRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer();
+
+    /**
+     * <code>bytes g_b = 2;</code>
+     * @return The gB.
+     */
+    com.google.protobuf.ByteString getGB();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     * @return Whether the protocol field is set.
+     */
+    boolean hasProtocol();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     * @return The protocol.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneAcceptCallRequest}
+   */
+  public  static final class PhoneAcceptCallRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneAcceptCallRequest, PhoneAcceptCallRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneAcceptCallRequest)
+      PhoneAcceptCallRequestOrBuilder {
+    private PhoneAcceptCallRequest() {
+      gB_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int G_B_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString gB_;
+    /**
+     * <code>bytes g_b = 2;</code>
+     * @return The gB.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getGB() {
+      return gB_;
+    }
+    /**
+     * <code>bytes g_b = 2;</code>
+     * @param value The gB to set.
+     */
+    private void setGB(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      gB_ = value;
+    }
+    /**
+     * <code>bytes g_b = 2;</code>
+     */
+    private void clearGB() {
+
+      gB_ = getDefaultInstance().getGB();
+    }
+
+    public static final int PROTOCOL_FIELD_NUMBER = 3;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol protocol_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     */
+    @java.lang.Override
+    public boolean hasProtocol() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+      return protocol_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance() : protocol_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     */
+    private void setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  protocol_ = value;
+      bitField0_ |= 0x00000002;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  if (protocol_ != null &&
+          protocol_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance()) {
+        protocol_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.newBuilder(protocol_).mergeFrom(value).buildPartial();
+      } else {
+        protocol_ = value;
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+     */
+    private void clearProtocol() {  protocol_ = null;
+      bitField0_ = (bitField0_ & ~0x00000002);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneAcceptCallRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneAcceptCallRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>bytes g_b = 2;</code>
+       * @return The gB.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getGB() {
+        return instance.getGB();
+      }
+      /**
+       * <code>bytes g_b = 2;</code>
+       * @param value The gB to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGB(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setGB(value);
+        return this;
+      }
+      /**
+       * <code>bytes g_b = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGB() {
+        copyOnWrite();
+        instance.clearGB();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+       */
+      @java.lang.Override
+      public boolean hasProtocol() {
+        return instance.hasProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+        return instance.getProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+       */
+      public Builder setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.setProtocol(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+       */
+      public Builder setProtocol(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.Builder builderForValue) {
+        copyOnWrite();
+        instance.setProtocol(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+       */
+      public Builder mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.mergeProtocol(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 3;</code>
+       */
+      public Builder clearProtocol() {  copyOnWrite();
+        instance.clearProtocol();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneAcceptCallRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "gB_",
+              "protocol_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0001\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\n\u0003\u1009\u0001";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneAcceptCallRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest DEFAULT_INSTANCE;
+    static {
+      PhoneAcceptCallRequest defaultInstance = new PhoneAcceptCallRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneAcceptCallRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneAcceptCallRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneAcceptCallRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneAcceptCallRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneConfirmCallRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneConfirmCallRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer();
+
+    /**
+     * <code>bytes g_a = 2;</code>
+     * @return The gA.
+     */
+    com.google.protobuf.ByteString getGA();
+
+    /**
+     * <code>int64 key_fingerprint = 3;</code>
+     * @return The keyFingerprint.
+     */
+    long getKeyFingerprint();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     * @return Whether the protocol field is set.
+     */
+    boolean hasProtocol();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     * @return The protocol.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneConfirmCallRequest}
+   */
+  public  static final class PhoneConfirmCallRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneConfirmCallRequest, PhoneConfirmCallRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneConfirmCallRequest)
+      PhoneConfirmCallRequestOrBuilder {
+    private PhoneConfirmCallRequest() {
+      gA_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int G_A_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString gA_;
+    /**
+     * <code>bytes g_a = 2;</code>
+     * @return The gA.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getGA() {
+      return gA_;
+    }
+    /**
+     * <code>bytes g_a = 2;</code>
+     * @param value The gA to set.
+     */
+    private void setGA(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      gA_ = value;
+    }
+    /**
+     * <code>bytes g_a = 2;</code>
+     */
+    private void clearGA() {
+
+      gA_ = getDefaultInstance().getGA();
+    }
+
+    public static final int KEY_FINGERPRINT_FIELD_NUMBER = 3;
+    private long keyFingerprint_;
+    /**
+     * <code>int64 key_fingerprint = 3;</code>
+     * @return The keyFingerprint.
+     */
+    @java.lang.Override
+    public long getKeyFingerprint() {
+      return keyFingerprint_;
+    }
+    /**
+     * <code>int64 key_fingerprint = 3;</code>
+     * @param value The keyFingerprint to set.
+     */
+    private void setKeyFingerprint(long value) {
+      
+      keyFingerprint_ = value;
+    }
+    /**
+     * <code>int64 key_fingerprint = 3;</code>
+     */
+    private void clearKeyFingerprint() {
+
+      keyFingerprint_ = 0L;
+    }
+
+    public static final int PROTOCOL_FIELD_NUMBER = 4;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol protocol_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     */
+    @java.lang.Override
+    public boolean hasProtocol() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+      return protocol_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance() : protocol_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     */
+    private void setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  protocol_ = value;
+      bitField0_ |= 0x00000002;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+      value.getClass();
+  if (protocol_ != null &&
+          protocol_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.getDefaultInstance()) {
+        protocol_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.newBuilder(protocol_).mergeFrom(value).buildPartial();
+      } else {
+        protocol_ = value;
+      }
+      bitField0_ |= 0x00000002;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+     */
+    private void clearProtocol() {  protocol_ = null;
+      bitField0_ = (bitField0_ & ~0x00000002);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneConfirmCallRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneConfirmCallRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>bytes g_a = 2;</code>
+       * @return The gA.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getGA() {
+        return instance.getGA();
+      }
+      /**
+       * <code>bytes g_a = 2;</code>
+       * @param value The gA to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGA(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setGA(value);
+        return this;
+      }
+      /**
+       * <code>bytes g_a = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGA() {
+        copyOnWrite();
+        instance.clearGA();
+        return this;
+      }
+
+      /**
+       * <code>int64 key_fingerprint = 3;</code>
+       * @return The keyFingerprint.
+       */
+      @java.lang.Override
+      public long getKeyFingerprint() {
+        return instance.getKeyFingerprint();
+      }
+      /**
+       * <code>int64 key_fingerprint = 3;</code>
+       * @param value The keyFingerprint to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKeyFingerprint(long value) {
+        copyOnWrite();
+        instance.setKeyFingerprint(value);
+        return this;
+      }
+      /**
+       * <code>int64 key_fingerprint = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKeyFingerprint() {
+        copyOnWrite();
+        instance.clearKeyFingerprint();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+       */
+      @java.lang.Override
+      public boolean hasProtocol() {
+        return instance.hasProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol getProtocol() {
+        return instance.getProtocol();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+       */
+      public Builder setProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.setProtocol(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+       */
+      public Builder setProtocol(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol.Builder builderForValue) {
+        copyOnWrite();
+        instance.setProtocol(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+       */
+      public Builder mergeProtocol(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallProtocol value) {
+        copyOnWrite();
+        instance.mergeProtocol(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallProtocol protocol = 4;</code>
+       */
+      public Builder clearProtocol() {  copyOnWrite();
+        instance.clearProtocol();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneConfirmCallRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "gA_",
+              "keyFingerprint_",
+              "protocol_",
+            };
+            java.lang.String info =
+                "\u0000\u0004\u0000\u0001\u0001\u0004\u0004\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\n\u0003\u0002\u0004\u1009\u0001";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneConfirmCallRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest DEFAULT_INSTANCE;
+    static {
+      PhoneConfirmCallRequest defaultInstance = new PhoneConfirmCallRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneConfirmCallRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneConfirmCallRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneConfirmCallRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneConfirmCallRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneDiscardCallRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneDiscardCallRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer();
+
+    /**
+     * <code>int32 duration = 2;</code>
+     * @return The duration.
+     */
+    int getDuration();
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     * @return The enum numeric value on the wire for reason.
+     */
+    int getReasonValue();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     * @return The reason.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason getReason();
+
+    /**
+     * <code>int64 connection_id = 4;</code>
+     * @return The connectionId.
+     */
+    long getConnectionId();
+
+    /**
+     * <code>bool video = 5;</code>
+     * @return The video.
+     */
+    boolean getVideo();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneDiscardCallRequest}
+   */
+  public  static final class PhoneDiscardCallRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneDiscardCallRequest, PhoneDiscardCallRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneDiscardCallRequest)
+      PhoneDiscardCallRequestOrBuilder {
+    private PhoneDiscardCallRequest() {
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int DURATION_FIELD_NUMBER = 2;
+    private int duration_;
+    /**
+     * <code>int32 duration = 2;</code>
+     * @return The duration.
+     */
+    @java.lang.Override
+    public int getDuration() {
+      return duration_;
+    }
+    /**
+     * <code>int32 duration = 2;</code>
+     * @param value The duration to set.
+     */
+    private void setDuration(int value) {
+      
+      duration_ = value;
+    }
+    /**
+     * <code>int32 duration = 2;</code>
+     */
+    private void clearDuration() {
+
+      duration_ = 0;
+    }
+
+    public static final int REASON_FIELD_NUMBER = 3;
+    private int reason_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     * @return The enum numeric value on the wire for reason.
+     */
+    @java.lang.Override
+    public int getReasonValue() {
+      return reason_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     * @return The reason.
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason getReason() {
+      org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason result = org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason.forNumber(reason_);
+      return result == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     * @param value The enum numeric value on the wire for reason to set.
+     */
+    private void setReasonValue(int value) {
+        reason_ = value;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     * @param value The reason to set.
+     */
+    private void setReason(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason value) {
+      reason_ = value.getNumber();
+
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+     */
+    private void clearReason() {
+
+      reason_ = 0;
+    }
+
+    public static final int CONNECTION_ID_FIELD_NUMBER = 4;
+    private long connectionId_;
+    /**
+     * <code>int64 connection_id = 4;</code>
+     * @return The connectionId.
+     */
+    @java.lang.Override
+    public long getConnectionId() {
+      return connectionId_;
+    }
+    /**
+     * <code>int64 connection_id = 4;</code>
+     * @param value The connectionId to set.
+     */
+    private void setConnectionId(long value) {
+      
+      connectionId_ = value;
+    }
+    /**
+     * <code>int64 connection_id = 4;</code>
+     */
+    private void clearConnectionId() {
+
+      connectionId_ = 0L;
+    }
+
+    public static final int VIDEO_FIELD_NUMBER = 5;
+    private boolean video_;
+    /**
+     * <code>bool video = 5;</code>
+     * @return The video.
+     */
+    @java.lang.Override
+    public boolean getVideo() {
+      return video_;
+    }
+    /**
+     * <code>bool video = 5;</code>
+     * @param value The video to set.
+     */
+    private void setVideo(boolean value) {
+      
+      video_ = value;
+    }
+    /**
+     * <code>bool video = 5;</code>
+     */
+    private void clearVideo() {
+
+      video_ = false;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneDiscardCallRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneDiscardCallRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>int32 duration = 2;</code>
+       * @return The duration.
+       */
+      @java.lang.Override
+      public int getDuration() {
+        return instance.getDuration();
+      }
+      /**
+       * <code>int32 duration = 2;</code>
+       * @param value The duration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDuration(int value) {
+        copyOnWrite();
+        instance.setDuration(value);
+        return this;
+      }
+      /**
+       * <code>int32 duration = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDuration() {
+        copyOnWrite();
+        instance.clearDuration();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+       * @return The enum numeric value on the wire for reason.
+       */
+      @java.lang.Override
+      public int getReasonValue() {
+        return instance.getReasonValue();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+       * @param value The reason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setReasonValue(int value) {
+        copyOnWrite();
+        instance.setReasonValue(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+       * @return The reason.
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason getReason() {
+        return instance.getReason();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+       * @param value The enum numeric value on the wire for reason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setReason(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallDiscardReason value) {
+        copyOnWrite();
+        instance.setReason(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallDiscardReason reason = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearReason() {
+        copyOnWrite();
+        instance.clearReason();
+        return this;
+      }
+
+      /**
+       * <code>int64 connection_id = 4;</code>
+       * @return The connectionId.
+       */
+      @java.lang.Override
+      public long getConnectionId() {
+        return instance.getConnectionId();
+      }
+      /**
+       * <code>int64 connection_id = 4;</code>
+       * @param value The connectionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConnectionId(long value) {
+        copyOnWrite();
+        instance.setConnectionId(value);
+        return this;
+      }
+      /**
+       * <code>int64 connection_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearConnectionId() {
+        copyOnWrite();
+        instance.clearConnectionId();
+        return this;
+      }
+
+      /**
+       * <code>bool video = 5;</code>
+       * @return The video.
+       */
+      @java.lang.Override
+      public boolean getVideo() {
+        return instance.getVideo();
+      }
+      /**
+       * <code>bool video = 5;</code>
+       * @param value The video to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideo(boolean value) {
+        copyOnWrite();
+        instance.setVideo(value);
+        return this;
+      }
+      /**
+       * <code>bool video = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideo() {
+        copyOnWrite();
+        instance.clearVideo();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneDiscardCallRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "duration_",
+              "reason_",
+              "connectionId_",
+              "video_",
+            };
+            java.lang.String info =
+                "\u0000\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\u0004\u0003\f\u0004\u0002\u0005\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneDiscardCallRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest DEFAULT_INSTANCE;
+    static {
+      PhoneDiscardCallRequest defaultInstance = new PhoneDiscardCallRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneDiscardCallRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneDiscardCallRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneDiscardCallRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneDiscardCallRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneSendSignalingDataRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneSendSignalingDataRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer();
+
+    /**
+     * <code>bytes data = 2;</code>
+     * @return The data.
+     */
+    com.google.protobuf.ByteString getData();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneSendSignalingDataRequest}
+   */
+  public  static final class PhoneSendSignalingDataRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneSendSignalingDataRequest, PhoneSendSignalingDataRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneSendSignalingDataRequest)
+      PhoneSendSignalingDataRequestOrBuilder {
+    private PhoneSendSignalingDataRequest() {
+      data_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int DATA_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString data_;
+    /**
+     * <code>bytes data = 2;</code>
+     * @return The data.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getData() {
+      return data_;
+    }
+    /**
+     * <code>bytes data = 2;</code>
+     * @param value The data to set.
+     */
+    private void setData(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      data_ = value;
+    }
+    /**
+     * <code>bytes data = 2;</code>
+     */
+    private void clearData() {
+
+      data_ = getDefaultInstance().getData();
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneSendSignalingDataRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneSendSignalingDataRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>bytes data = 2;</code>
+       * @return The data.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getData() {
+        return instance.getData();
+      }
+      /**
+       * <code>bytes data = 2;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
+       */
+      public Builder setData(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setData(value);
+        return this;
+      }
+      /**
+       * <code>bytes data = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearData() {
+        copyOnWrite();
+        instance.clearData();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneSendSignalingDataRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "data_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\n";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneSendSignalingDataRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest DEFAULT_INSTANCE;
+    static {
+      PhoneSendSignalingDataRequest defaultInstance = new PhoneSendSignalingDataRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneSendSignalingDataRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSendSignalingDataRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneSendSignalingDataRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneSendSignalingDataRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneGetCallConfigRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneGetCallConfigRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneGetCallConfigRequest}
+   */
+  public  static final class PhoneGetCallConfigRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneGetCallConfigRequest, PhoneGetCallConfigRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneGetCallConfigRequest)
+      PhoneGetCallConfigRequestOrBuilder {
+    private PhoneGetCallConfigRequest() {
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneGetCallConfigRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneGetCallConfigRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneGetCallConfigRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = null;java.lang.String info =
+                "\u0000\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneGetCallConfigRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest DEFAULT_INSTANCE;
+    static {
+      PhoneGetCallConfigRequest defaultInstance = new PhoneGetCallConfigRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneGetCallConfigRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneGetCallConfigRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneGetCallConfigRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneGetCallConfigRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneSaveCallDebugRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneSaveCallDebugRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer();
+
+    /**
+     * <code>string debug = 2;</code>
+     * @return The debug.
+     */
+    java.lang.String getDebug();
+    /**
+     * <code>string debug = 2;</code>
+     * @return The bytes for debug.
+     */
+    com.google.protobuf.ByteString
+        getDebugBytes();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneSaveCallDebugRequest}
+   */
+  public  static final class PhoneSaveCallDebugRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneSaveCallDebugRequest, PhoneSaveCallDebugRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneSaveCallDebugRequest)
+      PhoneSaveCallDebugRequestOrBuilder {
+    private PhoneSaveCallDebugRequest() {
+      debug_ = "";
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int DEBUG_FIELD_NUMBER = 2;
+    private java.lang.String debug_;
+    /**
+     * <code>string debug = 2;</code>
+     * @return The debug.
+     */
+    @java.lang.Override
+    public java.lang.String getDebug() {
+      return debug_;
+    }
+    /**
+     * <code>string debug = 2;</code>
+     * @return The bytes for debug.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDebugBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(debug_);
+    }
+    /**
+     * <code>string debug = 2;</code>
+     * @param value The debug to set.
+     */
+    private void setDebug(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      debug_ = value;
+    }
+    /**
+     * <code>string debug = 2;</code>
+     */
+    private void clearDebug() {
+
+      debug_ = getDefaultInstance().getDebug();
+    }
+    /**
+     * <code>string debug = 2;</code>
+     * @param value The bytes for debug to set.
+     */
+    private void setDebugBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      debug_ = value.toStringUtf8();
+
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneSaveCallDebugRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneSaveCallDebugRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCallRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>string debug = 2;</code>
+       * @return The debug.
+       */
+      @java.lang.Override
+      public java.lang.String getDebug() {
+        return instance.getDebug();
+      }
+      /**
+       * <code>string debug = 2;</code>
+       * @return The bytes for debug.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getDebugBytes() {
+        return instance.getDebugBytes();
+      }
+      /**
+       * <code>string debug = 2;</code>
+       * @param value The debug to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDebug(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setDebug(value);
+        return this;
+      }
+      /**
+       * <code>string debug = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDebug() {
+        copyOnWrite();
+        instance.clearDebug();
+        return this;
+      }
+      /**
+       * <code>string debug = 2;</code>
+       * @param value The bytes for debug to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDebugBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setDebugBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneSaveCallDebugRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "debug_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\u0208";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneSaveCallDebugRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest DEFAULT_INSTANCE;
+    static {
+      PhoneSaveCallDebugRequest defaultInstance = new PhoneSaveCallDebugRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneSaveCallDebugRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneSaveCallDebugRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneSaveCallDebugRequest> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneSaveCallDebugRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneCallChangedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneCallChanged)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     * @return Whether the phoneCall field is set.
+     */
+    boolean hasPhoneCall();
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     * @return The phoneCall.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getPhoneCall();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneCallChanged}
+   */
+  public  static final class PhoneCallChanged extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneCallChanged, PhoneCallChanged.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneCallChanged)
+      PhoneCallChangedOrBuilder {
+    private PhoneCallChanged() {
+    }
+    private int bitField0_;
+    public static final int PHONE_CALL_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall phoneCall_;
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPhoneCall() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getPhoneCall() {
+      return phoneCall_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.getDefaultInstance() : phoneCall_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    private void setPhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+      value.getClass();
+  phoneCall_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+      value.getClass();
+  if (phoneCall_ != null &&
+          phoneCall_ != org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.getDefaultInstance()) {
+        phoneCall_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.newBuilder(phoneCall_).mergeFrom(value).buildPartial();
+      } else {
+        phoneCall_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+     */
+    private void clearPhoneCall() {  phoneCall_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneCallChanged}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneCallChanged)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChangedOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPhoneCall() {
+        return instance.hasPhoneCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall getPhoneCall() {
+        return instance.getPhoneCall();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder setPhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+        copyOnWrite();
+        instance.setPhoneCall(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder setPhoneCall(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPhoneCall(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder mergePhoneCall(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCall value) {
+        copyOnWrite();
+        instance.mergePhoneCall(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PhoneCall phone_call = 1;</code>
+       */
+      public Builder clearPhoneCall() {  copyOnWrite();
+        instance.clearPhoneCall();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneCallChanged)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "phoneCall_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u1009\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneCallChanged)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged DEFAULT_INSTANCE;
+    static {
+      PhoneCallChanged defaultInstance = new PhoneCallChanged();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneCallChanged.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallChanged getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneCallChanged> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneCallChanged> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PhoneCallSignalingDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.PhoneCallSignalingData)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @return The callId.
+     */
+    long getCallId();
+
+    /**
+     * <code>bytes data = 2;</code>
+     * @return The data.
+     */
+    com.google.protobuf.ByteString getData();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.PhoneCallSignalingData}
+   */
+  public  static final class PhoneCallSignalingData extends
+      com.google.protobuf.GeneratedMessageLite<
+          PhoneCallSignalingData, PhoneCallSignalingData.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.PhoneCallSignalingData)
+      PhoneCallSignalingDataOrBuilder {
+    private PhoneCallSignalingData() {
+      data_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    public static final int CALL_ID_FIELD_NUMBER = 1;
+    private long callId_;
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @return The callId.
+     */
+    @java.lang.Override
+    public long getCallId() {
+      return callId_;
+    }
+    /**
+     * <code>int64 call_id = 1;</code>
+     * @param value The callId to set.
+     */
+    private void setCallId(long value) {
+      
+      callId_ = value;
+    }
+    /**
+     * <code>int64 call_id = 1;</code>
+     */
+    private void clearCallId() {
+
+      callId_ = 0L;
+    }
+
+    public static final int DATA_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString data_;
+    /**
+     * <code>bytes data = 2;</code>
+     * @return The data.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getData() {
+      return data_;
+    }
+    /**
+     * <code>bytes data = 2;</code>
+     * @param value The data to set.
+     */
+    private void setData(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      data_ = value;
+    }
+    /**
+     * <code>bytes data = 2;</code>
+     */
+    private void clearData() {
+
+      data_ = getDefaultInstance().getData();
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.PhoneCallSignalingData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.PhoneCallSignalingData)
+        org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingDataOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @return The callId.
+       */
+      @java.lang.Override
+      public long getCallId() {
+        return instance.getCallId();
+      }
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @param value The callId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCallId(long value) {
+        copyOnWrite();
+        instance.setCallId(value);
+        return this;
+      }
+      /**
+       * <code>int64 call_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCallId() {
+        copyOnWrite();
+        instance.clearCallId();
+        return this;
+      }
+
+      /**
+       * <code>bytes data = 2;</code>
+       * @return The data.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getData() {
+        return instance.getData();
+      }
+      /**
+       * <code>bytes data = 2;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
+       */
+      public Builder setData(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setData(value);
+        return this;
+      }
+      /**
+       * <code>bytes data = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearData() {
+        copyOnWrite();
+        instance.clearData();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.PhoneCallSignalingData)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "callId_",
+              "data_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u0002\u0002\n" +
+                "";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.PhoneCallSignalingData)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData DEFAULT_INSTANCE;
+    static {
+      PhoneCallSignalingData defaultInstance = new PhoneCallSignalingData();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PhoneCallSignalingData.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.PhoneCallSignalingData getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PhoneCallSignalingData> PARSER;
+
+    public static com.google.protobuf.Parser<PhoneCallSignalingData> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface GetDhConfigRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.GetDhConfigRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 version = 1;</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <code>int32 random_length = 2;</code>
+     * @return The randomLength.
+     */
+    int getRandomLength();
+  }
+  /**
+   * <pre>
+   * messages.getDhConfig. The server owns one immutable version; a matching version
+   * returns not_modified with fresh random padding, otherwise the full configuration.
+   * </pre>
+   *
+   * Protobuf type {@code botgram.rpc.v1.GetDhConfigRequest}
+   */
+  public  static final class GetDhConfigRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          GetDhConfigRequest, GetDhConfigRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.GetDhConfigRequest)
+      GetDhConfigRequestOrBuilder {
+    private GetDhConfigRequest() {
+    }
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_;
+    /**
+     * <code>int32 version = 1;</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+    /**
+     * <code>int32 version = 1;</code>
+     * @param value The version to set.
+     */
+    private void setVersion(int value) {
+      
+      version_ = value;
+    }
+    /**
+     * <code>int32 version = 1;</code>
+     */
+    private void clearVersion() {
+
+      version_ = 0;
+    }
+
+    public static final int RANDOM_LENGTH_FIELD_NUMBER = 2;
+    private int randomLength_;
+    /**
+     * <code>int32 random_length = 2;</code>
+     * @return The randomLength.
+     */
+    @java.lang.Override
+    public int getRandomLength() {
+      return randomLength_;
+    }
+    /**
+     * <code>int32 random_length = 2;</code>
+     * @param value The randomLength to set.
+     */
+    private void setRandomLength(int value) {
+      
+      randomLength_ = value;
+    }
+    /**
+     * <code>int32 random_length = 2;</code>
+     */
+    private void clearRandomLength() {
+
+      randomLength_ = 0;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * <pre>
+     * messages.getDhConfig. The server owns one immutable version; a matching version
+     * returns not_modified with fresh random padding, otherwise the full configuration.
+     * </pre>
+     *
+     * Protobuf type {@code botgram.rpc.v1.GetDhConfigRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.GetDhConfigRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 version = 1;</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return instance.getVersion();
+      }
+      /**
+       * <code>int32 version = 1;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+        copyOnWrite();
+        instance.setVersion(value);
+        return this;
+      }
+      /**
+       * <code>int32 version = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        copyOnWrite();
+        instance.clearVersion();
+        return this;
+      }
+
+      /**
+       * <code>int32 random_length = 2;</code>
+       * @return The randomLength.
+       */
+      @java.lang.Override
+      public int getRandomLength() {
+        return instance.getRandomLength();
+      }
+      /**
+       * <code>int32 random_length = 2;</code>
+       * @param value The randomLength to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRandomLength(int value) {
+        copyOnWrite();
+        instance.setRandomLength(value);
+        return this;
+      }
+      /**
+       * <code>int32 random_length = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRandomLength() {
+        copyOnWrite();
+        instance.clearRandomLength();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.GetDhConfigRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "version_",
+              "randomLength_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.GetDhConfigRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest DEFAULT_INSTANCE;
+    static {
+      GetDhConfigRequest defaultInstance = new GetDhConfigRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        GetDhConfigRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<GetDhConfigRequest> PARSER;
+
+    public static com.google.protobuf.Parser<GetDhConfigRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface DhConfigOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.DhConfig)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 version = 1;</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <code>int32 g = 2;</code>
+     * @return The g.
+     */
+    int getG();
+
+    /**
+     * <code>bytes p = 3;</code>
+     * @return The p.
+     */
+    com.google.protobuf.ByteString getP();
+
+    /**
+     * <code>bytes random = 4;</code>
+     * @return The random.
+     */
+    com.google.protobuf.ByteString getRandom();
+
+    /**
+     * <code>bool not_modified = 5;</code>
+     * @return The notModified.
+     */
+    boolean getNotModified();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.DhConfig}
+   */
+  public  static final class DhConfig extends
+      com.google.protobuf.GeneratedMessageLite<
+          DhConfig, DhConfig.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.DhConfig)
+      DhConfigOrBuilder {
+    private DhConfig() {
+      p_ = com.google.protobuf.ByteString.EMPTY;
+      random_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_;
+    /**
+     * <code>int32 version = 1;</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+    /**
+     * <code>int32 version = 1;</code>
+     * @param value The version to set.
+     */
+    private void setVersion(int value) {
+      
+      version_ = value;
+    }
+    /**
+     * <code>int32 version = 1;</code>
+     */
+    private void clearVersion() {
+
+      version_ = 0;
+    }
+
+    public static final int G_FIELD_NUMBER = 2;
+    private int g_;
+    /**
+     * <code>int32 g = 2;</code>
+     * @return The g.
+     */
+    @java.lang.Override
+    public int getG() {
+      return g_;
+    }
+    /**
+     * <code>int32 g = 2;</code>
+     * @param value The g to set.
+     */
+    private void setG(int value) {
+      
+      g_ = value;
+    }
+    /**
+     * <code>int32 g = 2;</code>
+     */
+    private void clearG() {
+
+      g_ = 0;
+    }
+
+    public static final int P_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString p_;
+    /**
+     * <code>bytes p = 3;</code>
+     * @return The p.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getP() {
+      return p_;
+    }
+    /**
+     * <code>bytes p = 3;</code>
+     * @param value The p to set.
+     */
+    private void setP(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      p_ = value;
+    }
+    /**
+     * <code>bytes p = 3;</code>
+     */
+    private void clearP() {
+
+      p_ = getDefaultInstance().getP();
+    }
+
+    public static final int RANDOM_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString random_;
+    /**
+     * <code>bytes random = 4;</code>
+     * @return The random.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getRandom() {
+      return random_;
+    }
+    /**
+     * <code>bytes random = 4;</code>
+     * @param value The random to set.
+     */
+    private void setRandom(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      random_ = value;
+    }
+    /**
+     * <code>bytes random = 4;</code>
+     */
+    private void clearRandom() {
+
+      random_ = getDefaultInstance().getRandom();
+    }
+
+    public static final int NOT_MODIFIED_FIELD_NUMBER = 5;
+    private boolean notModified_;
+    /**
+     * <code>bool not_modified = 5;</code>
+     * @return The notModified.
+     */
+    @java.lang.Override
+    public boolean getNotModified() {
+      return notModified_;
+    }
+    /**
+     * <code>bool not_modified = 5;</code>
+     * @param value The notModified to set.
+     */
+    private void setNotModified(boolean value) {
+      
+      notModified_ = value;
+    }
+    /**
+     * <code>bool not_modified = 5;</code>
+     */
+    private void clearNotModified() {
+
+      notModified_ = false;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.DhConfig}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.DhConfig)
+        org.telegram.botgram.protocol.v1.BotgramRpc.DhConfigOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 version = 1;</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return instance.getVersion();
+      }
+      /**
+       * <code>int32 version = 1;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+        copyOnWrite();
+        instance.setVersion(value);
+        return this;
+      }
+      /**
+       * <code>int32 version = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        copyOnWrite();
+        instance.clearVersion();
+        return this;
+      }
+
+      /**
+       * <code>int32 g = 2;</code>
+       * @return The g.
+       */
+      @java.lang.Override
+      public int getG() {
+        return instance.getG();
+      }
+      /**
+       * <code>int32 g = 2;</code>
+       * @param value The g to set.
+       * @return This builder for chaining.
+       */
+      public Builder setG(int value) {
+        copyOnWrite();
+        instance.setG(value);
+        return this;
+      }
+      /**
+       * <code>int32 g = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearG() {
+        copyOnWrite();
+        instance.clearG();
+        return this;
+      }
+
+      /**
+       * <code>bytes p = 3;</code>
+       * @return The p.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getP() {
+        return instance.getP();
+      }
+      /**
+       * <code>bytes p = 3;</code>
+       * @param value The p to set.
+       * @return This builder for chaining.
+       */
+      public Builder setP(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setP(value);
+        return this;
+      }
+      /**
+       * <code>bytes p = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearP() {
+        copyOnWrite();
+        instance.clearP();
+        return this;
+      }
+
+      /**
+       * <code>bytes random = 4;</code>
+       * @return The random.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getRandom() {
+        return instance.getRandom();
+      }
+      /**
+       * <code>bytes random = 4;</code>
+       * @param value The random to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRandom(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setRandom(value);
+        return this;
+      }
+      /**
+       * <code>bytes random = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRandom() {
+        copyOnWrite();
+        instance.clearRandom();
+        return this;
+      }
+
+      /**
+       * <code>bool not_modified = 5;</code>
+       * @return The notModified.
+       */
+      @java.lang.Override
+      public boolean getNotModified() {
+        return instance.getNotModified();
+      }
+      /**
+       * <code>bool not_modified = 5;</code>
+       * @param value The notModified to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNotModified(boolean value) {
+        copyOnWrite();
+        instance.setNotModified(value);
+        return this;
+      }
+      /**
+       * <code>bool not_modified = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNotModified() {
+        copyOnWrite();
+        instance.clearNotModified();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.DhConfig)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "version_",
+              "g_",
+              "p_",
+              "random_",
+              "notModified_",
+            };
+            java.lang.String info =
+                "\u0000\u0005\u0000\u0000\u0001\u0005\u0005\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\n\u0004\n\u0005\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.DhConfig)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig DEFAULT_INSTANCE;
+    static {
+      DhConfig defaultInstance = new DhConfig();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        DhConfig.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<DhConfig> PARSER;
+
+    public static com.google.protobuf.Parser<DhConfig> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

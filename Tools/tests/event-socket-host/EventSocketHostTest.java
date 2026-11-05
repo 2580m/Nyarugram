@@ -13,6 +13,7 @@ public class EventSocketHostTest {
     static final class Sink implements BotgramEventSocket.Listener {
         int wakes;
         public void wake(BotgramSession s) { wakes++; }
+        public void wallpaper(BotgramSession s, long revision) { }
         public void unauthorized(BotgramSession s) { throw new AssertionError("unexpected unauthorized"); }
     }
     static final class Fixture {

@@ -137,6 +137,7 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
     private static Notification makeNotification(Context context, int account, long user_id, long call_id, boolean video) {
         if (Build.VERSION.SDK_INT < 33) return null;
 
+        final IncomingCallPolicy.Decision policy = IncomingCallNotifications.recover(account, call_id, false);
         final TLRPC.User user = MessagesController.getInstance(account).getUser(user_id);
 
         final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -153,58 +154,11 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
                 )
             );
 
-        SharedPreferences nprefs = MessagesController.getGlobalNotificationsSettings();
-        int chanIndex = nprefs.getInt("calls_notification_channel", 0);
-        NotificationChannel oldChannel = nm.getNotificationChannel("incoming_calls2" + chanIndex);
-        if (oldChannel != null) {
-            nm.deleteNotificationChannel(oldChannel.getId());
-        }
-        oldChannel = nm.getNotificationChannel("incoming_calls3" + chanIndex);
-        if (oldChannel != null) {
-            nm.deleteNotificationChannel(oldChannel.getId());
-        }
-        NotificationChannel existingChannel = nm.getNotificationChannel("incoming_calls4" + chanIndex);
-        boolean needCreate = true;
-        if (existingChannel != null) {
-            if (existingChannel.getImportance() < NotificationManager.IMPORTANCE_HIGH || existingChannel.getSound() != null) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("User messed up the notification channel; deleting it and creating a proper one");
-                }
-                nm.deleteNotificationChannel("incoming_calls4" + chanIndex);
-                chanIndex++;
-                nprefs.edit().putInt("calls_notification_channel", chanIndex).commit();
-            } else {
-                needCreate = false;
-            }
-        }
-        if (needCreate) {
-            AudioAttributes attrs = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setLegacyStreamType(AudioManager.STREAM_RING)
-                    .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
-                    .build();
-            NotificationChannel chan = new NotificationChannel("incoming_calls4" + chanIndex, LocaleController.getString(R.string.IncomingCallsSystemSetting), NotificationManager.IMPORTANCE_HIGH);
-            try {
-                chan.setSound(null, attrs);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            chan.setDescription(LocaleController.getString(R.string.IncomingCallsSystemSettingDescription));
-            chan.enableVibration(false);
-            chan.enableLights(false);
-            chan.setBypassDnd(true);
-            try {
-                nm.createNotificationChannel(chan);
-            } catch (Exception e) {
-                FileLog.e(e);
-                return null;
-            }
-        }
-        builder.setChannelId("incoming_calls4" + chanIndex);
+        builder.setChannelId(IncomingCallNotificationChannel.get(context, policy));
 
         final Intent endIntent = new Intent(context, VoIPActionsReceiver.class);
         endIntent.setAction(context.getPackageName() + ".DECLINE_CALL");
-        endIntent.putExtra("call_id", call_id);
+        IncomingCallNotifications.stamp(endIntent, account, call_id);
         CharSequence endTitle = LocaleController.getString(R.string.VoipDeclineCall);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             endTitle = new SpannableString(endTitle);
@@ -220,7 +174,7 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
 
         final Intent answerIntent = new Intent(context, VoIPActionsReceiver.class);
         answerIntent.setAction(context.getPackageName() + ".ANSWER_CALL");
-        answerIntent.putExtra("call_id", call_id);
+        IncomingCallNotifications.stamp(answerIntent, account, call_id);
         CharSequence answerTitle = LocaleController.getString(R.string.VoipAnswerCall);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             answerTitle = new SpannableString(answerTitle);
@@ -234,15 +188,19 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
                 PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT
             );
 
-        builder.setPriority(Notification.PRIORITY_MAX);
+        builder.setPriority(policy.priority());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             builder.setShowWhen(false);
         }
+        boolean fullScreenIntent = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setColor(0xff2ca5e0);
             builder.setVibrate(new long[0]);
             builder.setCategory(Notification.CATEGORY_CALL);
-            builder.setFullScreenIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE), true);
+            fullScreenIntent = policy.claimFullScreen(IncomingCallNotifications.fullScreenAllowed(context));
+            if (fullScreenIntent) {
+                builder.setFullScreenIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE), true);
+            }
             if (user != null && !TextUtils.isEmpty(user.phone)) {
                 builder.addPerson("tel:" + user.phone);
             }
@@ -268,9 +226,18 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
         Person person = new Person.Builder()
                 .setName(personName)
                 .setIcon(Icon.createWithAdaptiveBitmap(avatar)).build();
-        Notification.CallStyle notificationStyle = Notification.CallStyle.forIncomingCall(person, endPendingIntent, answerPendingIntent);
-
-        builder.setStyle(notificationStyle);
+        final IncomingCallNotificationPlan plan =
+                IncomingCallNotificationPlan.create(policy, false, video, false, fullScreenIntent);
+        if (plan.callStyle) {
+            builder.setStyle(Notification.CallStyle.forIncomingCall(person, endPendingIntent, answerPendingIntent));
+        } else {
+            // Plain notify() without FGS/FSI must not use CallStyle; keep caller, answer, decline and tap.
+            builder.setStyle(null);
+            builder.setContentText(personName);
+            builder.setLargeIcon(avatar);
+            if (plan.answerAction) builder.addAction(R.drawable.call, answerTitle, answerPendingIntent);
+            if (plan.declineAction) builder.addAction(R.drawable.ic_call_end_white_24dp, endTitle, endPendingIntent);
+        }
         return builder.build();
     }
 
@@ -392,19 +359,12 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
     public static State currentState;
 //    public static Intent pendingNotificationService;
 
-    /**
-     * Brings the call screen to the front for an incoming call. Full-screen intent notifications are
-     * downgraded to heads-up notifications while the device is unlocked, and Android blocks activity
-     * launches from the background unless the app can draw overlays.
-     */
-    public static void openCallScreen(Context context, int account) {
-        if (ApplicationLoader.mainInterfacePaused && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && !Settings.canDrawOverlays(context)) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("VoIPPreNotification.openCallScreen(): overlay permission is missing");
-            }
-            return;
-        }
+    /** Automatic direct presentation is limited to the visible, unlocked app. */
+    public static void openCallScreen(Context context, int account, long callId) {
+        // Background presentation belongs exclusively to the system full-screen intent.
+        KeyguardManager keyguard = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        if (!IncomingCallNotifications.recover(account, callId, false).claimAutomaticPage(
+                !ApplicationLoader.mainInterfacePaused, ApplicationLoader.isScreenOn && !keyguard.isKeyguardLocked())) return;
         Intent intent = new Intent(context, LaunchActivity.class);
         intent.setAction("voip");
         intent.putExtra("currentAccount", account);
@@ -425,7 +385,10 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
             return;
         }
 
-        if (pendingCall != null && pendingCall.id == call.id) {
+        if (!IncomingCallNotifications.current(intent.getIntExtra("account", -1), intent)) return;
+        if (pendingCall != null && pendingCall.id == call.id && pendingVoIP != null
+                && pendingVoIP.getIntExtra("account", -1) == intent.getIntExtra("account", -1)
+                && IncomingCallNotifications.current(intent.getIntExtra("account", -1), pendingVoIP)) {
             return;
         }
 
@@ -434,18 +397,37 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
         pendingVoIP = intent;
         pendingCall = call;
 
-        final int account = intent.getIntExtra("account", UserConfig.selectedAccount);
+        final int account = intent.getIntExtra("account", -1);
         final long user_id = intent.getLongExtra("user_id", 0);
         final boolean video = call != null && call.video;
 
         currentState = new State(account, user_id, call);
 
         acknowledge(context, account, call, () -> {
-            pendingVoIP = intent;
-            pendingCall = call;
+            if (pendingVoIP != intent || pendingCall != call || !IncomingCallNotifications.current(account, intent)) return;
 
             final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(VoIPService.ID_INCOMING_CALL_PRENOTIFICATION, makeNotification(context, account, user_id, call.id, video));
+            try {
+                final Notification notification = makeNotification(context, account, user_id, call.id, video);
+                if (notification == null) throw new IllegalStateException("notification unavailable");
+                nm.notify(VoIPService.ID_INCOMING_CALL_PRENOTIFICATION, notification);
+            } catch (Throwable first) {
+                // The full-screen claim, if any, is consumed above; a retry therefore builds the
+                // plain template instead of requesting a second full-screen presentation.
+                FileLog.e("Incoming call pre-notification publish failed ("
+                        + first.getClass().getSimpleName() + "); retrying plain template");
+                try {
+                    if (pendingVoIP != intent || pendingCall != call || !IncomingCallNotifications.current(account, intent)) return;
+                    final Notification fallback = makeNotification(context, account, user_id, call.id, video);
+                    if (fallback == null) throw new IllegalStateException("notification unavailable");
+                    nm.notify(VoIPService.ID_INCOMING_CALL_PRENOTIFICATION, fallback);
+                } catch (Throwable second) {
+                    FileLog.e("Incoming call pre-notification plain template failed ("
+                            + second.getClass().getSimpleName() + ")");
+                    dismiss(context, false);
+                    return;
+                }
+            }
             startRinging(context, account, user_id);
         });
     }
@@ -455,42 +437,21 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.w("Call " + call.id + " was discarded before the voip pre notification started, stopping");
             }
-            pendingVoIP = null;
-            pendingCall = null;
-            if (currentState != null) {
-                currentState.destroy();
-            }
+            dismiss(context, false);
             return;
-        }
-        if (Build.VERSION.SDK_INT >= 19 && XiaomiUtilities.isMIUI() && !XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_SHOW_WHEN_LOCKED)) {
-            if (((KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("MIUI: no permission to show when locked but the screen is locked. ¯\\_(ツ)_/¯");
-                }
-                pendingVoIP = null;
-                pendingCall = null;
-                if (currentState != null) {
-                    currentState.destroy();
-                }
-                return;
-            }
         }
         final TL_phone.receivedCall req = new TL_phone.receivedCall();
         req.peer = new TLRPC.TL_inputPhoneCall();
         req.peer.id = call.id;
         req.peer.access_hash = call.access_hash;
         ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (pendingCall != call || pendingVoIP == null || !IncomingCallNotifications.current(currentAccount, pendingVoIP)) return;
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.w("(VoIPPreNotification) receivedCall response = " + response);
             }
             if (error != null) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.e("error on receivedCall: " + error);
-                }
-                pendingVoIP = null;
-                pendingCall = null;
-                if (currentState != null) {
-                    currentState.destroy();
                 }
                 dismiss(context, false);
             } else if (whenAcknowledged != null) {
@@ -504,7 +465,11 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
             return true;
         }
         if (pendingVoIP == null || pendingCall == null) return false;
-        final int account = pendingVoIP.getIntExtra("account", UserConfig.selectedAccount);
+        if (!IncomingCallNotifications.current(pendingVoIP.getIntExtra("account", -1), pendingVoIP)) {
+            dismiss(context, false);
+            return false;
+        }
+        final int account = pendingVoIP.getIntExtra("account", -1);
         pendingVoIP.putExtra("openFragment", true);
         pendingVoIP.putExtra("accept", false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -527,8 +492,12 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
             FileLog.d("VoIPPreNotification.answer(): pending intent is not found");
             return;
         }
+        if (!IncomingCallNotifications.current(pendingVoIP.getIntExtra("account", -1), pendingVoIP)) {
+            dismiss(context, false);
+            return;
+        }
         currentState = null;
-        final int account = pendingVoIP.getIntExtra("account", UserConfig.selectedAccount);
+        final int account = pendingVoIP.getIntExtra("account", -1);
         if (VoIPService.getSharedInstance() != null) {
             VoIPService.getSharedInstance().acceptIncomingCall();
         } else {
@@ -562,8 +531,14 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
             FileLog.d("VoIPPreNotification.decline("+reason+"): pending intent or call is not found");
             return;
         }
-        final int account = pendingVoIP.getIntExtra("account", UserConfig.selectedAccount);
+        final int account = pendingVoIP.getIntExtra("account", -1);
+        if (!IncomingCallNotifications.current(account, pendingVoIP)) {
+            dismiss(context, false);
+            return;
+        }
         final TL_phone.discardCall req = new TL_phone.discardCall();
+        if (reason == VoIPService.DISCARD_REASON_HANGUP || reason == VoIPService.DISCARD_REASON_LINE_BUSY)
+            org.telegram.botgram.BotgramMissedCallNotifications.suppress(account, pendingCall.id);
         req.peer = new TLRPC.TL_inputPhoneCall();
         req.peer.access_hash = pendingCall.access_hash;
         req.peer.id = pendingCall.id;
@@ -603,8 +578,21 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
         dismiss(context, false);
     }
 
+    public static boolean isPending(int account, long callId) {
+        return pendingCall != null && pendingCall.id == callId && pendingVoIP != null
+                && pendingVoIP.getIntExtra("account", -1) == account && IncomingCallNotifications.current(account, pendingVoIP);
+    }
+
+    public static void dismissCall(Context context, int account, long callId) {
+        if (pendingVoIP != null && pendingCall != null && pendingCall.id == callId
+                && pendingVoIP.getIntExtra("account", -1) == account) dismiss(context, false);
+    }
+
     public static void dismiss(Context context, boolean answered) {
         FileLog.d("VoIPPreNotification.dismiss()");
+        if (!answered && pendingVoIP != null) {
+            IncomingCallNotifications.finish(pendingVoIP.getIntExtra("account", -1), pendingVoIP, false);
+        }
         pendingVoIP = null;
         pendingCall = null;
         if (currentState != null) {

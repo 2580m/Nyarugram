@@ -742,6 +742,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
         if (gidMode) {
             checkLayout.setVisibility(View.GONE);
+            // Notes are not supported for Gram ID contacts; only offer the supported fields.
+            notesField.setVisibility(View.GONE);
             codeField.setInputType(InputType.TYPE_CLASS_NUMBER);
             phoneField.setInputType(InputType.TYPE_CLASS_NUMBER);
             codeField.setHint("030");
@@ -1121,6 +1123,14 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             phoneField.setError(getString(R.string.BotgramContactGidInvalid));
             AndroidUtilities.shakeView(phoneOutlineView);
             return;
+        }
+        if (gidMode) {
+            final TLRPC.User self = parentFragment.getUserConfig().getCurrentUser();
+            final String digits = (codeField.getText().toString() + phoneField.getText().toString()).replaceAll("[^0-9]", "");
+            if (self != null && !TextUtils.isEmpty(self.phone) && digits.equals(self.phone.replaceAll("[^0-9]", ""))) {
+                underPhoneTextView.setText(getString(R.string.BotgramContactAddSelf));
+                return;
+            }
         }
         if (!gidMode && checkBox.isChecked()) {
             PermissionRequest.ensurePermission(R.raw.permission_request_contacts, R.string.PermissionNoContactsSaving, Manifest.permission.WRITE_CONTACTS, granted -> {

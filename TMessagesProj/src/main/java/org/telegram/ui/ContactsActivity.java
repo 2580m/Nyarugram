@@ -330,6 +330,10 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
                     } else {
                         finishFragment();
                     }
+                } else if (id == 9817) {
+                    org.telegram.botgram.BotgramSpecialCareActivity special = new org.telegram.botgram.BotgramSpecialCareActivity();
+                    special.setCurrentAccount(currentAccount);
+                    presentFragment(special);
                 } else if (id == delete) {
                     performSelectedContactsDelete();
                 } else if (id == sort_button) {
@@ -350,6 +354,9 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
         });
 
         ActionBarMenu menu = actionBar.createMenu();
+        if (!returnAsResult && !destroyAfterSelect && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
+            menu.addItem(9817, R.drawable.msg_fave).setContentDescription(getString(R.string.BotgramSpecialCareTitle));
+        }
 
         searchItem = menu.addItem(search_button, R.drawable.outline_header_search);
         searchItem.setContentDescription(getString(R.string.SearchContacts));

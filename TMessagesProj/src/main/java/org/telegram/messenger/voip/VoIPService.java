@@ -932,6 +932,12 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		} else {
 			NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.closeInCallActivity);
 			privateCall = callIShouldHavePutIntoIntent;
+			incomingPolicyIntent = intent;
+			if (!IncomingCallNotifications.current(currentAccount, intent)) {
+				stopSelf();
+				return START_NOT_STICKY;
+			}
+			incomingPolicy = IncomingCallNotifications.recover(currentAccount, privateCall != null ? privateCall.id : 0, false);
 			videoCall = privateCall != null && privateCall.video;
 			if (videoCall) {
 				isVideoAvailable = true;
@@ -944,7 +950,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			if (instantAccept) {
 				instantAccept = false;
 				acceptIncomingCall();
-			} else if (USE_CONNECTION_SERVICE) {
+			} else if (useIncomingTelecom()) {
 				acknowledgeCall(false);
 				showNotification();
 			} else {
@@ -1020,6 +1026,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	}
 
 	public void hangUp(int discard, Runnable onDone) {
+        if (!isOutgoing && groupCall == null && privateCall != null)
+            org.telegram.botgram.BotgramMissedCallNotifications.suppress(currentAccount, privateCall.id);
 		declineIncomingCall(currentState == STATE_RINGING || (currentState == STATE_WAITING && isOutgoing) ? DISCARD_REASON_MISSED : DISCARD_REASON_HANGUP, onDone);
 		if (groupCall != null) {
 			if (discard == 2) {
@@ -1191,21 +1199,12 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			stopSelf();
 			return;
 		}
-		if (Build.VERSION.SDK_INT >= 19 && XiaomiUtilities.isMIUI() && !XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_SHOW_WHEN_LOCKED)) {
-			if (((KeyguardManager) getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
-				if (BuildVars.LOGS_ENABLED) {
-					FileLog.e("MIUI: no permission to show when locked but the screen is locked. ¯\\_(ツ)_/¯");
-				}
-				stopSelf();
-				return;
-			}
-		}
 		TL_phone.receivedCall req = new TL_phone.receivedCall();
 		req.peer = new TLRPC.TL_inputPhoneCall();
 		req.peer.id = privateCall.id;
 		req.peer.access_hash = privateCall.access_hash;
 		ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-			if (sharedInstance == null) {
+			if (sharedInstance != this || !IncomingCallNotifications.current(currentAccount, incomingPolicyIntent)) {
 				return;
 			}
 			if (BuildVars.LOGS_ENABLED) {
@@ -1217,7 +1216,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				}
 				stopSelf();
 			} else {
-				if (USE_CONNECTION_SERVICE) {
+				if (useIncomingTelecom()) {
 					ContactsController.getInstance(currentAccount).createOrUpdateConnectionServiceContact(user.id, user.first_name, user.last_name);
 					TelecomManager tm = (TelecomManager) getSystemService(TELECOM_SERVICE);
 					Bundle extras = new Bundle();
@@ -4125,6 +4124,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
 	@Override
 	public void onDestroy() {
+		IncomingCallNotifications.finish(currentAccount, incomingPolicyIntent, false);
 		if (BuildVars.LOGS_ENABLED) {
 			FileLog.d("=============== VoIPService STOPPING ===============");
 		}
@@ -4384,6 +4384,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	}
 
 	public void declineIncomingCall(int reason, final Runnable onDone) {
+        if (!isOutgoing && groupCall == null && privateCall != null
+                && (reason == DISCARD_REASON_HANGUP || reason == DISCARD_REASON_LINE_BUSY))
+            org.telegram.botgram.BotgramMissedCallNotifications.suppress(currentAccount, privateCall.id);
 		if (groupCall != null) {
 			stopScreenCapture();
 		}
@@ -4513,7 +4516,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				FileLog.d("Starting incall activity for incoming call");
 			}
 			try {
-				PendingIntent.getActivity(VoIPService.this, 12345, new Intent(VoIPService.this, LaunchActivity.class).setAction("voip"), PendingIntent.FLAG_MUTABLE).send();
+				VoIPPreNotificationService.openCallScreen(this, currentAccount, privateCall.id);
 			} catch (Exception x) {
 				if (BuildVars.LOGS_ENABLED) {
 					FileLog.e("Error starting incall activity", x);
@@ -5190,70 +5193,24 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	}
 
 	private void showIncomingNotification(String name, TLObject userOrChat, boolean video, int additionalMemberCount) {
+		IncomingCallPolicy.Decision policy = incomingPolicy != null ? incomingPolicy
+				: IncomingCallNotifications.recover(currentAccount, getCallID(), groupCall != null);
 		Intent intent = new Intent(this, LaunchActivity.class);
 		intent.setAction("voip");
+		intent.putExtra("currentAccount", currentAccount);
 
 		Notification.Builder builder = new Notification.Builder(this)
 				.setContentTitle(video ? LocaleController.getString(R.string.VoipInVideoCallBranding) : LocaleController.getString(R.string.VoipInCallBranding))
 				.setSmallIcon(R.drawable.call)
 				.setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE));
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			SharedPreferences nprefs = MessagesController.getGlobalNotificationsSettings();
-			int chanIndex = nprefs.getInt("calls_notification_channel", 0);
-			NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			NotificationChannel oldChannel = nm.getNotificationChannel("incoming_calls2" + chanIndex);
-			if (oldChannel != null) {
-				nm.deleteNotificationChannel(oldChannel.getId());
-			}
-            oldChannel = nm.getNotificationChannel("incoming_calls3" + chanIndex);
-            if (oldChannel != null) {
-                nm.deleteNotificationChannel(oldChannel.getId());
-            }
-			NotificationChannel existingChannel = nm.getNotificationChannel("incoming_calls4" + chanIndex);
-			boolean needCreate = true;
-			if (existingChannel != null) {
-				if (existingChannel.getImportance() < NotificationManager.IMPORTANCE_HIGH || existingChannel.getSound() != null) {
-					if (BuildVars.LOGS_ENABLED) {
-						FileLog.d("User messed up the notification channel; deleting it and creating a proper one");
-					}
-					nm.deleteNotificationChannel("incoming_calls4" + chanIndex);
-					chanIndex++;
-					nprefs.edit().putInt("calls_notification_channel", chanIndex).commit();
-				} else {
-					needCreate = false;
-				}
-			}
-			if (needCreate) {
-				AudioAttributes attrs = new AudioAttributes.Builder()
-						.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-						.setLegacyStreamType(AudioManager.STREAM_RING)
-						.setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
-						.build();
-				NotificationChannel chan = new NotificationChannel("incoming_calls4" + chanIndex, LocaleController.getString(R.string.IncomingCallsSystemSetting), NotificationManager.IMPORTANCE_HIGH);
-                try {
-                    chan.setSound(null, attrs);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-                chan.setDescription(LocaleController.getString(R.string.IncomingCallsSystemSettingDescription));
-				chan.enableVibration(false);
-				chan.enableLights(false);
-				chan.setBypassDnd(true);
-				try {
-					nm.createNotificationChannel(chan);
-				} catch (Exception e) {
-					FileLog.e(e);
-					this.stopSelf();
-					return;
-				}
-			}
-			builder.setChannelId("incoming_calls4" + chanIndex);
+			builder.setChannelId(IncomingCallNotificationChannel.get(this, policy));
 		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			builder.setSound(null);
 		}
 		Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
 		endIntent.setAction(getPackageName() + ".DECLINE_CALL");
-		endIntent.putExtra("call_id", getCallID());
+		IncomingCallNotifications.stamp(endIntent, currentAccount, getCallID());
 		CharSequence endTitle = LocaleController.getString(R.string.VoipDeclineCall);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
 			endTitle = new SpannableString(endTitle);
@@ -5262,22 +5219,26 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		PendingIntent endPendingIntent = PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
 		Intent answerIntent = new Intent(this, VoIPActionsReceiver.class);
 		answerIntent.setAction(getPackageName() + ".ANSWER_CALL");
-		answerIntent.putExtra("call_id", getCallID());
+		IncomingCallNotifications.stamp(answerIntent, currentAccount, getCallID());
 		CharSequence answerTitle = LocaleController.getString(R.string.VoipAnswerCall);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
 			answerTitle = new SpannableString(answerTitle);
 			((SpannableString) answerTitle).setSpan(new ForegroundColorSpan(0xFF00AA00), 0, answerTitle.length(), 0);
 		}
 		PendingIntent answerPendingIntent = PendingIntent.getBroadcast(this, 0, answerIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
-		builder.setPriority(Notification.PRIORITY_MAX);
+		builder.setPriority(policy.priority());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			builder.setShowWhen(false);
 		}
+		boolean fullScreenIntent = false;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			builder.setColor(0xff2ca5e0);
 			builder.setVibrate(new long[0]);
 			builder.setCategory(Notification.CATEGORY_CALL);
-			builder.setFullScreenIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE), true);
+			fullScreenIntent = policy.claimFullScreen(IncomingCallNotifications.fullScreenAllowed(this));
+			if (fullScreenIntent) {
+				builder.setFullScreenIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE), true);
+			}
 			if (userOrChat instanceof TLRPC.User) {
 				TLRPC.User user = (TLRPC.User) userOrChat;
 				if (!TextUtils.isEmpty(user.phone)) {
@@ -5286,7 +5247,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			}
 		}
 		Notification incomingNotification;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+		final IncomingCallNotificationPlan plan =
+				IncomingCallNotificationPlan.create(policy, groupCall != null, video, true, fullScreenIntent);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && plan.callStyle) {
 			Bitmap avatar = getRoundAvatarBitmap(this, currentAccount, userOrChat);
 			String personName = ContactsController.formatName(userOrChat);
 			if (TextUtils.isEmpty(personName)) {
@@ -5331,12 +5294,30 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			incomingNotification = builder.getNotification();
 		}
 		foregroundStarted = true;
-		if (Build.VERSION.SDK_INT >= 33) {
-			startForeground(foregroundId = ID_INCOMING_CALL_NOTIFICATION, foregroundNotification = incomingNotification, lastForegroundType = getCurrentForegroundType());
-		} else {
-			startForeground(foregroundId = ID_INCOMING_CALL_NOTIFICATION, foregroundNotification = incomingNotification);
+		try {
+			if (Build.VERSION.SDK_INT >= 33) {
+				startForeground(foregroundId = ID_INCOMING_CALL_NOTIFICATION, foregroundNotification = incomingNotification, lastForegroundType = getCurrentForegroundType());
+			} else {
+				startForeground(foregroundId = ID_INCOMING_CALL_NOTIFICATION, foregroundNotification = incomingNotification);
+			}
+		} catch (Throwable e) {
+			foregroundStarted = false;
+			FileLog.e("Incoming foreground notification failed (" + e.getClass().getSimpleName() + ")");
+			stopRinging();
+			IncomingCallNotifications.finish(currentAccount, incomingPolicyIntent, false);
+			stopSelf();
+			return;
 		}
 		startRingtoneAndVibration();
+	}
+
+	private IncomingCallPolicy.Decision incomingPolicy;
+	private Intent incomingPolicyIntent;
+
+	private boolean useIncomingTelecom() {
+		// Telecom must not introduce a second automatic UI outside the frozen policy and system FSI permission.
+		return USE_CONNECTION_SERVICE && incomingPolicy != null && incomingPolicy.importance == 4
+				&& IncomingCallNotifications.fullScreenAllowed(this);
 	}
 
 	private boolean foregroundStarted;
@@ -5527,6 +5508,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	}
 
 	private void callEnded() {
+		IncomingCallNotifications.finish(currentAccount, incomingPolicyIntent, false);
 		if (BuildVars.LOGS_ENABLED) {
 			FileLog.d("Call " + getCallID() + " ended");
 		}

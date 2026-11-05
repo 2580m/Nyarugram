@@ -66,6 +66,9 @@ import androidx.core.graphics.drawable.IconCompat;
 
 import com.google.common.collect.Lists;
 
+import org.telegram.botgram.BotgramSpecialCare;
+import org.telegram.botgram.BotgramSpecialCareMessagePolicy;
+import org.telegram.botgram.BotgramSpecialCareNotifications;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.messenger.utils.tlutils.TLKeyboardHelper;
 import org.telegram.messenger.utils.tlutils.TlUtils;
@@ -118,6 +121,10 @@ public class NotificationsController extends BaseController implements Notificat
     private final LongSparseArray<Integer> lastWearNotifiedMessageId = new LongSparseArray<>();
     private final LongSparseArray<Integer> pushDialogsOverrideMention = new LongSparseArray<>();
     private final HashSet<String> pendingVoiceLoads = new HashSet<>();
+    private final HashSet<MessageObject> specialCarePending = new HashSet<>();
+    private final HashSet<MessageObject> ordinaryCarePending = new HashSet<>();
+    private long specialCareGeneration;
+    private long specialCareSoundSequence;
     public final ArrayList<MessageObject> popupMessages = new ArrayList<>();
     public ArrayList<MessageObject> popupReplyMessages = new ArrayList<>();
     private final HashSet<Long> openedInBubbleDialogs = new HashSet<>();
@@ -429,6 +436,10 @@ public class NotificationsController extends BaseController implements Notificat
             notificationManager.cancel("wallet_tonconnect", currentAccount);
             openedDialogId = 0;
             openedTopicId = 0;
+            specialCareGeneration++;
+            specialCareSoundSequence++;
+            specialCarePending.clear();
+            ordinaryCarePending.clear();
             total_unread_count = 0;
             personalCount = 0;
             pushMessages.clear();
@@ -493,6 +504,7 @@ public class NotificationsController extends BaseController implements Notificat
 
     public void setOpenedDialogId(long dialog_id, long topicId) {
         notificationsQueue.postRunnable(() -> {
+            specialCareSoundSequence++;
             openedDialogId = dialog_id;
             openedTopicId = topicId;
         });
@@ -1234,11 +1246,16 @@ public class NotificationsController extends BaseController implements Notificat
                     getMessagesStorage().putPushMessage(messageObject);
                 }
 
+                boolean specialCareNew = admitSpecialCareMessage(messageObject, preferences);
                 long originalDialogId = dialogId;
                 long topicId = MessageObject.getTopicId(currentAccount, messageObject.messageOwner, getMessagesController().isForum(messageObject));
                 if (dialogId == openedDialogId && ApplicationLoader.isScreenOn && !messageObject.isStoryReactionPush && !messageObject.isOauthPush) {
                     if (!isFcm) {
-                        playInChatSound();
+                        if (isSpecialCareMessage(messageObject)) {
+                            if (specialCareNew) playSpecialCareInChat(messageObject);
+                        } else {
+                            playInChatSound();
+                        }
                     }
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("skipped message because chat is already opened (openedDialogId = " + openedDialogId + ")");
@@ -1291,6 +1308,8 @@ public class NotificationsController extends BaseController implements Notificat
                     if (!hasScheduled) {
                         hasScheduled = messageObject.messageOwner.from_scheduled;
                     }
+                    if (specialCareNew) specialCarePending.add(messageObject);
+                    if (!isSpecialCareMessage(messageObject)) ordinaryCarePending.add(messageObject);
                     delayedPushMessages.add(messageObject);
                     appendMessage(messageObject);
                     if (mid != 0) {
@@ -3376,6 +3395,102 @@ public class NotificationsController extends BaseController implements Notificat
         }
     }
 
+    private boolean isSpecialCareMessageForDialog(long dialogId) {
+        return dialogId > 0 && BotgramSpecialCare.get(currentAccount).isSpecial(dialogId);
+    }
+
+    private void applySpecialCareNotification(NotificationCompat.Builder builder, MessageObject message,
+                                               boolean alert, boolean inApp) {
+        boolean sound = specialCareSoundAllowed(message, inApp);
+        boolean vibration = specialCareVibrationAllowed(message, inApp);
+        builder.setSubText(LocaleController.getString(R.string.BotgramSpecialCareNotificationLabel));
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        if (Build.VERSION.SDK_INT >= 26) {
+            builder.setChannelId(BotgramSpecialCareNotifications.ensureSpecialCareChannel(currentAccount));
+            // Channel sound cannot be overridden per notification. Silence conservatively when an
+            // application switch forbids either modality rather than bypassing that switch.
+            builder.setSilent(!alert || !sound || !vibration);
+        } else {
+            builder.setSilent(!alert);
+            builder.setSound(alert && sound ? BotgramSpecialCareNotifications.defaultSound() : null,
+                    AudioManager.STREAM_NOTIFICATION);
+            builder.setVibrate(alert && vibration ? BotgramSpecialCareNotifications.vibrationPattern() : new long[]{0, 0});
+        }
+    }
+
+    private boolean isSpecialCareMessage(MessageObject message) {
+        if (message == null || message.messageOwner == null || message.messageOwner.peer_id == null) return false;
+        return BotgramSpecialCareMessagePolicy.isDirect(message.getDialogId(), getUserConfig().getClientUserId(),
+                message.getFromChatId(), message.isOutOwner(), message.messageOwner.action != null
+                        && !(message.messageOwner.action instanceof TLRPC.TL_messageActionEmpty),
+                message.isFcmMessage() || message.isStoryPush || message.isReactionPush || message.isStoryReactionPush
+                        || message.isOauthPush || message.isLiveStoryPush || message.messageOwner.from_scheduled,
+                BotgramSpecialCare.get(currentAccount).isSpecial(message.getDialogId()));
+    }
+
+    private boolean admitSpecialCareMessage(MessageObject message, SharedPreferences preferences) {
+        if (!isSpecialCareMessage(message)) return false;
+        String key = "botgram_special_seen_" + getUserConfig().getClientUserId() + "_" + message.getDialogId();
+        int previous = preferences.getInt(key, 0);
+        boolean fresh = BotgramSpecialCareMessagePolicy.isFresh(message.getId(), previous,
+                message.messageOwner.date, getConnectionsManager().getCurrentTime());
+        if (message.getId() > previous) preferences.edit().putInt(key, message.getId()).apply();
+        return fresh;
+    }
+
+    private boolean specialCareAlertAllowed(MessageObject message) {
+        SharedPreferences preferences = getAccountInstance().getNotificationsSettings();
+        return isSpecialCareMessage(message) && BotgramSpecialCareMessagePolicy.canAlert(
+                isGlobalNotificationsEnabled(message.getDialogId(), false, false, false),
+                getNotifyOverride(preferences, message.getDialogId(), 0) == 2,
+                preferences.getBoolean("sound_enabled_" + getSharedPrefKey(message.getDialogId(), 0), true),
+                isSilentMessage(message), MediaController.getInstance().isRecordingAudio());
+    }
+
+    private boolean specialCareSoundAllowed(MessageObject message, boolean inApp) {
+        SharedPreferences preferences = getAccountInstance().getNotificationsSettings();
+        String path = preferences.getString("GlobalSoundPath", "Default");
+        if (dialogsNotificationsFacade.getProperty("custom_", message.getDialogId(), 0, false)) {
+            String custom = dialogsNotificationsFacade.getPropertyString("sound_path_", message.getDialogId(), 0, null);
+            if (!TextUtils.isEmpty(custom)) path = custom;
+        }
+        return !"NoSound".equalsIgnoreCase(path) && (!inApp || preferences.getBoolean("EnableInAppSounds", true));
+    }
+
+    private boolean specialCareVibrationAllowed(MessageObject message, boolean inApp) {
+        SharedPreferences preferences = getAccountInstance().getNotificationsSettings();
+        int vibrate = preferences.getInt("vibrate_messages", 0);
+        if (dialogsNotificationsFacade.getProperty("custom_", message.getDialogId(), 0, false)) {
+            int custom = dialogsNotificationsFacade.getProperty("vibrate_", message.getDialogId(), 0, 0);
+            if (custom != 0) vibrate = custom;
+        }
+        if (vibrate == 4 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) return false;
+        return vibrate != 2 && (!inApp || preferences.getBoolean("EnableInAppVibrate", true));
+    }
+
+    private void playSpecialCareInChat(MessageObject message) {
+        if (!inChatSoundEnabled || !specialCareAlertAllowed(message)
+                || SystemClock.elapsedRealtime() - lastSoundPlay <= 500) return;
+        lastSoundPlay = SystemClock.elapsedRealtime();
+        long generation = specialCareGeneration;
+        long sequence = ++specialCareSoundSequence;
+        long self = getUserConfig().getClientUserId();
+        long started = SystemClock.elapsedRealtime();
+        SharedPreferences sessionPreferences = ApplicationLoader.applicationContext.getSharedPreferences(
+                "botgram.session." + currentAccount, Context.MODE_PRIVATE);
+        String sessionIdentity = sessionPreferences.getString("token", null);
+        BotgramSpecialCareNotifications.playInChat(currentAccount, specialCareSoundAllowed(message, true),
+                specialCareVibrationAllowed(message, true),
+                () -> generation == specialCareGeneration && sequence == specialCareSoundSequence
+                        && self == getUserConfig().getClientUserId() && getUserConfig().isClientActivated()
+                        && sessionIdentity != null && sessionIdentity.equals(sessionPreferences.getString("token", null))
+                        && inChatSoundEnabled && openedDialogId == message.getDialogId()
+                        && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePaused
+                        && SystemClock.elapsedRealtime() - started < 1500 && specialCareAlertAllowed(message),
+                () -> specialCareSoundAllowed(message, true),
+                runnable -> notificationsQueue.postRunnable(runnable));
+    }
+
     private void playInChatSound() {
         if (!inChatSoundEnabled || MediaController.getInstance().isRecordingAudio()) {
             return;
@@ -4813,7 +4928,34 @@ public class NotificationsController extends BaseController implements Notificat
                     mBuilder.addAction(R.drawable.ic_ab_reply, LocaleController.getString(R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, replyIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
                 }
             }
-            showExtraNotifications(mBuilder, detailText, dialog_id, topicId, chatName, vibrationPattern, ledColor, sound, configImportance, isDefault, isInApp, notifyDisabled, chatType);
+            MessageObject specialAlert = null;
+            boolean ordinaryPending = false;
+            HashSet<Long> visibleDialogs = new HashSet<>();
+            SharedPreferences routingPreferences = getAccountInstance().getNotificationsSettings();
+            for (MessageObject candidate : pushMessages) {
+                ordinaryPending |= ordinaryCarePending.contains(candidate);
+                long candidateDialog = candidate.getDialogId();
+                if (candidate.messageOwner.date <= routingPreferences.getInt("dismissDate" + candidateDialog, 0)) continue;
+                // showExtraNotifications uses the first visible message of each dialog as its child.
+                if (!visibleDialogs.add(candidateDialog)) continue;
+                if (specialAlert == null && visibleDialogs.size() <= (storyPushMessages.isEmpty() ? 7 : 6)
+                        && getMessagesController().getUser(candidateDialog) != null
+                        && specialCarePending.contains(candidate) && specialCareAlertAllowed(candidate)) {
+                    specialAlert = candidate;
+                }
+            }
+            boolean specialRouting = BotgramSpecialCareMessagePolicy.routeSpecialAlert(
+                    notifyAboutLast && specialAlert != null, ordinaryPending, Build.VERSION.SDK_INT > 19);
+            if (!specialRouting) specialAlert = null;
+            specialRouting = BotgramSpecialCareMessagePolicy.silenceSummary(
+                    specialRouting, isSpecialCareMessage(lastMessageObject), ordinaryPending);
+            if (specialRouting) {
+                // The child owns this alert; the aggregate must never inherit its sound/channel.
+                mBuilder.setSilent(true).setSound(null).setVibrate(new long[]{0, 0});
+            }
+            specialCarePending.clear();
+            ordinaryCarePending.clear();
+            showExtraNotifications(mBuilder, detailText, dialog_id, topicId, chatName, vibrationPattern, ledColor, sound, configImportance, isDefault, isInApp, notifyDisabled, chatType, specialRouting, specialAlert);
             scheduleNotificationRepeat();
         } catch (Exception e) {
             FileLog.e(e);
@@ -4879,10 +5021,15 @@ public class NotificationsController extends BaseController implements Notificat
     }
 
     @SuppressLint("InlinedApi")
-    private void showExtraNotifications(NotificationCompat.Builder notificationBuilder, String summary, long lastDialogId, long lastTopicId, String chatName, long[] vibrationPattern, int ledColor, Uri sound, int importance, boolean isDefault, boolean isInApp, boolean isSilent, int chatType) {
+    private void showExtraNotifications(NotificationCompat.Builder notificationBuilder, String summary, long lastDialogId, long lastTopicId, String chatName, long[] vibrationPattern, int ledColor, Uri sound, int importance, boolean isDefault, boolean isInApp, boolean isSilent, int chatType, boolean specialRouting, MessageObject specialAlert) {
         FileLog.d("showExtraNotifications pushMessages.size()=" + pushMessages.size());
         if (Build.VERSION.SDK_INT >= 26) {
-            notificationBuilder.setChannelId(validateChannelId(lastDialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType));
+            if (specialRouting) {
+                checkOtherNotificationsChannel();
+                notificationBuilder.setChannelId(OTHER_NOTIFICATIONS_CHANNEL);
+            } else {
+                notificationBuilder.setChannelId(validateChannelId(lastDialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType));
+            }
         }
         Notification mainNotification = notificationBuilder.build();
         if (Build.VERSION.SDK_INT <= 19) {
@@ -4955,7 +5102,9 @@ public class NotificationsController extends BaseController implements Notificat
                     notificationManager.notify(id, notification.build());
                 } catch (SecurityException e) {
                     FileLog.e(e);
-                    resetNotificationSound(notification, dialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType);
+                    if (!isSpecialCareMessageForDialog(dialogId) && !specialRouting) {
+                        resetNotificationSound(notification, dialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType);
+                    }
                 }
             }
         }
@@ -5750,6 +5899,13 @@ public class NotificationsController extends BaseController implements Notificat
             if (Build.VERSION.SDK_INT >= 26) {
                 setNotificationChannel(mainNotification, builder, useSummaryNotification);
             }
+            if (isSpecialCareMessage(lastMessageObject) && (specialRouting || useSummaryNotification)) {
+                applySpecialCareNotification(builder, lastMessageObject,
+                        BotgramSpecialCareMessagePolicy.ownsChildAlert(specialAlert, lastMessageObject), isInApp);
+                if (useSummaryNotification && specialRouting) {
+                    builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN);
+                }
+            }
             FileLog.d("showExtraNotifications: holders.add " + dialogId);
             holders.add(new NotificationHolder(internalId, dialogId, dialogKey.story, topicId, name, user, chat, builder));
             wearNotificationsIds.put(dialogId, internalId);
@@ -5763,7 +5919,7 @@ public class NotificationsController extends BaseController implements Notificat
                 notificationManager.notify(notificationId, mainNotification);
             } catch (SecurityException e) {
                 FileLog.e(e);
-                resetNotificationSound(notificationBuilder, lastDialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType);
+                if (!specialRouting) resetNotificationSound(notificationBuilder, lastDialogId, lastTopicId, chatName, vibrationPattern, ledColor, sound, importance, isDefault, isInApp, isSilent, chatType);
             }
         } else {
             if (openedInBubbleDialogs.isEmpty()) {

@@ -11,6 +11,14 @@ import android.content.Intent;
 public class VoIPActionsReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		if (!intent.hasExtra("group_call_invite_msg_id") && intent.hasExtra("botgram_call_session")) {
+			int account = intent.getIntExtra("currentAccount", -1);
+			if (!IncomingCallNotifications.current(account, intent)) return;
+			VoIPService service = VoIPService.getSharedInstance();
+			long callId = intent.getLongExtra("call_id", 0);
+			if (service != null ? service.getAccount() != account || service.getCallID() != callId
+					: !VoIPPreNotificationService.isPending(account, callId)) return;
+		}
 		if (!intent.hasExtra("group_call_invite_msg_id") && VoIPService.getSharedInstance() != null) {
 			VoIPService.getSharedInstance().handleNotificationAction(intent);
 		} else {

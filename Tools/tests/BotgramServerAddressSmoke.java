@@ -44,6 +44,31 @@ public final class BotgramServerAddressSmoke {
         equal("http://example.com:8443", BotgramServerAddress.migrateLegacy("http://example.com:8443"));
         equal("https://example.com", BotgramServerAddress.migrateLegacy("https://example.com"));
         equal("http://[::1]:8521", BotgramServerAddress.migrateLegacy("http://[::1]:5080"));
+        for (String host : new String[]{"10.0.0.0", "10.255.255.255", "172.16.0.0", "172.31.255.255",
+                "192.168.0.0", "192.168.255.255", "192.168.2.200"}) {
+            String http = "http://" + host + ":18521/";
+            checks++;
+            if (!BotgramServerAddress.isPrivateHttp(http)) throw new AssertionError("Private address rejected: " + host);
+            equal("ws://" + host + ":18521/api/ws?after=42", BotgramServerAddress.eventEndpoint(http, 42));
+        }
+        for (String host : new String[]{"9.255.255.255", "11.0.0.0", "172.15.255.255", "172.32.0.0",
+                "192.167.255.255", "192.169.0.0", "127.0.0.1", "169.254.1.2", "100.64.0.1", "8.8.8.8",
+                "example.com", "192.168.2.200.example.com", "10.1", "010.0.0.1", "10.256.0.1", "[::1]", "[::ffff:192.168.2.200]"}) {
+            String http = "http://" + host;
+            checks++;
+            if (BotgramServerAddress.isPrivateHttp(http)) throw new AssertionError("Non-private literal accepted: " + host);
+            invalid(() -> BotgramServerAddress.eventEndpoint(http, 0));
+        }
+        for (String invalid : new String[]{"http://user@192.168.2.200", "http://192.168.2.200/path",
+                "http://192.168.2.200?other=1", "http://192.168.2.200#fragment", "http://192.168.0.0/16"}) {
+            checks++;
+            if (BotgramServerAddress.isPrivateHttp(invalid)) throw new AssertionError("Malformed origin accepted");
+            invalid(() -> BotgramServerAddress.eventEndpoint(invalid, 0));
+        }
+        equal("wss://example.com:8521/api/ws?after=0", BotgramServerAddress.eventEndpoint("https://example.com:8521", 0));
+        equal("wss://192.168.2.200/api/ws?after=1", BotgramServerAddress.eventEndpoint("https://192.168.2.200", 1));
+        equal("ws://10.1.2.3/api/ws?after=0", BotgramServerAddress.eventEndpoint("http://10.1.2.3", 0));
+        invalid(() -> BotgramServerAddress.eventEndpoint("http://10.1.2.3", -1));
         System.out.println("PASS: " + checks + " endpoint, port, IPv6, validation and migration checks");
     }
 }
