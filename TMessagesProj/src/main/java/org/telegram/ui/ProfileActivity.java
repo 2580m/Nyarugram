@@ -455,6 +455,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private ActionBarMenuItem callItem;
     private ActionBarMenuItem videoCallItem;
     private ActionBarMenuItem editItem;
+    private final Runnable specialCareListener = this::updateSpecialCareMenu;
+    private void updateSpecialCareMenu() {
+        if (!isFinished && otherItem != null && userId > 0) {
+            // Keep the original three-dot overflow icon; special care only appears as a menu entry.
+            createActionBarMenu(false);
+        }
+    };
     private ActionBarMenuItem otherItem;
     private ActionBarMenuItem searchItem;
     private ActionBarMenuSubItem editColorItem;
@@ -2375,6 +2382,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public void onFragmentDestroy() {
+        org.telegram.botgram.BotgramSpecialCare.get(currentAccount).removeListener(specialCareListener);
         super.onFragmentDestroy();
         if (sharedMediaLayout != null) {
             sharedMediaLayout.onDestroy();
@@ -2576,6 +2584,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     finishFragment();
+                } else if (id == 9817) {
+                    org.telegram.botgram.BotgramSpecialCareUi.confirm(ProfileActivity.this, currentAccount, getMessagesController().getUser(userId));
                 } else if (id == block_contact) {
                     onBlockContactClicked(false);
                 } else if (id == add_contact) {
@@ -9255,6 +9265,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void onResume() {
         super.onResume();
+        org.telegram.botgram.BotgramSpecialCare specialCare = org.telegram.botgram.BotgramSpecialCare.get(currentAccount);
+        specialCare.removeListener(specialCareListener);
+        specialCare.addListener(specialCareListener);
+        specialCareListener.run();
+        specialCare.refresh();
         if (sharedMediaLayout != null) {
             sharedMediaLayout.onResume();
         }
@@ -11885,6 +11900,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         otherItem.addSubItem(share_contact, R.drawable.msg_share, LocaleController.getString(R.string.ShareContact));
                     }
                     otherItem.addSubItem(block_contact, !userBlocked ? R.drawable.msg_block : R.drawable.msg_block, !userBlocked ? LocaleController.getString(R.string.BlockContact) : LocaleController.getString(R.string.Unblock));
+                    if (org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()
+                            && org.telegram.botgram.BotgramSpecialCare.get(currentAccount).eligible(user)) {
+                        otherItem.addSubItem(9817, R.drawable.msg_fave, org.telegram.botgram.BotgramSpecialCareUi.label(currentAccount, user.id));
+                    }
                     otherItem.addSubItem(edit_contact, R.drawable.msg_edit, LocaleController.getString(R.string.EditContact));
                     otherItem.addSubItem(delete_contact, R.drawable.msg_delete, LocaleController.getString(R.string.DeleteContact));
                 }

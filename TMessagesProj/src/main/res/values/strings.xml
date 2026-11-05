@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="BotgramSpecialCareMessagesChannel">Special care messages</string>
+    <string name="BotgramSpecialCareCallsChannel">Special care calls</string>
+    <string name="BotgramSpecialCareNotificationLabel">Special care</string>
+    <string name="BotgramSpecialCareIneligible">Special care is only available for personal contacts. Your own account, bots, deleted users, blocked users and non-contacts are not supported.</string>
+    <string name="BotgramSpecialCareTitle">Special care</string>
+    <string name="BotgramSpecialCareAdd">Add to special care</string>
+    <string name="BotgramSpecialCareRemove">Remove from special care</string>
+    <string name="BotgramSpecialCareConfirmAdd">Give this contact special care? Only existing personal contacts are supported.</string>
+    <string name="BotgramSpecialCareConfirmRemove">Remove this contact from special care?</string>
+    <string name="BotgramSpecialCareSaved">Special care updated.</string>
+    <string name="BotgramSpecialCareFailed">Special care was not updated. Check the connection and contact status, then try again.</string>
+    <string name="BotgramSpecialCareInfo">Tap a contact to remove special care. Deleting or blocking a contact removes special care; adding or unblocking does not restore it. Changes on other devices are checked periodically.</string>
+    <string name="BotgramSpecialCareChannelSettings">Message sound and vibration</string>
     <string name="BotgramSignIn">Log in to Botgram</string>
     <string name="BotgramSignUp">Create your account</string>
     <string name="BotgramSignInInfo">Enter your username and password to continue.</string>
@@ -11679,6 +11692,9 @@
     <string name="BotgramContactGidInfo">Enter the contact’s Gram ID, for example +030 12345678.</string>
     <string name="BotgramContactGidInvalid">Enter a valid three-digit M49 region and eight digits other than 00000000.</string>
     <string name="BotgramContactGidNotFound">No account was found with this Gram ID.</string>
+    <string name="BotgramContactSaveFailed">The contact was not saved. Check your connection and try again.</string>
+    <string name="BotgramContactNotesUnavailable">Contact notes are not available for Gram ID accounts.</string>
+    <string name="BotgramContactAddSelf">You cannot add your own account as a contact.</string>
     <string name="BotgramGid">Gram ID</string>
     <string name="BotgramChangeGid">Change Gram ID</string>
     <string name="BotgramGeographicRegion">Geographic Region</string>
@@ -11705,5 +11721,6 @@
     <string name="BotgramWallpaperUnsupported">Only solid colors and gradients are currently supported. This wallpaper option is not available.</string>
     <string name="BotgramWallpaperFailed">The wallpaper could not be saved. Your previous wallpaper has been kept. Please try again.</string>
     <string name="BotgramCallOverlayTitle">Show incoming calls over other apps</string>
+    <string name="BotgramMissedCallNotification">Missed call</string>
     <string name="BotgramCallOverlayMessage">To open incoming call screens on top, even when Nyarugram is in the background or the screen is locked, allow Nyarugram to display over other apps.</string>
 </resources>

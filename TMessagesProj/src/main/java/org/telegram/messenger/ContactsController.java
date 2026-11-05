@@ -2369,19 +2369,48 @@ public class ContactsController extends BaseController {
         });
     }
 
+    public interface AddContactCallback {
+        /** Runs on the UI thread; error is null only when the server confirmed the contact. */
+        void onAddContactResult(TLRPC.User user, TLRPC.TL_error error);
+    }
+
     public void addContact(TLRPC.User user, boolean exception) {
         addContact(user, null, exception);
     }
 
     public void addContact(TLRPC.User user, TLRPC.TL_textWithEntities note, boolean exception) {
+        addContact(user, note, exception, null);
+    }
+
+    public void addContact(TLRPC.User user, TLRPC.TL_textWithEntities note, boolean exception, AddContactCallback callback) {
+        addContact(user, user == null ? null : user.first_name, user == null ? null : user.last_name, note, exception, callback);
+    }
+
+    /**
+     * Sends contacts.addContact using the supplied alias without touching the shared user until the
+     * server confirms it. Botgram rejects unsupported note/phone-sharing options explicitly instead
+     * of dropping them; the original pages hide those controls for bound accounts.
+     */
+    public void addContact(TLRPC.User user, String firstName, String lastName, TLRPC.TL_textWithEntities note, boolean exception, AddContactCallback callback) {
         if (user == null) {
+            notifyAddContact(callback, null, addContactError(400, "USER_ID_INVALID"));
+            return;
+        }
+        final boolean botgram = org.telegram.botgram.BotgramTransport.get(currentAccount).enabled();
+        final boolean hasNote = note != null && (!TextUtils.isEmpty(note.text) || note.entities != null && !note.entities.isEmpty());
+        if (botgram && exception) {
+            notifyAddContact(callback, null, addContactError(501, "BOTGRAM_CONTACT_PHONE_EXCEPTION_UNSUPPORTED"));
+            return;
+        }
+        if (botgram && hasNote) {
+            notifyAddContact(callback, null, addContactError(501, "BOTGRAM_CONTACT_NOTES_UNSUPPORTED"));
             return;
         }
 
         final TLRPC.TL_contacts_addContact req = new TLRPC.TL_contacts_addContact();
         req.id = getMessagesController().getInputUser(user);
-        req.first_name = user.first_name;
-        req.last_name = user.last_name;
+        req.first_name = firstName;
+        req.last_name = lastName;
         req.phone = user.phone;
         req.add_phone_privacy_exception = exception;
         if (req.phone == null) {
@@ -2389,15 +2418,31 @@ public class ContactsController extends BaseController {
         } else if (req.phone.length() > 0 && !req.phone.startsWith("+")) {
             req.phone = "+" + req.phone;
         }
-        if (note != null) {
+        if (note != null && !botgram) {
             req.flags |= 2;
             req.note = note;
         }
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error != null) {
+                notifyAddContact(callback, null, error);
+                return;
+            }
+            if (!(response instanceof TLRPC.Updates)) {
+                notifyAddContact(callback, null, addContactError(502, "BOTGRAM_CONTACT_RESPONSE_INVALID"));
                 return;
             }
             final TLRPC.Updates res = (TLRPC.Updates) response;
+            TLRPC.User added = null;
+            for (int a = 0; a < res.users.size(); a++) {
+                if (res.users.get(a).id == user.id) {
+                    added = res.users.get(a);
+                    break;
+                }
+            }
+            if (botgram && (added == null || !added.contact)) {
+                notifyAddContact(callback, null, addContactError(502, "BOTGRAM_CONTACT_RESPONSE_INVALID"));
+                return;
+            }
             if (user.photo != null && user.photo.personal) {
                 for (int i = 0; i < res.users.size(); i++) {
                     if (res.users.get(i).id == user.id) {
@@ -2432,6 +2477,7 @@ public class ContactsController extends BaseController {
                 }
             }
 
+            final TLRPC.User addedUser = added;
             AndroidUtilities.runOnUIThread(() -> {
                 boolean needResort = false;
                 for (int a = 0; a < res.users.size(); a++) {
@@ -2440,9 +2486,9 @@ public class ContactsController extends BaseController {
                         Contact phoneBookContact = contactsBookSPhones.get(u.phone);
                         if (phoneBookContact != null) {
                             String oldKey = phoneBookContact.getLetter();
-                            String newKey = Contact.getLetter(user.first_name, user.last_name);
+                            String newKey = Contact.getLetter(u.first_name, u.last_name);
                             if (phoneBookContact.user == null) {
-                                phoneBookContact.user = user;
+                                phoneBookContact.user = u;
                                 if (!oldKey.equals(newKey)) {
                                     ArrayList<Object> arrayList = phoneBookSectionsDict.get(newKey);
                                     if (arrayList == null) {
@@ -2486,8 +2532,25 @@ public class ContactsController extends BaseController {
                     mergePhonebookAndTelegramContacts(phoneBookSectionsDict, phoneBookSectionsArray, phoneBookByShortPhones, false);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.contactsDidLoad);
+                if (callback != null) {
+                    callback.onAddContactResult(addedUser, null);
+                }
             });
         }, ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagCanCompress);
+    }
+
+    private static TLRPC.TL_error addContactError(int code, String text) {
+        TLRPC.TL_error error = new TLRPC.TL_error();
+        error.code = code;
+        error.text = text;
+        return error;
+    }
+
+    private static void notifyAddContact(AddContactCallback callback, TLRPC.User user, TLRPC.TL_error error) {
+        if (callback == null) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(() -> callback.onAddContactResult(user, error));
     }
 
     public void deleteContactsUndoable(Context context, BaseFragment fragment, final ArrayList<TLRPC.User> users) {
@@ -2542,6 +2605,9 @@ public class ContactsController extends BaseController {
         }
         TLRPC.TL_contacts_deleteContacts req = new TLRPC.TL_contacts_deleteContacts();
         final ArrayList<Long> uids = new ArrayList<>();
+        final ArrayList<TLRPC.User> affectedUsers = new ArrayList<>();
+        final ArrayList<Boolean> contactsBefore = new ArrayList<>();
+        final ArrayList<org.telegram.botgram.BotgramSpecialCare.Suppression> suppressions = new ArrayList<>();
         for (int a = 0, N = users.size(); a < N; a++) {
             TLRPC.User user = users.get(a);
             getMessagesController().getStoriesController().removeContact(user.id);
@@ -2549,15 +2615,31 @@ public class ContactsController extends BaseController {
             if (inputUser == null) {
                 continue;
             }
+            affectedUsers.add(user);
+            contactsBefore.add(user.contact);
             user.contact = false;
+            suppressions.add(org.telegram.botgram.BotgramSpecialCare.get(currentAccount).beginSuppress(user.id));
             uids.add(user.id);
             req.id.add(inputUser);
         }
         String userName = users.get(0).first_name;
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error != null) {
+                AndroidUtilities.runOnUIThread(() -> {
+                    for (int a = 0, N = affectedUsers.size(); a < N; a++) {
+                        TLRPC.User user = affectedUsers.get(a);
+                        if (contactsBefore.get(a) || contactsDict.get(user.id) != null) user.contact = true;
+                        org.telegram.botgram.BotgramSpecialCare.get(currentAccount).cancelSuppress(suppressions.get(a));
+                    }
+                    getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_ALL);
+                });
                 return;
             }
+            AndroidUtilities.runOnUIThread(() -> {
+                for (org.telegram.botgram.BotgramSpecialCare.Suppression suppression : suppressions) {
+                    org.telegram.botgram.BotgramSpecialCare.get(currentAccount).confirmSuppress(suppression);
+                }
+            });
             getMessagesController().processUpdates((TLRPC.Updates) response, false);
             getMessagesStorage().deleteContacts(uids);
             Utilities.phoneBookQueue.postRunnable(() -> {

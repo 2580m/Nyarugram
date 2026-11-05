@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 
 import javax.net.ssl.SSLContext;
 
-/** Foreground-only event hints. The event cursor is never a Telegram pts. */
+/** Session-owned event hints, including background calls. The event cursor is never a Telegram pts. */
 final class BotgramEventSocket {
     interface Listener {
         void wake(BotgramSession credentials);
@@ -44,7 +44,7 @@ final class BotgramEventSocket {
 
     BotgramEventSocket(Listener listener) { this.listener = listener; }
 
-    void update(BotgramSession next, boolean foreground) {
+    void update(BotgramSession next, boolean receiveEvents) {
         boolean changed = credentials != next || !java.util.Objects.equals(server, next.server)
                 || !java.util.Objects.equals(token, next.token);
         if (changed) {
@@ -56,8 +56,9 @@ final class BotgramEventSocket {
             rejected = false;
             backoff = 1000;
         }
-        // An HTTP binding may still use polling, but must never send Bearer over ws://.
-        boolean wanted = foreground && token != null && server != null && server.startsWith("https://") && !rejected;
+        // Explicit private IPv4 HTTP endpoints use WS; HTTPS always keeps verified TLS.
+        boolean wanted = receiveEvents && token != null && server != null
+                && (server.startsWith("https://") || BotgramServerAddress.isPrivateHttp(server)) && !rejected;
         if (!wanted) { if (active) stop(); return; }
         if (!active) {
             active = true;
@@ -94,11 +95,13 @@ final class BotgramEventSocket {
             try {
                 // Validate the origin exactly as RPC does. No user info, query, or redirect target is accepted.
                 String base = new BotgramApi(origin, bearer).baseUrl;
-                SSLContext tls = SSLContext.getInstance("TLS");
-                tls.init(null, null, null); // System trust managers only.
-                WebSocket ws = new WebSocketFactory().setConnectionTimeout(10_000).setSocketTimeout(20_000)
-                        .setSSLSocketFactory(tls.getSocketFactory()).setVerifyHostname(true)
-                        .createSocket("wss://" + base.substring("https://".length()) + "/api/ws?after=" + after);
+                WebSocketFactory factory = new WebSocketFactory().setConnectionTimeout(10_000).setSocketTimeout(20_000);
+                if (base.startsWith("https://")) {
+                    SSLContext tls = SSLContext.getInstance("TLS");
+                    tls.init(null, null, null); // System trust managers only.
+                    factory.setSSLSocketFactory(tls.getSocketFactory()).setVerifyHostname(true);
+                }
+                WebSocket ws = factory.createSocket(BotgramServerAddress.eventEndpoint(base, after));
                 ws.addProtocol("botgram.event-hint.v1.protobuf");
                 ws.addProtocol("botgram.events.v1.json");
                 ws.addHeader("Authorization", "Bearer " + bearer);
@@ -124,6 +127,7 @@ final class BotgramEventSocket {
                         AndroidUtilities.runOnUIThread(() -> {
                             if (!current(attempt)) { close(connected); return; }
                             backoff = 1000;
+                            org.telegram.messenger.FileLog.d("BOTGRAM_EVENT_SOCKET connected transport=" + connected.getURI().getScheme());
                             listener.wake(credentials);
                             listener.wallpaper(credentials, -1);
                         });
@@ -143,6 +147,7 @@ final class BotgramEventSocket {
                                 if (!current(attempt)) return;
                                 cursor = Math.max(cursor, nextCursor);
                                 listener.wake(credentials);
+                                org.telegram.messenger.FileLog.d("BOTGRAM_EVENT_SOCKET hint received");
                             });
                         } catch (Exception error) { reject(connected, error); }
                     }

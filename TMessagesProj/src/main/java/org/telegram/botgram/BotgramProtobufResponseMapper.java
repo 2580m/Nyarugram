@@ -5,6 +5,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.Vector;
 import org.telegram.tgnet.tl.TL_update;
+import org.telegram.tgnet.tl.TL_phone;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -118,6 +119,7 @@ public final class BotgramProtobufResponseMapper {
                 result.objects.addAll(users(response.getGetUsers().getUsersList()));
                 return result;
             }
+            case ADD_CONTACT: return updates(response.getAddContact());
             case GET_CONTACTS: return contacts(response.getGetContacts());
             case IMPORT_CONTACTS: return imported(response.getImportContacts());
             case CREATE_GROUP: return groupCreated(response.getCreateGroup());
@@ -140,6 +142,19 @@ public final class BotgramProtobufResponseMapper {
                 return result;
             }
             case GET_NOTIFY_SETTINGS: return notifySettings(response.getGetNotifySettings());
+            case REQUEST_CALL: return phoneResult(response.getRequestCall());
+            case RECEIVED_CALL: return bool(response.getReceivedCall());
+            case ACCEPT_CALL: return phoneResult(response.getAcceptCall());
+            case CONFIRM_CALL: return phoneResult(response.getConfirmCall());
+            case DISCARD_CALL: return updates(response.getDiscardCall());
+            case SEND_SIGNALING_DATA: return bool(response.getSendSignalingData());
+            case GET_CALL_CONFIG: {
+                TLRPC.TL_dataJSON result = new TLRPC.TL_dataJSON();
+                result.data = response.getGetCallConfig().getData();
+                return result;
+            }
+            case SAVE_CALL_DEBUG: return bool(response.getSaveCallDebug());
+            case GET_DH_CONFIG: return dhConfig(response.getGetDhConfig());
             case OUTCOME_NOT_SET: throw invalid("outcome");
             default: throw unsupported("outcome");
         }
@@ -175,6 +190,135 @@ public final class BotgramProtobufResponseMapper {
         return int32(Math.floorDiv(milliseconds, 1000L), "timestamp");
     }
 
+    private static TLRPC.Bool bool(BotgramRpc.BoolValue input) {
+        return input.getValue() ? new TLRPC.TL_boolTrue() : new TLRPC.TL_boolFalse();
+    }
+
+    private static TLRPC.messages_DhConfig dhConfig(BotgramRpc.DhConfig input) {
+        if (input.getNotModified()) {
+            TLRPC.TL_messages_dhConfigNotModified result = new TLRPC.TL_messages_dhConfigNotModified();
+            result.random = input.getRandom().toByteArray();
+            return result;
+        }
+        TLRPC.TL_messages_dhConfig result = new TLRPC.TL_messages_dhConfig();
+        result.g = input.getG();
+        result.p = input.getP().toByteArray();
+        result.version = input.getVersion();
+        result.random = input.getRandom().toByteArray();
+        return result;
+    }
+
+    private TL_phone.TL_phone_phoneCall phoneResult(BotgramRpc.PhoneCallResult input) throws BotgramApi.ApiError {
+        require(input.hasPhoneCall(), "phone_call");
+        learn(input.getUsersList(), Collections.emptyList());
+        TL_phone.TL_phone_phoneCall result = new TL_phone.TL_phone_phoneCall();
+        result.phone_call = phoneCall(input.getPhoneCall());
+        result.users = users(input.getUsersList());
+        return result;
+    }
+
+    private TL_phone.PhoneCall phoneCall(BotgramRpc.PhoneCall input) throws BotgramApi.ApiError {
+        int video = input.getVideo() ? 64 : 0;
+        switch (input.getState()) {
+            case PHONE_CALL_STATE_WAITING: {
+                TL_phone.TL_phoneCallWaiting result = new TL_phone.TL_phoneCallWaiting();
+                base(result, input);
+                result.flags = video | (input.getReceiveDateMs() != 0 ? 1 : 0);
+                result.receive_date = input.getReceiveDateMs() != 0 ? seconds(input.getReceiveDateMs()) : 0;
+                return result;
+            }
+            case PHONE_CALL_STATE_REQUESTED: {
+                TL_phone.phoneCallRequested result = new TL_phone.phoneCallRequested();
+                base(result, input);
+                result.flags = video;
+                result.g_a_hash = input.getGAHash().toByteArray();
+                return result;
+            }
+            case PHONE_CALL_STATE_ACCEPTED: {
+                TL_phone.TL_phoneCallAccepted result = new TL_phone.TL_phoneCallAccepted();
+                base(result, input);
+                result.flags = video;
+                result.g_b = input.getGB().toByteArray();
+                return result;
+            }
+            case PHONE_CALL_STATE_ACTIVE: {
+                TL_phone.TL_phoneCall result = new TL_phone.TL_phoneCall();
+                base(result, input);
+                result.p2p_allowed = input.getP2PAllowed();
+                result.flags = video | (result.p2p_allowed ? 32 : 0);
+                result.g_a_or_b = input.getGAOrB().toByteArray();
+                result.key_fingerprint = input.getKeyFingerprint();
+                result.start_date = seconds(input.getStartDateMs());
+                for (BotgramRpc.PhoneConnection item : input.getConnectionsList()) {
+                    result.connections.add(connection(item));
+                }
+                return result;
+            }
+            case PHONE_CALL_STATE_DISCARDED: {
+                TL_phone.TL_phoneCallDiscarded result = new TL_phone.TL_phoneCallDiscarded();
+                result.id = input.getCallId();
+                result.video = input.getVideo();
+                // Local notification metadata; discarded TL serialization intentionally omits these fields.
+                result.admin_id = input.getAdminTlUserId();
+                result.participant_id = input.getParticipantTlUserId();
+                result.date = seconds(input.getDateMs());
+                result.start_date = seconds(input.getStartDateMs());
+                result.g_b = input.getGB().toByteArray();
+                result.reason = reason(input.getDiscardReason());
+                result.duration = input.getDuration();
+                result.flags = video | 1 | 2;
+                return result;
+            }
+            default: throw invalid("phone_call.state");
+        }
+    }
+
+    private void base(TL_phone.PhoneCall result, BotgramRpc.PhoneCall input) throws BotgramApi.ApiError {
+        require(input.hasProtocol(), "phone_call.protocol");
+        result.id = input.getCallId();
+        result.access_hash = input.getAccessHash();
+        result.date = seconds(input.getDateMs());
+        result.admin_id = input.getAdminTlUserId();
+        result.participant_id = input.getParticipantTlUserId();
+        result.video = input.getVideo();
+        result.protocol = protocol(input.getProtocol());
+    }
+
+    private static TL_phone.TL_phoneCallProtocol protocol(BotgramRpc.PhoneCallProtocol input) {
+        TL_phone.TL_phoneCallProtocol result = new TL_phone.TL_phoneCallProtocol();
+        result.udp_p2p = input.getUdpP2P();
+        result.udp_reflector = input.getUdpReflector();
+        result.min_layer = input.getMinLayer();
+        result.max_layer = input.getMaxLayer();
+        result.library_versions = new ArrayList<>(input.getLibraryVersionsList());
+        result.flags = (result.udp_p2p ? 1 : 0) | (result.udp_reflector ? 2 : 0);
+        return result;
+    }
+
+    private static TLRPC.PhoneConnection connection(BotgramRpc.PhoneConnection input) {
+        TLRPC.TL_phoneConnectionWebrtc result = new TLRPC.TL_phoneConnectionWebrtc();
+        result.id = input.getId();
+        result.ip = input.getIp();
+        result.ipv6 = input.getIpv6();
+        result.port = input.getPort();
+        result.turn = input.getTurn();
+        result.stun = input.getStun();
+        result.username = input.getUsername();
+        result.password = input.getPassword();
+        result.flags = (result.turn ? 1 : 0) | (result.stun ? 2 : 0);
+        return result;
+    }
+
+    private static TLRPC.PhoneCallDiscardReason reason(BotgramRpc.PhoneCallDiscardReason input) throws BotgramApi.ApiError {
+        switch (input) {
+            case PHONE_CALL_DISCARD_REASON_HANGUP: return new TLRPC.TL_phoneCallDiscardReasonHangup();
+            case PHONE_CALL_DISCARD_REASON_MISSED: return new TLRPC.TL_phoneCallDiscardReasonMissed();
+            case PHONE_CALL_DISCARD_REASON_BUSY: return new TLRPC.TL_phoneCallDiscardReasonBusy();
+            case PHONE_CALL_DISCARD_REASON_DISCONNECT: return new TLRPC.TL_phoneCallDiscardReasonDisconnect();
+            default: throw invalid("phone_call.discard_reason");
+        }
+    }
+
     private TLRPC.Peer userPeer(BotgramRpc.UserRef input) throws BotgramApi.ApiError {
         TLRPC.TL_peerUser result = new TLRPC.TL_peerUser();
         result.user_id = identities.userId(input);
@@ -204,6 +348,23 @@ public final class BotgramProtobufResponseMapper {
         return peer instanceof TLRPC.TL_peerChat ? -peer.chat_id : peer.user_id;
     }
 
+    private static TLRPC.UserStatus status(BotgramRpc.UserStatus input) throws BotgramApi.ApiError {
+        switch (input.getKindCase()) {
+            case ONLINE_UNTIL_MS: {
+                TLRPC.TL_userStatusOnline result = new TLRPC.TL_userStatusOnline();
+                result.expires = seconds(input.getOnlineUntilMs());
+                return result;
+            }
+            case LAST_SEEN_MS: {
+                TLRPC.TL_userStatusOffline result = new TLRPC.TL_userStatusOffline();
+                result.expires = seconds(input.getLastSeenMs());
+                return result;
+            }
+            case KIND_NOT_SET: return new TLRPC.TL_userStatusEmpty();
+            default: throw unsupported("user.status");
+        }
+    }
+
     private ArrayList<TLRPC.User> users(List<BotgramRpc.UserSummary> input) throws BotgramApi.ApiError {
         ArrayList<TLRPC.User> result = new ArrayList<>();
         for (BotgramRpc.UserSummary value : input) {
@@ -220,7 +381,7 @@ public final class BotgramProtobufResponseMapper {
             user.mutual_contact = value.getIsMutualContact();
             user.premium = identities.premium(value);
             user.photo = new TLRPC.TL_userProfilePhotoEmpty();
-            user.status = new TLRPC.TL_userStatusEmpty();
+            user.status = status(value.getStatus());
             user.flags = 127 | (user.self ? 1024 : 0) | (user.contact ? 2048 : 0) | (user.mutual_contact ? 4096 : 0)
                     | (user.premium ? (1 << 28) : 0);
             result.add(user);
@@ -434,11 +595,31 @@ public final class BotgramProtobufResponseMapper {
                 result.pts_count = value.getPtsCount();
                 return result;
             }
+            case PRESENCE_CHANGED: {
+                BotgramRpc.PresenceChanged value = input.getPresenceChanged();
+                require(value.hasUser() && value.hasStatus(), "presence_changed");
+                TL_update.TL_updateUserStatus result = new TL_update.TL_updateUserStatus();
+                result.user_id = identities.userId(value.getUser());
+                result.status = status(value.getStatus());
+                return result;
+            }
             case GID_CHANGED: {
                 require(input.getGidChanged().hasUser(), "gid_changed.user");
                 TL_update.TL_updateUserPhone result = new TL_update.TL_updateUserPhone();
                 result.user_id = identities.userId(input.getGidChanged().getUser());
                 result.phone = input.getGidChanged().getGid();
+                return result;
+            }
+            case PHONE_CALL: {
+                require(input.getPhoneCall().hasPhoneCall(), "phone_call.update");
+                TL_update.TL_updatePhoneCall result = new TL_update.TL_updatePhoneCall();
+                result.phone_call = phoneCall(input.getPhoneCall().getPhoneCall());
+                return result;
+            }
+            case PHONE_CALL_SIGNALING: {
+                TL_update.TL_updatePhoneCallSignalingData result = new TL_update.TL_updatePhoneCallSignalingData();
+                result.phone_call_id = input.getPhoneCallSignaling().getCallId();
+                result.data = input.getPhoneCallSignaling().getData().toByteArray();
                 return result;
             }
             case KIND_NOT_SET: throw invalid("update.kind");
@@ -621,8 +802,10 @@ public final class BotgramProtobufResponseMapper {
         full.about = input.getAbout();
         full.common_chats_count = input.getCommonGroupsCount();
         full.phone_calls_available = input.getPhoneCallsAvailable();
+        full.video_calls_available = input.getVideoCallsAvailable();
         full.phone_calls_private = input.getPhoneCallsPrivate();
-        full.flags = (!full.about.isEmpty() ? 2 : 0) | (full.phone_calls_available ? 16 : 0) | (full.phone_calls_private ? 32 : 0);
+        full.flags = (!full.about.isEmpty() ? 2 : 0) | (full.phone_calls_available ? 16 : 0)
+                | (full.video_calls_available ? 8192 : 0) | (full.phone_calls_private ? 32 : 0);
         BotgramRpc.WallpaperState wallpaper = identities.wallpaper(full.id, input.hasWallpaper() ? input.getWallpaper() : null);
         result.wallpaperKnown = wallpaper != null;
         if (wallpaper != null) {

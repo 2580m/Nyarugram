@@ -101,6 +101,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     private boolean addContact;
     private boolean focusNotes;
     private boolean needAddException;
+    private boolean botgramTransport;
+    private boolean submitting;
+    private boolean destroyed;
     private String phone;
 
     private String firstNameFromCard;
@@ -153,7 +156,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         lastNameFromCard = getArguments().getString("last_name_card");
         addContact = getArguments().getBoolean("addContact", false);
         focusNotes = getArguments().getBoolean("focus_notes", false);
-        needAddException = MessagesController.getNotificationsSettings(currentAccount).getBoolean("dialog_bar_exception" + user_id, false);
+        botgramTransport = org.telegram.botgram.BotgramTransport.get(currentAccount).enabled();
+        needAddException = !botgramTransport && MessagesController.getNotificationsSettings(currentAccount).getBoolean("dialog_bar_exception" + user_id, false);
         TLRPC.User user = null;
         if (user_id != 0) {
             user = getMessagesController().getUser(user_id);
@@ -170,6 +174,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
+        destroyed = true;
         getNotificationCenter().removeObserver(this, NotificationCenter.updateInterfaces);
         getNotificationCenter().removeObserver(this, NotificationCenter.dialogPhotosUpdate);
         if (imageUpdater != null) {
@@ -194,35 +199,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 if (id == -1) {
                     finishFragment();
                 } else if (id == done_button) {
-                    if (firstNameField.getText().length() != 0) {
-                        final TLRPC.User user = getMessagesController().getUser(user_id);
-                        final TLRPC.UserFull userInfo = getMessagesController().getUserFull(user_id);
-                        user.first_name = firstNameField.getText().toString();
-                        user.last_name = lastNameField.getText().toString();
-                        user.contact = true;
-                        final TLRPC.TL_textWithEntities note = noteField.getTextWithEntities();
-                        getMessagesController().putUser(user, false);
-                        getContactsController().addContact(user, note, needAddException && checkShare);
-                        SharedPreferences preferences = MessagesController.getNotificationsSettings(currentAccount);
-                        preferences.edit().putInt("dialog_bar_vis3" + user_id, 3).commit();
-                        getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_NAME);
-                        getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, user_id);
-                        if (userInfo != null) {
-                            if (note != null && note.text.length() > 0) {
-                                userInfo.flags2 |= TLObject.FLAG_22;
-                                userInfo.note = note;
-                            } else {
-                                userInfo.flags2 &=~ TLObject.FLAG_22;
-                                userInfo.note = null;
-                            }
-                            MessagesStorage.getInstance(currentAccount).updateUserInfo(userInfo, true);
-                            getNotificationCenter().postNotificationName(NotificationCenter.userInfoDidLoad, userInfo.id, userInfo);
-                        }
-                        finishFragment();
-                        if (delegate != null) {
-                            delegate.didAddToContacts();
-                        }
-                    }
+                    submitContact();
                 }
             }
         });
@@ -310,7 +287,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         firstNameField.setText(firstNameFromCard);
 
         lastNameField = new EditTextCell(context, getString(R.string.LastName), false, false, -1, resourcesProvider);
-        lastNameField.editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        lastNameField.editText.setImeOptions(botgramTransport ? EditorInfo.IME_ACTION_DONE : EditorInfo.IME_ACTION_NEXT);
         lastNameField.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
         lastNameField.editText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_DONE) {
@@ -530,23 +507,25 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         items.add(UItem.asCustom(firstNameField));
         items.add(UItem.asCustom(lastNameField));
 
-        if (TextUtils.isEmpty(getPhone())) {
-            items.add(UItem.asShadow(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(getString(R.string.MobileHiddenExceptionInfo)), UserObject.getFirstName(user))));
-        } else {
-            if (needAddException) {
-                items.add(UItem.asShadow(AndroidUtilities.replaceTags(formatString("MobileVisibleInfo", R.string.MobileVisibleInfo, UserObject.getFirstName(user)))));
+        if (!botgramTransport) {
+            if (TextUtils.isEmpty(getPhone())) {
+                items.add(UItem.asShadow(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(getString(R.string.MobileHiddenExceptionInfo)), UserObject.getFirstName(user))));
             } else {
-                items.add(UItem.asShadow(null));
+                if (needAddException) {
+                    items.add(UItem.asShadow(AndroidUtilities.replaceTags(formatString("MobileVisibleInfo", R.string.MobileVisibleInfo, UserObject.getFirstName(user)))));
+                } else {
+                    items.add(UItem.asShadow(null));
+                }
             }
-        }
 
-        if (addContact && needAddException) {
-            items.add(UItem.asCheck(2, getString(R.string.AddContactShareNumber)).setChecked(checkShare));
-            items.add(UItem.asShadow(formatString(R.string.AddContactShareNumberInfo, UserObject.getFirstName(user))));
-        }
+            if (addContact && needAddException) {
+                items.add(UItem.asCheck(2, getString(R.string.AddContactShareNumber)).setChecked(checkShare));
+                items.add(UItem.asShadow(formatString(R.string.AddContactShareNumberInfo, UserObject.getFirstName(user))));
+            }
 
-        items.add(UItem.asCustom(noteField));
-        items.add(UItem.asShadow(getString(R.string.AddNotesInfo)));
+            items.add(UItem.asCustom(noteField));
+            items.add(UItem.asShadow(getString(R.string.AddNotesInfo)));
+        }
 
         if (!addContact) {
             final TLRPC.UserFull userInfo = getMessagesController().getUserFull(user_id);
@@ -568,7 +547,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         if (firstSet) {
             AndroidUtilities.runOnUIThread(() -> {
                 if (user != null && firstNameFromCard == null && lastNameFromCard == null) {
-                    if (user.phone == null) {
+                    if (user.phone == null && !botgramTransport) {
                         if (phone != null) {
                             user.phone = PhoneFormat.stripExceptNumbers(phone);
                         }
@@ -579,7 +558,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 }
 
                 final TLRPC.UserFull userInfo = getMessagesController().getUserFull(user_id);
-                if (userInfo != null) {
+                if (userInfo != null && !botgramTransport) {
                     if (userInfo.note != null) {
                         noteField.setText(userInfo.note);
                     } else {
@@ -587,7 +566,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                     }
                 }
 
-                if (focusNotes) {
+                if (focusNotes && !botgramTransport) {
                     noteField.editText.requestFocus();
                     AndroidUtilities.showKeyboard(noteField.editText);
                 }
@@ -595,7 +574,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             firstSet = false;
 
             AndroidUtilities.runOnUIThread(() -> {
-                if (focusNotes) {
+                if (focusNotes && !botgramTransport) {
                     noteField.editText.requestFocus();
                     AndroidUtilities.showKeyboard(noteField.editText);
                 }
@@ -628,6 +607,117 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             checkShare = !checkShare;
             ((TextCheckCell) view).setChecked(checkShare);
         }
+    }
+
+    private void submitContact() {
+        if (submitting || getParentActivity() == null) {
+            return;
+        }
+        if (firstNameField.getText().length() == 0) {
+            return;
+        }
+        final TLRPC.User user = getMessagesController().getUser(user_id);
+        if (user == null) {
+            return;
+        }
+        final String firstName = firstNameField.getText().toString();
+        final String lastName = lastNameField.getText().toString();
+        if (!botgramTransport) {
+            submitTelegramContact(user, firstName, lastName);
+            return;
+        }
+        final int account = currentAccount;
+        submitting = true;
+        updateDoneButton();
+        getContactsController().addContact(user, firstName, lastName, null, false, (result, error) -> {
+            submitting = false;
+            if (destroyed || account != currentAccount || getParentActivity() == null) {
+                return;
+            }
+            updateDoneButton();
+            if (error != null) {
+                showAddContactError(error);
+                return;
+            }
+            applyAddedContact(result, firstName, lastName);
+            finishFragment();
+            if (delegate != null) {
+                delegate.didAddToContacts();
+            }
+        });
+    }
+
+    /** The original Telegram flow: the shared user is updated before the request. */
+    private void submitTelegramContact(TLRPC.User user, String firstName, String lastName) {
+        final TLRPC.UserFull userInfo = getMessagesController().getUserFull(user_id);
+        user.first_name = firstName;
+        user.last_name = lastName;
+        user.contact = true;
+        final TLRPC.TL_textWithEntities note = noteField.getTextWithEntities();
+        getMessagesController().putUser(user, false);
+        getContactsController().addContact(user, note, needAddException && checkShare);
+        SharedPreferences preferences = MessagesController.getNotificationsSettings(currentAccount);
+        preferences.edit().putInt("dialog_bar_vis3" + user_id, 3).commit();
+        getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_NAME);
+        getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, user_id);
+        if (userInfo != null) {
+            if (note != null && note.text.length() > 0) {
+                userInfo.flags2 |= TLObject.FLAG_22;
+                userInfo.note = note;
+            } else {
+                userInfo.flags2 &= ~TLObject.FLAG_22;
+                userInfo.note = null;
+            }
+            MessagesStorage.getInstance(currentAccount).updateUserInfo(userInfo, true);
+            getNotificationCenter().postNotificationName(NotificationCenter.userInfoDidLoad, userInfo.id, userInfo);
+        }
+        finishFragment();
+        if (delegate != null) {
+            delegate.didAddToContacts();
+        }
+    }
+
+    /** Applies the server-confirmed alias and contact state; never runs on an unconfirmed request. */
+    private void applyAddedContact(TLRPC.User result, String firstName, String lastName) {
+        final TLRPC.User user = getMessagesController().getUser(user_id);
+        if (user == null) {
+            return;
+        }
+        user.first_name = result != null ? result.first_name : firstName;
+        user.last_name = result != null ? result.last_name : lastName;
+        user.contact = true;
+        getMessagesController().putUser(user, false);
+        SharedPreferences preferences = MessagesController.getNotificationsSettings(currentAccount);
+        preferences.edit().putInt("dialog_bar_vis3" + user_id, 3).apply();
+        getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_NAME);
+        getNotificationCenter().postNotificationName(NotificationCenter.peerSettingsDidLoad, user_id);
+    }
+
+    private void showAddContactError(TLRPC.TL_error error) {
+        if (getParentActivity() == null) {
+            return;
+        }
+        final String text;
+        if (error == null || TextUtils.isEmpty(error.text)) {
+            text = getString(R.string.BotgramContactSaveFailed);
+        } else if (error.text.startsWith("BOTGRAM_CONTACT_NOTES_UNSUPPORTED")) {
+            text = getString(R.string.BotgramContactNotesUnavailable);
+        } else if ("CONTACT_ADD_SELF".equals(error.text)) {
+            text = getString(R.string.BotgramContactAddSelf);
+        } else if ("USER_ID_INVALID".equals(error.text) || "PHONE_NOT_OCCUPIED".equals(error.text)) {
+            text = getString(R.string.BotgramContactGidNotFound);
+        } else {
+            text = getString(R.string.BotgramContactSaveFailed);
+        }
+        AlertsCreator.showSimpleAlert(this, getString(addContact ? R.string.AddContactTitle : R.string.EditContact), text, resourcesProvider);
+    }
+
+    private void updateDoneButton() {
+        if (doneButton == null) {
+            return;
+        }
+        doneButton.setEnabled(!submitting);
+        doneButton.setAlpha(submitting ? 0.5f : 1.0f);
     }
 
     private void showAvatarProgress(boolean show, boolean animated) {
@@ -702,6 +792,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         }
         if (TextUtils.isEmpty(getPhone())) {
             nameTextView.setText(getString(R.string.MobileHidden));
+        } else if (botgramTransport) {
+            nameTextView.setText(org.telegram.botgram.BotgramGeography.format(getPhone()));
         } else {
             nameTextView.setText(PhoneFormat.getInstance().format("+" + getPhone()));
         }

@@ -51,7 +51,8 @@ public final class BotgramApi {
                 || !(uri.getPath().isEmpty() || "/".equals(uri.getPath()))) {
             throw new IllegalArgumentException("服务器地址必须是 http(s)://主机[:端口]，不含路径或凭据");
         }
-        if (!"https".equals(uri.getScheme()) && !org.telegram.messenger.BuildVars.DEBUG_VERSION) {
+        if (!"https".equals(uri.getScheme()) && !BotgramServerAddress.isPrivateHttp(baseUrl)
+                && !org.telegram.messenger.BuildVars.DEBUG_VERSION) {
             throw new IllegalArgumentException("BOTGRAM_HTTPS_REQUIRED");
         }
         this.baseUrl = baseUrl.trim().replaceAll("/+$", "");

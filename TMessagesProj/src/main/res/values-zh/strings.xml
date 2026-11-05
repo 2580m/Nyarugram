@@ -11411,6 +11411,19 @@
   <string name="SmsSubscribeTitle">免费 Telegram 高级版</string>
   <string name="SmsToS">服务条款</string>
   <string name="SmsTotalSent">已发送消息总数</string>
+  <string name="BotgramSpecialCareMessagesChannel">特别关心消息</string>
+  <string name="BotgramSpecialCareCallsChannel">特别关心来电</string>
+  <string name="BotgramSpecialCareNotificationLabel">特别关心</string>
+  <string name="BotgramSpecialCareIneligible">特别关心仅支持已添加的个人联系人，不支持自己、机器人、已删除用户、已屏蔽用户或非联系人。</string>
+  <string name="BotgramSpecialCareTitle">特别关心</string>
+  <string name="BotgramSpecialCareAdd">设为特别关心</string>
+  <string name="BotgramSpecialCareRemove">取消特别关心</string>
+  <string name="BotgramSpecialCareConfirmAdd">将这位联系人设为特别关心？仅支持已添加的个人联系人。</string>
+  <string name="BotgramSpecialCareConfirmRemove">取消对这位联系人的特别关心？</string>
+  <string name="BotgramSpecialCareSaved">特别关心已更新。</string>
+  <string name="BotgramSpecialCareFailed">特别关心未更新，请检查网络连接和联系人状态后重试。</string>
+  <string name="BotgramSpecialCareInfo">点击联系人可取消特别关心。删除或屏蔽联系人会清除特别关心，重新添加或解除屏蔽不会自动恢复。其他设备的变更将通过定期查询同步。</string>
+  <string name="BotgramSpecialCareChannelSettings">消息声音与震动</string>
   <string name="BotgramAuthenticatorIntro">使用验证器应用保护账号。在新设备上登录时，需要输入验证器生成的验证码。</string>
   <string name="BotgramAuthenticatorManage">管理验证器</string>
   <string name="BotgramAuthenticatorEnrollInfo">使用验证器扫描下方二维码，或复制密钥手动添加。输入六位验证码，完成绑定。</string>
@@ -11455,6 +11468,9 @@
   <string name="BotgramContactGidInfo">请输入联系人的 Gram ID，例如 +030 12345678。</string>
   <string name="BotgramContactGidInvalid">请输入有效的三位 M49 区域代码和八位数字，后八位不可为 00000000。</string>
   <string name="BotgramContactGidNotFound">未找到使用该 Gram ID 的账号。</string>
+  <string name="BotgramContactSaveFailed">联系人未保存，请检查网络连接后重试。</string>
+  <string name="BotgramContactNotesUnavailable">Gram ID 账号暂不支持联系人备注。</string>
+  <string name="BotgramContactAddSelf">不能把自己添加为联系人。</string>
   <string name="BotgramGid">Gram ID</string>
   <string name="BotgramGidCopied">已复制 Gram ID</string>
   <string name="BotgramChangeGid">修改 Gram ID</string>
@@ -11482,6 +11498,7 @@
   <string name="BotgramWallpaperUnsupported">目前仅支持纯色和渐变壁纸，暂不支持此壁纸选项。</string>
   <string name="BotgramWallpaperFailed">壁纸未能保存，已保留原壁纸，请重试。</string>
   <string name="BotgramCallOverlayTitle">在其他应用上层显示来电</string>
+  <string name="BotgramMissedCallNotification">未接来电</string>
   <string name="BotgramCallOverlayMessage">为了在 Nyarugram 处于后台或屏幕锁定时直接把来电界面显示在最前面，请允许 Nyarugram 显示在其他应用上层。</string>
   <string name="BotgramSaveLogs">保存日志</string>
   <string name="BotgramViewLogs">查看日志</string>

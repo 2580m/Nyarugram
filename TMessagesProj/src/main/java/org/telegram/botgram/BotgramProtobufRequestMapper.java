@@ -1,9 +1,11 @@
 package org.telegram.botgram;
 
+import com.google.protobuf.ByteString;
 import org.telegram.botgram.protocol.v1.BotgramRpc;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_account;
+import org.telegram.tgnet.tl.TL_phone;
 
 import java.util.Collection;
 
@@ -114,6 +116,16 @@ public final class BotgramProtobufRequestMapper {
             BotgramRpc.GetUsersRequest.Builder request = BotgramRpc.GetUsersRequest.newBuilder();
             if (value.id != null) for (TLRPC.InputUser item : value.id) request.addUsers(user(item));
             out.setGetUsers(request);
+        } else if (type == TLRPC.TL_contacts_addContact.class) {
+            TLRPC.TL_contacts_addContact value = (TLRPC.TL_contacts_addContact) input;
+            // An empty note object is what the original editor produces when the note is untouched;
+            // it must mean the same as no note at all. Only real content is rejected.
+            reject(noteContent(value.note), "contact note");
+            if ((value.flags & 2) != 0 && value.note == null) throw invalid("CONTACT_NOTE_INVALID");
+            reject((value.flags & ~3) != 0, "contact flags");
+            reject(value.add_phone_privacy_exception, "contact phone privacy exception");
+            out.setAddContact(BotgramRpc.AddContactRequest.newBuilder().setUser(user(value.id))
+                    .setFirstName(text(value.first_name)).setLastName(text(value.last_name)));
         } else if (type == TLRPC.TL_contacts_getContacts.class) {
             out.setGetContacts(BotgramRpc.GetContactsRequest.getDefaultInstance());
         } else if (type == TLRPC.TL_contacts_resolvePhone.class) {
@@ -126,7 +138,9 @@ public final class BotgramProtobufRequestMapper {
                 for (TLRPC.TL_inputPhoneContact item : value.contacts) {
                     if (item == null) throw invalid("CONTACT_INVALID");
                     if (item.getClass() != TLRPC.TL_inputPhoneContact.class) throw unsupported("TL_inputPhoneContact");
-                    reject(item.flags != 0 || item.note != null, "contact note");
+                    reject(noteContent(item.note), "contact note");
+                    if ((item.flags & 1) != 0 && item.note == null) throw invalid("CONTACT_NOTE_INVALID");
+                    reject((item.flags & ~1) != 0, "contact flags");
                     request.addContacts(BotgramRpc.ImportContact.newBuilder().setClientId(item.client_id)
                             .setGid(text(item.phone)).setFirstName(text(item.first_name)).setLastName(text(item.last_name)));
                 }
@@ -160,6 +174,48 @@ public final class BotgramProtobufRequestMapper {
         } else if (type == TL_account.getNotifySettings.class) {
             out.setGetNotifySettings(BotgramRpc.GetNotifySettingsRequest.newBuilder()
                     .setTarget(notifyTarget(((TL_account.getNotifySettings) input).peer)));
+        } else if (type == TL_phone.requestCall.class) {
+            TL_phone.requestCall value = (TL_phone.requestCall) input;
+            reject((value.flags & ~2) != 0, "requestCall options");
+            if (value.user_id == null || value.protocol == null) throw invalid("CALL_INVALID");
+            out.setRequestCall(BotgramRpc.PhoneRequestCallRequest.newBuilder()
+                    .setUser(user(value.user_id)).setRandomId(value.random_id).setVideo(value.video)
+                    .setGAHash(bytes(value.g_a_hash)).setProtocol(protocol(value.protocol)));
+        } else if (type == TL_phone.receivedCall.class) {
+            out.setReceivedCall(BotgramRpc.PhoneReceivedCallRequest.newBuilder()
+                    .setPeer(call(((TL_phone.receivedCall) input).peer)));
+        } else if (type == TL_phone.acceptCall.class) {
+            TL_phone.acceptCall value = (TL_phone.acceptCall) input;
+            if (value.protocol == null) throw invalid("CALL_INVALID");
+            out.setAcceptCall(BotgramRpc.PhoneAcceptCallRequest.newBuilder().setPeer(call(value.peer))
+                    .setGB(bytes(value.g_b)).setProtocol(protocol(value.protocol)));
+        } else if (type == TL_phone.confirmCall.class) {
+            TL_phone.confirmCall value = (TL_phone.confirmCall) input;
+            if (value.protocol == null) throw invalid("CALL_INVALID");
+            out.setConfirmCall(BotgramRpc.PhoneConfirmCallRequest.newBuilder().setPeer(call(value.peer))
+                    .setGA(bytes(value.g_a)).setKeyFingerprint(value.key_fingerprint)
+                    .setProtocol(protocol(value.protocol)));
+        } else if (type == TL_phone.discardCall.class) {
+            TL_phone.discardCall value = (TL_phone.discardCall) input;
+            reject((value.flags & ~2) != 0, "discardCall options");
+            out.setDiscardCall(BotgramRpc.PhoneDiscardCallRequest.newBuilder().setPeer(call(value.peer))
+                    .setDuration(value.duration).setReason(reason(value.reason))
+                    .setConnectionId(value.connection_id).setVideo(value.video));
+        } else if (type == TL_phone.sendSignalingData.class) {
+            TL_phone.sendSignalingData value = (TL_phone.sendSignalingData) input;
+            out.setSendSignalingData(BotgramRpc.PhoneSendSignalingDataRequest.newBuilder()
+                    .setPeer(call(value.peer)).setData(bytes(value.data)));
+        } else if (type == TL_phone.getCallConfig.class) {
+            out.setGetCallConfig(BotgramRpc.PhoneGetCallConfigRequest.getDefaultInstance());
+        } else if (type == TL_phone.saveCallDebug.class) {
+            TL_phone.saveCallDebug value = (TL_phone.saveCallDebug) input;
+            if (value.debug == null) throw invalid("CALL_INVALID");
+            out.setSaveCallDebug(BotgramRpc.PhoneSaveCallDebugRequest.newBuilder()
+                    .setPeer(call(value.peer)).setDebug(text(value.debug.data)));
+        } else if (type == TLRPC.TL_messages_getDhConfig.class) {
+            TLRPC.TL_messages_getDhConfig value = (TLRPC.TL_messages_getDhConfig) input;
+            out.setGetDhConfig(BotgramRpc.GetDhConfigRequest.newBuilder()
+                    .setVersion(value.version).setRandomLength(value.random_length));
         } else {
             throw unsupported(type.getSimpleName());
         }
@@ -293,6 +349,43 @@ public final class BotgramProtobufRequestMapper {
                 && Character.isHighSurrogate(text.charAt(offset - 1));
     }
 
+    private static BotgramRpc.PhoneCallRef call(TLRPC.TL_inputPhoneCall value) throws BotgramApi.ApiError {
+        if (value == null) throw invalid("CALL_NOT_FOUND");
+        return BotgramRpc.PhoneCallRef.newBuilder()
+                .setCallId(value.id).setAccessHash(value.access_hash).build();
+    }
+
+    private static BotgramRpc.PhoneCallProtocol protocol(TL_phone.PhoneCallProtocol value) throws BotgramApi.ApiError {
+        if (value == null || value.getClass() != TL_phone.TL_phoneCallProtocol.class) {
+            throw unsupported("PhoneCallProtocol");
+        }
+        BotgramRpc.PhoneCallProtocol.Builder result = BotgramRpc.PhoneCallProtocol.newBuilder()
+                .setUdpP2P(value.udp_p2p).setUdpReflector(value.udp_reflector)
+                .setMinLayer(value.min_layer).setMaxLayer(value.max_layer);
+        if (value.library_versions != null) result.addAllLibraryVersions(value.library_versions);
+        return result.build();
+    }
+
+    private static BotgramRpc.PhoneCallDiscardReason reason(TLRPC.PhoneCallDiscardReason value) throws BotgramApi.ApiError {
+        if (value == null || value.getClass() == TLRPC.TL_phoneCallDiscardReasonHangup.class) {
+            return BotgramRpc.PhoneCallDiscardReason.PHONE_CALL_DISCARD_REASON_HANGUP;
+        }
+        if (value.getClass() == TLRPC.TL_phoneCallDiscardReasonMissed.class) {
+            return BotgramRpc.PhoneCallDiscardReason.PHONE_CALL_DISCARD_REASON_MISSED;
+        }
+        if (value.getClass() == TLRPC.TL_phoneCallDiscardReasonBusy.class) {
+            return BotgramRpc.PhoneCallDiscardReason.PHONE_CALL_DISCARD_REASON_BUSY;
+        }
+        if (value.getClass() == TLRPC.TL_phoneCallDiscardReasonDisconnect.class) {
+            return BotgramRpc.PhoneCallDiscardReason.PHONE_CALL_DISCARD_REASON_DISCONNECT;
+        }
+        throw unsupported("PhoneCallDiscardReason");
+    }
+
+    private static ByteString bytes(byte[] value) {
+        return value == null ? ByteString.EMPTY : ByteString.copyFrom(value);
+    }
+
     private static long milliseconds(int seconds) throws BotgramApi.ApiError {
         try {
             return Math.multiplyExact((long) seconds, 1000L);
@@ -304,6 +397,10 @@ public final class BotgramProtobufRequestMapper {
     private static String text(String value) { return value == null ? "" : value; }
     private static boolean nonempty(String value) { return value != null && !value.isEmpty(); }
     private static boolean nonempty(Collection<?> value) { return value != null && !value.isEmpty(); }
+    /** An empty note object carries no user input and is equivalent to a missing note. */
+    private static boolean noteContent(TLRPC.TL_textWithEntities note) {
+        return note != null && (nonempty(note.text) || nonempty(note.entities));
+    }
 
     private static void reject(boolean nondefault, String field) throws BotgramApi.ApiError {
         if (nondefault) throw unsupported(field);

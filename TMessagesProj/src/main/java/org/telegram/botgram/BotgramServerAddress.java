@@ -41,6 +41,39 @@ public final class BotgramServerAddress {
         return input;
     }
 
+    /** Literal RFC 1918 IPv4 only; never resolves a hostname to decide whether to send credentials. */
+    public static boolean isPrivateHttp(String input) {
+        try {
+            URI uri = endpoint(input);
+            if (!"http".equalsIgnoreCase(uri.getScheme())) return false;
+            String[] parts = uri.getHost().split("\\.", -1);
+            if (parts.length != 4) return false;
+            int[] address = new int[4];
+            for (int i = 0; i < parts.length; i++) {
+                if (!parts[i].matches("0|[1-9][0-9]{0,2}")) return false;
+                address[i] = Integer.parseInt(parts[i]);
+                if (address[i] > 255) return false;
+            }
+            return address[0] == 10
+                    || address[0] == 172 && address[1] >= 16 && address[1] <= 31
+                    || address[0] == 192 && address[1] == 168;
+        } catch (IllegalArgumentException error) {
+            return false;
+        }
+    }
+
+    public static String eventEndpoint(String input, long cursor) {
+        URI uri = endpoint(input);
+        if (cursor < 0) throw new IllegalArgumentException("Invalid event cursor");
+        String scheme;
+        if ("https".equalsIgnoreCase(uri.getScheme())) scheme = "wss";
+        else if (isPrivateHttp(input)) scheme = "ws";
+        else throw new IllegalArgumentException("Events require HTTPS or a private IPv4 HTTP address");
+        try {
+            return new URI(scheme, null, uri.getHost(), uri.getPort(), "/api/ws", "after=" + cursor, null).toString();
+        } catch (URISyntaxException error) { throw new IllegalArgumentException(error); }
+    }
+
     private static URI endpoint(String input) {
         if (input == null || input.trim().isEmpty()) throw new IllegalArgumentException("Missing host");
         String value = input.trim();

@@ -8730,6 +8730,8 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         blockePeers.put(id, 1);
+        final org.telegram.botgram.BotgramSpecialCare.Suppression specialCareSuppression =
+                id > 0 ? org.telegram.botgram.BotgramSpecialCare.get(currentAccount).beginSuppress(id) : null;
         if (user != null) {
             if (user.bot) {
                 getMediaDataController().removeInline(id);
@@ -8748,7 +8750,27 @@ public class MessagesController extends BaseController implements NotificationCe
             req.id = getInputPeer(chat);
         }
         getConnectionsManager().sendRequest(req, (response, error) -> {
-
+            if (error == null) {
+                if (specialCareSuppression != null) {
+                    AndroidUtilities.runOnUIThread(() ->
+                            org.telegram.botgram.BotgramSpecialCare.get(currentAccount).confirmSuppress(specialCareSuppression));
+                }
+                return;
+            }
+            FileLog.e("block peer request failed: " + error.text);
+            AndroidUtilities.runOnUIThread(() -> {
+                int index = blockePeers.indexOfKey(id);
+                if (index >= 0) {
+                    blockePeers.removeAt(index);
+                }
+                if (totalBlockedCount >= 0) {
+                    totalBlockedCount--;
+                }
+                getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad);
+                if (specialCareSuppression != null) {
+                    org.telegram.botgram.BotgramSpecialCare.get(currentAccount).cancelSuppress(specialCareSuppression);
+                }
+            });
         });
     }
 
@@ -20544,6 +20566,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     } else if (baseUpdate instanceof TL_update.TL_updatePhoneCall) {
                         TL_update.TL_updatePhoneCall upd = (TL_update.TL_updatePhoneCall) baseUpdate;
                         TL_phone.PhoneCall call = upd.phone_call;
+                        org.telegram.botgram.BotgramMissedCallNotifications.observe(currentAccount, call);
                         VoIPService svc = VoIPService.getSharedInstance();
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("Received call in update: " + call);
@@ -20590,6 +20613,11 @@ public class MessagesController extends BaseController implements NotificationCe
 //                                svc.answerToRequestForConference((TL_phone.phoneCallRequested) call);
 //                                continue;
 //                            }
+                            if ((svc != null && svc.getAccount() == currentAccount && svc.getCallID() == call.id)
+                                    || VoIPPreNotificationService.isPending(currentAccount, call.id)
+                                    || org.telegram.messenger.voip.IncomingCallNotifications.dispatched(currentAccount, call.id)) {
+                                continue;
+                            }
                             if (svc != null || VoIPService.callIShouldHavePutIntoIntent != null || !callStateIsIdle) {
                                 if (svc != null && svc.getAccount() != currentAccount && svc.getUser() != null && svc.getUser().id == getUserConfig().getClientUserId()) {
                                     // calling from the same device, don't discard
@@ -20622,6 +20650,8 @@ public class MessagesController extends BaseController implements NotificationCe
                             intent.putExtra("user_id", call.participant_id == getUserConfig().getClientUserId() ? call.admin_id : call.participant_id);
                             intent.putExtra("account", currentAccount);
                             intent.putExtra("notifications_disabled", notificationsDisabled);
+                            org.telegram.messenger.voip.IncomingCallNotifications.begin(currentAccount, call.id,
+                                    intent.getLongExtra("user_id", 0), false, intent);
                             try {
                                 if (Build.VERSION.SDK_INT >= 33) {
                                     intent.putExtra("accept", true);
@@ -20631,25 +20661,28 @@ public class MessagesController extends BaseController implements NotificationCe
                                 } else {
                                     ApplicationLoader.applicationContext.startService(intent);
                                 }
-                                VoIPPreNotificationService.openCallScreen(ApplicationLoader.applicationContext, currentAccount);
+                                VoIPPreNotificationService.openCallScreen(ApplicationLoader.applicationContext, currentAccount, call.id);
                                 if (ApplicationLoader.mainInterfacePaused || !ApplicationLoader.isScreenOn) {
                                     ignoreSetOnline = true;
                                 }
                             } catch (Throwable e) {
+                                org.telegram.messenger.voip.IncomingCallNotifications.finish(currentAccount, call.id, false);
                                 FileLog.e(e);
                             }
                         } else {
+                            boolean dispatchedCall = org.telegram.messenger.voip.IncomingCallNotifications.dispatched(currentAccount, call.id);
                             if (svc != null && svc.getAccount() == currentAccount && call != null) {
                                 svc.onCallUpdated(call);
                             } else {
                                 if (call instanceof TL_phone.TL_phoneCallDiscarded) {
-                                    VoIPPreNotificationService.dismiss(ApplicationLoader.applicationContext, false);
+                                    org.telegram.messenger.voip.IncomingCallNotifications.finish(currentAccount, call.id, false);
+                                    VoIPPreNotificationService.dismissCall(ApplicationLoader.applicationContext, currentAccount, call.id);
                                 }
                                 if (VoIPService.callIShouldHavePutIntoIntent != null) {
                                     if (BuildVars.LOGS_ENABLED) {
                                         FileLog.d("Updated the call while the service is starting");
                                     }
-                                    if (call.id == VoIPService.callIShouldHavePutIntoIntent.id) {
+                                    if (dispatchedCall && call.id == VoIPService.callIShouldHavePutIntoIntent.id) {
                                         VoIPService.callIShouldHavePutIntoIntent = call instanceof TL_phone.TL_phoneCallDiscarded ? null : call;
                                         FileLog.e("(2) set VoIPService.callIShouldHavePutIntoIntent = " + VoIPService.callIShouldHavePutIntoIntent);
                                     }

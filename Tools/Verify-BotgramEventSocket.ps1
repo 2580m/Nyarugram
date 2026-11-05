@@ -48,8 +48,8 @@ $hostSources = Join-Path $PSScriptRoot 'tests/event-socket-host'
 $production = Join-Path $workspace 'TMessagesProj/src/main/java/org/telegram/botgram'
 # Explicit sources and an empty source path keep all host substitutes outside Android builds.
 & javac --release 8 -encoding UTF-8 -sourcepath $output -cp $classpath -d $output `
-    (Join-Path $hostSources 'AndroidUtilities.java') (Join-Path $hostSources 'EventSocketHostTest.java') `
-    (Join-Path $production 'BotgramEventSocket.java') (Join-Path $production 'protocol/v1/BotgramRpc.java')
+    (Join-Path $hostSources 'AndroidUtilities.java') (Join-Path $hostSources 'FileLog.java') (Join-Path $hostSources 'EventSocketHostTest.java') `
+    (Join-Path $production 'BotgramServerAddress.java') (Join-Path $production 'BotgramEventSocket.java') (Join-Path $production 'protocol/v1/BotgramRpc.java')
 if ($LASTEXITCODE -ne 0) { throw 'Event socket listener host-test compilation failed' }
 & java -Xmx128m -cp $classpath org.telegram.botgram.EventSocketHostTest
 if ($LASTEXITCODE -ne 0) { throw 'Event socket listener host tests failed' }

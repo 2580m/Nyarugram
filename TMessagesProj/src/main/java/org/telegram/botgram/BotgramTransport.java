@@ -69,6 +69,11 @@ public final class BotgramTransport {
 
     public <T> void wallpaperRequest(WallpaperRequest<T> operation,
                                      java.util.function.BiConsumer<T, TLRPC.TL_error> callback) {
+        typedRequest(operation, callback);
+    }
+
+    public <T> void typedRequest(WallpaperRequest<T> operation,
+                                 java.util.function.BiConsumer<T, TLRPC.TL_error> callback) {
         final BotgramSession credentials = session;
         final BotgramSessionScope owner = scope;
         accountRequest(api -> {
@@ -199,8 +204,9 @@ public final class BotgramTransport {
     private volatile boolean expired;
     private final BotgramEventSocket events = new BotgramEventSocket(new BotgramEventSocket.Listener() {
         @Override public void wake(BotgramSession credentials) {
-            if (session == credentials && UserConfig.selectedAccount == account) {
+            if (session == credentials && alertsActive()) {
                 wakeDifference(true);
+                BotgramSpecialCare.get(account).poll();
             }
         }
         @Override public void wallpaper(BotgramSession credentials, long revision) {
@@ -221,7 +227,7 @@ public final class BotgramTransport {
                 && UserConfig.getInstance(account).isClientActivated();
     }
 
-    private void updateEvents() { events.update(session, foreground() && UserConfig.selectedAccount == account); }
+    private void updateEvents() { events.update(session, alertsActive()); }
 
     private void wakeDifference(boolean socketHint) {
         final BotgramSession credentials = session;
@@ -229,8 +235,7 @@ public final class BotgramTransport {
         final BotgramSessionScope owner = scope;
         if (!alertsActive()) return;
         Utilities.stageQueue.postRunnable(owner.bind(() -> {
-            if (session == credentials && events.generation() == generation && alertsActive()
-                    && (!socketHint || UserConfig.selectedAccount == account)) {
+            if (session == credentials && events.generation() == generation && alertsActive()) {
                 MessagesController.getInstance(account).getDifference();
             }
         }));
@@ -240,6 +245,7 @@ public final class BotgramTransport {
         AndroidUtilities.runOnUIThread(() -> {
             if (session != credentials || expired) return;
             expired = true;
+            BotgramSpecialCare.get(account).clear();
             events.stop();
             MessagesController.getInstance(account).performLogout(0);
         });
@@ -255,6 +261,7 @@ public final class BotgramTransport {
         wallpapers = new BotgramWallpaperSync(account);
         binding = ApplicationLoader.applicationContext.getSharedPreferences("botgram.transport." + account, Context.MODE_PRIVATE);
         session = new BotgramSession(ApplicationLoader.applicationContext, account);
+        if (enabled()) BotgramSpecialCare.get(account).bind(session);
         AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().addObserver(
                 (id, currentAccount, args) -> {
                     updateEvents();
@@ -279,7 +286,13 @@ public final class BotgramTransport {
 
     // A bound but expired account must never fall through to native Telegram transport.
     public boolean enabled() { return binding.getBoolean("enabled", false); }
+    public String notificationOwner() {
+        BotgramSession current = session;
+        return !enabled() || expired || current.token == null || current.userId == null ? null : current.server + "\n" + current.userId;
+    }
     public void logout(boolean revoke) {
+        BotgramSpecialCare.get(account).clear();
+        BotgramMissedCallNotifications.clear(account);
         final BotgramSession credentials = session;
         final String server = credentials.server;
         final String token = credentials.token;
@@ -343,6 +356,7 @@ public final class BotgramTransport {
         premiumNextRetry = 0;
         wallpapers = new BotgramWallpaperSync(account);
         session = credentials;
+        BotgramSpecialCare.get(account).bind(credentials);
         identities = null;
         binding.edit().putBoolean("enabled", true).apply();
         expired = false; reachable = System.currentTimeMillis();
@@ -354,7 +368,10 @@ public final class BotgramTransport {
                 ? ConnectionsManager.ConnectionStateConnected : ConnectionsManager.ConnectionStateConnecting;
     }
     public void networkChanged(boolean available) {
-        if (networkAvailable != available) reachable = 0;
+        if (networkAvailable != available) {
+            reachable = 0;
+            if (available && alertsActive()) BotgramSpecialCare.get(account).refresh();
+        }
         networkAvailable = available;
         publishState(false);
     }
@@ -398,6 +415,7 @@ public final class BotgramTransport {
             networkChanged(ApplicationLoader.isNetworkOnlineRealtime());
             publishState(true);
             if (!enabled()) return;
+            if (alertsActive()) BotgramSpecialCare.get(account).refresh();
             if (foreground()) wallpapers.refresh(true);
             refreshPremiumIfNeeded();
             if (polling) return;
@@ -409,6 +427,7 @@ public final class BotgramTransport {
                     publishState(false);
                     refreshPremiumIfNeeded();
                     wakeDifference(false);
+                    if (alertsActive()) BotgramSpecialCare.get(account).poll();
                     if (foreground()) wallpapers.refresh(false);
                     AndroidUtilities.runOnUIThread(this, foreground() ? 3000 : 8000);
                 }
@@ -425,7 +444,11 @@ public final class BotgramTransport {
         final String bearer = credentials.token;
         requests.execute(() -> {
             TLObject response = null; TLRPC.TL_error failure = null;
+            final boolean traceCall = request instanceof TLRPC.TL_messages_getDhConfig
+                    || request.getClass().getName().startsWith("org.telegram.tgnet.tl.TL_phone$");
+            String stage = "session";
             try {
+                if (traceCall) org.telegram.messenger.FileLog.d("BOTGRAM_CALL_RPC request=" + request.getClass().getSimpleName() + " stage=begin");
                 if (job.cancelled || session != credentials || scope != job.owner) return;
                 if (bearer == null) throw new BotgramApi.ApiError(401, "SESSION_EXPIRED");
                 if (BotgramGiftPolicy.isDisabled() && BotgramGiftPolicy.isGiftRequest(request)) {
@@ -456,6 +479,7 @@ public final class BotgramTransport {
                 } else {
                     if (job.owner != scope || session != credentials) return;
                     String protocol = credentials.protocol();
+                    stage = "negotiation";
                     if (protocol == null) {
                         protocol = api.negotiate();
                         if (job.cancelled || session != credentials || scope != job.owner) return;
@@ -463,7 +487,7 @@ public final class BotgramTransport {
                     }
                     if (job.cancelled || session != credentials || scope != job.owner) return;
                     if ("tl-json-v1".equals(protocol)) {
-                        JSONObject result = api.object("POST", "/api/telegram/rpc", (JSONObject) encode(request, 0));
+                        JSONObject result = api.object("POST", "/api/telegram/rpc", ((JSONObject) encode(request, 0)).put("foreground", foreground() && UserConfig.selectedAccount == account));
                         if (job.cancelled || session != credentials || scope != job.owner) return;
                         response = (TLObject) decode(result, TLObject.class, 0);
                     } else if ("protobuf-v1".equals(protocol)) {
@@ -476,21 +500,36 @@ public final class BotgramTransport {
                                 identitySession = credentials;
                             }
                         }
+                        stage = "identity";
                         identity.initialize();
+                        stage = "request_mapping";
                         org.telegram.botgram.protocol.v1.BotgramRpc.RpcRequest typed =
-                                new BotgramProtobufRequestMapper(identity).map(request, java.util.UUID.randomUUID().toString());
+                                new BotgramProtobufRequestMapper(identity).map(request, java.util.UUID.randomUUID().toString())
+                                        .toBuilder().setForeground(foreground() && UserConfig.selectedAccount == account).build();
                         if (job.cancelled || session != credentials || scope != job.owner) return;
+                        stage = "http";
                         org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse result = api.rpc(typed);
                         if (job.cancelled || session != credentials || scope != job.owner) return;
+                        stage = "response_mapping";
                         response = new BotgramProtobufResponseMapper(identity).map(result);
                     } else throw new BotgramApi.ApiError(502, "BOTGRAM_NEGOTIATION_INVALID");
                 }
                 if (!job.cancelled && session == credentials) reachable(true);
+                if (traceCall) org.telegram.messenger.FileLog.d("BOTGRAM_CALL_RPC request=" + request.getClass().getSimpleName() + " stage=success");
             } catch (BotgramApi.ApiError error) {
+                if (traceCall) {
+                    String code = error.getMessage();
+                    // Record symbolic errors only, never arbitrary server text or request payloads.
+                    if (code == null || code.length() > 200 || !code.matches("[A-Za-z0-9_:.-]+")) code = "REDACTED";
+                    org.telegram.messenger.FileLog.e("BOTGRAM_CALL_RPC request=" + request.getClass().getSimpleName()
+                            + " stage=" + stage + " status=" + error.status + " error=" + code);
+                }
                 if (!job.cancelled && session == credentials) reachable(error.status != 495);
                 failure = error(error.status, error.getMessage());
                 if (error.status == 401 && !job.cancelled && session == credentials) expire(credentials);
             } catch (Exception error) {
+                if (traceCall) org.telegram.messenger.FileLog.e("BOTGRAM_CALL_RPC request=" + request.getClass().getSimpleName()
+                        + " stage=" + stage + " exception=" + error.getClass().getName());
                 if (!job.cancelled && session == credentials) reachable(false);
                 failure = error(500, "BOTGRAM_TRANSPORT_ERROR");
             }

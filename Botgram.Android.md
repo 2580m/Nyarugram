@@ -1,5 +1,47 @@
 # 原 Telegram 页面接入说明
 
+## 2026-11-06 特别关心状态与来电通知修复
+
+后续补修覆盖冷启动和同一联系人重叠操作：缓存尚未载入时也记录删除/屏蔽操作及本地变更，拒绝操作前发起的迟到磁盘恢复；同一联系人按 token 集合跟踪全部未决操作，任一失败只结束自身抑制，任一成功的已确认抑制不被其他失败解除。持久化保存服务端基础 users 快照，不把未决操作过滤后的展示列表写入缓存。状态专项宿主回归为 134 项；本次交付与真机验证边界见 `artifacts/special-care-overlap-fix-delivery.md`。
+
+普通来电在 Android 13+ 的 pre-notification 阶段不再用普通 `notify()` 发布 `Notification.CallStyle`。CallStyle 仅在真实前台服务通过 `startForeground` 发布，或本次通知确实携带 full-screen intent 时使用；其余普通、特别关心但全屏权限不足或单次全屏声明已消耗的通知使用保留来电人、语音/视频、接听、拒接和点击打开的普通模板。群来电保持普通 3 级并移除 CallStyle。发布失败会记录异常类型并降级或清理，不在未发布通知时继续响铃。未修改 3/4 级频道默认值、用户频道设置或正在通话的前台通知。
+
+特别关心的删除/屏蔽抑制改为按操作绑定：请求未决时不写盘，失败只撤销该次抑制并回滚本地 contact/blocked 状态，成功后才持久化；重启后未决抑制不会永久压制。磁盘缓存改为单次原子恢复，迟到或旧 revision 快照被拒绝时不改变任何状态。特别关心入口保持联系人资料页右上角菜单及联系人管理列表，聊天页展开菜单没有该入口；资料页右上角按钮保持原三点菜单图标，不切换为星标。
+
+本轮仅修改客户端，未部署或重启 18524 测试后端。宿主回归、Android 编译和 APK 签名/包信息已通过；adb 无设备，真机来电矩阵、失败回滚流程和 ROM 全屏行为尚未验证。详细结果见 `artifacts/special-care-delivery.md` 与 `artifacts/build-info.json`。
+
+## 2026-11-06 固定手机测试后端端口
+
+本机统一测试地址为 `http://192.168.2.200:18524`，固定端口 **18524**，不再使用旧测试入口 18521。测试部署位于 `D:\BotgramBuild\native-calls-test`，实际版本读取其 `deployment.json`；从当前后端源码重新发布后升级，支持特别关心 typed RPC 与通话信令。RPC/事件使用 Protobuf-only，注册登录等 REST 仍为 JSON。
+
+保留原 18521 测试实例的账号、会话、聊天和消息；此前占用 18524 的独立旧测试库已停用并单独备份，不合并数据。手机原来保存的 18521 地址需改为 18524；原服务器地址参与本地认证缓存隔离，不保证旧客户端会话自动跨端口恢复，必要时用原账号重新登录。正式 8521 不变。维护和恢复要求见 `../Botgram.Backend/DEPLOYMENT.md` 的“本机手机测试后端：固定端口 18524”。
+
+## 2026-11-05 联系人添加修复
+
+原 `ContactAddActivity` 每次提交都会带上 `textWithEntities` 备注对象，即使输入框为空；Protobuf 映射因此把整个 `contacts.addContact` 当作带备注请求拒绝，页面却已在请求前写入 `contact=true` 和别名，形成假成功。现在空备注对象与完全未填写备注等价，只有确实存在文本或实体时才视为备注；当前未实现的备注在 Gram ID 账号的联系人页面和新建联系人表单中不再显示，不再出现“可以输入、保存时返回 501”的不一致。
+
+绑定账号的添加在收到后端确认前不修改共享用户、联系人列表、备注和页面偏好；失败时保留输入并显示原 Telegram 弹窗，成功后才按响应中的用户与联系人状态刷新 `MessagesController`、`ContactsController`、本地存储、资料页和聊天添加栏。请求进行中禁用完成按钮以防重复提交，页面销毁或账号切换后的迟到回调被丢弃。系统通讯录写入仍对绑定账号禁用；未绑定 Botgram 的原 Telegram 账号保留原有流程。
+
+后端 `contacts.addContact` 继续按请求返回目标用户和 `contact=true`，LegacyOnly JSON 存储与 PostgreSQL 路径均通过同名联系人去重，别名只对添加者生效。当前实现返回明确的 `BOTGRAM_CONTACT_NOTES_UNSUPPORTED`、`BOTGRAM_CONTACT_PHONE_EXCEPTION_UNSUPPORTED` 与 `CONTACT_ADD_SELF`，不静默丢弃请求字段。
+
+验证入口为 `Tools/Verify-BotgramProtobufMapping.ps1`（真实 Android TL 对象、空备注归一化、非空备注拒绝、flags 校验）、后端 `--presence-contacts-protobuf-only` 与 `--presence-contacts-postgres`、`tests/contacts.mjs` 及 `Tools/Verify-BotgramTL.ps1 -FixturePath ../Botgram.Backend/obj/contact-tl-fixtures.json`。真机安装与从原页面实际添加的顺序验证尚未执行，不能用上述宿主测试替代。
+
+## 2026-11-05 未接来电通知
+
+自建后端的一对一来电结束且未接听时，在独立的未接来电通知频道显示提醒，语音标题为“未接来电”，视频复用“未接视频来电”。点击进入原聊天页，通知自动消失；不创建本地伪造聊天消息，不把未接通知当作仍在响铃的通话。
+
+Protobuf 终态映射保留来电方、被叫方、发起时间和接听/接通元数据，作为本地通知判定使用，不改变原 `TL_phoneCallDiscarded` 二进制格式。主叫、已接听（包括其他设备接听）、已接通和忙线终态不产生未接提醒；本机主动拒接持久化抑制。按账号、服务器、用户及呼叫 ID 去重，重连、差分重放和用户划掉通知后不会重复提醒，去重记录有界保存。退出账号清除该账号的可见未接通知，保留原系统通知授权和频道设置。系统未授予通知权限时不能显示通知。
+
+专项宿主验证入口为 `Tools/Verify-BotgramMissedCalls.ps1`，要求先编译 Android Debug 类。它验证实际 Protobuf 终态映射、未接判定及持久化历史重载/裁剪；不能替代真机通知点击、锁屏、后台送达和多设备操作验收。
+
+## 2026-11-05 局域网 HTTP 与事件连接
+
+显式填写私有 IPv4 HTTP 地址时，客户端自动使用 HTTP RPC + WS 事件提示，无需额外开关，Debug 与正式构建使用相同私网判断。范围为 `10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`；必须填写实际服务器 IP，CIDR 不是可连接地址。判断不做 DNS 查询，域名、公网 HTTP、回环和 IPv6 地址不因这项规则启用明文 WS。HTTPS 地址继续使用系统证书校验和主机名校验的 WSS，不自动降级。
+
+有效且已激活的账号在应用退到后台后保留事件连接和差分唤醒，账号切换不再停掉其他已登录账号的来电接收；账号退出、会话失效仍关闭并隔离旧连接与回调。事件仅提示立即拉取差分，不将后台接收视为前台在线或自动已读；原定时轮询保留作补偿。后台常驻、系统回收和深度休眠的送达能力仍受平台约束。HTTP/WS 是用户显式选择的明文局域网传输，凭据与内容不具备 TLS 保密性。
+
+当前单进程后端的 WebSocket 仍每 500 毫秒检查事件，本次未实现提交后立即唤醒服务端连接，不能把手机 WS 已连接等同于端到端延迟验收。
+
 ## 2026-11-05 验证器界面与恢复码修订
 
 13.1.4 / 72409 的两步验证入口直接使用原 `TwoStepVerificationSetupActivity.TYPE_INTRO`，保留原布局、`tsv_setup_intro` 锁动画和底部按钮。设置、搜索和深链接均进入此介绍页，点击后单独打开二维码、可复制密钥及验证码输入页面。已绑定账号进入验证器管理。
@@ -29,7 +71,7 @@
 - `LoginActivity`：用户名／密码认证，登录成功进入原 `onAuthSuccess` 和页面导航。
 - `BotgramLoginView`：作为原 `LoginActivity` 内的 `SlideView` 提供用户名／密码认证，复用原登录页的布局、继续按钮、加载动画、描边输入框及错误弹窗；注册时显示名称输入框。
 - `BotgramSession`：按 Telegram 账号槽位隔离令牌，并用 Android Keystore AES-GCM 加密保存。
-- `BotgramTransport`：会话固定协议、typed RPC 映射、HTTP 请求、取消绑定、错误回调、前台差分轮询，以及独立的壁纸 revision 同步。
+- `BotgramTransport`：会话固定协议、typed RPC 映射、HTTP 请求、取消绑定、错误回调、前后台事件提示与差分补偿轮询，以及独立的壁纸 revision 同步。
 - `ConnectionsManager`：绑定自建后端的账号走上述传输；未绑定账号保留原行为。绑定账号即使会话失效也不回落到 Telegram 传输。
 - `ApplicationLoader`：重启后恢复绑定账号的差分轮询。收到的响应仍由原 MessagesController／MessagesStorage 处理。
 
