@@ -1009,19 +1009,48 @@ public final class BotgramE2eeController {
         final String hash = identityHash();
         final long gen = currentGeneration();
         final BotgramE2eeSessionPolicy.Replacement captured;
+        final byte[] confirmedIdentity;
+        final long confirmedGeneration;
+        final long confirmedEpoch;
+        final String confirmedVersion;
         if (action == BotgramRpc.E2eeActionKind.E2EE_CONFIRM_IDENTITY) {
             BotgramRpc.E2eeChatStatus pending = shown == null ? status(peer) : shown;
-            if (pending == null || pending.getPeerIdentityKey().size() == 0) {
+            if (pending == null || pending.getPeerIdentityKey().size() == 0
+                    || pending.getEpoch() <= 0 || pending.getIdentityVersion().isEmpty()) {
+                // Without a complete snapshot the server must never confirm whatever
+                // identity happens to be current now.
                 callbackError(callback, "E2EE_IDENTITY_CHANGED");
                 return;
             }
             captured = new BotgramE2eeSessionPolicy.Replacement(
                     pending.getPeerIdentityKey().toByteArray(), (int) pending.getPeerGeneration());
+            confirmedIdentity = pending.getPeerIdentityKey().toByteArray();
+            confirmedGeneration = pending.getPeerGeneration();
+            confirmedEpoch = pending.getEpoch();
+            confirmedVersion = pending.getIdentityVersion();
         } else {
             captured = null;
+            confirmedIdentity = null;
+            confirmedGeneration = 0;
+            confirmedEpoch = 0;
+            confirmedVersion = null;
         }
-        rpc(identity -> request().setE2EeAction(BotgramRpc.E2eeActionRequest.newBuilder()
-                .setPeer(BotgramRpc.PeerRef.newBuilder().setUser(identity.userRef(peer))).setAction(action).setProtocolVersion(2).build()).build(),
+        rpc(identity -> {
+            BotgramRpc.E2eeActionRequest.Builder actionRequest = BotgramRpc.E2eeActionRequest.newBuilder()
+                    .setPeer(BotgramRpc.PeerRef.newBuilder().setUser(identity.userRef(peer)))
+                    .setAction(action).setProtocolVersion(2);
+            if (captured != null) {
+                // Bind the request to the exact key, generation, epoch and two-sided
+                // identity version the user saw. The server rejects any mismatch.
+                actionRequest.setIdentityConfirmation(BotgramRpc.E2eeIdentityConfirmation.newBuilder()
+                        .setPeerIdentityKey(com.google.protobuf.ByteString.copyFrom(confirmedIdentity))
+                        .setPeerGeneration(confirmedGeneration)
+                        .setEpoch(confirmedEpoch)
+                        .setIdentityVersion(confirmedVersion)
+                        .build());
+            }
+            return request().setE2EeAction(actionRequest).build();
+        },
                 (response, error) -> {
             if (error != null) { if (callback != null) callback.run(null, error); return; }
             if (!stillCurrent(hash, gen)) { callbackError(callback, "E2EE_LOCKED"); return; }
