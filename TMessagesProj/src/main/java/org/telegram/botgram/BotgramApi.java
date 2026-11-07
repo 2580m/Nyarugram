@@ -2,6 +2,7 @@ package org.telegram.botgram;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.telegram.botgram.protocol.v1.BotgramRpc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,9 +11,15 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /** Only used from background threads. Never forwards credentials to another origin. */
 public final class BotgramApi {
+    public static final String AUTH_PATH = "/api/v1/auth";
+    public static final String ACCOUNT_PATH = "/api/v1/account";
+    public static final String RPC_PATH = "/api/v1/rpc";
+    public static final String JSON_API_RETIRED = "BOTGRAM_JSON_API_RETIRED";
+
     public static final class ApiError extends IOException {
         public final int status;
         ApiError(int status, String message) { super(message); this.status = status; }
@@ -22,22 +29,24 @@ public final class BotgramApi {
     private final String token;
     private String selectedProtocol;
 
-    /** Resolve before any RPC, then pin for this API's bearer session. No error-triggered fallback. */
+    /** Protobuf-only capability negotiation before any RPC; the protocol is pinned to this bearer. */
     public synchronized String negotiate() throws Exception {
         if (selectedProtocol != null) return selectedProtocol;
-        JSONObject value = object("GET", "/api/protocol/capabilities", null);
-        String selected = value.optString("selectedProtocol", "");
-        JSONArray protocols = value.optJSONArray("protocols");
-        JSONArray capabilities = value.optJSONArray("capabilities");
+        BotgramRpc.RpcRequest request = BotgramRpc.RpcRequest.newBuilder()
+                .setProtocolMajor(1)
+                .setRequestId(UUID.randomUUID().toString())
+                .setAuthCapabilities(BotgramRpc.AuthCapabilitiesRequest.getDefaultInstance())
+                .build();
+        BotgramRpc.RpcResponse response = authRpc(request, false);
+        if (!response.hasAuthCapabilities()) throw new ApiError(502, "BOTGRAM_NEGOTIATION_INVALID");
+        BotgramRpc.AuthCapabilities caps = response.getAuthCapabilities();
+        String selected = caps.getSelectedProtocol();
         boolean advertised = false, idempotent = false;
-        if (protocols != null) for (int i = 0; i < protocols.length(); i++) {
-            if (selected.equals(protocols.optString(i))) advertised = true;
+        for (String protocol : caps.getProtocolsList()) if (selected.equals(protocol)) advertised = true;
+        for (String capability : caps.getCapabilitiesList()) {
+            if ("send-random-id-idempotency-v1".equals(capability)) idempotent = true;
         }
-        if (capabilities != null) for (int i = 0; i < capabilities.length(); i++) {
-            if ("send-random-id-idempotency-v1".equals(capabilities.optString(i))) idempotent = true;
-        }
-        if (value.optInt("negotiationVersion", 0) != 1 || !advertised || !idempotent
-                || !("protobuf-v1".equals(selected) || "tl-json-v1".equals(selected))) {
+        if (caps.getNegotiationVersion() != 1 || !advertised || !idempotent || !"protobuf-v1".equals(selected)) {
             throw new ApiError(502, "BOTGRAM_NEGOTIATION_INVALID");
         }
         selectedProtocol = selected;
@@ -59,6 +68,7 @@ public final class BotgramApi {
         this.token = token;
     }
 
+    /** Retained only for diagnostics; business traffic never uses JSON HTTP. */
     public JSONObject object(String method, String path, JSONObject body) throws Exception {
         String value = request(method, path, body);
         return value.isEmpty() ? new JSONObject() : new JSONObject(value);
@@ -72,7 +82,7 @@ public final class BotgramApi {
         connection.setConnectTimeout(10_000);
         connection.setReadTimeout(20_000);
         connection.setRequestMethod(method);
-        connection.setRequestProperty("Accept", "application/json");
+        connection.setRequestProperty("Accept", "text/plain");
         if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);
         try {
             if (body != null) {
@@ -97,6 +107,9 @@ public final class BotgramApi {
                 }
             }
             if (status < 200 || status >= 300) {
+                if (status == 410 && response.startsWith(JSON_API_RETIRED)) {
+                    throw new ApiError(410, JSON_API_RETIRED);
+                }
                 String message = "HTTP " + status;
                 try { message = new JSONObject(response).optString("error", message); } catch (Exception ignored) { }
                 throw new ApiError(status, message);
@@ -109,11 +122,23 @@ public final class BotgramApi {
         } finally { connection.disconnect(); }
     }
 
-    public org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse rpc(
-            org.telegram.botgram.protocol.v1.BotgramRpc.RpcRequest request) throws Exception {
+    /** Main business RPC plane; requires a valid Bearer session. */
+    public BotgramRpc.RpcResponse rpc(BotgramRpc.RpcRequest request) throws Exception {
+        return send(RPC_PATH, request);
+    }
+
+    /**
+     * Protobuf authentication plane. {@code accountPlane=false} uses the
+     * unauthenticated /api/v1/auth endpoint; {@code true} uses /api/v1/account.
+     */
+    public BotgramRpc.RpcResponse authRpc(BotgramRpc.RpcRequest request, boolean accountPlane) throws Exception {
+        return send(accountPlane ? ACCOUNT_PATH : AUTH_PATH, request);
+    }
+
+    private BotgramRpc.RpcResponse send(String path, BotgramRpc.RpcRequest request) throws Exception {
         byte[] bytes = request.toByteArray();
         if (bytes.length > 128 * 1024) throw new ApiError(413, "BOTGRAM_REQUEST_TOO_LARGE");
-        HttpURLConnection connection = (HttpURLConnection) new URL(baseUrl + "/api/v1/rpc").openConnection();
+        HttpURLConnection connection = (HttpURLConnection) new URL(baseUrl + path).openConnection();
         connection.setInstanceFollowRedirects(false);
         connection.setConnectTimeout(10_000);
         connection.setReadTimeout(20_000);
@@ -127,25 +152,30 @@ public final class BotgramApi {
             try (java.io.OutputStream output = connection.getOutputStream()) { output.write(bytes); }
             int status = connection.getResponseCode();
             InputStream stream = status >= 400 ? connection.getErrorStream() : connection.getInputStream();
+            byte[] responseBytes = new byte[0];
+            if (stream != null) {
+                try (InputStream input = stream; ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+                    byte[] chunk = new byte[8192];
+                    int count;
+                    while ((count = input.read(chunk)) != -1) {
+                        if (buffer.size() + count > 8 * 1024 * 1024) throw new ApiError(502, "BOTGRAM_RESPONSE_TOO_LARGE");
+                        buffer.write(chunk, 0, count);
+                    }
+                    responseBytes = buffer.toByteArray();
+                }
+            }
+            // A retired server answers 410 with a plain-text code, never JSON.
+            if (status == 410 && new String(responseBytes, StandardCharsets.UTF_8).startsWith(JSON_API_RETIRED)) {
+                throw new ApiError(410, JSON_API_RETIRED);
+            }
             String type = connection.getContentType();
             if (type == null || !"application/x-protobuf".equalsIgnoreCase(type.split(";", 2)[0].trim())) {
                 throw new ApiError(status >= 400 ? status : 502, "BOTGRAM_PROTOBUF_MEDIA_TYPE_INVALID");
             }
             if (stream == null) throw new ApiError(status >= 400 ? status : 502, "BOTGRAM_PROTOBUF_RESPONSE_MISSING");
-            byte[] responseBytes;
-            try (InputStream input = stream; ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
-                byte[] chunk = new byte[8192];
-                int count;
-                while ((count = input.read(chunk)) != -1) {
-                    if (buffer.size() + count > 8 * 1024 * 1024) throw new ApiError(502, "BOTGRAM_RESPONSE_TOO_LARGE");
-                    buffer.write(chunk, 0, count);
-                }
-                responseBytes = buffer.toByteArray();
-            }
             com.google.protobuf.CodedInputStream input = com.google.protobuf.CodedInputStream.newInstance(responseBytes);
             input.setRecursionLimit(32);
-            org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse response =
-                    org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse.parseFrom(input);
+            BotgramRpc.RpcResponse response = BotgramRpc.RpcResponse.parseFrom(input);
             if (response.getProtocolMajor() != 1 || (!response.getRequestId().equals(request.getRequestId())
                     && !(status >= 400 && response.getRequestId().isEmpty()))) {
                 throw new ApiError(502, "BOTGRAM_PROTOBUF_ENVELOPE_INVALID");
@@ -174,5 +204,9 @@ public final class BotgramApi {
         JSONObject result = new JSONObject();
         for (int i = 0; i < fields.length; i += 2) result.put((String) fields[i], fields[i + 1]);
         return result;
+    }
+
+    public static BotgramRpc.RpcRequest.Builder request() {
+        return BotgramRpc.RpcRequest.newBuilder().setProtocolMajor(1).setRequestId(UUID.randomUUID().toString());
     }
 }

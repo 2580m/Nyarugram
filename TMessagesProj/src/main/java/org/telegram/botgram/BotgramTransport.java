@@ -149,13 +149,13 @@ public final class BotgramTransport {
         final long userId = UserConfig.getInstance(account).getClientUserId();
         final BotgramPremiumState confirmed = premium;
         accountRequest(api -> {
-            JSONObject result = api.object(activate ? "POST" : "GET",
-                    activate ? "/api/me/premium/activate" : "/api/me/premium",
-                    activate ? new JSONObject() : null);
-            Object value = result.get("active");
-            if (!(value instanceof Boolean) || userId == 0)
-                throw new BotgramApi.ApiError(502, "BOTGRAM_PREMIUM_RESPONSE_INVALID");
-            boolean enabled = (Boolean) value;
+            if (userId == 0) throw new BotgramApi.ApiError(502, "BOTGRAM_PREMIUM_RESPONSE_INVALID");
+            org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse result = api.authRpc(
+                    BotgramApi.request().setPremium(
+                            org.telegram.botgram.protocol.v1.BotgramRpc.PremiumRequest.newBuilder()
+                                    .setActivate(activate)).build(), true);
+            if (!result.hasPremium()) throw new BotgramApi.ApiError(502, "BOTGRAM_PREMIUM_RESPONSE_INVALID");
+            boolean enabled = result.getPremium().getActive();
             if (activate && !enabled) throw new BotgramApi.ApiError(502, "BOTGRAM_PREMIUM_NOT_ACTIVATED");
             confirmed.resolve(userId, enabled);
             return enabled;
@@ -306,6 +306,12 @@ public final class BotgramTransport {
         BotgramSession current = session;
         return !enabled() || expired || current.token == null || current.userId == null ? null : current.server + "\n" + current.userId;
     }
+    /** Protobuf replacement for the retired JSON logout route. */
+    static void logoutRpc(BotgramApi api) throws Exception {
+        api.authRpc(BotgramApi.request().setAuthLogout(
+                org.telegram.botgram.protocol.v1.BotgramRpc.AuthLogoutRequest.getDefaultInstance()).build(), true);
+    }
+
     public void logout(boolean revoke) {
         BotgramSpecialCare.get(account).clear();
         BotgramMissedCallNotifications.clear(account);
@@ -328,7 +334,7 @@ public final class BotgramTransport {
         if (revoke && token != null) {
             // Do not queue revocation behind slow chat requests or delay local logout.
             logouts.execute(() -> {
-                try { new BotgramApi(server, token).request("POST", "/api/auth/logout", null); }
+                try { BotgramTransport.logoutRpc(new BotgramApi(server, token)); }
                 catch (Exception ignored) { /* Local logout also works while offline. */ }
             });
         }
@@ -483,7 +489,7 @@ public final class BotgramTransport {
                 }
                 BotgramApi api = sessionApi;
                 if (request instanceof TLRPC.TL_auth_logOut) {
-                    api.request("POST", "/api/auth/logout", null);
+                    logoutRpc(api);
                     response = new TLRPC.TL_auth_loggedOut();
                     if (session == credentials) {
                         expired = true;
@@ -502,11 +508,12 @@ public final class BotgramTransport {
                         credentials.pinProtocol(protocol);
                     }
                     if (job.cancelled || session != credentials || scope != job.owner) return;
-                    if ("tl-json-v1".equals(protocol)) {
-                        JSONObject result = api.object("POST", "/api/telegram/rpc", ((JSONObject) encode(request, 0)).put("foreground", foreground() && UserConfig.selectedAccount == account));
-                        if (job.cancelled || session != credentials || scope != job.owner) return;
-                        response = (TLObject) decode(result, TLObject.class, 0);
-                    } else if ("protobuf-v1".equals(protocol)) {
+                    // A pinned legacy protocol can never fall back to the retired
+                    // JSON RPC; re-negotiation is required instead of silent JSON.
+                    if (!"protobuf-v1".equals(protocol)) {
+                        throw new BotgramApi.ApiError(410, BotgramApi.JSON_API_RETIRED);
+                    }
+                    {
                         BotgramProtobufIdentity identity = identities;
                         if (identity == null || identitySession != credentials) {
                             identity = new BotgramProtobufIdentity(api, credentials.userId,
@@ -528,7 +535,7 @@ public final class BotgramTransport {
                         if (job.cancelled || session != credentials || scope != job.owner) return;
                         stage = "response_mapping";
                         response = new BotgramProtobufResponseMapper(identity).map(result);
-                    } else throw new BotgramApi.ApiError(502, "BOTGRAM_NEGOTIATION_INVALID");
+                    }
                 }
                 if (!job.cancelled && session == credentials) reachable(true);
                 if (traceCall) org.telegram.messenger.FileLog.d("BOTGRAM_CALL_RPC request=" + request.getClass().getSimpleName() + " stage=success");

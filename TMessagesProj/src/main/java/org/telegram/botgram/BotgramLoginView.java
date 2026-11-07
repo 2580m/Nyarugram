@@ -256,16 +256,28 @@ public final class BotgramLoginView extends SlideView {
             request = worker.submit(() -> {
                 try {
                     BotgramApi api = new BotgramApi(address, null);
-                    JSONObject credentials = BotgramApi.json("username", name, "password", secret, "displayName", display,
-                            "locationCountry", country == null ? JSONObject.NULL : country);
-                    if (needsAdditionalPassword) credentials.put("totpCode", secondSecret.trim());
-                    JSONObject response = api.object("POST", register ? "/api/auth/register" : "/api/auth/login",
-                        credentials);
-                    JSONObject identity = new BotgramApi(api.baseUrl, response.getString("token")).object("GET", "/api/telegram/me", null);
-                    TLRPC.User user = (TLRPC.User) BotgramTransport.decode(identity, TLRPC.User.class, 0);
+                    org.telegram.botgram.protocol.v1.BotgramRpc.RpcRequest.Builder builder = BotgramApi.request();
+                    if (register) {
+                        org.telegram.botgram.protocol.v1.BotgramRpc.AuthRegisterRequest.Builder registration =
+                                org.telegram.botgram.protocol.v1.BotgramRpc.AuthRegisterRequest.newBuilder()
+                                        .setUsername(name).setPassword(secret).setDisplayName(display);
+                        if (country != null) registration.setLocationCountry(country);
+                        builder.setAuthRegister(registration);
+                    } else {
+                        org.telegram.botgram.protocol.v1.BotgramRpc.AuthLoginRequest.Builder login =
+                                org.telegram.botgram.protocol.v1.BotgramRpc.AuthLoginRequest.newBuilder()
+                                        .setUsername(name).setPassword(secret);
+                        if (needsAdditionalPassword) login.setTotpCode(secondSecret.trim());
+                        builder.setAuthLogin(login);
+                    }
+                    org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse response = api.authRpc(builder.build(), false);
+                    org.telegram.botgram.protocol.v1.BotgramRpc.AuthSession session =
+                            register ? response.getAuthRegister() : response.getAuthLogin();
+                    TLRPC.User user = BotgramTlIdentity.user(session.getUser());
                     if (disposed || id != attempt) return;
                     BotgramSession saved = new BotgramSession(getContext().getApplicationContext(), account);
-                    if (!saved.save(api.baseUrl, response, () -> !disposed && id == attempt)) return;
+                    if (!saved.save(api.baseUrl, session.getToken(), session.getUser().getUserId(),
+                            session.getUser().getDisplayName(), () -> !disposed && id == attempt)) return;
                     AndroidUtilities.runOnUIThread(() -> BotgramTransport.get(account).whenReady(() -> {
                         if (disposed || id != attempt) {
                             Utilities.globalQueue.postRunnable(saved::clearIfCurrent);
@@ -302,6 +314,8 @@ public final class BotgramLoginView extends SlideView {
 
     private String errorText(Exception error) {
         if (error instanceof BotgramApi.ApiError) {
+            if (((BotgramApi.ApiError) error).status == 410 && BotgramApi.JSON_API_RETIRED.equals(error.getMessage()))
+                return BotgramApi.JSON_API_RETIRED;
             if ("TOTP_CODE_INVALID".equals(error.getMessage())) return LocaleController.getString(R.string.BotgramAuthenticatorInvalid);
             if ("TOTP_TOO_MANY_ATTEMPTS".equals(error.getMessage())) return LocaleController.getString(R.string.BotgramAuthenticatorWait);
             if ("PASSWORD_HASH_INVALID".equals(error.getMessage())) return LocaleController.getString(R.string.CheckPasswordWrong);

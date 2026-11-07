@@ -63,7 +63,12 @@ public final class BotgramSession {
 
     public boolean save(String server, JSONObject response, BooleanSupplier active) throws Exception {
         JSONObject user = response.getJSONObject("user");
-        String newToken = response.getString("token");
+        return save(server, response.getString("token"), user.getString("id"), user.getString("displayName"), active);
+    }
+
+    /** Protobuf authentication plane: no JSON session object is parsed. */
+    public boolean save(String server, String token, String userId, String displayName, BooleanSupplier active) throws Exception {
+        String newToken = token;
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, key());
         String encrypted = Base64.encodeToString(cipher.doFinal(newToken.getBytes(StandardCharsets.UTF_8)), Base64.NO_WRAP);
@@ -71,13 +76,13 @@ public final class BotgramSession {
             if (!active.getAsBoolean()) return false;
             if (!prefs.edit().putString("server", server).putString("token", encrypted)
                     .putString("iv", Base64.encodeToString(cipher.getIV(), Base64.NO_WRAP))
-                    .putString("userId", user.getString("id")).putString("displayName", user.getString("displayName")).remove("protocol").commit()) {
+                    .putString("userId", userId).putString("displayName", displayName).remove("protocol").commit()) {
                 throw new java.io.IOException("Unable to save login session");
             }
             this.server = server;
             this.token = newToken;
-            this.userId = user.getString("id");
-            this.displayName = user.getString("displayName");
+            this.userId = userId;
+            this.displayName = displayName;
             savedCiphertext = encrypted;
             if (!active.getAsBoolean()) {
                 clearIfCurrent();
