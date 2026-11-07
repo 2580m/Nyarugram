@@ -226,6 +226,9 @@ public class MessageObject {
     public String monthKey;
     public boolean deleted;
     public boolean deletedByThanos;
+    public boolean botgramE2ee;
+    private long botgramE2eeDisplayGeneration = -1;
+    private String botgramE2eeDisplay;
     public float audioProgress;
     public float forceSeekTo = -1;
     public int audioProgressMs;
@@ -1938,7 +1941,7 @@ public class MessageObject {
 
         updateMessageText(users, chats, sUsers, sChats);
         setType();
-        if (generateLayout) {
+        if (generateLayout && !botgramE2ee) {
             updateTranslation(false);
         }
         measureInlineBotButtons();
@@ -4603,6 +4606,45 @@ public class MessageObject {
         updateMessageText(MessagesController.getInstance(currentAccount).getUsers(), MessagesController.getInstance(currentAccount).getChats(), null, null);
     }
 
+    private void applyBotgramE2eeText() {
+        botgramE2ee = true;
+        String value = org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount)
+                .decryptForDisplay(messageOwner, this);
+        if (value == org.telegram.botgram.e2ee.BotgramE2eeController.DISPLAY_UNILATERAL) {
+            messageText = getString(R.string.BotgramE2eeUnilateralMessage);
+        } else if (value == org.telegram.botgram.e2ee.BotgramE2eeController.DISPLAY_LOCKED) {
+            messageText = getString(R.string.BotgramE2eeLockedMessage);
+        } else if (value == null || value == org.telegram.botgram.e2ee.BotgramE2eeController.DISPLAY_UNDECRYPTABLE) {
+            messageText = getString(R.string.BotgramE2eeUndecryptableMessage);
+        } else {
+            messageText = value;
+        }
+    }
+
+    public void clearBotgramE2eeDisplay() {
+        botgramE2eeDisplay = null;
+        botgramE2eeDisplayGeneration = -1;
+        if (botgramE2ee) { messageText = getString(R.string.BotgramE2eeLockedMessage); resetLayout(); forceUpdate = true; }
+    }
+
+    public String getBotgramE2eeDisplay(long generation) {
+        return botgramE2eeDisplayGeneration == generation ? botgramE2eeDisplay : null;
+    }
+
+    public void applyBotgramE2eeResult(long generation, String value) {
+        botgramE2eeDisplayGeneration = generation;
+        botgramE2eeDisplay = value;
+        refreshBotgramE2eeText();
+        resetLayout();
+        forceUpdate = true;
+    }
+
+    public void refreshBotgramE2eeText() {
+        if (org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(messageOwner.message)) {
+            applyBotgramE2eeText();
+        }
+    }
+
     private void updateMessageText(AbstractMap<Long, TLRPC.User> users, AbstractMap<Long, TLRPC.Chat> chats, LongSparseArray<TLRPC.User> sUsers, LongSparseArray<TLRPC.Chat> sChats) {
         TLRPC.User fromUser = null;
         TLRPC.Chat fromChat = null;
@@ -4613,6 +4655,11 @@ public class MessageObject {
         }
         TLObject fromObject = fromUser != null ? fromUser : fromChat;
         drawServiceWithDefaultTypeface = false;
+
+        if (org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(messageOwner.message)) {
+            applyBotgramE2eeText();
+            return;
+        }
 
         channelJoined = false;
         if (messageOwner instanceof TLRPC.TL_messageService) {
@@ -4798,7 +4845,13 @@ public class MessageObject {
                         }
                     }
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionCustomAction) {
-                    messageText = messageOwner.action.message;
+                    String botgramCode = messageOwner.action.message;
+                    messageText = org.telegram.botgram.e2ee.BotgramE2eeStrings.systemText(botgramCode,
+                            getFromChatId() == UserConfig.getInstance(currentAccount).getClientUserId());
+                    if (botgramCode != null && botgramCode.startsWith("e2ee:")) {
+                        org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount)
+                                .onSystemMessage(getDialogId(), getId());
+                    }
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatCreate) {
                     if (isOut()) {
                         messageText = getString(R.string.ActionYouCreateGroup);

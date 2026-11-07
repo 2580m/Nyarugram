@@ -59,6 +59,22 @@ public final class BotgramTransport {
         return enabled() ? scope.bind(task) : task;
     }
 
+    /** Stable REST identity of the bound account; never a TL id or GID. */
+    public String boundUserId() {
+        BotgramSession value = session;
+        return value == null || value.userId == null ? "" : value.userId;
+    }
+
+    public String boundServer() {
+        BotgramSession value = session;
+        return value == null || value.server == null ? "" : value.server;
+    }
+
+    public boolean hasActiveSession() {
+        BotgramSession value = session;
+        return value != null && value.token != null && !expired;
+    }
+
     public interface AccountRequest<T> {
         T run(BotgramApi api) throws Exception;
     }

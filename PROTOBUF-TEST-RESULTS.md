@@ -43,7 +43,7 @@ Node：`v24.15.0`。使用既有 `bin/Debug/net8.0/Botgram.Backend.dll`，本次
 - 三个宿主脚本改为 GUID 独立输出子目录后全部通过：Auth **6**、ServerAddress **34**、TL smoke **29** + gid **2**。宿主验证不代替 Android 构建或真机测试。
 - `Transport.send` 已改为进入 requests 队列前捕获 final server/bearer 字符串，不再在队列内读取可变字段；**仍待 Android 构建验证**，不能据此宣称账号切换/迟到回调端到端通过。
 - 用户明确批准使用现有 `User.Id` UUID 直接作为稳定 `user_id`；不得因连接地址变化或协议迁移重新分配身份。
-- `server_domain` 使用显式固定配置 `nyarugram.moe.autos`，不含协议和端口，不随连接地址变化；隔离测试使用独立测试域。这是已批准契约，不表示本次后端 JSON 测试已覆盖该字段或已完成业务实现。
+- `server_domain` 由部署者显式配置为自己服务的稳定身份域名，不含协议和端口，不随连接地址变化；项目不指定公共服务器，隔离测试使用独立测试域。这是已批准契约，不表示本次后端 JSON 测试已覆盖该字段或已完成业务实现。
 
 ## 未验证与后续门槛
 

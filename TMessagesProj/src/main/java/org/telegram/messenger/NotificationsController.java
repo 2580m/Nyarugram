@@ -2563,6 +2563,12 @@ public class NotificationsController extends BaseController implements Notificat
         if (AndroidUtilities.needShowPasscode() || SharedConfig.isWaitingForPasscodeEnter) {
             return LocaleController.getString(R.string.YouHaveNewMessage);
         }
+        if (messageObject != null && messageObject.messageOwner != null
+                && org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(messageObject.messageOwner.message)) {
+            if (preview != null) preview[0] = false;
+            if (text != null) text[0] = true;
+            return LocaleController.getString(R.string.BotgramE2eeNotification);
+        }
         if (messageObject.isStoryPush || messageObject.isStoryMentionPush) {
             return "!" + messageObject.messageOwner.message;
         }

@@ -112,6 +112,9 @@ public final class BotgramProtobufIdentity {
     }
 
     public long selfId() throws BotgramApi.ApiError { initialize(); return ownId; }
+    public String serverDomain() throws BotgramApi.ApiError { initialize(); return domain; }
+    public String ownUuid() { return ownUuid; }
+    public BotgramRpc.UserRef userRef(long tlUserId) throws BotgramApi.ApiError { return user(tlUserId); }
     private BotgramRpc.UserRef user(long id) throws BotgramApi.ApiError {
         initialize();
         if (id <= 0) throw new BotgramApi.ApiError(400, "USER_ID_INVALID");

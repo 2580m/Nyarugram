@@ -62,8 +62,8 @@
 ## 用户已批准的身份契约
 
 - 现有 `User.Id` UUID 字符串直接作为稳定 `user_id`，不重建 UUID，不改变 GID、TL 数字 ID 或聊天关联。
-- `server_domain` 使用显式固定配置 `nyarugram.moe.autos`，不含协议和端口，不从请求 Host 或客户端连接 URL 推导。
-- 隔离测试使用独立测试域。更改规范服务器身份需另行决策；本轮没有 S2S 联邦实现。
+- `server_domain` 由部署者通过 `Protocol:ServerDomain` 显式配置为自己服务的稳定身份域名，不含协议和端口，不从请求 Host 或客户端连接 URL 推导；项目不指定公共服务器。
+- 隔离测试使用独立测试域。部署者应在初始化时确定规范服务器身份，已有实例更改身份需评估兼容性；本轮没有 S2S 联邦实现。
 
 ## 后续阶段
 
@@ -90,7 +90,7 @@
 
 ## P3 后端版本化入口（2026-11-02）
 
-- 新增 `POST /api/v1/rpc`，媒体类型 `application/x-protobuf`，与 JSON `/api/telegram/rpc` 并存；复用既有 Bearer 中间件和 API 限流。显式配置 `Protocol:ServerDomain=nyarugram.moe.autos`，启动时校验小写 DNS 域名，不取 Host/连接地址。
+- 新增 `POST /api/v1/rpc`，媒体类型 `application/x-protobuf`，与 JSON `/api/telegram/rpc` 并存；复用既有 Bearer 中间件和 API 限流。由部署者显式设置 `Protocol:ServerDomain` 为自己的小写 DNS 域名，启动时校验，不取 Host/连接地址。
 - `ProtobufRpcMapper` 的 21 个 operation 直接调用 P1 共享业务服务；不转 JSON、不调用 TelegramGateway，也不复制另一套业务。校验 UUID/规范域、self、成员权限、集合上限及重复、消息 int32 范围、分页、15 类实体与 UTF-16 边界；unknown operation/entity、跨域及非法参数明确报错。
 - endpoint 限制请求为 128 KiB、递归深度 32、响应为 8 MiB；不接受压缩请求。校验 protocol_major=1 和 1–64 位 ASCII request_id。endpoint 错误使用 Protobuf 并保留 HTTP 状态；认证/限流中间件仍可返回原 JSON 或空正文，客户端未来须先检查状态及媒体类型。
 - 顶层单次 Store.Write 内重查会话、执行映射、检查响应大小并序列化，再持久化；异常沿现有快照回滚。事务内检查请求取消；提交后网络断开不能保证回滚，重试依靠原幂等键。random_id 使用 invariant decimal 且保留 signed64 极值。

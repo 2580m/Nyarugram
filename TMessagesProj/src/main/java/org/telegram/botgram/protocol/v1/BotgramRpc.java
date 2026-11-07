@@ -404,6 +404,274 @@ public final class BotgramRpc {
   }
 
   /**
+   * Protobuf enum {@code botgram.rpc.v1.E2eeState}
+   */
+  public enum E2eeState
+      implements com.google.protobuf.Internal.EnumLite {
+    /**
+     * <code>E2EE_DISABLED = 0;</code>
+     */
+    E2EE_DISABLED(0),
+    /**
+     * <code>E2EE_PENDING = 1;</code>
+     */
+    E2EE_PENDING(1),
+    /**
+     * <code>E2EE_ACTIVE = 2;</code>
+     */
+    E2EE_ACTIVE(2),
+    /**
+     * <code>E2EE_CLOSING = 3;</code>
+     */
+    E2EE_CLOSING(3),
+    /**
+     * <code>E2EE_SUSPENDED = 4;</code>
+     */
+    E2EE_SUSPENDED(4),
+    /**
+     * <code>E2EE_CLOSED = 5;</code>
+     */
+    E2EE_CLOSED(5),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>E2EE_DISABLED = 0;</code>
+     */
+    public static final int E2EE_DISABLED_VALUE = 0;
+    /**
+     * <code>E2EE_PENDING = 1;</code>
+     */
+    public static final int E2EE_PENDING_VALUE = 1;
+    /**
+     * <code>E2EE_ACTIVE = 2;</code>
+     */
+    public static final int E2EE_ACTIVE_VALUE = 2;
+    /**
+     * <code>E2EE_CLOSING = 3;</code>
+     */
+    public static final int E2EE_CLOSING_VALUE = 3;
+    /**
+     * <code>E2EE_SUSPENDED = 4;</code>
+     */
+    public static final int E2EE_SUSPENDED_VALUE = 4;
+    /**
+     * <code>E2EE_CLOSED = 5;</code>
+     */
+    public static final int E2EE_CLOSED_VALUE = 5;
+
+
+    @java.lang.Override
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The number of the enum to look for.
+     * @return The enum associated with the given number.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static E2eeState valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static E2eeState forNumber(int value) {
+      switch (value) {
+        case 0: return E2EE_DISABLED;
+        case 1: return E2EE_PENDING;
+        case 2: return E2EE_ACTIVE;
+        case 3: return E2EE_CLOSING;
+        case 4: return E2EE_SUSPENDED;
+        case 5: return E2EE_CLOSED;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<E2eeState>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        E2eeState> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<E2eeState>() {
+            @java.lang.Override
+            public E2eeState findValueByNumber(int number) {
+              return E2eeState.forNumber(number);
+            }
+          };
+
+    public static com.google.protobuf.Internal.EnumVerifier 
+        internalGetVerifier() {
+      return E2eeStateVerifier.INSTANCE;
+    }
+
+    private static final class E2eeStateVerifier implements 
+         com.google.protobuf.Internal.EnumVerifier { 
+            static final com.google.protobuf.Internal.EnumVerifier           INSTANCE = new E2eeStateVerifier();
+            @java.lang.Override
+            public boolean isInRange(int number) {
+              return E2eeState.forNumber(number) != null;
+            }
+          };
+
+    private final int value;
+
+    private E2eeState(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:botgram.rpc.v1.E2eeState)
+  }
+
+  /**
+   * Protobuf enum {@code botgram.rpc.v1.E2eeActionKind}
+   */
+  public enum E2eeActionKind
+      implements com.google.protobuf.Internal.EnumLite {
+    /**
+     * <code>E2EE_ACTION_UNSPECIFIED = 0;</code>
+     */
+    E2EE_ACTION_UNSPECIFIED(0),
+    /**
+     * <code>E2EE_INVITE = 1;</code>
+     */
+    E2EE_INVITE(1),
+    /**
+     * <code>E2EE_ACCEPT = 2;</code>
+     */
+    E2EE_ACCEPT(2),
+    /**
+     * <code>E2EE_DECLINE = 3;</code>
+     */
+    E2EE_DECLINE(3),
+    /**
+     * <code>E2EE_CANCEL = 4;</code>
+     */
+    E2EE_CANCEL(4),
+    /**
+     * <code>E2EE_CLOSE_REQUEST = 5;</code>
+     */
+    E2EE_CLOSE_REQUEST(5),
+    /**
+     * <code>E2EE_CLOSE_CONFIRM = 6;</code>
+     */
+    E2EE_CLOSE_CONFIRM(6),
+    /**
+     * <code>E2EE_CONFIRM_IDENTITY = 7;</code>
+     */
+    E2EE_CONFIRM_IDENTITY(7),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>E2EE_ACTION_UNSPECIFIED = 0;</code>
+     */
+    public static final int E2EE_ACTION_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>E2EE_INVITE = 1;</code>
+     */
+    public static final int E2EE_INVITE_VALUE = 1;
+    /**
+     * <code>E2EE_ACCEPT = 2;</code>
+     */
+    public static final int E2EE_ACCEPT_VALUE = 2;
+    /**
+     * <code>E2EE_DECLINE = 3;</code>
+     */
+    public static final int E2EE_DECLINE_VALUE = 3;
+    /**
+     * <code>E2EE_CANCEL = 4;</code>
+     */
+    public static final int E2EE_CANCEL_VALUE = 4;
+    /**
+     * <code>E2EE_CLOSE_REQUEST = 5;</code>
+     */
+    public static final int E2EE_CLOSE_REQUEST_VALUE = 5;
+    /**
+     * <code>E2EE_CLOSE_CONFIRM = 6;</code>
+     */
+    public static final int E2EE_CLOSE_CONFIRM_VALUE = 6;
+    /**
+     * <code>E2EE_CONFIRM_IDENTITY = 7;</code>
+     */
+    public static final int E2EE_CONFIRM_IDENTITY_VALUE = 7;
+
+
+    @java.lang.Override
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The number of the enum to look for.
+     * @return The enum associated with the given number.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static E2eeActionKind valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static E2eeActionKind forNumber(int value) {
+      switch (value) {
+        case 0: return E2EE_ACTION_UNSPECIFIED;
+        case 1: return E2EE_INVITE;
+        case 2: return E2EE_ACCEPT;
+        case 3: return E2EE_DECLINE;
+        case 4: return E2EE_CANCEL;
+        case 5: return E2EE_CLOSE_REQUEST;
+        case 6: return E2EE_CLOSE_CONFIRM;
+        case 7: return E2EE_CONFIRM_IDENTITY;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<E2eeActionKind>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        E2eeActionKind> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<E2eeActionKind>() {
+            @java.lang.Override
+            public E2eeActionKind findValueByNumber(int number) {
+              return E2eeActionKind.forNumber(number);
+            }
+          };
+
+    public static com.google.protobuf.Internal.EnumVerifier 
+        internalGetVerifier() {
+      return E2eeActionKindVerifier.INSTANCE;
+    }
+
+    private static final class E2eeActionKindVerifier implements 
+         com.google.protobuf.Internal.EnumVerifier { 
+            static final com.google.protobuf.Internal.EnumVerifier           INSTANCE = new E2eeActionKindVerifier();
+            @java.lang.Override
+            public boolean isInRange(int number) {
+              return E2eeActionKind.forNumber(number) != null;
+            }
+          };
+
+    private final int value;
+
+    private E2eeActionKind(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:botgram.rpc.v1.E2eeActionKind)
+  }
+
+  /**
    * Protobuf enum {@code botgram.rpc.v1.PhoneCallState}
    */
   public enum PhoneCallState
@@ -1114,6 +1382,61 @@ public final class BotgramRpc {
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest getSetSpecialContact();
 
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     * @return Whether the e2eePublishDevice field is set.
+     */
+    boolean hasE2EePublishDevice();
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     * @return The e2eePublishDevice.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest getE2EePublishDevice();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     * @return Whether the e2eeAction field is set.
+     */
+    boolean hasE2EeAction();
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     * @return The e2eeAction.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest getE2EeAction();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     * @return Whether the e2eeGetStatus field is set.
+     */
+    boolean hasE2EeGetStatus();
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     * @return The e2eeGetStatus.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest getE2EeGetStatus();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     * @return Whether the e2eeList field is set.
+     */
+    boolean hasE2EeList();
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     * @return The e2eeList.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest getE2EeList();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     * @return Whether the e2eeGetPeerBundle field is set.
+     */
+    boolean hasE2EeGetPeerBundle();
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     * @return The e2eeGetPeerBundle.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest getE2EeGetPeerBundle();
+
     public org.telegram.botgram.protocol.v1.BotgramRpc.RpcRequest.OperationCase getOperationCase();
   }
   /**
@@ -1175,6 +1498,11 @@ public final class BotgramRpc {
       GET_DH_CONFIG(136),
       GET_SPECIAL_CONTACTS(137),
       SET_SPECIAL_CONTACT(138),
+      E2EE_PUBLISH_DEVICE(139),
+      E2EE_ACTION(140),
+      E2EE_GET_STATUS(141),
+      E2EE_LIST(142),
+      E2EE_GET_PEER_BUNDLE(143),
       OPERATION_NOT_SET(0);
       private final int value;
       private OperationCase(int value) {
@@ -1229,6 +1557,11 @@ public final class BotgramRpc {
           case 136: return GET_DH_CONFIG;
           case 137: return GET_SPECIAL_CONTACTS;
           case 138: return SET_SPECIAL_CONTACT;
+          case 139: return E2EE_PUBLISH_DEVICE;
+          case 140: return E2EE_ACTION;
+          case 141: return E2EE_GET_STATUS;
+          case 142: return E2EE_LIST;
+          case 143: return E2EE_GET_PEER_BUNDLE;
           case 0: return OPERATION_NOT_SET;
           default: return null;
         }
@@ -3318,6 +3651,256 @@ public final class BotgramRpc {
      */
     private void clearSetSpecialContact() {
       if (operationCase_ == 138) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int E2EE_PUBLISH_DEVICE_FIELD_NUMBER = 139;
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EePublishDevice() {
+      return operationCase_ == 139;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest getE2EePublishDevice() {
+      if (operationCase_ == 139) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     */
+    private void setE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 139;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     */
+    private void mergeE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest value) {
+      value.getClass();
+  if (operationCase_ == 139 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 139;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+     */
+    private void clearE2EePublishDevice() {
+      if (operationCase_ == 139) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int E2EE_ACTION_FIELD_NUMBER = 140;
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeAction() {
+      return operationCase_ == 140;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest getE2EeAction() {
+      if (operationCase_ == 140) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     */
+    private void setE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 140;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     */
+    private void mergeE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest value) {
+      value.getClass();
+  if (operationCase_ == 140 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 140;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+     */
+    private void clearE2EeAction() {
+      if (operationCase_ == 140) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int E2EE_GET_STATUS_FIELD_NUMBER = 141;
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeGetStatus() {
+      return operationCase_ == 141;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest getE2EeGetStatus() {
+      if (operationCase_ == 141) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     */
+    private void setE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 141;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     */
+    private void mergeE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest value) {
+      value.getClass();
+  if (operationCase_ == 141 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 141;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+     */
+    private void clearE2EeGetStatus() {
+      if (operationCase_ == 141) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int E2EE_LIST_FIELD_NUMBER = 142;
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeList() {
+      return operationCase_ == 142;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest getE2EeList() {
+      if (operationCase_ == 142) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     */
+    private void setE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 142;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     */
+    private void mergeE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest value) {
+      value.getClass();
+  if (operationCase_ == 142 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 142;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+     */
+    private void clearE2EeList() {
+      if (operationCase_ == 142) {
+        operationCase_ = 0;
+        operation_ = null;
+      }
+    }
+
+    public static final int E2EE_GET_PEER_BUNDLE_FIELD_NUMBER = 143;
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeGetPeerBundle() {
+      return operationCase_ == 143;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest getE2EeGetPeerBundle() {
+      if (operationCase_ == 143) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest) operation_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     */
+    private void setE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest value) {
+      value.getClass();
+  operation_ = value;
+      operationCase_ = 143;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     */
+    private void mergeE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest value) {
+      value.getClass();
+  if (operationCase_ == 143 &&
+          operation_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.getDefaultInstance()) {
+        operation_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest) operation_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        operation_ = value;
+      }
+      operationCase_ = 143;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+     */
+    private void clearE2EeGetPeerBundle() {
+      if (operationCase_ == 143) {
         operationCase_ = 0;
         operation_ = null;
       }
@@ -5438,6 +6021,246 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EePublishDevice() {
+        return instance.hasE2EePublishDevice();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest getE2EePublishDevice() {
+        return instance.getE2EePublishDevice();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+       */
+      public Builder setE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest value) {
+        copyOnWrite();
+        instance.setE2EePublishDevice(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+       */
+      public Builder setE2EePublishDevice(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EePublishDevice(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+       */
+      public Builder mergeE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest value) {
+        copyOnWrite();
+        instance.mergeE2EePublishDevice(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePublishDeviceRequest e2ee_publish_device = 139;</code>
+       */
+      public Builder clearE2EePublishDevice() {
+        copyOnWrite();
+        instance.clearE2EePublishDevice();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeAction() {
+        return instance.hasE2EeAction();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest getE2EeAction() {
+        return instance.getE2EeAction();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+       */
+      public Builder setE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest value) {
+        copyOnWrite();
+        instance.setE2EeAction(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+       */
+      public Builder setE2EeAction(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeAction(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+       */
+      public Builder mergeE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest value) {
+        copyOnWrite();
+        instance.mergeE2EeAction(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionRequest e2ee_action = 140;</code>
+       */
+      public Builder clearE2EeAction() {
+        copyOnWrite();
+        instance.clearE2EeAction();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeGetStatus() {
+        return instance.hasE2EeGetStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest getE2EeGetStatus() {
+        return instance.getE2EeGetStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+       */
+      public Builder setE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest value) {
+        copyOnWrite();
+        instance.setE2EeGetStatus(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+       */
+      public Builder setE2EeGetStatus(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeGetStatus(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+       */
+      public Builder mergeE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest value) {
+        copyOnWrite();
+        instance.mergeE2EeGetStatus(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetStatusRequest e2ee_get_status = 141;</code>
+       */
+      public Builder clearE2EeGetStatus() {
+        copyOnWrite();
+        instance.clearE2EeGetStatus();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeList() {
+        return instance.hasE2EeList();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest getE2EeList() {
+        return instance.getE2EeList();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+       */
+      public Builder setE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest value) {
+        copyOnWrite();
+        instance.setE2EeList(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+       */
+      public Builder setE2EeList(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeList(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+       */
+      public Builder mergeE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest value) {
+        copyOnWrite();
+        instance.mergeE2EeList(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeListRequest e2ee_list = 142;</code>
+       */
+      public Builder clearE2EeList() {
+        copyOnWrite();
+        instance.clearE2EeList();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeGetPeerBundle() {
+        return instance.hasE2EeGetPeerBundle();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest getE2EeGetPeerBundle() {
+        return instance.getE2EeGetPeerBundle();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder setE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest value) {
+        copyOnWrite();
+        instance.setE2EeGetPeerBundle(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder setE2EeGetPeerBundle(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeGetPeerBundle(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder mergeE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest value) {
+        copyOnWrite();
+        instance.mergeE2EeGetPeerBundle(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder clearE2EeGetPeerBundle() {
+        copyOnWrite();
+        instance.clearE2EeGetPeerBundle();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.RpcRequest)
     }
     @java.lang.Override
@@ -5499,14 +6322,20 @@ public final class BotgramRpc {
               org.telegram.botgram.protocol.v1.BotgramRpc.GetDhConfigRequest.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.GetSpecialContactsRequest.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.SetSpecialContactRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.class,
             };
             java.lang.String info =
-                "\u0000*\u0001\u0001\u0001\u008a*\u0000\u0000\u0000\u0001\u000b\u0002\u0208\u0003" +
+                "\u0000/\u0001\u0001\u0001\u008f/\u0000\u0000\u0000\u0001\u000b\u0002\u0208\u0003" +
                 "\u1007\u0000d<\u0000e<\u0000f<\u0000g<\u0000h<\u0000i<\u0000j<\u0000k<\u0000l<\u0000" +
                 "m<\u0000n<\u0000o<\u0000p<\u0000q<\u0000r<\u0000s<\u0000t<\u0000u<\u0000v<\u0000" +
                 "w<\u0000x<\u0000y<\u0000z<\u0000{<\u0000|<\u0000}<\u0000~<\u0000<\u0000\u0080<\u0000" +
                 "\u0081<\u0000\u0082<\u0000\u0083<\u0000\u0084<\u0000\u0085<\u0000\u0086<\u0000\u0087" +
-                "<\u0000\u0088<\u0000\u0089<\u0000\u008a<\u0000";
+                "<\u0000\u0088<\u0000\u0089<\u0000\u008a<\u0000\u008b<\u0000\u008c<\u0000\u008d<\u0000" +
+                "\u008e<\u0000\u008f<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -6023,6 +6852,61 @@ public final class BotgramRpc {
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts getSetSpecialContact();
 
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     * @return Whether the e2eePublishDevice field is set.
+     */
+    boolean hasE2EePublishDevice();
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     * @return The e2eePublishDevice.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo getE2EePublishDevice();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     * @return Whether the e2eeAction field is set.
+     */
+    boolean hasE2EeAction();
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     * @return The e2eeAction.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getE2EeAction();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     * @return Whether the e2eeGetStatus field is set.
+     */
+    boolean hasE2EeGetStatus();
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     * @return The e2eeGetStatus.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getE2EeGetStatus();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     * @return Whether the e2eeList field is set.
+     */
+    boolean hasE2EeList();
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     * @return The e2eeList.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getE2EeList();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     * @return Whether the e2eeGetPeerBundle field is set.
+     */
+    boolean hasE2EeGetPeerBundle();
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     * @return The e2eeGetPeerBundle.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle getE2EeGetPeerBundle();
+
     public org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse.OutcomeCase getOutcomeCase();
   }
   /**
@@ -6079,6 +6963,11 @@ public final class BotgramRpc {
       GET_DH_CONFIG(136),
       GET_SPECIAL_CONTACTS(137),
       SET_SPECIAL_CONTACT(138),
+      E2EE_PUBLISH_DEVICE(139),
+      E2EE_ACTION(140),
+      E2EE_GET_STATUS(141),
+      E2EE_LIST(142),
+      E2EE_GET_PEER_BUNDLE(143),
       OUTCOME_NOT_SET(0);
       private final int value;
       private OutcomeCase(int value) {
@@ -6134,6 +7023,11 @@ public final class BotgramRpc {
           case 136: return GET_DH_CONFIG;
           case 137: return GET_SPECIAL_CONTACTS;
           case 138: return SET_SPECIAL_CONTACT;
+          case 139: return E2EE_PUBLISH_DEVICE;
+          case 140: return E2EE_ACTION;
+          case 141: return E2EE_GET_STATUS;
+          case 142: return E2EE_LIST;
+          case 143: return E2EE_GET_PEER_BUNDLE;
           case 0: return OUTCOME_NOT_SET;
           default: return null;
         }
@@ -8223,6 +9117,256 @@ public final class BotgramRpc {
      */
     private void clearSetSpecialContact() {
       if (outcomeCase_ == 138) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int E2EE_PUBLISH_DEVICE_FIELD_NUMBER = 139;
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EePublishDevice() {
+      return outcomeCase_ == 139;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo getE2EePublishDevice() {
+      if (outcomeCase_ == 139) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     */
+    private void setE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 139;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     */
+    private void mergeE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo value) {
+      value.getClass();
+  if (outcomeCase_ == 139 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 139;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+     */
+    private void clearE2EePublishDevice() {
+      if (outcomeCase_ == 139) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int E2EE_ACTION_FIELD_NUMBER = 140;
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeAction() {
+      return outcomeCase_ == 140;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getE2EeAction() {
+      if (outcomeCase_ == 140) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     */
+    private void setE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 140;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     */
+    private void mergeE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+      value.getClass();
+  if (outcomeCase_ == 140 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 140;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+     */
+    private void clearE2EeAction() {
+      if (outcomeCase_ == 140) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int E2EE_GET_STATUS_FIELD_NUMBER = 141;
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeGetStatus() {
+      return outcomeCase_ == 141;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getE2EeGetStatus() {
+      if (outcomeCase_ == 141) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     */
+    private void setE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 141;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     */
+    private void mergeE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+      value.getClass();
+  if (outcomeCase_ == 141 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 141;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+     */
+    private void clearE2EeGetStatus() {
+      if (outcomeCase_ == 141) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int E2EE_LIST_FIELD_NUMBER = 142;
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeList() {
+      return outcomeCase_ == 142;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getE2EeList() {
+      if (outcomeCase_ == 142) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     */
+    private void setE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 142;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     */
+    private void mergeE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+      value.getClass();
+  if (outcomeCase_ == 142 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 142;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+     */
+    private void clearE2EeList() {
+      if (outcomeCase_ == 142) {
+        outcomeCase_ = 0;
+        outcome_ = null;
+      }
+    }
+
+    public static final int E2EE_GET_PEER_BUNDLE_FIELD_NUMBER = 143;
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeGetPeerBundle() {
+      return outcomeCase_ == 143;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle getE2EeGetPeerBundle() {
+      if (outcomeCase_ == 143) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle) outcome_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     */
+    private void setE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle value) {
+      value.getClass();
+  outcome_ = value;
+      outcomeCase_ = 143;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     */
+    private void mergeE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle value) {
+      value.getClass();
+  if (outcomeCase_ == 143 &&
+          outcome_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.getDefaultInstance()) {
+        outcome_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle) outcome_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        outcome_ = value;
+      }
+      outcomeCase_ = 143;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+     */
+    private void clearE2EeGetPeerBundle() {
+      if (outcomeCase_ == 143) {
         outcomeCase_ = 0;
         outcome_ = null;
       }
@@ -10334,6 +11478,246 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EePublishDevice() {
+        return instance.hasE2EePublishDevice();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo getE2EePublishDevice() {
+        return instance.getE2EePublishDevice();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+       */
+      public Builder setE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo value) {
+        copyOnWrite();
+        instance.setE2EePublishDevice(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+       */
+      public Builder setE2EePublishDevice(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EePublishDevice(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+       */
+      public Builder mergeE2EePublishDevice(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo value) {
+        copyOnWrite();
+        instance.mergeE2EePublishDevice(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeDeviceInfo e2ee_publish_device = 139;</code>
+       */
+      public Builder clearE2EePublishDevice() {
+        copyOnWrite();
+        instance.clearE2EePublishDevice();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeAction() {
+        return instance.hasE2EeAction();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getE2EeAction() {
+        return instance.getE2EeAction();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+       */
+      public Builder setE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+        copyOnWrite();
+        instance.setE2EeAction(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+       */
+      public Builder setE2EeAction(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeAction(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+       */
+      public Builder mergeE2EeAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+        copyOnWrite();
+        instance.mergeE2EeAction(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatus e2ee_action = 140;</code>
+       */
+      public Builder clearE2EeAction() {
+        copyOnWrite();
+        instance.clearE2EeAction();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeGetStatus() {
+        return instance.hasE2EeGetStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getE2EeGetStatus() {
+        return instance.getE2EeGetStatus();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+       */
+      public Builder setE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+        copyOnWrite();
+        instance.setE2EeGetStatus(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+       */
+      public Builder setE2EeGetStatus(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeGetStatus(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+       */
+      public Builder mergeE2EeGetStatus(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+        copyOnWrite();
+        instance.mergeE2EeGetStatus(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_get_status = 141;</code>
+       */
+      public Builder clearE2EeGetStatus() {
+        copyOnWrite();
+        instance.clearE2EeGetStatus();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeList() {
+        return instance.hasE2EeList();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getE2EeList() {
+        return instance.getE2EeList();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+       */
+      public Builder setE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+        copyOnWrite();
+        instance.setE2EeList(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+       */
+      public Builder setE2EeList(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeList(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+       */
+      public Builder mergeE2EeList(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList value) {
+        copyOnWrite();
+        instance.mergeE2EeList(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeChatStatusList e2ee_list = 142;</code>
+       */
+      public Builder clearE2EeList() {
+        copyOnWrite();
+        instance.clearE2EeList();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeGetPeerBundle() {
+        return instance.hasE2EeGetPeerBundle();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle getE2EeGetPeerBundle() {
+        return instance.getE2EeGetPeerBundle();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder setE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle value) {
+        copyOnWrite();
+        instance.setE2EeGetPeerBundle(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder setE2EeGetPeerBundle(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeGetPeerBundle(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder mergeE2EeGetPeerBundle(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle value) {
+        copyOnWrite();
+        instance.mergeE2EeGetPeerBundle(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eePeerBundle e2ee_get_peer_bundle = 143;</code>
+       */
+      public Builder clearE2EeGetPeerBundle() {
+        copyOnWrite();
+        instance.clearE2EeGetPeerBundle();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.RpcResponse)
     }
     @java.lang.Override
@@ -10394,14 +11778,20 @@ public final class BotgramRpc {
               org.telegram.botgram.protocol.v1.BotgramRpc.DhConfig.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.SpecialContacts.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.class,
             };
             java.lang.String info =
-                "\u0000*\u0001\u0000\u0001\u008a*\u0000\u0000\u0000\u0001\u000b\u0002\u0208\n<\u0000" +
+                "\u0000/\u0001\u0000\u0001\u008f/\u0000\u0000\u0000\u0001\u000b\u0002\u0208\n<\u0000" +
                 "d<\u0000e<\u0000f<\u0000g<\u0000h<\u0000i<\u0000j<\u0000k<\u0000l<\u0000m<\u0000" +
                 "n<\u0000o<\u0000p<\u0000q<\u0000r<\u0000s<\u0000t<\u0000u<\u0000v<\u0000w<\u0000" +
                 "x<\u0000y<\u0000z<\u0000{<\u0000|<\u0000}<\u0000~<\u0000<\u0000\u0080<\u0000\u0081" +
                 "<\u0000\u0082<\u0000\u0083<\u0000\u0084<\u0000\u0085<\u0000\u0086<\u0000\u0087<\u0000" +
-                "\u0088<\u0000\u0089<\u0000\u008a<\u0000";
+                "\u0088<\u0000\u0089<\u0000\u008a<\u0000\u008b<\u0000\u008c<\u0000\u008d<\u0000\u008e" +
+                "<\u0000\u008f<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -36636,6 +38026,300 @@ public final class BotgramRpc {
     }
   }
 
+  public interface E2eeSystemActionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeSystemAction)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>string text = 1;</code>
+     * @return The text.
+     */
+    java.lang.String getText();
+    /**
+     * <code>string text = 1;</code>
+     * @return The bytes for text.
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeSystemAction}
+   */
+  public  static final class E2eeSystemAction extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeSystemAction, E2eeSystemAction.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeSystemAction)
+      E2eeSystemActionOrBuilder {
+    private E2eeSystemAction() {
+      text_ = "";
+    }
+    public static final int TEXT_FIELD_NUMBER = 1;
+    private java.lang.String text_;
+    /**
+     * <code>string text = 1;</code>
+     * @return The text.
+     */
+    @java.lang.Override
+    public java.lang.String getText() {
+      return text_;
+    }
+    /**
+     * <code>string text = 1;</code>
+     * @return The bytes for text.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(text_);
+    }
+    /**
+     * <code>string text = 1;</code>
+     * @param value The text to set.
+     */
+    private void setText(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      text_ = value;
+    }
+    /**
+     * <code>string text = 1;</code>
+     */
+    private void clearText() {
+
+      text_ = getDefaultInstance().getText();
+    }
+    /**
+     * <code>string text = 1;</code>
+     * @param value The bytes for text to set.
+     */
+    private void setTextBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      text_ = value.toStringUtf8();
+
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeSystemAction}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeSystemAction)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemActionOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>string text = 1;</code>
+       * @return The text.
+       */
+      @java.lang.Override
+      public java.lang.String getText() {
+        return instance.getText();
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @return The bytes for text.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTextBytes() {
+        return instance.getTextBytes();
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @param value The text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setText(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setText(value);
+        return this;
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearText() {
+        copyOnWrite();
+        instance.clearText();
+        return this;
+      }
+      /**
+       * <code>string text = 1;</code>
+       * @param value The bytes for text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setTextBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeSystemAction)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "text_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u0208";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeSystemAction)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction DEFAULT_INSTANCE;
+    static {
+      E2eeSystemAction defaultInstance = new E2eeSystemAction();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeSystemAction.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeSystemAction> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeSystemAction> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
   public interface ServiceMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.ServiceMessage)
       com.google.protobuf.MessageLiteOrBuilder {
@@ -36650,6 +38334,17 @@ public final class BotgramRpc {
      * @return The groupCreated.
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.GroupCreatedAction getGroupCreated();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     * @return Whether the e2eeSystem field is set.
+     */
+    boolean hasE2EeSystem();
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     * @return The e2eeSystem.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction getE2EeSystem();
 
     public org.telegram.botgram.protocol.v1.BotgramRpc.ServiceMessage.ActionCase getActionCase();
   }
@@ -36667,6 +38362,7 @@ public final class BotgramRpc {
     private java.lang.Object action_;
     public enum ActionCase {
       GROUP_CREATED(1),
+      E2EE_SYSTEM(2),
       ACTION_NOT_SET(0);
       private final int value;
       private ActionCase(int value) {
@@ -36683,6 +38379,7 @@ public final class BotgramRpc {
       public static ActionCase forNumber(int value) {
         switch (value) {
           case 1: return GROUP_CREATED;
+          case 2: return E2EE_SYSTEM;
           case 0: return ACTION_NOT_SET;
           default: return null;
         }
@@ -36749,6 +38446,56 @@ public final class BotgramRpc {
      */
     private void clearGroupCreated() {
       if (actionCase_ == 1) {
+        actionCase_ = 0;
+        action_ = null;
+      }
+    }
+
+    public static final int E2EE_SYSTEM_FIELD_NUMBER = 2;
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2EeSystem() {
+      return actionCase_ == 2;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction getE2EeSystem() {
+      if (actionCase_ == 2) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction) action_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     */
+    private void setE2EeSystem(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction value) {
+      value.getClass();
+  action_ = value;
+      actionCase_ = 2;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     */
+    private void mergeE2EeSystem(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction value) {
+      value.getClass();
+  if (actionCase_ == 2 &&
+          action_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.getDefaultInstance()) {
+        action_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction) action_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        action_ = value;
+      }
+      actionCase_ = 2;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+     */
+    private void clearE2EeSystem() {
+      if (actionCase_ == 2) {
         actionCase_ = 0;
         action_ = null;
       }
@@ -36911,6 +38658,54 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2EeSystem() {
+        return instance.hasE2EeSystem();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction getE2EeSystem() {
+        return instance.getE2EeSystem();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+       */
+      public Builder setE2EeSystem(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction value) {
+        copyOnWrite();
+        instance.setE2EeSystem(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+       */
+      public Builder setE2EeSystem(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2EeSystem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+       */
+      public Builder mergeE2EeSystem(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction value) {
+        copyOnWrite();
+        instance.mergeE2EeSystem(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeSystemAction e2ee_system = 2;</code>
+       */
+      public Builder clearE2EeSystem() {
+        copyOnWrite();
+        instance.clearE2EeSystem();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.ServiceMessage)
     }
     @java.lang.Override
@@ -36930,9 +38725,11 @@ public final class BotgramRpc {
               "action_",
               "actionCase_",
               org.telegram.botgram.protocol.v1.BotgramRpc.GroupCreatedAction.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeSystemAction.class,
             };
             java.lang.String info =
-                "\u0000\u0001\u0001\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001<\u0000";
+                "\u0000\u0002\u0001\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001<\u0000\u0002<" +
+                "\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -36983,6 +38780,1987 @@ public final class BotgramRpc {
     private static volatile com.google.protobuf.Parser<ServiceMessage> PARSER;
 
     public static com.google.protobuf.Parser<ServiceMessage> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeEnvelopeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeEnvelope)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     * @return The protocolVersion.
+     */
+    int getProtocolVersion();
+
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The conversationId.
+     */
+    java.lang.String getConversationId();
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The bytes for conversationId.
+     */
+    com.google.protobuf.ByteString
+        getConversationIdBytes();
+
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The senderUserId.
+     */
+    java.lang.String getSenderUserId();
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The bytes for senderUserId.
+     */
+    com.google.protobuf.ByteString
+        getSenderUserIdBytes();
+
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     * @return The senderDeviceId.
+     */
+    int getSenderDeviceId();
+
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The recipientUserId.
+     */
+    java.lang.String getRecipientUserId();
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The bytes for recipientUserId.
+     */
+    com.google.protobuf.ByteString
+        getRecipientUserIdBytes();
+
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     * @return The recipientDeviceId.
+     */
+    int getRecipientDeviceId();
+
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     * @return The keyEpoch.
+     */
+    long getKeyEpoch();
+
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     * @return The randomId.
+     */
+    long getRandomId();
+
+    /**
+     * <code>bytes ciphertext = 9;</code>
+     * @return The ciphertext.
+     */
+    com.google.protobuf.ByteString getCiphertext();
+
+    /**
+     * <pre>
+     * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+     * </pre>
+     *
+     * <code>uint32 message_type = 10;</code>
+     * @return The messageType.
+     */
+    int getMessageType();
+  }
+  /**
+   * <pre>
+   * Outer envelope visible to the server. The inner plaintext repeats the identity
+   * binding inside the libsignal ciphertext; see Botgram-E2EE.md.
+   * </pre>
+   *
+   * Protobuf type {@code botgram.rpc.v1.E2eeEnvelope}
+   */
+  public  static final class E2eeEnvelope extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeEnvelope, E2eeEnvelope.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeEnvelope)
+      E2eeEnvelopeOrBuilder {
+    private E2eeEnvelope() {
+      conversationId_ = "";
+      senderUserId_ = "";
+      recipientUserId_ = "";
+      ciphertext_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    public static final int PROTOCOL_VERSION_FIELD_NUMBER = 1;
+    private int protocolVersion_;
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     * @return The protocolVersion.
+     */
+    @java.lang.Override
+    public int getProtocolVersion() {
+      return protocolVersion_;
+    }
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     * @param value The protocolVersion to set.
+     */
+    private void setProtocolVersion(int value) {
+      
+      protocolVersion_ = value;
+    }
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     */
+    private void clearProtocolVersion() {
+
+      protocolVersion_ = 0;
+    }
+
+    public static final int CONVERSATION_ID_FIELD_NUMBER = 2;
+    private java.lang.String conversationId_;
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The conversationId.
+     */
+    @java.lang.Override
+    public java.lang.String getConversationId() {
+      return conversationId_;
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The bytes for conversationId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getConversationIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(conversationId_);
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @param value The conversationId to set.
+     */
+    private void setConversationId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      conversationId_ = value;
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     */
+    private void clearConversationId() {
+
+      conversationId_ = getDefaultInstance().getConversationId();
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @param value The bytes for conversationId to set.
+     */
+    private void setConversationIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      conversationId_ = value.toStringUtf8();
+
+    }
+
+    public static final int SENDER_USER_ID_FIELD_NUMBER = 3;
+    private java.lang.String senderUserId_;
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The senderUserId.
+     */
+    @java.lang.Override
+    public java.lang.String getSenderUserId() {
+      return senderUserId_;
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The bytes for senderUserId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSenderUserIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(senderUserId_);
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @param value The senderUserId to set.
+     */
+    private void setSenderUserId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      senderUserId_ = value;
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     */
+    private void clearSenderUserId() {
+
+      senderUserId_ = getDefaultInstance().getSenderUserId();
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @param value The bytes for senderUserId to set.
+     */
+    private void setSenderUserIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      senderUserId_ = value.toStringUtf8();
+
+    }
+
+    public static final int SENDER_DEVICE_ID_FIELD_NUMBER = 4;
+    private int senderDeviceId_;
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     * @return The senderDeviceId.
+     */
+    @java.lang.Override
+    public int getSenderDeviceId() {
+      return senderDeviceId_;
+    }
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     * @param value The senderDeviceId to set.
+     */
+    private void setSenderDeviceId(int value) {
+      
+      senderDeviceId_ = value;
+    }
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     */
+    private void clearSenderDeviceId() {
+
+      senderDeviceId_ = 0;
+    }
+
+    public static final int RECIPIENT_USER_ID_FIELD_NUMBER = 5;
+    private java.lang.String recipientUserId_;
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The recipientUserId.
+     */
+    @java.lang.Override
+    public java.lang.String getRecipientUserId() {
+      return recipientUserId_;
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The bytes for recipientUserId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRecipientUserIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(recipientUserId_);
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @param value The recipientUserId to set.
+     */
+    private void setRecipientUserId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      recipientUserId_ = value;
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     */
+    private void clearRecipientUserId() {
+
+      recipientUserId_ = getDefaultInstance().getRecipientUserId();
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @param value The bytes for recipientUserId to set.
+     */
+    private void setRecipientUserIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      recipientUserId_ = value.toStringUtf8();
+
+    }
+
+    public static final int RECIPIENT_DEVICE_ID_FIELD_NUMBER = 6;
+    private int recipientDeviceId_;
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     * @return The recipientDeviceId.
+     */
+    @java.lang.Override
+    public int getRecipientDeviceId() {
+      return recipientDeviceId_;
+    }
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     * @param value The recipientDeviceId to set.
+     */
+    private void setRecipientDeviceId(int value) {
+      
+      recipientDeviceId_ = value;
+    }
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     */
+    private void clearRecipientDeviceId() {
+
+      recipientDeviceId_ = 0;
+    }
+
+    public static final int KEY_EPOCH_FIELD_NUMBER = 7;
+    private long keyEpoch_;
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     * @return The keyEpoch.
+     */
+    @java.lang.Override
+    public long getKeyEpoch() {
+      return keyEpoch_;
+    }
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     * @param value The keyEpoch to set.
+     */
+    private void setKeyEpoch(long value) {
+      
+      keyEpoch_ = value;
+    }
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     */
+    private void clearKeyEpoch() {
+
+      keyEpoch_ = 0L;
+    }
+
+    public static final int RANDOM_ID_FIELD_NUMBER = 8;
+    private long randomId_;
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     * @return The randomId.
+     */
+    @java.lang.Override
+    public long getRandomId() {
+      return randomId_;
+    }
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     * @param value The randomId to set.
+     */
+    private void setRandomId(long value) {
+      
+      randomId_ = value;
+    }
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     */
+    private void clearRandomId() {
+
+      randomId_ = 0L;
+    }
+
+    public static final int CIPHERTEXT_FIELD_NUMBER = 9;
+    private com.google.protobuf.ByteString ciphertext_;
+    /**
+     * <code>bytes ciphertext = 9;</code>
+     * @return The ciphertext.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getCiphertext() {
+      return ciphertext_;
+    }
+    /**
+     * <code>bytes ciphertext = 9;</code>
+     * @param value The ciphertext to set.
+     */
+    private void setCiphertext(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      ciphertext_ = value;
+    }
+    /**
+     * <code>bytes ciphertext = 9;</code>
+     */
+    private void clearCiphertext() {
+
+      ciphertext_ = getDefaultInstance().getCiphertext();
+    }
+
+    public static final int MESSAGE_TYPE_FIELD_NUMBER = 10;
+    private int messageType_;
+    /**
+     * <pre>
+     * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+     * </pre>
+     *
+     * <code>uint32 message_type = 10;</code>
+     * @return The messageType.
+     */
+    @java.lang.Override
+    public int getMessageType() {
+      return messageType_;
+    }
+    /**
+     * <pre>
+     * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+     * </pre>
+     *
+     * <code>uint32 message_type = 10;</code>
+     * @param value The messageType to set.
+     */
+    private void setMessageType(int value) {
+      
+      messageType_ = value;
+    }
+    /**
+     * <pre>
+     * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+     * </pre>
+     *
+     * <code>uint32 message_type = 10;</code>
+     */
+    private void clearMessageType() {
+
+      messageType_ = 0;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * <pre>
+     * Outer envelope visible to the server. The inner plaintext repeats the identity
+     * binding inside the libsignal ciphertext; see Botgram-E2EE.md.
+     * </pre>
+     *
+     * Protobuf type {@code botgram.rpc.v1.E2eeEnvelope}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeEnvelope)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelopeOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>uint32 protocol_version = 1;</code>
+       * @return The protocolVersion.
+       */
+      @java.lang.Override
+      public int getProtocolVersion() {
+        return instance.getProtocolVersion();
+      }
+      /**
+       * <code>uint32 protocol_version = 1;</code>
+       * @param value The protocolVersion to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProtocolVersion(int value) {
+        copyOnWrite();
+        instance.setProtocolVersion(value);
+        return this;
+      }
+      /**
+       * <code>uint32 protocol_version = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProtocolVersion() {
+        copyOnWrite();
+        instance.clearProtocolVersion();
+        return this;
+      }
+
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @return The conversationId.
+       */
+      @java.lang.Override
+      public java.lang.String getConversationId() {
+        return instance.getConversationId();
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @return The bytes for conversationId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getConversationIdBytes() {
+        return instance.getConversationIdBytes();
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @param value The conversationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConversationId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setConversationId(value);
+        return this;
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearConversationId() {
+        copyOnWrite();
+        instance.clearConversationId();
+        return this;
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @param value The bytes for conversationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConversationIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setConversationIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @return The senderUserId.
+       */
+      @java.lang.Override
+      public java.lang.String getSenderUserId() {
+        return instance.getSenderUserId();
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @return The bytes for senderUserId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getSenderUserIdBytes() {
+        return instance.getSenderUserIdBytes();
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @param value The senderUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderUserId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setSenderUserId(value);
+        return this;
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenderUserId() {
+        copyOnWrite();
+        instance.clearSenderUserId();
+        return this;
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @param value The bytes for senderUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSenderUserIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>uint32 sender_device_id = 4;</code>
+       * @return The senderDeviceId.
+       */
+      @java.lang.Override
+      public int getSenderDeviceId() {
+        return instance.getSenderDeviceId();
+      }
+      /**
+       * <code>uint32 sender_device_id = 4;</code>
+       * @param value The senderDeviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderDeviceId(int value) {
+        copyOnWrite();
+        instance.setSenderDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 sender_device_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenderDeviceId() {
+        copyOnWrite();
+        instance.clearSenderDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @return The recipientUserId.
+       */
+      @java.lang.Override
+      public java.lang.String getRecipientUserId() {
+        return instance.getRecipientUserId();
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @return The bytes for recipientUserId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getRecipientUserIdBytes() {
+        return instance.getRecipientUserIdBytes();
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @param value The recipientUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientUserId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setRecipientUserId(value);
+        return this;
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecipientUserId() {
+        copyOnWrite();
+        instance.clearRecipientUserId();
+        return this;
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @param value The bytes for recipientUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setRecipientUserIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>uint32 recipient_device_id = 6;</code>
+       * @return The recipientDeviceId.
+       */
+      @java.lang.Override
+      public int getRecipientDeviceId() {
+        return instance.getRecipientDeviceId();
+      }
+      /**
+       * <code>uint32 recipient_device_id = 6;</code>
+       * @param value The recipientDeviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientDeviceId(int value) {
+        copyOnWrite();
+        instance.setRecipientDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 recipient_device_id = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecipientDeviceId() {
+        copyOnWrite();
+        instance.clearRecipientDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>int64 key_epoch = 7;</code>
+       * @return The keyEpoch.
+       */
+      @java.lang.Override
+      public long getKeyEpoch() {
+        return instance.getKeyEpoch();
+      }
+      /**
+       * <code>int64 key_epoch = 7;</code>
+       * @param value The keyEpoch to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKeyEpoch(long value) {
+        copyOnWrite();
+        instance.setKeyEpoch(value);
+        return this;
+      }
+      /**
+       * <code>int64 key_epoch = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKeyEpoch() {
+        copyOnWrite();
+        instance.clearKeyEpoch();
+        return this;
+      }
+
+      /**
+       * <code>sfixed64 random_id = 8;</code>
+       * @return The randomId.
+       */
+      @java.lang.Override
+      public long getRandomId() {
+        return instance.getRandomId();
+      }
+      /**
+       * <code>sfixed64 random_id = 8;</code>
+       * @param value The randomId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRandomId(long value) {
+        copyOnWrite();
+        instance.setRandomId(value);
+        return this;
+      }
+      /**
+       * <code>sfixed64 random_id = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRandomId() {
+        copyOnWrite();
+        instance.clearRandomId();
+        return this;
+      }
+
+      /**
+       * <code>bytes ciphertext = 9;</code>
+       * @return The ciphertext.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getCiphertext() {
+        return instance.getCiphertext();
+      }
+      /**
+       * <code>bytes ciphertext = 9;</code>
+       * @param value The ciphertext to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCiphertext(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setCiphertext(value);
+        return this;
+      }
+      /**
+       * <code>bytes ciphertext = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCiphertext() {
+        copyOnWrite();
+        instance.clearCiphertext();
+        return this;
+      }
+
+      /**
+       * <pre>
+       * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+       * </pre>
+       *
+       * <code>uint32 message_type = 10;</code>
+       * @return The messageType.
+       */
+      @java.lang.Override
+      public int getMessageType() {
+        return instance.getMessageType();
+      }
+      /**
+       * <pre>
+       * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+       * </pre>
+       *
+       * <code>uint32 message_type = 10;</code>
+       * @param value The messageType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessageType(int value) {
+        copyOnWrite();
+        instance.setMessageType(value);
+        return this;
+      }
+      /**
+       * <pre>
+       * libsignal CiphertextMessage type: 2 = SignalMessage, 3 = PreKeySignalMessage.
+       * </pre>
+       *
+       * <code>uint32 message_type = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessageType() {
+        copyOnWrite();
+        instance.clearMessageType();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeEnvelope)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "protocolVersion_",
+              "conversationId_",
+              "senderUserId_",
+              "senderDeviceId_",
+              "recipientUserId_",
+              "recipientDeviceId_",
+              "keyEpoch_",
+              "randomId_",
+              "ciphertext_",
+              "messageType_",
+            };
+            java.lang.String info =
+                "\u0000\n\u0000\u0000\u0001\n\n\u0000\u0000\u0000\u0001\u000b\u0002\u0208\u0003\u0208" +
+                "\u0004\u000b\u0005\u0208\u0006\u000b\u0007\u0002\b\u000e\t\n\n\u000b";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeEnvelope)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope DEFAULT_INSTANCE;
+    static {
+      E2eeEnvelope defaultInstance = new E2eeEnvelope();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeEnvelope.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeEnvelope> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeEnvelope> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeInnerOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeInner)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     * @return The protocolVersion.
+     */
+    int getProtocolVersion();
+
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The conversationId.
+     */
+    java.lang.String getConversationId();
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The bytes for conversationId.
+     */
+    com.google.protobuf.ByteString
+        getConversationIdBytes();
+
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The senderUserId.
+     */
+    java.lang.String getSenderUserId();
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The bytes for senderUserId.
+     */
+    com.google.protobuf.ByteString
+        getSenderUserIdBytes();
+
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     * @return The senderDeviceId.
+     */
+    int getSenderDeviceId();
+
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The recipientUserId.
+     */
+    java.lang.String getRecipientUserId();
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The bytes for recipientUserId.
+     */
+    com.google.protobuf.ByteString
+        getRecipientUserIdBytes();
+
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     * @return The recipientDeviceId.
+     */
+    int getRecipientDeviceId();
+
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     * @return The keyEpoch.
+     */
+    long getKeyEpoch();
+
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     * @return The randomId.
+     */
+    long getRandomId();
+
+    /**
+     * <code>int64 timestamp_ms = 9;</code>
+     * @return The timestampMs.
+     */
+    long getTimestampMs();
+
+    /**
+     * <code>string text = 10;</code>
+     * @return The text.
+     */
+    java.lang.String getText();
+    /**
+     * <code>string text = 10;</code>
+     * @return The bytes for text.
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+  }
+  /**
+   * <pre>
+   * Encrypted by the sender's libsignal session. Never parsed or stored by the server.
+   * </pre>
+   *
+   * Protobuf type {@code botgram.rpc.v1.E2eeInner}
+   */
+  public  static final class E2eeInner extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeInner, E2eeInner.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeInner)
+      E2eeInnerOrBuilder {
+    private E2eeInner() {
+      conversationId_ = "";
+      senderUserId_ = "";
+      recipientUserId_ = "";
+      text_ = "";
+    }
+    public static final int PROTOCOL_VERSION_FIELD_NUMBER = 1;
+    private int protocolVersion_;
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     * @return The protocolVersion.
+     */
+    @java.lang.Override
+    public int getProtocolVersion() {
+      return protocolVersion_;
+    }
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     * @param value The protocolVersion to set.
+     */
+    private void setProtocolVersion(int value) {
+      
+      protocolVersion_ = value;
+    }
+    /**
+     * <code>uint32 protocol_version = 1;</code>
+     */
+    private void clearProtocolVersion() {
+
+      protocolVersion_ = 0;
+    }
+
+    public static final int CONVERSATION_ID_FIELD_NUMBER = 2;
+    private java.lang.String conversationId_;
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The conversationId.
+     */
+    @java.lang.Override
+    public java.lang.String getConversationId() {
+      return conversationId_;
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @return The bytes for conversationId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getConversationIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(conversationId_);
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @param value The conversationId to set.
+     */
+    private void setConversationId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      conversationId_ = value;
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     */
+    private void clearConversationId() {
+
+      conversationId_ = getDefaultInstance().getConversationId();
+    }
+    /**
+     * <code>string conversation_id = 2;</code>
+     * @param value The bytes for conversationId to set.
+     */
+    private void setConversationIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      conversationId_ = value.toStringUtf8();
+
+    }
+
+    public static final int SENDER_USER_ID_FIELD_NUMBER = 3;
+    private java.lang.String senderUserId_;
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The senderUserId.
+     */
+    @java.lang.Override
+    public java.lang.String getSenderUserId() {
+      return senderUserId_;
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @return The bytes for senderUserId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSenderUserIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(senderUserId_);
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @param value The senderUserId to set.
+     */
+    private void setSenderUserId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      senderUserId_ = value;
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     */
+    private void clearSenderUserId() {
+
+      senderUserId_ = getDefaultInstance().getSenderUserId();
+    }
+    /**
+     * <code>string sender_user_id = 3;</code>
+     * @param value The bytes for senderUserId to set.
+     */
+    private void setSenderUserIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      senderUserId_ = value.toStringUtf8();
+
+    }
+
+    public static final int SENDER_DEVICE_ID_FIELD_NUMBER = 4;
+    private int senderDeviceId_;
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     * @return The senderDeviceId.
+     */
+    @java.lang.Override
+    public int getSenderDeviceId() {
+      return senderDeviceId_;
+    }
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     * @param value The senderDeviceId to set.
+     */
+    private void setSenderDeviceId(int value) {
+      
+      senderDeviceId_ = value;
+    }
+    /**
+     * <code>uint32 sender_device_id = 4;</code>
+     */
+    private void clearSenderDeviceId() {
+
+      senderDeviceId_ = 0;
+    }
+
+    public static final int RECIPIENT_USER_ID_FIELD_NUMBER = 5;
+    private java.lang.String recipientUserId_;
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The recipientUserId.
+     */
+    @java.lang.Override
+    public java.lang.String getRecipientUserId() {
+      return recipientUserId_;
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @return The bytes for recipientUserId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRecipientUserIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(recipientUserId_);
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @param value The recipientUserId to set.
+     */
+    private void setRecipientUserId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      recipientUserId_ = value;
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     */
+    private void clearRecipientUserId() {
+
+      recipientUserId_ = getDefaultInstance().getRecipientUserId();
+    }
+    /**
+     * <code>string recipient_user_id = 5;</code>
+     * @param value The bytes for recipientUserId to set.
+     */
+    private void setRecipientUserIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      recipientUserId_ = value.toStringUtf8();
+
+    }
+
+    public static final int RECIPIENT_DEVICE_ID_FIELD_NUMBER = 6;
+    private int recipientDeviceId_;
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     * @return The recipientDeviceId.
+     */
+    @java.lang.Override
+    public int getRecipientDeviceId() {
+      return recipientDeviceId_;
+    }
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     * @param value The recipientDeviceId to set.
+     */
+    private void setRecipientDeviceId(int value) {
+      
+      recipientDeviceId_ = value;
+    }
+    /**
+     * <code>uint32 recipient_device_id = 6;</code>
+     */
+    private void clearRecipientDeviceId() {
+
+      recipientDeviceId_ = 0;
+    }
+
+    public static final int KEY_EPOCH_FIELD_NUMBER = 7;
+    private long keyEpoch_;
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     * @return The keyEpoch.
+     */
+    @java.lang.Override
+    public long getKeyEpoch() {
+      return keyEpoch_;
+    }
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     * @param value The keyEpoch to set.
+     */
+    private void setKeyEpoch(long value) {
+      
+      keyEpoch_ = value;
+    }
+    /**
+     * <code>int64 key_epoch = 7;</code>
+     */
+    private void clearKeyEpoch() {
+
+      keyEpoch_ = 0L;
+    }
+
+    public static final int RANDOM_ID_FIELD_NUMBER = 8;
+    private long randomId_;
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     * @return The randomId.
+     */
+    @java.lang.Override
+    public long getRandomId() {
+      return randomId_;
+    }
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     * @param value The randomId to set.
+     */
+    private void setRandomId(long value) {
+      
+      randomId_ = value;
+    }
+    /**
+     * <code>sfixed64 random_id = 8;</code>
+     */
+    private void clearRandomId() {
+
+      randomId_ = 0L;
+    }
+
+    public static final int TIMESTAMP_MS_FIELD_NUMBER = 9;
+    private long timestampMs_;
+    /**
+     * <code>int64 timestamp_ms = 9;</code>
+     * @return The timestampMs.
+     */
+    @java.lang.Override
+    public long getTimestampMs() {
+      return timestampMs_;
+    }
+    /**
+     * <code>int64 timestamp_ms = 9;</code>
+     * @param value The timestampMs to set.
+     */
+    private void setTimestampMs(long value) {
+      
+      timestampMs_ = value;
+    }
+    /**
+     * <code>int64 timestamp_ms = 9;</code>
+     */
+    private void clearTimestampMs() {
+
+      timestampMs_ = 0L;
+    }
+
+    public static final int TEXT_FIELD_NUMBER = 10;
+    private java.lang.String text_;
+    /**
+     * <code>string text = 10;</code>
+     * @return The text.
+     */
+    @java.lang.Override
+    public java.lang.String getText() {
+      return text_;
+    }
+    /**
+     * <code>string text = 10;</code>
+     * @return The bytes for text.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTextBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(text_);
+    }
+    /**
+     * <code>string text = 10;</code>
+     * @param value The text to set.
+     */
+    private void setText(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      text_ = value;
+    }
+    /**
+     * <code>string text = 10;</code>
+     */
+    private void clearText() {
+
+      text_ = getDefaultInstance().getText();
+    }
+    /**
+     * <code>string text = 10;</code>
+     * @param value The bytes for text to set.
+     */
+    private void setTextBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      text_ = value.toStringUtf8();
+
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * <pre>
+     * Encrypted by the sender's libsignal session. Never parsed or stored by the server.
+     * </pre>
+     *
+     * Protobuf type {@code botgram.rpc.v1.E2eeInner}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeInner)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInnerOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>uint32 protocol_version = 1;</code>
+       * @return The protocolVersion.
+       */
+      @java.lang.Override
+      public int getProtocolVersion() {
+        return instance.getProtocolVersion();
+      }
+      /**
+       * <code>uint32 protocol_version = 1;</code>
+       * @param value The protocolVersion to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProtocolVersion(int value) {
+        copyOnWrite();
+        instance.setProtocolVersion(value);
+        return this;
+      }
+      /**
+       * <code>uint32 protocol_version = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProtocolVersion() {
+        copyOnWrite();
+        instance.clearProtocolVersion();
+        return this;
+      }
+
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @return The conversationId.
+       */
+      @java.lang.Override
+      public java.lang.String getConversationId() {
+        return instance.getConversationId();
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @return The bytes for conversationId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getConversationIdBytes() {
+        return instance.getConversationIdBytes();
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @param value The conversationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConversationId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setConversationId(value);
+        return this;
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearConversationId() {
+        copyOnWrite();
+        instance.clearConversationId();
+        return this;
+      }
+      /**
+       * <code>string conversation_id = 2;</code>
+       * @param value The bytes for conversationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConversationIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setConversationIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @return The senderUserId.
+       */
+      @java.lang.Override
+      public java.lang.String getSenderUserId() {
+        return instance.getSenderUserId();
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @return The bytes for senderUserId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getSenderUserIdBytes() {
+        return instance.getSenderUserIdBytes();
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @param value The senderUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderUserId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setSenderUserId(value);
+        return this;
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenderUserId() {
+        copyOnWrite();
+        instance.clearSenderUserId();
+        return this;
+      }
+      /**
+       * <code>string sender_user_id = 3;</code>
+       * @param value The bytes for senderUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSenderUserIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>uint32 sender_device_id = 4;</code>
+       * @return The senderDeviceId.
+       */
+      @java.lang.Override
+      public int getSenderDeviceId() {
+        return instance.getSenderDeviceId();
+      }
+      /**
+       * <code>uint32 sender_device_id = 4;</code>
+       * @param value The senderDeviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderDeviceId(int value) {
+        copyOnWrite();
+        instance.setSenderDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 sender_device_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenderDeviceId() {
+        copyOnWrite();
+        instance.clearSenderDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @return The recipientUserId.
+       */
+      @java.lang.Override
+      public java.lang.String getRecipientUserId() {
+        return instance.getRecipientUserId();
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @return The bytes for recipientUserId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getRecipientUserIdBytes() {
+        return instance.getRecipientUserIdBytes();
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @param value The recipientUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientUserId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setRecipientUserId(value);
+        return this;
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecipientUserId() {
+        copyOnWrite();
+        instance.clearRecipientUserId();
+        return this;
+      }
+      /**
+       * <code>string recipient_user_id = 5;</code>
+       * @param value The bytes for recipientUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setRecipientUserIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>uint32 recipient_device_id = 6;</code>
+       * @return The recipientDeviceId.
+       */
+      @java.lang.Override
+      public int getRecipientDeviceId() {
+        return instance.getRecipientDeviceId();
+      }
+      /**
+       * <code>uint32 recipient_device_id = 6;</code>
+       * @param value The recipientDeviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecipientDeviceId(int value) {
+        copyOnWrite();
+        instance.setRecipientDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 recipient_device_id = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecipientDeviceId() {
+        copyOnWrite();
+        instance.clearRecipientDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>int64 key_epoch = 7;</code>
+       * @return The keyEpoch.
+       */
+      @java.lang.Override
+      public long getKeyEpoch() {
+        return instance.getKeyEpoch();
+      }
+      /**
+       * <code>int64 key_epoch = 7;</code>
+       * @param value The keyEpoch to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKeyEpoch(long value) {
+        copyOnWrite();
+        instance.setKeyEpoch(value);
+        return this;
+      }
+      /**
+       * <code>int64 key_epoch = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKeyEpoch() {
+        copyOnWrite();
+        instance.clearKeyEpoch();
+        return this;
+      }
+
+      /**
+       * <code>sfixed64 random_id = 8;</code>
+       * @return The randomId.
+       */
+      @java.lang.Override
+      public long getRandomId() {
+        return instance.getRandomId();
+      }
+      /**
+       * <code>sfixed64 random_id = 8;</code>
+       * @param value The randomId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRandomId(long value) {
+        copyOnWrite();
+        instance.setRandomId(value);
+        return this;
+      }
+      /**
+       * <code>sfixed64 random_id = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRandomId() {
+        copyOnWrite();
+        instance.clearRandomId();
+        return this;
+      }
+
+      /**
+       * <code>int64 timestamp_ms = 9;</code>
+       * @return The timestampMs.
+       */
+      @java.lang.Override
+      public long getTimestampMs() {
+        return instance.getTimestampMs();
+      }
+      /**
+       * <code>int64 timestamp_ms = 9;</code>
+       * @param value The timestampMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTimestampMs(long value) {
+        copyOnWrite();
+        instance.setTimestampMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 timestamp_ms = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTimestampMs() {
+        copyOnWrite();
+        instance.clearTimestampMs();
+        return this;
+      }
+
+      /**
+       * <code>string text = 10;</code>
+       * @return The text.
+       */
+      @java.lang.Override
+      public java.lang.String getText() {
+        return instance.getText();
+      }
+      /**
+       * <code>string text = 10;</code>
+       * @return The bytes for text.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTextBytes() {
+        return instance.getTextBytes();
+      }
+      /**
+       * <code>string text = 10;</code>
+       * @param value The text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setText(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setText(value);
+        return this;
+      }
+      /**
+       * <code>string text = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearText() {
+        copyOnWrite();
+        instance.clearText();
+        return this;
+      }
+      /**
+       * <code>string text = 10;</code>
+       * @param value The bytes for text to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTextBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setTextBytes(value);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeInner)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "protocolVersion_",
+              "conversationId_",
+              "senderUserId_",
+              "senderDeviceId_",
+              "recipientUserId_",
+              "recipientDeviceId_",
+              "keyEpoch_",
+              "randomId_",
+              "timestampMs_",
+              "text_",
+            };
+            java.lang.String info =
+                "\u0000\n\u0000\u0000\u0001\n\n\u0000\u0000\u0000\u0001\u000b\u0002\u0208\u0003\u0208" +
+                "\u0004\u000b\u0005\u0208\u0006\u000b\u0007\u0002\b\u000e\t\u0002\n\u0208";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeInner)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner DEFAULT_INSTANCE;
+    static {
+      E2eeInner defaultInstance = new E2eeInner();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeInner.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeInner getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeInner> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeInner> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }
@@ -37059,6 +40837,17 @@ public final class BotgramRpc {
      */
     org.telegram.botgram.protocol.v1.BotgramRpc.ServiceMessage getService();
 
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     * @return Whether the e2ee field is set.
+     */
+    boolean hasE2Ee();
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     * @return The e2ee.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getE2Ee();
+
     public org.telegram.botgram.protocol.v1.BotgramRpc.Message.BodyCase getBodyCase();
   }
   /**
@@ -37077,6 +40866,7 @@ public final class BotgramRpc {
     public enum BodyCase {
       TEXT(10),
       SERVICE(11),
+      E2EE(12),
       BODY_NOT_SET(0);
       private final int value;
       private BodyCase(int value) {
@@ -37094,6 +40884,7 @@ public final class BotgramRpc {
         switch (value) {
           case 10: return TEXT;
           case 11: return SERVICE;
+          case 12: return E2EE;
           case 0: return BODY_NOT_SET;
           default: return null;
         }
@@ -37406,6 +41197,56 @@ public final class BotgramRpc {
      */
     private void clearService() {
       if (bodyCase_ == 11) {
+        bodyCase_ = 0;
+        body_ = null;
+      }
+    }
+
+    public static final int E2EE_FIELD_NUMBER = 12;
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2Ee() {
+      return bodyCase_ == 12;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getE2Ee() {
+      if (bodyCase_ == 12) {
+         return (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope) body_;
+      }
+      return org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.getDefaultInstance();
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     */
+    private void setE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+      value.getClass();
+  body_ = value;
+      bodyCase_ = 12;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     */
+    private void mergeE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+      value.getClass();
+  if (bodyCase_ == 12 &&
+          body_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.getDefaultInstance()) {
+        body_ = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.newBuilder((org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope) body_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        body_ = value;
+      }
+      bodyCase_ = 12;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+     */
+    private void clearE2Ee() {
+      if (bodyCase_ == 12) {
         bodyCase_ = 0;
         body_ = null;
       }
@@ -37822,6 +41663,54 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2Ee() {
+        return instance.hasE2Ee();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getE2Ee() {
+        return instance.getE2Ee();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+       */
+      public Builder setE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+        copyOnWrite();
+        instance.setE2Ee(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+       */
+      public Builder setE2Ee(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2Ee(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+       */
+      public Builder mergeE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+        copyOnWrite();
+        instance.mergeE2Ee(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeEnvelope e2ee = 12;</code>
+       */
+      public Builder clearE2Ee() {
+        copyOnWrite();
+        instance.clearE2Ee();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.Message)
     }
     @java.lang.Override
@@ -37849,10 +41738,11 @@ public final class BotgramRpc {
               "unread_",
               org.telegram.botgram.protocol.v1.BotgramRpc.TextMessage.class,
               org.telegram.botgram.protocol.v1.BotgramRpc.ServiceMessage.class,
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.class,
             };
             java.lang.String info =
-                "\u0000\b\u0001\u0001\u0001\u000b\b\u0000\u0000\u0000\u0001\u0002\u0002\u1009\u0000" +
-                "\u0003\u1009\u0001\u0004\u0002\u0005\u0007\u0006\u0007\n<\u0000\u000b<\u0000";
+                "\u0000\t\u0001\u0001\u0001\f\t\u0000\u0000\u0000\u0001\u0002\u0002\u1009\u0000\u0003" +
+                "\u1009\u0001\u0004\u0002\u0005\u0007\u0006\u0007\n<\u0000\u000b<\u0000\f<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -61772,6 +65662,25 @@ public final class BotgramRpc {
      * @return The silent.
      */
     boolean getSilent();
+
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     * @return Whether the e2ee field is set.
+     */
+    boolean hasE2Ee();
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     * @return The e2ee.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getE2Ee();
   }
   /**
    * Protobuf type {@code botgram.rpc.v1.SendMessageRequest}
@@ -62057,6 +65966,72 @@ public final class BotgramRpc {
     private void clearSilent() {
 
       silent_ = false;
+    }
+
+    public static final int E2EE_FIELD_NUMBER = 7;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope e2Ee_;
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     */
+    @java.lang.Override
+    public boolean hasE2Ee() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getE2Ee() {
+      return e2Ee_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.getDefaultInstance() : e2Ee_;
+    }
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     */
+    private void setE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+      value.getClass();
+  e2Ee_ = value;
+      bitField0_ |= 0x00000004;
+      }
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+      value.getClass();
+  if (e2Ee_ != null &&
+          e2Ee_ != org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.getDefaultInstance()) {
+        e2Ee_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.newBuilder(e2Ee_).mergeFrom(value).buildPartial();
+      } else {
+        e2Ee_ = value;
+      }
+      bitField0_ |= 0x00000004;
+    }
+    /**
+     * <pre>
+     * Present only for an active/closing encrypted chat. text and entities must be empty.
+     * </pre>
+     *
+     * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+     */
+    private void clearE2Ee() {  e2Ee_ = null;
+      bitField0_ = (bitField0_ & ~0x00000004);
     }
 
     public static org.telegram.botgram.protocol.v1.BotgramRpc.SendMessageRequest parseFrom(
@@ -62446,6 +66421,77 @@ public final class BotgramRpc {
         return this;
       }
 
+      /**
+       * <pre>
+       * Present only for an active/closing encrypted chat. text and entities must be empty.
+       * </pre>
+       *
+       * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+       */
+      @java.lang.Override
+      public boolean hasE2Ee() {
+        return instance.hasE2Ee();
+      }
+      /**
+       * <pre>
+       * Present only for an active/closing encrypted chat. text and entities must be empty.
+       * </pre>
+       *
+       * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope getE2Ee() {
+        return instance.getE2Ee();
+      }
+      /**
+       * <pre>
+       * Present only for an active/closing encrypted chat. text and entities must be empty.
+       * </pre>
+       *
+       * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+       */
+      public Builder setE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+        copyOnWrite();
+        instance.setE2Ee(value);
+        return this;
+        }
+      /**
+       * <pre>
+       * Present only for an active/closing encrypted chat. text and entities must be empty.
+       * </pre>
+       *
+       * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+       */
+      public Builder setE2Ee(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope.Builder builderForValue) {
+        copyOnWrite();
+        instance.setE2Ee(builderForValue.build());
+        return this;
+      }
+      /**
+       * <pre>
+       * Present only for an active/closing encrypted chat. text and entities must be empty.
+       * </pre>
+       *
+       * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+       */
+      public Builder mergeE2Ee(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeEnvelope value) {
+        copyOnWrite();
+        instance.mergeE2Ee(value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Present only for an active/closing encrypted chat. text and entities must be empty.
+       * </pre>
+       *
+       * <code>optional .botgram.rpc.v1.E2eeEnvelope e2ee = 7;</code>
+       */
+      public Builder clearE2Ee() {  copyOnWrite();
+        instance.clearE2Ee();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.SendMessageRequest)
     }
     @java.lang.Override
@@ -62470,10 +66516,11 @@ public final class BotgramRpc {
               org.telegram.botgram.protocol.v1.BotgramRpc.MessageEntity.class,
               "replyToMessageId_",
               "silent_",
+              "e2Ee_",
             };
             java.lang.String info =
-                "\u0000\u0006\u0000\u0001\u0001\u0006\u0006\u0000\u0001\u0000\u0001\u1009\u0000\u0002" +
-                "\u000e\u0003\u0208\u0004\u001b\u0005\u1002\u0001\u0006\u0007";
+                "\u0000\u0007\u0000\u0001\u0001\u0007\u0007\u0000\u0001\u0000\u0001\u1009\u0000\u0002" +
+                "\u000e\u0003\u0208\u0004\u001b\u0005\u1002\u0001\u0006\u0007\u0007\u1009\u0002";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -62524,6 +66571,6613 @@ public final class BotgramRpc {
     private static volatile com.google.protobuf.Parser<SendMessageRequest> PARSER;
 
     public static com.google.protobuf.Parser<SendMessageRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeOneTimePreKeyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeOneTimePreKey)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 key_id = 1;</code>
+     * @return The keyId.
+     */
+    int getKeyId();
+
+    /**
+     * <code>bytes public_key = 2;</code>
+     * @return The publicKey.
+     */
+    com.google.protobuf.ByteString getPublicKey();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeOneTimePreKey}
+   */
+  public  static final class E2eeOneTimePreKey extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeOneTimePreKey, E2eeOneTimePreKey.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeOneTimePreKey)
+      E2eeOneTimePreKeyOrBuilder {
+    private E2eeOneTimePreKey() {
+      publicKey_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    public static final int KEY_ID_FIELD_NUMBER = 1;
+    private int keyId_;
+    /**
+     * <code>int32 key_id = 1;</code>
+     * @return The keyId.
+     */
+    @java.lang.Override
+    public int getKeyId() {
+      return keyId_;
+    }
+    /**
+     * <code>int32 key_id = 1;</code>
+     * @param value The keyId to set.
+     */
+    private void setKeyId(int value) {
+      
+      keyId_ = value;
+    }
+    /**
+     * <code>int32 key_id = 1;</code>
+     */
+    private void clearKeyId() {
+
+      keyId_ = 0;
+    }
+
+    public static final int PUBLIC_KEY_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString publicKey_;
+    /**
+     * <code>bytes public_key = 2;</code>
+     * @return The publicKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPublicKey() {
+      return publicKey_;
+    }
+    /**
+     * <code>bytes public_key = 2;</code>
+     * @param value The publicKey to set.
+     */
+    private void setPublicKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      publicKey_ = value;
+    }
+    /**
+     * <code>bytes public_key = 2;</code>
+     */
+    private void clearPublicKey() {
+
+      publicKey_ = getDefaultInstance().getPublicKey();
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeOneTimePreKey}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeOneTimePreKey)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKeyOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 key_id = 1;</code>
+       * @return The keyId.
+       */
+      @java.lang.Override
+      public int getKeyId() {
+        return instance.getKeyId();
+      }
+      /**
+       * <code>int32 key_id = 1;</code>
+       * @param value The keyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKeyId(int value) {
+        copyOnWrite();
+        instance.setKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 key_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKeyId() {
+        copyOnWrite();
+        instance.clearKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes public_key = 2;</code>
+       * @return The publicKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getPublicKey() {
+        return instance.getPublicKey();
+      }
+      /**
+       * <code>bytes public_key = 2;</code>
+       * @param value The publicKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPublicKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setPublicKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes public_key = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPublicKey() {
+        copyOnWrite();
+        instance.clearPublicKey();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeOneTimePreKey)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "keyId_",
+              "publicKey_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u0004\u0002\n" +
+                "";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeOneTimePreKey)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey DEFAULT_INSTANCE;
+    static {
+      E2eeOneTimePreKey defaultInstance = new E2eeOneTimePreKey();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeOneTimePreKey.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeOneTimePreKey> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeOneTimePreKey> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eePublishDeviceRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eePublishDeviceRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @return The deviceId.
+     */
+    int getDeviceId();
+
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @return The registrationId.
+     */
+    int getRegistrationId();
+
+    /**
+     * <code>bytes identity_key = 3;</code>
+     * @return The identityKey.
+     */
+    com.google.protobuf.ByteString getIdentityKey();
+
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     * @return The signedPreKeyId.
+     */
+    int getSignedPreKeyId();
+
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     * @return The signedPreKey.
+     */
+    com.google.protobuf.ByteString getSignedPreKey();
+
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     * @return The signedPreKeySignature.
+     */
+    com.google.protobuf.ByteString getSignedPreKeySignature();
+
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     * @return The kyberPreKeyId.
+     */
+    int getKyberPreKeyId();
+
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     * @return The kyberPreKey.
+     */
+    com.google.protobuf.ByteString getKyberPreKey();
+
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     * @return The kyberPreKeySignature.
+     */
+    com.google.protobuf.ByteString getKyberPreKeySignature();
+
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> 
+        getOneTimePreKeysList();
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey getOneTimePreKeys(int index);
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    int getOneTimePreKeysCount();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eePublishDeviceRequest}
+   */
+  public  static final class E2eePublishDeviceRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eePublishDeviceRequest, E2eePublishDeviceRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eePublishDeviceRequest)
+      E2eePublishDeviceRequestOrBuilder {
+    private E2eePublishDeviceRequest() {
+      identityKey_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKey_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
+      kyberPreKey_ = com.google.protobuf.ByteString.EMPTY;
+      kyberPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
+      oneTimePreKeys_ = emptyProtobufList();
+    }
+    public static final int DEVICE_ID_FIELD_NUMBER = 1;
+    private int deviceId_;
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @return The deviceId.
+     */
+    @java.lang.Override
+    public int getDeviceId() {
+      return deviceId_;
+    }
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @param value The deviceId to set.
+     */
+    private void setDeviceId(int value) {
+      
+      deviceId_ = value;
+    }
+    /**
+     * <code>uint32 device_id = 1;</code>
+     */
+    private void clearDeviceId() {
+
+      deviceId_ = 0;
+    }
+
+    public static final int REGISTRATION_ID_FIELD_NUMBER = 2;
+    private int registrationId_;
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @return The registrationId.
+     */
+    @java.lang.Override
+    public int getRegistrationId() {
+      return registrationId_;
+    }
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @param value The registrationId to set.
+     */
+    private void setRegistrationId(int value) {
+      
+      registrationId_ = value;
+    }
+    /**
+     * <code>int32 registration_id = 2;</code>
+     */
+    private void clearRegistrationId() {
+
+      registrationId_ = 0;
+    }
+
+    public static final int IDENTITY_KEY_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString identityKey_;
+    /**
+     * <code>bytes identity_key = 3;</code>
+     * @return The identityKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getIdentityKey() {
+      return identityKey_;
+    }
+    /**
+     * <code>bytes identity_key = 3;</code>
+     * @param value The identityKey to set.
+     */
+    private void setIdentityKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      identityKey_ = value;
+    }
+    /**
+     * <code>bytes identity_key = 3;</code>
+     */
+    private void clearIdentityKey() {
+
+      identityKey_ = getDefaultInstance().getIdentityKey();
+    }
+
+    public static final int SIGNED_PRE_KEY_ID_FIELD_NUMBER = 4;
+    private int signedPreKeyId_;
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     * @return The signedPreKeyId.
+     */
+    @java.lang.Override
+    public int getSignedPreKeyId() {
+      return signedPreKeyId_;
+    }
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     * @param value The signedPreKeyId to set.
+     */
+    private void setSignedPreKeyId(int value) {
+      
+      signedPreKeyId_ = value;
+    }
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     */
+    private void clearSignedPreKeyId() {
+
+      signedPreKeyId_ = 0;
+    }
+
+    public static final int SIGNED_PRE_KEY_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString signedPreKey_;
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     * @return The signedPreKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSignedPreKey() {
+      return signedPreKey_;
+    }
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     * @param value The signedPreKey to set.
+     */
+    private void setSignedPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      signedPreKey_ = value;
+    }
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     */
+    private void clearSignedPreKey() {
+
+      signedPreKey_ = getDefaultInstance().getSignedPreKey();
+    }
+
+    public static final int SIGNED_PRE_KEY_SIGNATURE_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString signedPreKeySignature_;
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     * @return The signedPreKeySignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSignedPreKeySignature() {
+      return signedPreKeySignature_;
+    }
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     * @param value The signedPreKeySignature to set.
+     */
+    private void setSignedPreKeySignature(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      signedPreKeySignature_ = value;
+    }
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     */
+    private void clearSignedPreKeySignature() {
+
+      signedPreKeySignature_ = getDefaultInstance().getSignedPreKeySignature();
+    }
+
+    public static final int KYBER_PRE_KEY_ID_FIELD_NUMBER = 7;
+    private int kyberPreKeyId_;
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     * @return The kyberPreKeyId.
+     */
+    @java.lang.Override
+    public int getKyberPreKeyId() {
+      return kyberPreKeyId_;
+    }
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     * @param value The kyberPreKeyId to set.
+     */
+    private void setKyberPreKeyId(int value) {
+      
+      kyberPreKeyId_ = value;
+    }
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     */
+    private void clearKyberPreKeyId() {
+
+      kyberPreKeyId_ = 0;
+    }
+
+    public static final int KYBER_PRE_KEY_FIELD_NUMBER = 8;
+    private com.google.protobuf.ByteString kyberPreKey_;
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     * @return The kyberPreKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKyberPreKey() {
+      return kyberPreKey_;
+    }
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     * @param value The kyberPreKey to set.
+     */
+    private void setKyberPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      kyberPreKey_ = value;
+    }
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     */
+    private void clearKyberPreKey() {
+
+      kyberPreKey_ = getDefaultInstance().getKyberPreKey();
+    }
+
+    public static final int KYBER_PRE_KEY_SIGNATURE_FIELD_NUMBER = 9;
+    private com.google.protobuf.ByteString kyberPreKeySignature_;
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     * @return The kyberPreKeySignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKyberPreKeySignature() {
+      return kyberPreKeySignature_;
+    }
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     * @param value The kyberPreKeySignature to set.
+     */
+    private void setKyberPreKeySignature(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      kyberPreKeySignature_ = value;
+    }
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     */
+    private void clearKyberPreKeySignature() {
+
+      kyberPreKeySignature_ = getDefaultInstance().getKyberPreKeySignature();
+    }
+
+    public static final int ONE_TIME_PRE_KEYS_FIELD_NUMBER = 10;
+    private com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> oneTimePreKeys_;
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> getOneTimePreKeysList() {
+      return oneTimePreKeys_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    public java.util.List<? extends org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKeyOrBuilder> 
+        getOneTimePreKeysOrBuilderList() {
+      return oneTimePreKeys_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    @java.lang.Override
+    public int getOneTimePreKeysCount() {
+      return oneTimePreKeys_.size();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey getOneTimePreKeys(int index) {
+      return oneTimePreKeys_.get(index);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKeyOrBuilder getOneTimePreKeysOrBuilder(
+        int index) {
+      return oneTimePreKeys_.get(index);
+    }
+    private void ensureOneTimePreKeysIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> tmp = oneTimePreKeys_;
+      if (!tmp.isModifiable()) {
+        oneTimePreKeys_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    private void setOneTimePreKeys(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey value) {
+      value.getClass();
+  ensureOneTimePreKeysIsMutable();
+      oneTimePreKeys_.set(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    private void addOneTimePreKeys(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey value) {
+      value.getClass();
+  ensureOneTimePreKeysIsMutable();
+      oneTimePreKeys_.add(value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    private void addOneTimePreKeys(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey value) {
+      value.getClass();
+  ensureOneTimePreKeysIsMutable();
+      oneTimePreKeys_.add(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    private void addAllOneTimePreKeys(
+        java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> values) {
+      ensureOneTimePreKeysIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, oneTimePreKeys_);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    private void clearOneTimePreKeys() {
+      oneTimePreKeys_ = emptyProtobufList();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+     */
+    private void removeOneTimePreKeys(int index) {
+      ensureOneTimePreKeysIsMutable();
+      oneTimePreKeys_.remove(index);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eePublishDeviceRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eePublishDeviceRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @return The deviceId.
+       */
+      @java.lang.Override
+      public int getDeviceId() {
+        return instance.getDeviceId();
+      }
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeviceId(int value) {
+        copyOnWrite();
+        instance.setDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeviceId() {
+        copyOnWrite();
+        instance.clearDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @return The registrationId.
+       */
+      @java.lang.Override
+      public int getRegistrationId() {
+        return instance.getRegistrationId();
+      }
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @param value The registrationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRegistrationId(int value) {
+        copyOnWrite();
+        instance.setRegistrationId(value);
+        return this;
+      }
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRegistrationId() {
+        copyOnWrite();
+        instance.clearRegistrationId();
+        return this;
+      }
+
+      /**
+       * <code>bytes identity_key = 3;</code>
+       * @return The identityKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getIdentityKey() {
+        return instance.getIdentityKey();
+      }
+      /**
+       * <code>bytes identity_key = 3;</code>
+       * @param value The identityKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdentityKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setIdentityKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes identity_key = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIdentityKey() {
+        copyOnWrite();
+        instance.clearIdentityKey();
+        return this;
+      }
+
+      /**
+       * <code>int32 signed_pre_key_id = 4;</code>
+       * @return The signedPreKeyId.
+       */
+      @java.lang.Override
+      public int getSignedPreKeyId() {
+        return instance.getSignedPreKeyId();
+      }
+      /**
+       * <code>int32 signed_pre_key_id = 4;</code>
+       * @param value The signedPreKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKeyId(int value) {
+        copyOnWrite();
+        instance.setSignedPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 signed_pre_key_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKeyId() {
+        copyOnWrite();
+        instance.clearSignedPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes signed_pre_key = 5;</code>
+       * @return The signedPreKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSignedPreKey() {
+        return instance.getSignedPreKey();
+      }
+      /**
+       * <code>bytes signed_pre_key = 5;</code>
+       * @param value The signedPreKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSignedPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes signed_pre_key = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKey() {
+        copyOnWrite();
+        instance.clearSignedPreKey();
+        return this;
+      }
+
+      /**
+       * <code>bytes signed_pre_key_signature = 6;</code>
+       * @return The signedPreKeySignature.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSignedPreKeySignature() {
+        return instance.getSignedPreKeySignature();
+      }
+      /**
+       * <code>bytes signed_pre_key_signature = 6;</code>
+       * @param value The signedPreKeySignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKeySignature(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSignedPreKeySignature(value);
+        return this;
+      }
+      /**
+       * <code>bytes signed_pre_key_signature = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKeySignature() {
+        copyOnWrite();
+        instance.clearSignedPreKeySignature();
+        return this;
+      }
+
+      /**
+       * <code>int32 kyber_pre_key_id = 7;</code>
+       * @return The kyberPreKeyId.
+       */
+      @java.lang.Override
+      public int getKyberPreKeyId() {
+        return instance.getKyberPreKeyId();
+      }
+      /**
+       * <code>int32 kyber_pre_key_id = 7;</code>
+       * @param value The kyberPreKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKeyId(int value) {
+        copyOnWrite();
+        instance.setKyberPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 kyber_pre_key_id = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKeyId() {
+        copyOnWrite();
+        instance.clearKyberPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes kyber_pre_key = 8;</code>
+       * @return The kyberPreKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKyberPreKey() {
+        return instance.getKyberPreKey();
+      }
+      /**
+       * <code>bytes kyber_pre_key = 8;</code>
+       * @param value The kyberPreKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setKyberPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes kyber_pre_key = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKey() {
+        copyOnWrite();
+        instance.clearKyberPreKey();
+        return this;
+      }
+
+      /**
+       * <code>bytes kyber_pre_key_signature = 9;</code>
+       * @return The kyberPreKeySignature.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKyberPreKeySignature() {
+        return instance.getKyberPreKeySignature();
+      }
+      /**
+       * <code>bytes kyber_pre_key_signature = 9;</code>
+       * @param value The kyberPreKeySignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKeySignature(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setKyberPreKeySignature(value);
+        return this;
+      }
+      /**
+       * <code>bytes kyber_pre_key_signature = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKeySignature() {
+        copyOnWrite();
+        instance.clearKyberPreKeySignature();
+        return this;
+      }
+
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      @java.lang.Override
+      public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> getOneTimePreKeysList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getOneTimePreKeysList());
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      @java.lang.Override
+      public int getOneTimePreKeysCount() {
+        return instance.getOneTimePreKeysCount();
+      }/**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey getOneTimePreKeys(int index) {
+        return instance.getOneTimePreKeys(index);
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder setOneTimePreKeys(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey value) {
+        copyOnWrite();
+        instance.setOneTimePreKeys(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder setOneTimePreKeys(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey.Builder builderForValue) {
+        copyOnWrite();
+        instance.setOneTimePreKeys(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder addOneTimePreKeys(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey value) {
+        copyOnWrite();
+        instance.addOneTimePreKeys(value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder addOneTimePreKeys(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey value) {
+        copyOnWrite();
+        instance.addOneTimePreKeys(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder addOneTimePreKeys(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey.Builder builderForValue) {
+        copyOnWrite();
+        instance.addOneTimePreKeys(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder addOneTimePreKeys(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey.Builder builderForValue) {
+        copyOnWrite();
+        instance.addOneTimePreKeys(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder addAllOneTimePreKeys(
+          java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey> values) {
+        copyOnWrite();
+        instance.addAllOneTimePreKeys(values);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder clearOneTimePreKeys() {
+        copyOnWrite();
+        instance.clearOneTimePreKeys();
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeOneTimePreKey one_time_pre_keys = 10;</code>
+       */
+      public Builder removeOneTimePreKeys(int index) {
+        copyOnWrite();
+        instance.removeOneTimePreKeys(index);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eePublishDeviceRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "deviceId_",
+              "registrationId_",
+              "identityKey_",
+              "signedPreKeyId_",
+              "signedPreKey_",
+              "signedPreKeySignature_",
+              "kyberPreKeyId_",
+              "kyberPreKey_",
+              "kyberPreKeySignature_",
+              "oneTimePreKeys_",
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeOneTimePreKey.class,
+            };
+            java.lang.String info =
+                "\u0000\n\u0000\u0000\u0001\n\n\u0000\u0001\u0000\u0001\u000b\u0002\u0004\u0003\n" +
+                "\u0004\u0004\u0005\n\u0006\n\u0007\u0004\b\n\t\n\n\u001b";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eePublishDeviceRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest DEFAULT_INSTANCE;
+    static {
+      E2eePublishDeviceRequest defaultInstance = new E2eePublishDeviceRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eePublishDeviceRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePublishDeviceRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eePublishDeviceRequest> PARSER;
+
+    public static com.google.protobuf.Parser<E2eePublishDeviceRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeDeviceInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeDeviceInfo)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @return The deviceId.
+     */
+    int getDeviceId();
+
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @return The registrationId.
+     */
+    int getRegistrationId();
+
+    /**
+     * <code>bytes identity_key = 3;</code>
+     * @return The identityKey.
+     */
+    com.google.protobuf.ByteString getIdentityKey();
+
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     * @return The signedPreKeyId.
+     */
+    int getSignedPreKeyId();
+
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     * @return The signedPreKey.
+     */
+    com.google.protobuf.ByteString getSignedPreKey();
+
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     * @return The signedPreKeySignature.
+     */
+    com.google.protobuf.ByteString getSignedPreKeySignature();
+
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     * @return The kyberPreKeyId.
+     */
+    int getKyberPreKeyId();
+
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     * @return The kyberPreKey.
+     */
+    com.google.protobuf.ByteString getKyberPreKey();
+
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     * @return The kyberPreKeySignature.
+     */
+    com.google.protobuf.ByteString getKyberPreKeySignature();
+
+    /**
+     * <code>int32 remaining_one_time_pre_keys = 10;</code>
+     * @return The remainingOneTimePreKeys.
+     */
+    int getRemainingOneTimePreKeys();
+
+    /**
+     * <code>int64 generation = 11;</code>
+     * @return The generation.
+     */
+    long getGeneration();
+
+    /**
+     * <code>bool identity_replaced = 12;</code>
+     * @return The identityReplaced.
+     */
+    boolean getIdentityReplaced();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeDeviceInfo}
+   */
+  public  static final class E2eeDeviceInfo extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeDeviceInfo, E2eeDeviceInfo.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeDeviceInfo)
+      E2eeDeviceInfoOrBuilder {
+    private E2eeDeviceInfo() {
+      identityKey_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKey_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
+      kyberPreKey_ = com.google.protobuf.ByteString.EMPTY;
+      kyberPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    public static final int DEVICE_ID_FIELD_NUMBER = 1;
+    private int deviceId_;
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @return The deviceId.
+     */
+    @java.lang.Override
+    public int getDeviceId() {
+      return deviceId_;
+    }
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @param value The deviceId to set.
+     */
+    private void setDeviceId(int value) {
+      
+      deviceId_ = value;
+    }
+    /**
+     * <code>uint32 device_id = 1;</code>
+     */
+    private void clearDeviceId() {
+
+      deviceId_ = 0;
+    }
+
+    public static final int REGISTRATION_ID_FIELD_NUMBER = 2;
+    private int registrationId_;
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @return The registrationId.
+     */
+    @java.lang.Override
+    public int getRegistrationId() {
+      return registrationId_;
+    }
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @param value The registrationId to set.
+     */
+    private void setRegistrationId(int value) {
+      
+      registrationId_ = value;
+    }
+    /**
+     * <code>int32 registration_id = 2;</code>
+     */
+    private void clearRegistrationId() {
+
+      registrationId_ = 0;
+    }
+
+    public static final int IDENTITY_KEY_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString identityKey_;
+    /**
+     * <code>bytes identity_key = 3;</code>
+     * @return The identityKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getIdentityKey() {
+      return identityKey_;
+    }
+    /**
+     * <code>bytes identity_key = 3;</code>
+     * @param value The identityKey to set.
+     */
+    private void setIdentityKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      identityKey_ = value;
+    }
+    /**
+     * <code>bytes identity_key = 3;</code>
+     */
+    private void clearIdentityKey() {
+
+      identityKey_ = getDefaultInstance().getIdentityKey();
+    }
+
+    public static final int SIGNED_PRE_KEY_ID_FIELD_NUMBER = 4;
+    private int signedPreKeyId_;
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     * @return The signedPreKeyId.
+     */
+    @java.lang.Override
+    public int getSignedPreKeyId() {
+      return signedPreKeyId_;
+    }
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     * @param value The signedPreKeyId to set.
+     */
+    private void setSignedPreKeyId(int value) {
+      
+      signedPreKeyId_ = value;
+    }
+    /**
+     * <code>int32 signed_pre_key_id = 4;</code>
+     */
+    private void clearSignedPreKeyId() {
+
+      signedPreKeyId_ = 0;
+    }
+
+    public static final int SIGNED_PRE_KEY_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString signedPreKey_;
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     * @return The signedPreKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSignedPreKey() {
+      return signedPreKey_;
+    }
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     * @param value The signedPreKey to set.
+     */
+    private void setSignedPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      signedPreKey_ = value;
+    }
+    /**
+     * <code>bytes signed_pre_key = 5;</code>
+     */
+    private void clearSignedPreKey() {
+
+      signedPreKey_ = getDefaultInstance().getSignedPreKey();
+    }
+
+    public static final int SIGNED_PRE_KEY_SIGNATURE_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString signedPreKeySignature_;
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     * @return The signedPreKeySignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSignedPreKeySignature() {
+      return signedPreKeySignature_;
+    }
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     * @param value The signedPreKeySignature to set.
+     */
+    private void setSignedPreKeySignature(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      signedPreKeySignature_ = value;
+    }
+    /**
+     * <code>bytes signed_pre_key_signature = 6;</code>
+     */
+    private void clearSignedPreKeySignature() {
+
+      signedPreKeySignature_ = getDefaultInstance().getSignedPreKeySignature();
+    }
+
+    public static final int KYBER_PRE_KEY_ID_FIELD_NUMBER = 7;
+    private int kyberPreKeyId_;
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     * @return The kyberPreKeyId.
+     */
+    @java.lang.Override
+    public int getKyberPreKeyId() {
+      return kyberPreKeyId_;
+    }
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     * @param value The kyberPreKeyId to set.
+     */
+    private void setKyberPreKeyId(int value) {
+      
+      kyberPreKeyId_ = value;
+    }
+    /**
+     * <code>int32 kyber_pre_key_id = 7;</code>
+     */
+    private void clearKyberPreKeyId() {
+
+      kyberPreKeyId_ = 0;
+    }
+
+    public static final int KYBER_PRE_KEY_FIELD_NUMBER = 8;
+    private com.google.protobuf.ByteString kyberPreKey_;
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     * @return The kyberPreKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKyberPreKey() {
+      return kyberPreKey_;
+    }
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     * @param value The kyberPreKey to set.
+     */
+    private void setKyberPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      kyberPreKey_ = value;
+    }
+    /**
+     * <code>bytes kyber_pre_key = 8;</code>
+     */
+    private void clearKyberPreKey() {
+
+      kyberPreKey_ = getDefaultInstance().getKyberPreKey();
+    }
+
+    public static final int KYBER_PRE_KEY_SIGNATURE_FIELD_NUMBER = 9;
+    private com.google.protobuf.ByteString kyberPreKeySignature_;
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     * @return The kyberPreKeySignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKyberPreKeySignature() {
+      return kyberPreKeySignature_;
+    }
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     * @param value The kyberPreKeySignature to set.
+     */
+    private void setKyberPreKeySignature(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      kyberPreKeySignature_ = value;
+    }
+    /**
+     * <code>bytes kyber_pre_key_signature = 9;</code>
+     */
+    private void clearKyberPreKeySignature() {
+
+      kyberPreKeySignature_ = getDefaultInstance().getKyberPreKeySignature();
+    }
+
+    public static final int REMAINING_ONE_TIME_PRE_KEYS_FIELD_NUMBER = 10;
+    private int remainingOneTimePreKeys_;
+    /**
+     * <code>int32 remaining_one_time_pre_keys = 10;</code>
+     * @return The remainingOneTimePreKeys.
+     */
+    @java.lang.Override
+    public int getRemainingOneTimePreKeys() {
+      return remainingOneTimePreKeys_;
+    }
+    /**
+     * <code>int32 remaining_one_time_pre_keys = 10;</code>
+     * @param value The remainingOneTimePreKeys to set.
+     */
+    private void setRemainingOneTimePreKeys(int value) {
+      
+      remainingOneTimePreKeys_ = value;
+    }
+    /**
+     * <code>int32 remaining_one_time_pre_keys = 10;</code>
+     */
+    private void clearRemainingOneTimePreKeys() {
+
+      remainingOneTimePreKeys_ = 0;
+    }
+
+    public static final int GENERATION_FIELD_NUMBER = 11;
+    private long generation_;
+    /**
+     * <code>int64 generation = 11;</code>
+     * @return The generation.
+     */
+    @java.lang.Override
+    public long getGeneration() {
+      return generation_;
+    }
+    /**
+     * <code>int64 generation = 11;</code>
+     * @param value The generation to set.
+     */
+    private void setGeneration(long value) {
+      
+      generation_ = value;
+    }
+    /**
+     * <code>int64 generation = 11;</code>
+     */
+    private void clearGeneration() {
+
+      generation_ = 0L;
+    }
+
+    public static final int IDENTITY_REPLACED_FIELD_NUMBER = 12;
+    private boolean identityReplaced_;
+    /**
+     * <code>bool identity_replaced = 12;</code>
+     * @return The identityReplaced.
+     */
+    @java.lang.Override
+    public boolean getIdentityReplaced() {
+      return identityReplaced_;
+    }
+    /**
+     * <code>bool identity_replaced = 12;</code>
+     * @param value The identityReplaced to set.
+     */
+    private void setIdentityReplaced(boolean value) {
+      
+      identityReplaced_ = value;
+    }
+    /**
+     * <code>bool identity_replaced = 12;</code>
+     */
+    private void clearIdentityReplaced() {
+
+      identityReplaced_ = false;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeDeviceInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeDeviceInfo)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfoOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @return The deviceId.
+       */
+      @java.lang.Override
+      public int getDeviceId() {
+        return instance.getDeviceId();
+      }
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeviceId(int value) {
+        copyOnWrite();
+        instance.setDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeviceId() {
+        copyOnWrite();
+        instance.clearDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @return The registrationId.
+       */
+      @java.lang.Override
+      public int getRegistrationId() {
+        return instance.getRegistrationId();
+      }
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @param value The registrationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRegistrationId(int value) {
+        copyOnWrite();
+        instance.setRegistrationId(value);
+        return this;
+      }
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRegistrationId() {
+        copyOnWrite();
+        instance.clearRegistrationId();
+        return this;
+      }
+
+      /**
+       * <code>bytes identity_key = 3;</code>
+       * @return The identityKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getIdentityKey() {
+        return instance.getIdentityKey();
+      }
+      /**
+       * <code>bytes identity_key = 3;</code>
+       * @param value The identityKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdentityKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setIdentityKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes identity_key = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIdentityKey() {
+        copyOnWrite();
+        instance.clearIdentityKey();
+        return this;
+      }
+
+      /**
+       * <code>int32 signed_pre_key_id = 4;</code>
+       * @return The signedPreKeyId.
+       */
+      @java.lang.Override
+      public int getSignedPreKeyId() {
+        return instance.getSignedPreKeyId();
+      }
+      /**
+       * <code>int32 signed_pre_key_id = 4;</code>
+       * @param value The signedPreKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKeyId(int value) {
+        copyOnWrite();
+        instance.setSignedPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 signed_pre_key_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKeyId() {
+        copyOnWrite();
+        instance.clearSignedPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes signed_pre_key = 5;</code>
+       * @return The signedPreKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSignedPreKey() {
+        return instance.getSignedPreKey();
+      }
+      /**
+       * <code>bytes signed_pre_key = 5;</code>
+       * @param value The signedPreKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSignedPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes signed_pre_key = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKey() {
+        copyOnWrite();
+        instance.clearSignedPreKey();
+        return this;
+      }
+
+      /**
+       * <code>bytes signed_pre_key_signature = 6;</code>
+       * @return The signedPreKeySignature.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSignedPreKeySignature() {
+        return instance.getSignedPreKeySignature();
+      }
+      /**
+       * <code>bytes signed_pre_key_signature = 6;</code>
+       * @param value The signedPreKeySignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKeySignature(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSignedPreKeySignature(value);
+        return this;
+      }
+      /**
+       * <code>bytes signed_pre_key_signature = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKeySignature() {
+        copyOnWrite();
+        instance.clearSignedPreKeySignature();
+        return this;
+      }
+
+      /**
+       * <code>int32 kyber_pre_key_id = 7;</code>
+       * @return The kyberPreKeyId.
+       */
+      @java.lang.Override
+      public int getKyberPreKeyId() {
+        return instance.getKyberPreKeyId();
+      }
+      /**
+       * <code>int32 kyber_pre_key_id = 7;</code>
+       * @param value The kyberPreKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKeyId(int value) {
+        copyOnWrite();
+        instance.setKyberPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 kyber_pre_key_id = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKeyId() {
+        copyOnWrite();
+        instance.clearKyberPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes kyber_pre_key = 8;</code>
+       * @return The kyberPreKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKyberPreKey() {
+        return instance.getKyberPreKey();
+      }
+      /**
+       * <code>bytes kyber_pre_key = 8;</code>
+       * @param value The kyberPreKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setKyberPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes kyber_pre_key = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKey() {
+        copyOnWrite();
+        instance.clearKyberPreKey();
+        return this;
+      }
+
+      /**
+       * <code>bytes kyber_pre_key_signature = 9;</code>
+       * @return The kyberPreKeySignature.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKyberPreKeySignature() {
+        return instance.getKyberPreKeySignature();
+      }
+      /**
+       * <code>bytes kyber_pre_key_signature = 9;</code>
+       * @param value The kyberPreKeySignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKeySignature(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setKyberPreKeySignature(value);
+        return this;
+      }
+      /**
+       * <code>bytes kyber_pre_key_signature = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKeySignature() {
+        copyOnWrite();
+        instance.clearKyberPreKeySignature();
+        return this;
+      }
+
+      /**
+       * <code>int32 remaining_one_time_pre_keys = 10;</code>
+       * @return The remainingOneTimePreKeys.
+       */
+      @java.lang.Override
+      public int getRemainingOneTimePreKeys() {
+        return instance.getRemainingOneTimePreKeys();
+      }
+      /**
+       * <code>int32 remaining_one_time_pre_keys = 10;</code>
+       * @param value The remainingOneTimePreKeys to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRemainingOneTimePreKeys(int value) {
+        copyOnWrite();
+        instance.setRemainingOneTimePreKeys(value);
+        return this;
+      }
+      /**
+       * <code>int32 remaining_one_time_pre_keys = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRemainingOneTimePreKeys() {
+        copyOnWrite();
+        instance.clearRemainingOneTimePreKeys();
+        return this;
+      }
+
+      /**
+       * <code>int64 generation = 11;</code>
+       * @return The generation.
+       */
+      @java.lang.Override
+      public long getGeneration() {
+        return instance.getGeneration();
+      }
+      /**
+       * <code>int64 generation = 11;</code>
+       * @param value The generation to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGeneration(long value) {
+        copyOnWrite();
+        instance.setGeneration(value);
+        return this;
+      }
+      /**
+       * <code>int64 generation = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGeneration() {
+        copyOnWrite();
+        instance.clearGeneration();
+        return this;
+      }
+
+      /**
+       * <code>bool identity_replaced = 12;</code>
+       * @return The identityReplaced.
+       */
+      @java.lang.Override
+      public boolean getIdentityReplaced() {
+        return instance.getIdentityReplaced();
+      }
+      /**
+       * <code>bool identity_replaced = 12;</code>
+       * @param value The identityReplaced to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdentityReplaced(boolean value) {
+        copyOnWrite();
+        instance.setIdentityReplaced(value);
+        return this;
+      }
+      /**
+       * <code>bool identity_replaced = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIdentityReplaced() {
+        copyOnWrite();
+        instance.clearIdentityReplaced();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeDeviceInfo)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "deviceId_",
+              "registrationId_",
+              "identityKey_",
+              "signedPreKeyId_",
+              "signedPreKey_",
+              "signedPreKeySignature_",
+              "kyberPreKeyId_",
+              "kyberPreKey_",
+              "kyberPreKeySignature_",
+              "remainingOneTimePreKeys_",
+              "generation_",
+              "identityReplaced_",
+            };
+            java.lang.String info =
+                "\u0000\f\u0000\u0000\u0001\f\f\u0000\u0000\u0000\u0001\u000b\u0002\u0004\u0003\n" +
+                "\u0004\u0004\u0005\n\u0006\n\u0007\u0004\b\n\t\n\n\u0004\u000b\u0002\f\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeDeviceInfo)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo DEFAULT_INSTANCE;
+    static {
+      E2eeDeviceInfo defaultInstance = new E2eeDeviceInfo();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeDeviceInfo.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeDeviceInfo getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeDeviceInfo> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeDeviceInfo> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeGetPeerBundleRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeGetPeerBundleRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeGetPeerBundleRequest}
+   */
+  public  static final class E2eeGetPeerBundleRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeGetPeerBundleRequest, E2eeGetPeerBundleRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeGetPeerBundleRequest)
+      E2eeGetPeerBundleRequestOrBuilder {
+    private E2eeGetPeerBundleRequest() {
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeGetPeerBundleRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeGetPeerBundleRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeGetPeerBundleRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u1009\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeGetPeerBundleRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest DEFAULT_INSTANCE;
+    static {
+      E2eeGetPeerBundleRequest defaultInstance = new E2eeGetPeerBundleRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeGetPeerBundleRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetPeerBundleRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeGetPeerBundleRequest> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeGetPeerBundleRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eePeerBundleOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eePeerBundle)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @return The deviceId.
+     */
+    int getDeviceId();
+
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @return The registrationId.
+     */
+    int getRegistrationId();
+
+    /**
+     * <code>int32 pre_key_id = 3;</code>
+     * @return The preKeyId.
+     */
+    int getPreKeyId();
+
+    /**
+     * <code>bytes pre_key = 4;</code>
+     * @return The preKey.
+     */
+    com.google.protobuf.ByteString getPreKey();
+
+    /**
+     * <code>int32 signed_pre_key_id = 5;</code>
+     * @return The signedPreKeyId.
+     */
+    int getSignedPreKeyId();
+
+    /**
+     * <code>bytes signed_pre_key = 6;</code>
+     * @return The signedPreKey.
+     */
+    com.google.protobuf.ByteString getSignedPreKey();
+
+    /**
+     * <code>bytes signed_pre_key_signature = 7;</code>
+     * @return The signedPreKeySignature.
+     */
+    com.google.protobuf.ByteString getSignedPreKeySignature();
+
+    /**
+     * <code>bytes identity_key = 8;</code>
+     * @return The identityKey.
+     */
+    com.google.protobuf.ByteString getIdentityKey();
+
+    /**
+     * <code>int32 kyber_pre_key_id = 9;</code>
+     * @return The kyberPreKeyId.
+     */
+    int getKyberPreKeyId();
+
+    /**
+     * <code>bytes kyber_pre_key = 10;</code>
+     * @return The kyberPreKey.
+     */
+    com.google.protobuf.ByteString getKyberPreKey();
+
+    /**
+     * <code>bytes kyber_pre_key_signature = 11;</code>
+     * @return The kyberPreKeySignature.
+     */
+    com.google.protobuf.ByteString getKyberPreKeySignature();
+
+    /**
+     * <code>int64 generation = 12;</code>
+     * @return The generation.
+     */
+    long getGeneration();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eePeerBundle}
+   */
+  public  static final class E2eePeerBundle extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eePeerBundle, E2eePeerBundle.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eePeerBundle)
+      E2eePeerBundleOrBuilder {
+    private E2eePeerBundle() {
+      preKey_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKey_ = com.google.protobuf.ByteString.EMPTY;
+      signedPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
+      identityKey_ = com.google.protobuf.ByteString.EMPTY;
+      kyberPreKey_ = com.google.protobuf.ByteString.EMPTY;
+      kyberPreKeySignature_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    public static final int DEVICE_ID_FIELD_NUMBER = 1;
+    private int deviceId_;
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @return The deviceId.
+     */
+    @java.lang.Override
+    public int getDeviceId() {
+      return deviceId_;
+    }
+    /**
+     * <code>uint32 device_id = 1;</code>
+     * @param value The deviceId to set.
+     */
+    private void setDeviceId(int value) {
+      
+      deviceId_ = value;
+    }
+    /**
+     * <code>uint32 device_id = 1;</code>
+     */
+    private void clearDeviceId() {
+
+      deviceId_ = 0;
+    }
+
+    public static final int REGISTRATION_ID_FIELD_NUMBER = 2;
+    private int registrationId_;
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @return The registrationId.
+     */
+    @java.lang.Override
+    public int getRegistrationId() {
+      return registrationId_;
+    }
+    /**
+     * <code>int32 registration_id = 2;</code>
+     * @param value The registrationId to set.
+     */
+    private void setRegistrationId(int value) {
+      
+      registrationId_ = value;
+    }
+    /**
+     * <code>int32 registration_id = 2;</code>
+     */
+    private void clearRegistrationId() {
+
+      registrationId_ = 0;
+    }
+
+    public static final int PRE_KEY_ID_FIELD_NUMBER = 3;
+    private int preKeyId_;
+    /**
+     * <code>int32 pre_key_id = 3;</code>
+     * @return The preKeyId.
+     */
+    @java.lang.Override
+    public int getPreKeyId() {
+      return preKeyId_;
+    }
+    /**
+     * <code>int32 pre_key_id = 3;</code>
+     * @param value The preKeyId to set.
+     */
+    private void setPreKeyId(int value) {
+      
+      preKeyId_ = value;
+    }
+    /**
+     * <code>int32 pre_key_id = 3;</code>
+     */
+    private void clearPreKeyId() {
+
+      preKeyId_ = 0;
+    }
+
+    public static final int PRE_KEY_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString preKey_;
+    /**
+     * <code>bytes pre_key = 4;</code>
+     * @return The preKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPreKey() {
+      return preKey_;
+    }
+    /**
+     * <code>bytes pre_key = 4;</code>
+     * @param value The preKey to set.
+     */
+    private void setPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      preKey_ = value;
+    }
+    /**
+     * <code>bytes pre_key = 4;</code>
+     */
+    private void clearPreKey() {
+
+      preKey_ = getDefaultInstance().getPreKey();
+    }
+
+    public static final int SIGNED_PRE_KEY_ID_FIELD_NUMBER = 5;
+    private int signedPreKeyId_;
+    /**
+     * <code>int32 signed_pre_key_id = 5;</code>
+     * @return The signedPreKeyId.
+     */
+    @java.lang.Override
+    public int getSignedPreKeyId() {
+      return signedPreKeyId_;
+    }
+    /**
+     * <code>int32 signed_pre_key_id = 5;</code>
+     * @param value The signedPreKeyId to set.
+     */
+    private void setSignedPreKeyId(int value) {
+      
+      signedPreKeyId_ = value;
+    }
+    /**
+     * <code>int32 signed_pre_key_id = 5;</code>
+     */
+    private void clearSignedPreKeyId() {
+
+      signedPreKeyId_ = 0;
+    }
+
+    public static final int SIGNED_PRE_KEY_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString signedPreKey_;
+    /**
+     * <code>bytes signed_pre_key = 6;</code>
+     * @return The signedPreKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSignedPreKey() {
+      return signedPreKey_;
+    }
+    /**
+     * <code>bytes signed_pre_key = 6;</code>
+     * @param value The signedPreKey to set.
+     */
+    private void setSignedPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      signedPreKey_ = value;
+    }
+    /**
+     * <code>bytes signed_pre_key = 6;</code>
+     */
+    private void clearSignedPreKey() {
+
+      signedPreKey_ = getDefaultInstance().getSignedPreKey();
+    }
+
+    public static final int SIGNED_PRE_KEY_SIGNATURE_FIELD_NUMBER = 7;
+    private com.google.protobuf.ByteString signedPreKeySignature_;
+    /**
+     * <code>bytes signed_pre_key_signature = 7;</code>
+     * @return The signedPreKeySignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSignedPreKeySignature() {
+      return signedPreKeySignature_;
+    }
+    /**
+     * <code>bytes signed_pre_key_signature = 7;</code>
+     * @param value The signedPreKeySignature to set.
+     */
+    private void setSignedPreKeySignature(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      signedPreKeySignature_ = value;
+    }
+    /**
+     * <code>bytes signed_pre_key_signature = 7;</code>
+     */
+    private void clearSignedPreKeySignature() {
+
+      signedPreKeySignature_ = getDefaultInstance().getSignedPreKeySignature();
+    }
+
+    public static final int IDENTITY_KEY_FIELD_NUMBER = 8;
+    private com.google.protobuf.ByteString identityKey_;
+    /**
+     * <code>bytes identity_key = 8;</code>
+     * @return The identityKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getIdentityKey() {
+      return identityKey_;
+    }
+    /**
+     * <code>bytes identity_key = 8;</code>
+     * @param value The identityKey to set.
+     */
+    private void setIdentityKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      identityKey_ = value;
+    }
+    /**
+     * <code>bytes identity_key = 8;</code>
+     */
+    private void clearIdentityKey() {
+
+      identityKey_ = getDefaultInstance().getIdentityKey();
+    }
+
+    public static final int KYBER_PRE_KEY_ID_FIELD_NUMBER = 9;
+    private int kyberPreKeyId_;
+    /**
+     * <code>int32 kyber_pre_key_id = 9;</code>
+     * @return The kyberPreKeyId.
+     */
+    @java.lang.Override
+    public int getKyberPreKeyId() {
+      return kyberPreKeyId_;
+    }
+    /**
+     * <code>int32 kyber_pre_key_id = 9;</code>
+     * @param value The kyberPreKeyId to set.
+     */
+    private void setKyberPreKeyId(int value) {
+      
+      kyberPreKeyId_ = value;
+    }
+    /**
+     * <code>int32 kyber_pre_key_id = 9;</code>
+     */
+    private void clearKyberPreKeyId() {
+
+      kyberPreKeyId_ = 0;
+    }
+
+    public static final int KYBER_PRE_KEY_FIELD_NUMBER = 10;
+    private com.google.protobuf.ByteString kyberPreKey_;
+    /**
+     * <code>bytes kyber_pre_key = 10;</code>
+     * @return The kyberPreKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKyberPreKey() {
+      return kyberPreKey_;
+    }
+    /**
+     * <code>bytes kyber_pre_key = 10;</code>
+     * @param value The kyberPreKey to set.
+     */
+    private void setKyberPreKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      kyberPreKey_ = value;
+    }
+    /**
+     * <code>bytes kyber_pre_key = 10;</code>
+     */
+    private void clearKyberPreKey() {
+
+      kyberPreKey_ = getDefaultInstance().getKyberPreKey();
+    }
+
+    public static final int KYBER_PRE_KEY_SIGNATURE_FIELD_NUMBER = 11;
+    private com.google.protobuf.ByteString kyberPreKeySignature_;
+    /**
+     * <code>bytes kyber_pre_key_signature = 11;</code>
+     * @return The kyberPreKeySignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKyberPreKeySignature() {
+      return kyberPreKeySignature_;
+    }
+    /**
+     * <code>bytes kyber_pre_key_signature = 11;</code>
+     * @param value The kyberPreKeySignature to set.
+     */
+    private void setKyberPreKeySignature(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      kyberPreKeySignature_ = value;
+    }
+    /**
+     * <code>bytes kyber_pre_key_signature = 11;</code>
+     */
+    private void clearKyberPreKeySignature() {
+
+      kyberPreKeySignature_ = getDefaultInstance().getKyberPreKeySignature();
+    }
+
+    public static final int GENERATION_FIELD_NUMBER = 12;
+    private long generation_;
+    /**
+     * <code>int64 generation = 12;</code>
+     * @return The generation.
+     */
+    @java.lang.Override
+    public long getGeneration() {
+      return generation_;
+    }
+    /**
+     * <code>int64 generation = 12;</code>
+     * @param value The generation to set.
+     */
+    private void setGeneration(long value) {
+      
+      generation_ = value;
+    }
+    /**
+     * <code>int64 generation = 12;</code>
+     */
+    private void clearGeneration() {
+
+      generation_ = 0L;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eePeerBundle}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eePeerBundle)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundleOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @return The deviceId.
+       */
+      @java.lang.Override
+      public int getDeviceId() {
+        return instance.getDeviceId();
+      }
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeviceId(int value) {
+        copyOnWrite();
+        instance.setDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 device_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeviceId() {
+        copyOnWrite();
+        instance.clearDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @return The registrationId.
+       */
+      @java.lang.Override
+      public int getRegistrationId() {
+        return instance.getRegistrationId();
+      }
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @param value The registrationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRegistrationId(int value) {
+        copyOnWrite();
+        instance.setRegistrationId(value);
+        return this;
+      }
+      /**
+       * <code>int32 registration_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRegistrationId() {
+        copyOnWrite();
+        instance.clearRegistrationId();
+        return this;
+      }
+
+      /**
+       * <code>int32 pre_key_id = 3;</code>
+       * @return The preKeyId.
+       */
+      @java.lang.Override
+      public int getPreKeyId() {
+        return instance.getPreKeyId();
+      }
+      /**
+       * <code>int32 pre_key_id = 3;</code>
+       * @param value The preKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPreKeyId(int value) {
+        copyOnWrite();
+        instance.setPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 pre_key_id = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPreKeyId() {
+        copyOnWrite();
+        instance.clearPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes pre_key = 4;</code>
+       * @return The preKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getPreKey() {
+        return instance.getPreKey();
+      }
+      /**
+       * <code>bytes pre_key = 4;</code>
+       * @param value The preKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes pre_key = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPreKey() {
+        copyOnWrite();
+        instance.clearPreKey();
+        return this;
+      }
+
+      /**
+       * <code>int32 signed_pre_key_id = 5;</code>
+       * @return The signedPreKeyId.
+       */
+      @java.lang.Override
+      public int getSignedPreKeyId() {
+        return instance.getSignedPreKeyId();
+      }
+      /**
+       * <code>int32 signed_pre_key_id = 5;</code>
+       * @param value The signedPreKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKeyId(int value) {
+        copyOnWrite();
+        instance.setSignedPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 signed_pre_key_id = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKeyId() {
+        copyOnWrite();
+        instance.clearSignedPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes signed_pre_key = 6;</code>
+       * @return The signedPreKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSignedPreKey() {
+        return instance.getSignedPreKey();
+      }
+      /**
+       * <code>bytes signed_pre_key = 6;</code>
+       * @param value The signedPreKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSignedPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes signed_pre_key = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKey() {
+        copyOnWrite();
+        instance.clearSignedPreKey();
+        return this;
+      }
+
+      /**
+       * <code>bytes signed_pre_key_signature = 7;</code>
+       * @return The signedPreKeySignature.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSignedPreKeySignature() {
+        return instance.getSignedPreKeySignature();
+      }
+      /**
+       * <code>bytes signed_pre_key_signature = 7;</code>
+       * @param value The signedPreKeySignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignedPreKeySignature(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setSignedPreKeySignature(value);
+        return this;
+      }
+      /**
+       * <code>bytes signed_pre_key_signature = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignedPreKeySignature() {
+        copyOnWrite();
+        instance.clearSignedPreKeySignature();
+        return this;
+      }
+
+      /**
+       * <code>bytes identity_key = 8;</code>
+       * @return The identityKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getIdentityKey() {
+        return instance.getIdentityKey();
+      }
+      /**
+       * <code>bytes identity_key = 8;</code>
+       * @param value The identityKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdentityKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setIdentityKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes identity_key = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIdentityKey() {
+        copyOnWrite();
+        instance.clearIdentityKey();
+        return this;
+      }
+
+      /**
+       * <code>int32 kyber_pre_key_id = 9;</code>
+       * @return The kyberPreKeyId.
+       */
+      @java.lang.Override
+      public int getKyberPreKeyId() {
+        return instance.getKyberPreKeyId();
+      }
+      /**
+       * <code>int32 kyber_pre_key_id = 9;</code>
+       * @param value The kyberPreKeyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKeyId(int value) {
+        copyOnWrite();
+        instance.setKyberPreKeyId(value);
+        return this;
+      }
+      /**
+       * <code>int32 kyber_pre_key_id = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKeyId() {
+        copyOnWrite();
+        instance.clearKyberPreKeyId();
+        return this;
+      }
+
+      /**
+       * <code>bytes kyber_pre_key = 10;</code>
+       * @return The kyberPreKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKyberPreKey() {
+        return instance.getKyberPreKey();
+      }
+      /**
+       * <code>bytes kyber_pre_key = 10;</code>
+       * @param value The kyberPreKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setKyberPreKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes kyber_pre_key = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKey() {
+        copyOnWrite();
+        instance.clearKyberPreKey();
+        return this;
+      }
+
+      /**
+       * <code>bytes kyber_pre_key_signature = 11;</code>
+       * @return The kyberPreKeySignature.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKyberPreKeySignature() {
+        return instance.getKyberPreKeySignature();
+      }
+      /**
+       * <code>bytes kyber_pre_key_signature = 11;</code>
+       * @param value The kyberPreKeySignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKyberPreKeySignature(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setKyberPreKeySignature(value);
+        return this;
+      }
+      /**
+       * <code>bytes kyber_pre_key_signature = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKyberPreKeySignature() {
+        copyOnWrite();
+        instance.clearKyberPreKeySignature();
+        return this;
+      }
+
+      /**
+       * <code>int64 generation = 12;</code>
+       * @return The generation.
+       */
+      @java.lang.Override
+      public long getGeneration() {
+        return instance.getGeneration();
+      }
+      /**
+       * <code>int64 generation = 12;</code>
+       * @param value The generation to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGeneration(long value) {
+        copyOnWrite();
+        instance.setGeneration(value);
+        return this;
+      }
+      /**
+       * <code>int64 generation = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGeneration() {
+        copyOnWrite();
+        instance.clearGeneration();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eePeerBundle)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "deviceId_",
+              "registrationId_",
+              "preKeyId_",
+              "preKey_",
+              "signedPreKeyId_",
+              "signedPreKey_",
+              "signedPreKeySignature_",
+              "identityKey_",
+              "kyberPreKeyId_",
+              "kyberPreKey_",
+              "kyberPreKeySignature_",
+              "generation_",
+            };
+            java.lang.String info =
+                "\u0000\f\u0000\u0000\u0001\f\f\u0000\u0000\u0000\u0001\u000b\u0002\u0004\u0003\u0004" +
+                "\u0004\n\u0005\u0004\u0006\n\u0007\n\b\n\t\u0004\n\n\u000b\n\f\u0002";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eePeerBundle)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle DEFAULT_INSTANCE;
+    static {
+      E2eePeerBundle defaultInstance = new E2eePeerBundle();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eePeerBundle.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eePeerBundle getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eePeerBundle> PARSER;
+
+    public static com.google.protobuf.Parser<E2eePeerBundle> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeActionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeActionRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     * @return The enum numeric value on the wire for action.
+     */
+    int getActionValue();
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     * @return The action.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind getAction();
+
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     * @return The protocolVersion.
+     */
+    int getProtocolVersion();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeActionRequest}
+   */
+  public  static final class E2eeActionRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeActionRequest, E2eeActionRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeActionRequest)
+      E2eeActionRequestOrBuilder {
+    private E2eeActionRequest() {
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int ACTION_FIELD_NUMBER = 2;
+    private int action_;
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     * @return The enum numeric value on the wire for action.
+     */
+    @java.lang.Override
+    public int getActionValue() {
+      return action_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     * @return The action.
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind getAction() {
+      org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind result = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind.forNumber(action_);
+      return result == null ? org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     * @param value The enum numeric value on the wire for action to set.
+     */
+    private void setActionValue(int value) {
+        action_ = value;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     * @param value The action to set.
+     */
+    private void setAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind value) {
+      action_ = value.getNumber();
+
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+     */
+    private void clearAction() {
+
+      action_ = 0;
+    }
+
+    public static final int PROTOCOL_VERSION_FIELD_NUMBER = 3;
+    private int protocolVersion_;
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     * @return The protocolVersion.
+     */
+    @java.lang.Override
+    public int getProtocolVersion() {
+      return protocolVersion_;
+    }
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     * @param value The protocolVersion to set.
+     */
+    private void setProtocolVersion(int value) {
+      
+      protocolVersion_ = value;
+    }
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     */
+    private void clearProtocolVersion() {
+
+      protocolVersion_ = 0;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeActionRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeActionRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+       * @return The enum numeric value on the wire for action.
+       */
+      @java.lang.Override
+      public int getActionValue() {
+        return instance.getActionValue();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+       * @param value The action to set.
+       * @return This builder for chaining.
+       */
+      public Builder setActionValue(int value) {
+        copyOnWrite();
+        instance.setActionValue(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+       * @return The action.
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind getAction() {
+        return instance.getAction();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+       * @param value The enum numeric value on the wire for action to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAction(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionKind value) {
+        copyOnWrite();
+        instance.setAction(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeActionKind action = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAction() {
+        copyOnWrite();
+        instance.clearAction();
+        return this;
+      }
+
+      /**
+       * <code>uint32 protocol_version = 3;</code>
+       * @return The protocolVersion.
+       */
+      @java.lang.Override
+      public int getProtocolVersion() {
+        return instance.getProtocolVersion();
+      }
+      /**
+       * <code>uint32 protocol_version = 3;</code>
+       * @param value The protocolVersion to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProtocolVersion(int value) {
+        copyOnWrite();
+        instance.setProtocolVersion(value);
+        return this;
+      }
+      /**
+       * <code>uint32 protocol_version = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProtocolVersion() {
+        copyOnWrite();
+        instance.clearProtocolVersion();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeActionRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "action_",
+              "protocolVersion_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0001\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\f\u0003\u000b";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeActionRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest DEFAULT_INSTANCE;
+    static {
+      E2eeActionRequest defaultInstance = new E2eeActionRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeActionRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeActionRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeActionRequest> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeActionRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeGetStatusRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeGetStatusRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> 
+        getPeersList();
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeers(int index);
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    int getPeersCount();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeGetStatusRequest}
+   */
+  public  static final class E2eeGetStatusRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeGetStatusRequest, E2eeGetStatusRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeGetStatusRequest)
+      E2eeGetStatusRequestOrBuilder {
+    private E2eeGetStatusRequest() {
+      peers_ = emptyProtobufList();
+    }
+    public static final int PEERS_FIELD_NUMBER = 1;
+    private com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> peers_;
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> getPeersList() {
+      return peers_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    public java.util.List<? extends org.telegram.botgram.protocol.v1.BotgramRpc.PeerRefOrBuilder> 
+        getPeersOrBuilderList() {
+      return peers_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    @java.lang.Override
+    public int getPeersCount() {
+      return peers_.size();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeers(int index) {
+      return peers_.get(index);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRefOrBuilder getPeersOrBuilder(
+        int index) {
+      return peers_.get(index);
+    }
+    private void ensurePeersIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> tmp = peers_;
+      if (!tmp.isModifiable()) {
+        peers_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    private void setPeers(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  ensurePeersIsMutable();
+      peers_.set(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    private void addPeers(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  ensurePeersIsMutable();
+      peers_.add(value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    private void addPeers(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  ensurePeersIsMutable();
+      peers_.add(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    private void addAllPeers(
+        java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> values) {
+      ensurePeersIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, peers_);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    private void clearPeers() {
+      peers_ = emptyProtobufList();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+     */
+    private void removePeers(int index) {
+      ensurePeersIsMutable();
+      peers_.remove(index);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeGetStatusRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeGetStatusRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      @java.lang.Override
+      public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> getPeersList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getPeersList());
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      @java.lang.Override
+      public int getPeersCount() {
+        return instance.getPeersCount();
+      }/**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeers(int index) {
+        return instance.getPeers(index);
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder setPeers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.setPeers(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder setPeers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeers(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder addPeers(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.addPeers(value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder addPeers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.addPeers(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder addPeers(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.addPeers(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder addPeers(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.addPeers(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder addAllPeers(
+          java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef> values) {
+        copyOnWrite();
+        instance.addAllPeers(values);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder clearPeers() {
+        copyOnWrite();
+        instance.clearPeers();
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.PeerRef peers = 1;</code>
+       */
+      public Builder removePeers(int index) {
+        copyOnWrite();
+        instance.removePeers(index);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeGetStatusRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "peers_",
+              org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.class,
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0001\u0000\u0001\u001b";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeGetStatusRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest DEFAULT_INSTANCE;
+    static {
+      E2eeGetStatusRequest defaultInstance = new E2eeGetStatusRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeGetStatusRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeGetStatusRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeGetStatusRequest> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeGetStatusRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeListRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeListRequest)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>bool include_pending = 1;</code>
+     * @return The includePending.
+     */
+    boolean getIncludePending();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeListRequest}
+   */
+  public  static final class E2eeListRequest extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeListRequest, E2eeListRequest.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeListRequest)
+      E2eeListRequestOrBuilder {
+    private E2eeListRequest() {
+    }
+    public static final int INCLUDE_PENDING_FIELD_NUMBER = 1;
+    private boolean includePending_;
+    /**
+     * <code>bool include_pending = 1;</code>
+     * @return The includePending.
+     */
+    @java.lang.Override
+    public boolean getIncludePending() {
+      return includePending_;
+    }
+    /**
+     * <code>bool include_pending = 1;</code>
+     * @param value The includePending to set.
+     */
+    private void setIncludePending(boolean value) {
+      
+      includePending_ = value;
+    }
+    /**
+     * <code>bool include_pending = 1;</code>
+     */
+    private void clearIncludePending() {
+
+      includePending_ = false;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeListRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeListRequest)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequestOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>bool include_pending = 1;</code>
+       * @return The includePending.
+       */
+      @java.lang.Override
+      public boolean getIncludePending() {
+        return instance.getIncludePending();
+      }
+      /**
+       * <code>bool include_pending = 1;</code>
+       * @param value The includePending to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIncludePending(boolean value) {
+        copyOnWrite();
+        instance.setIncludePending(value);
+        return this;
+      }
+      /**
+       * <code>bool include_pending = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIncludePending() {
+        copyOnWrite();
+        instance.clearIncludePending();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeListRequest)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "includePending_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeListRequest)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest DEFAULT_INSTANCE;
+    static {
+      E2eeListRequest defaultInstance = new E2eeListRequest();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeListRequest.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeListRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeListRequest> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeListRequest> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeChatStatusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeChatStatus)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     * @return Whether the peer field is set.
+     */
+    boolean hasPeer();
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     * @return The peer.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer();
+
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     * @return The enum numeric value on the wire for state.
+     */
+    int getStateValue();
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     * @return The state.
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState getState();
+
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     * @return The protocolVersion.
+     */
+    int getProtocolVersion();
+
+    /**
+     * <code>int64 epoch = 4;</code>
+     * @return The epoch.
+     */
+    long getEpoch();
+
+    /**
+     * <code>int64 boundary_message_id = 5;</code>
+     * @return The boundaryMessageId.
+     */
+    long getBoundaryMessageId();
+
+    /**
+     * <code>bool self_initiator = 6;</code>
+     * @return The selfInitiator.
+     */
+    boolean getSelfInitiator();
+
+    /**
+     * <code>bool awaiting_self = 7;</code>
+     * @return The awaitingSelf.
+     */
+    boolean getAwaitingSelf();
+
+    /**
+     * <code>bool peer_supported = 8;</code>
+     * @return The peerSupported.
+     */
+    boolean getPeerSupported();
+
+    /**
+     * <code>bool identity_changed = 9;</code>
+     * @return The identityChanged.
+     */
+    boolean getIdentityChanged();
+
+    /**
+     * <code>int64 close_boundary_message_id = 10;</code>
+     * @return The closeBoundaryMessageId.
+     */
+    long getCloseBoundaryMessageId();
+
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     * @return The initiatorUserId.
+     */
+    java.lang.String getInitiatorUserId();
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     * @return The bytes for initiatorUserId.
+     */
+    com.google.protobuf.ByteString
+        getInitiatorUserIdBytes();
+
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     * @return The closedByUserId.
+     */
+    java.lang.String getClosedByUserId();
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     * @return The bytes for closedByUserId.
+     */
+    com.google.protobuf.ByteString
+        getClosedByUserIdBytes();
+
+    /**
+     * <code>bool self_confirmed_identity = 13;</code>
+     * @return The selfConfirmedIdentity.
+     */
+    boolean getSelfConfirmedIdentity();
+
+    /**
+     * <code>bool peer_confirmed_identity = 14;</code>
+     * @return The peerConfirmedIdentity.
+     */
+    boolean getPeerConfirmedIdentity();
+
+    /**
+     * <code>uint32 self_device_id = 15;</code>
+     * @return The selfDeviceId.
+     */
+    int getSelfDeviceId();
+
+    /**
+     * <code>uint32 peer_device_id = 16;</code>
+     * @return The peerDeviceId.
+     */
+    int getPeerDeviceId();
+
+    /**
+     * <code>bytes peer_identity_key = 17;</code>
+     * @return The peerIdentityKey.
+     */
+    com.google.protobuf.ByteString getPeerIdentityKey();
+
+    /**
+     * <code>int64 peer_generation = 18;</code>
+     * @return The peerGeneration.
+     */
+    long getPeerGeneration();
+
+    /**
+     * <code>int64 updated_at_ms = 19;</code>
+     * @return The updatedAtMs.
+     */
+    long getUpdatedAtMs();
+
+    /**
+     * <code>string conversation_id = 20;</code>
+     * @return The conversationId.
+     */
+    java.lang.String getConversationId();
+    /**
+     * <code>string conversation_id = 20;</code>
+     * @return The bytes for conversationId.
+     */
+    com.google.protobuf.ByteString
+        getConversationIdBytes();
+
+    /**
+     * <code>int64 tl_user_id = 21;</code>
+     * @return The tlUserId.
+     */
+    long getTlUserId();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeChatStatus}
+   */
+  public  static final class E2eeChatStatus extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeChatStatus, E2eeChatStatus.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeChatStatus)
+      E2eeChatStatusOrBuilder {
+    private E2eeChatStatus() {
+      initiatorUserId_ = "";
+      closedByUserId_ = "";
+      peerIdentityKey_ = com.google.protobuf.ByteString.EMPTY;
+      conversationId_ = "";
+    }
+    private int bitField0_;
+    public static final int PEER_FIELD_NUMBER = 1;
+    private org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef peer_;
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public boolean hasPeer() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer() {
+      return peer_ == null ? org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    private void setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  peer_ = value;
+      bitField0_ |= 0x00000001;
+      }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+      value.getClass();
+  if (peer_ != null &&
+          peer_ != org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.getDefaultInstance()) {
+        peer_ =
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.newBuilder(peer_).mergeFrom(value).buildPartial();
+      } else {
+        peer_ = value;
+      }
+      bitField0_ |= 0x00000001;
+    }
+    /**
+     * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+     */
+    private void clearPeer() {  peer_ = null;
+      bitField0_ = (bitField0_ & ~0x00000001);
+    }
+
+    public static final int STATE_FIELD_NUMBER = 2;
+    private int state_;
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     * @return The enum numeric value on the wire for state.
+     */
+    @java.lang.Override
+    public int getStateValue() {
+      return state_;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState getState() {
+      org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState result = org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState.forNumber(state_);
+      return result == null ? org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     * @param value The enum numeric value on the wire for state to set.
+     */
+    private void setStateValue(int value) {
+        state_ = value;
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     * @param value The state to set.
+     */
+    private void setState(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState value) {
+      state_ = value.getNumber();
+
+    }
+    /**
+     * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+     */
+    private void clearState() {
+
+      state_ = 0;
+    }
+
+    public static final int PROTOCOL_VERSION_FIELD_NUMBER = 3;
+    private int protocolVersion_;
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     * @return The protocolVersion.
+     */
+    @java.lang.Override
+    public int getProtocolVersion() {
+      return protocolVersion_;
+    }
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     * @param value The protocolVersion to set.
+     */
+    private void setProtocolVersion(int value) {
+      
+      protocolVersion_ = value;
+    }
+    /**
+     * <code>uint32 protocol_version = 3;</code>
+     */
+    private void clearProtocolVersion() {
+
+      protocolVersion_ = 0;
+    }
+
+    public static final int EPOCH_FIELD_NUMBER = 4;
+    private long epoch_;
+    /**
+     * <code>int64 epoch = 4;</code>
+     * @return The epoch.
+     */
+    @java.lang.Override
+    public long getEpoch() {
+      return epoch_;
+    }
+    /**
+     * <code>int64 epoch = 4;</code>
+     * @param value The epoch to set.
+     */
+    private void setEpoch(long value) {
+      
+      epoch_ = value;
+    }
+    /**
+     * <code>int64 epoch = 4;</code>
+     */
+    private void clearEpoch() {
+
+      epoch_ = 0L;
+    }
+
+    public static final int BOUNDARY_MESSAGE_ID_FIELD_NUMBER = 5;
+    private long boundaryMessageId_;
+    /**
+     * <code>int64 boundary_message_id = 5;</code>
+     * @return The boundaryMessageId.
+     */
+    @java.lang.Override
+    public long getBoundaryMessageId() {
+      return boundaryMessageId_;
+    }
+    /**
+     * <code>int64 boundary_message_id = 5;</code>
+     * @param value The boundaryMessageId to set.
+     */
+    private void setBoundaryMessageId(long value) {
+      
+      boundaryMessageId_ = value;
+    }
+    /**
+     * <code>int64 boundary_message_id = 5;</code>
+     */
+    private void clearBoundaryMessageId() {
+
+      boundaryMessageId_ = 0L;
+    }
+
+    public static final int SELF_INITIATOR_FIELD_NUMBER = 6;
+    private boolean selfInitiator_;
+    /**
+     * <code>bool self_initiator = 6;</code>
+     * @return The selfInitiator.
+     */
+    @java.lang.Override
+    public boolean getSelfInitiator() {
+      return selfInitiator_;
+    }
+    /**
+     * <code>bool self_initiator = 6;</code>
+     * @param value The selfInitiator to set.
+     */
+    private void setSelfInitiator(boolean value) {
+      
+      selfInitiator_ = value;
+    }
+    /**
+     * <code>bool self_initiator = 6;</code>
+     */
+    private void clearSelfInitiator() {
+
+      selfInitiator_ = false;
+    }
+
+    public static final int AWAITING_SELF_FIELD_NUMBER = 7;
+    private boolean awaitingSelf_;
+    /**
+     * <code>bool awaiting_self = 7;</code>
+     * @return The awaitingSelf.
+     */
+    @java.lang.Override
+    public boolean getAwaitingSelf() {
+      return awaitingSelf_;
+    }
+    /**
+     * <code>bool awaiting_self = 7;</code>
+     * @param value The awaitingSelf to set.
+     */
+    private void setAwaitingSelf(boolean value) {
+      
+      awaitingSelf_ = value;
+    }
+    /**
+     * <code>bool awaiting_self = 7;</code>
+     */
+    private void clearAwaitingSelf() {
+
+      awaitingSelf_ = false;
+    }
+
+    public static final int PEER_SUPPORTED_FIELD_NUMBER = 8;
+    private boolean peerSupported_;
+    /**
+     * <code>bool peer_supported = 8;</code>
+     * @return The peerSupported.
+     */
+    @java.lang.Override
+    public boolean getPeerSupported() {
+      return peerSupported_;
+    }
+    /**
+     * <code>bool peer_supported = 8;</code>
+     * @param value The peerSupported to set.
+     */
+    private void setPeerSupported(boolean value) {
+      
+      peerSupported_ = value;
+    }
+    /**
+     * <code>bool peer_supported = 8;</code>
+     */
+    private void clearPeerSupported() {
+
+      peerSupported_ = false;
+    }
+
+    public static final int IDENTITY_CHANGED_FIELD_NUMBER = 9;
+    private boolean identityChanged_;
+    /**
+     * <code>bool identity_changed = 9;</code>
+     * @return The identityChanged.
+     */
+    @java.lang.Override
+    public boolean getIdentityChanged() {
+      return identityChanged_;
+    }
+    /**
+     * <code>bool identity_changed = 9;</code>
+     * @param value The identityChanged to set.
+     */
+    private void setIdentityChanged(boolean value) {
+      
+      identityChanged_ = value;
+    }
+    /**
+     * <code>bool identity_changed = 9;</code>
+     */
+    private void clearIdentityChanged() {
+
+      identityChanged_ = false;
+    }
+
+    public static final int CLOSE_BOUNDARY_MESSAGE_ID_FIELD_NUMBER = 10;
+    private long closeBoundaryMessageId_;
+    /**
+     * <code>int64 close_boundary_message_id = 10;</code>
+     * @return The closeBoundaryMessageId.
+     */
+    @java.lang.Override
+    public long getCloseBoundaryMessageId() {
+      return closeBoundaryMessageId_;
+    }
+    /**
+     * <code>int64 close_boundary_message_id = 10;</code>
+     * @param value The closeBoundaryMessageId to set.
+     */
+    private void setCloseBoundaryMessageId(long value) {
+      
+      closeBoundaryMessageId_ = value;
+    }
+    /**
+     * <code>int64 close_boundary_message_id = 10;</code>
+     */
+    private void clearCloseBoundaryMessageId() {
+
+      closeBoundaryMessageId_ = 0L;
+    }
+
+    public static final int INITIATOR_USER_ID_FIELD_NUMBER = 11;
+    private java.lang.String initiatorUserId_;
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     * @return The initiatorUserId.
+     */
+    @java.lang.Override
+    public java.lang.String getInitiatorUserId() {
+      return initiatorUserId_;
+    }
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     * @return The bytes for initiatorUserId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getInitiatorUserIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(initiatorUserId_);
+    }
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     * @param value The initiatorUserId to set.
+     */
+    private void setInitiatorUserId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      initiatorUserId_ = value;
+    }
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     */
+    private void clearInitiatorUserId() {
+
+      initiatorUserId_ = getDefaultInstance().getInitiatorUserId();
+    }
+    /**
+     * <code>string initiator_user_id = 11;</code>
+     * @param value The bytes for initiatorUserId to set.
+     */
+    private void setInitiatorUserIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      initiatorUserId_ = value.toStringUtf8();
+
+    }
+
+    public static final int CLOSED_BY_USER_ID_FIELD_NUMBER = 12;
+    private java.lang.String closedByUserId_;
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     * @return The closedByUserId.
+     */
+    @java.lang.Override
+    public java.lang.String getClosedByUserId() {
+      return closedByUserId_;
+    }
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     * @return The bytes for closedByUserId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getClosedByUserIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(closedByUserId_);
+    }
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     * @param value The closedByUserId to set.
+     */
+    private void setClosedByUserId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      closedByUserId_ = value;
+    }
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     */
+    private void clearClosedByUserId() {
+
+      closedByUserId_ = getDefaultInstance().getClosedByUserId();
+    }
+    /**
+     * <code>string closed_by_user_id = 12;</code>
+     * @param value The bytes for closedByUserId to set.
+     */
+    private void setClosedByUserIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      closedByUserId_ = value.toStringUtf8();
+
+    }
+
+    public static final int SELF_CONFIRMED_IDENTITY_FIELD_NUMBER = 13;
+    private boolean selfConfirmedIdentity_;
+    /**
+     * <code>bool self_confirmed_identity = 13;</code>
+     * @return The selfConfirmedIdentity.
+     */
+    @java.lang.Override
+    public boolean getSelfConfirmedIdentity() {
+      return selfConfirmedIdentity_;
+    }
+    /**
+     * <code>bool self_confirmed_identity = 13;</code>
+     * @param value The selfConfirmedIdentity to set.
+     */
+    private void setSelfConfirmedIdentity(boolean value) {
+      
+      selfConfirmedIdentity_ = value;
+    }
+    /**
+     * <code>bool self_confirmed_identity = 13;</code>
+     */
+    private void clearSelfConfirmedIdentity() {
+
+      selfConfirmedIdentity_ = false;
+    }
+
+    public static final int PEER_CONFIRMED_IDENTITY_FIELD_NUMBER = 14;
+    private boolean peerConfirmedIdentity_;
+    /**
+     * <code>bool peer_confirmed_identity = 14;</code>
+     * @return The peerConfirmedIdentity.
+     */
+    @java.lang.Override
+    public boolean getPeerConfirmedIdentity() {
+      return peerConfirmedIdentity_;
+    }
+    /**
+     * <code>bool peer_confirmed_identity = 14;</code>
+     * @param value The peerConfirmedIdentity to set.
+     */
+    private void setPeerConfirmedIdentity(boolean value) {
+      
+      peerConfirmedIdentity_ = value;
+    }
+    /**
+     * <code>bool peer_confirmed_identity = 14;</code>
+     */
+    private void clearPeerConfirmedIdentity() {
+
+      peerConfirmedIdentity_ = false;
+    }
+
+    public static final int SELF_DEVICE_ID_FIELD_NUMBER = 15;
+    private int selfDeviceId_;
+    /**
+     * <code>uint32 self_device_id = 15;</code>
+     * @return The selfDeviceId.
+     */
+    @java.lang.Override
+    public int getSelfDeviceId() {
+      return selfDeviceId_;
+    }
+    /**
+     * <code>uint32 self_device_id = 15;</code>
+     * @param value The selfDeviceId to set.
+     */
+    private void setSelfDeviceId(int value) {
+      
+      selfDeviceId_ = value;
+    }
+    /**
+     * <code>uint32 self_device_id = 15;</code>
+     */
+    private void clearSelfDeviceId() {
+
+      selfDeviceId_ = 0;
+    }
+
+    public static final int PEER_DEVICE_ID_FIELD_NUMBER = 16;
+    private int peerDeviceId_;
+    /**
+     * <code>uint32 peer_device_id = 16;</code>
+     * @return The peerDeviceId.
+     */
+    @java.lang.Override
+    public int getPeerDeviceId() {
+      return peerDeviceId_;
+    }
+    /**
+     * <code>uint32 peer_device_id = 16;</code>
+     * @param value The peerDeviceId to set.
+     */
+    private void setPeerDeviceId(int value) {
+      
+      peerDeviceId_ = value;
+    }
+    /**
+     * <code>uint32 peer_device_id = 16;</code>
+     */
+    private void clearPeerDeviceId() {
+
+      peerDeviceId_ = 0;
+    }
+
+    public static final int PEER_IDENTITY_KEY_FIELD_NUMBER = 17;
+    private com.google.protobuf.ByteString peerIdentityKey_;
+    /**
+     * <code>bytes peer_identity_key = 17;</code>
+     * @return The peerIdentityKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPeerIdentityKey() {
+      return peerIdentityKey_;
+    }
+    /**
+     * <code>bytes peer_identity_key = 17;</code>
+     * @param value The peerIdentityKey to set.
+     */
+    private void setPeerIdentityKey(com.google.protobuf.ByteString value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      peerIdentityKey_ = value;
+    }
+    /**
+     * <code>bytes peer_identity_key = 17;</code>
+     */
+    private void clearPeerIdentityKey() {
+
+      peerIdentityKey_ = getDefaultInstance().getPeerIdentityKey();
+    }
+
+    public static final int PEER_GENERATION_FIELD_NUMBER = 18;
+    private long peerGeneration_;
+    /**
+     * <code>int64 peer_generation = 18;</code>
+     * @return The peerGeneration.
+     */
+    @java.lang.Override
+    public long getPeerGeneration() {
+      return peerGeneration_;
+    }
+    /**
+     * <code>int64 peer_generation = 18;</code>
+     * @param value The peerGeneration to set.
+     */
+    private void setPeerGeneration(long value) {
+      
+      peerGeneration_ = value;
+    }
+    /**
+     * <code>int64 peer_generation = 18;</code>
+     */
+    private void clearPeerGeneration() {
+
+      peerGeneration_ = 0L;
+    }
+
+    public static final int UPDATED_AT_MS_FIELD_NUMBER = 19;
+    private long updatedAtMs_;
+    /**
+     * <code>int64 updated_at_ms = 19;</code>
+     * @return The updatedAtMs.
+     */
+    @java.lang.Override
+    public long getUpdatedAtMs() {
+      return updatedAtMs_;
+    }
+    /**
+     * <code>int64 updated_at_ms = 19;</code>
+     * @param value The updatedAtMs to set.
+     */
+    private void setUpdatedAtMs(long value) {
+      
+      updatedAtMs_ = value;
+    }
+    /**
+     * <code>int64 updated_at_ms = 19;</code>
+     */
+    private void clearUpdatedAtMs() {
+
+      updatedAtMs_ = 0L;
+    }
+
+    public static final int CONVERSATION_ID_FIELD_NUMBER = 20;
+    private java.lang.String conversationId_;
+    /**
+     * <code>string conversation_id = 20;</code>
+     * @return The conversationId.
+     */
+    @java.lang.Override
+    public java.lang.String getConversationId() {
+      return conversationId_;
+    }
+    /**
+     * <code>string conversation_id = 20;</code>
+     * @return The bytes for conversationId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getConversationIdBytes() {
+      return com.google.protobuf.ByteString.copyFromUtf8(conversationId_);
+    }
+    /**
+     * <code>string conversation_id = 20;</code>
+     * @param value The conversationId to set.
+     */
+    private void setConversationId(
+        java.lang.String value) {
+      java.lang.Class<?> valueClass = value.getClass();
+  
+      conversationId_ = value;
+    }
+    /**
+     * <code>string conversation_id = 20;</code>
+     */
+    private void clearConversationId() {
+
+      conversationId_ = getDefaultInstance().getConversationId();
+    }
+    /**
+     * <code>string conversation_id = 20;</code>
+     * @param value The bytes for conversationId to set.
+     */
+    private void setConversationIdBytes(
+        com.google.protobuf.ByteString value) {
+      checkByteStringIsUtf8(value);
+      conversationId_ = value.toStringUtf8();
+
+    }
+
+    public static final int TL_USER_ID_FIELD_NUMBER = 21;
+    private long tlUserId_;
+    /**
+     * <code>int64 tl_user_id = 21;</code>
+     * @return The tlUserId.
+     */
+    @java.lang.Override
+    public long getTlUserId() {
+      return tlUserId_;
+    }
+    /**
+     * <code>int64 tl_user_id = 21;</code>
+     * @param value The tlUserId to set.
+     */
+    private void setTlUserId(long value) {
+      
+      tlUserId_ = value;
+    }
+    /**
+     * <code>int64 tl_user_id = 21;</code>
+     */
+    private void clearTlUserId() {
+
+      tlUserId_ = 0L;
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeChatStatus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeChatStatus)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public boolean hasPeer() {
+        return instance.hasPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef getPeer() {
+        return instance.getPeer();
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder setPeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.setPeer(value);
+        return this;
+        }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder setPeer(
+          org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPeer(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder mergePeer(org.telegram.botgram.protocol.v1.BotgramRpc.PeerRef value) {
+        copyOnWrite();
+        instance.mergePeer(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.PeerRef peer = 1;</code>
+       */
+      public Builder clearPeer() {  copyOnWrite();
+        instance.clearPeer();
+        return this;
+      }
+
+      /**
+       * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+       * @return The enum numeric value on the wire for state.
+       */
+      @java.lang.Override
+      public int getStateValue() {
+        return instance.getStateValue();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateValue(int value) {
+        copyOnWrite();
+        instance.setStateValue(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState getState() {
+        return instance.getState();
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+       * @param value The enum numeric value on the wire for state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState value) {
+        copyOnWrite();
+        instance.setState(value);
+        return this;
+      }
+      /**
+       * <code>.botgram.rpc.v1.E2eeState state = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        copyOnWrite();
+        instance.clearState();
+        return this;
+      }
+
+      /**
+       * <code>uint32 protocol_version = 3;</code>
+       * @return The protocolVersion.
+       */
+      @java.lang.Override
+      public int getProtocolVersion() {
+        return instance.getProtocolVersion();
+      }
+      /**
+       * <code>uint32 protocol_version = 3;</code>
+       * @param value The protocolVersion to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProtocolVersion(int value) {
+        copyOnWrite();
+        instance.setProtocolVersion(value);
+        return this;
+      }
+      /**
+       * <code>uint32 protocol_version = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProtocolVersion() {
+        copyOnWrite();
+        instance.clearProtocolVersion();
+        return this;
+      }
+
+      /**
+       * <code>int64 epoch = 4;</code>
+       * @return The epoch.
+       */
+      @java.lang.Override
+      public long getEpoch() {
+        return instance.getEpoch();
+      }
+      /**
+       * <code>int64 epoch = 4;</code>
+       * @param value The epoch to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEpoch(long value) {
+        copyOnWrite();
+        instance.setEpoch(value);
+        return this;
+      }
+      /**
+       * <code>int64 epoch = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEpoch() {
+        copyOnWrite();
+        instance.clearEpoch();
+        return this;
+      }
+
+      /**
+       * <code>int64 boundary_message_id = 5;</code>
+       * @return The boundaryMessageId.
+       */
+      @java.lang.Override
+      public long getBoundaryMessageId() {
+        return instance.getBoundaryMessageId();
+      }
+      /**
+       * <code>int64 boundary_message_id = 5;</code>
+       * @param value The boundaryMessageId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBoundaryMessageId(long value) {
+        copyOnWrite();
+        instance.setBoundaryMessageId(value);
+        return this;
+      }
+      /**
+       * <code>int64 boundary_message_id = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBoundaryMessageId() {
+        copyOnWrite();
+        instance.clearBoundaryMessageId();
+        return this;
+      }
+
+      /**
+       * <code>bool self_initiator = 6;</code>
+       * @return The selfInitiator.
+       */
+      @java.lang.Override
+      public boolean getSelfInitiator() {
+        return instance.getSelfInitiator();
+      }
+      /**
+       * <code>bool self_initiator = 6;</code>
+       * @param value The selfInitiator to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSelfInitiator(boolean value) {
+        copyOnWrite();
+        instance.setSelfInitiator(value);
+        return this;
+      }
+      /**
+       * <code>bool self_initiator = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSelfInitiator() {
+        copyOnWrite();
+        instance.clearSelfInitiator();
+        return this;
+      }
+
+      /**
+       * <code>bool awaiting_self = 7;</code>
+       * @return The awaitingSelf.
+       */
+      @java.lang.Override
+      public boolean getAwaitingSelf() {
+        return instance.getAwaitingSelf();
+      }
+      /**
+       * <code>bool awaiting_self = 7;</code>
+       * @param value The awaitingSelf to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAwaitingSelf(boolean value) {
+        copyOnWrite();
+        instance.setAwaitingSelf(value);
+        return this;
+      }
+      /**
+       * <code>bool awaiting_self = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAwaitingSelf() {
+        copyOnWrite();
+        instance.clearAwaitingSelf();
+        return this;
+      }
+
+      /**
+       * <code>bool peer_supported = 8;</code>
+       * @return The peerSupported.
+       */
+      @java.lang.Override
+      public boolean getPeerSupported() {
+        return instance.getPeerSupported();
+      }
+      /**
+       * <code>bool peer_supported = 8;</code>
+       * @param value The peerSupported to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeerSupported(boolean value) {
+        copyOnWrite();
+        instance.setPeerSupported(value);
+        return this;
+      }
+      /**
+       * <code>bool peer_supported = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeerSupported() {
+        copyOnWrite();
+        instance.clearPeerSupported();
+        return this;
+      }
+
+      /**
+       * <code>bool identity_changed = 9;</code>
+       * @return The identityChanged.
+       */
+      @java.lang.Override
+      public boolean getIdentityChanged() {
+        return instance.getIdentityChanged();
+      }
+      /**
+       * <code>bool identity_changed = 9;</code>
+       * @param value The identityChanged to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIdentityChanged(boolean value) {
+        copyOnWrite();
+        instance.setIdentityChanged(value);
+        return this;
+      }
+      /**
+       * <code>bool identity_changed = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIdentityChanged() {
+        copyOnWrite();
+        instance.clearIdentityChanged();
+        return this;
+      }
+
+      /**
+       * <code>int64 close_boundary_message_id = 10;</code>
+       * @return The closeBoundaryMessageId.
+       */
+      @java.lang.Override
+      public long getCloseBoundaryMessageId() {
+        return instance.getCloseBoundaryMessageId();
+      }
+      /**
+       * <code>int64 close_boundary_message_id = 10;</code>
+       * @param value The closeBoundaryMessageId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCloseBoundaryMessageId(long value) {
+        copyOnWrite();
+        instance.setCloseBoundaryMessageId(value);
+        return this;
+      }
+      /**
+       * <code>int64 close_boundary_message_id = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCloseBoundaryMessageId() {
+        copyOnWrite();
+        instance.clearCloseBoundaryMessageId();
+        return this;
+      }
+
+      /**
+       * <code>string initiator_user_id = 11;</code>
+       * @return The initiatorUserId.
+       */
+      @java.lang.Override
+      public java.lang.String getInitiatorUserId() {
+        return instance.getInitiatorUserId();
+      }
+      /**
+       * <code>string initiator_user_id = 11;</code>
+       * @return The bytes for initiatorUserId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getInitiatorUserIdBytes() {
+        return instance.getInitiatorUserIdBytes();
+      }
+      /**
+       * <code>string initiator_user_id = 11;</code>
+       * @param value The initiatorUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInitiatorUserId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setInitiatorUserId(value);
+        return this;
+      }
+      /**
+       * <code>string initiator_user_id = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInitiatorUserId() {
+        copyOnWrite();
+        instance.clearInitiatorUserId();
+        return this;
+      }
+      /**
+       * <code>string initiator_user_id = 11;</code>
+       * @param value The bytes for initiatorUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInitiatorUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setInitiatorUserIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>string closed_by_user_id = 12;</code>
+       * @return The closedByUserId.
+       */
+      @java.lang.Override
+      public java.lang.String getClosedByUserId() {
+        return instance.getClosedByUserId();
+      }
+      /**
+       * <code>string closed_by_user_id = 12;</code>
+       * @return The bytes for closedByUserId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getClosedByUserIdBytes() {
+        return instance.getClosedByUserIdBytes();
+      }
+      /**
+       * <code>string closed_by_user_id = 12;</code>
+       * @param value The closedByUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClosedByUserId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setClosedByUserId(value);
+        return this;
+      }
+      /**
+       * <code>string closed_by_user_id = 12;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClosedByUserId() {
+        copyOnWrite();
+        instance.clearClosedByUserId();
+        return this;
+      }
+      /**
+       * <code>string closed_by_user_id = 12;</code>
+       * @param value The bytes for closedByUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClosedByUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setClosedByUserIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>bool self_confirmed_identity = 13;</code>
+       * @return The selfConfirmedIdentity.
+       */
+      @java.lang.Override
+      public boolean getSelfConfirmedIdentity() {
+        return instance.getSelfConfirmedIdentity();
+      }
+      /**
+       * <code>bool self_confirmed_identity = 13;</code>
+       * @param value The selfConfirmedIdentity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSelfConfirmedIdentity(boolean value) {
+        copyOnWrite();
+        instance.setSelfConfirmedIdentity(value);
+        return this;
+      }
+      /**
+       * <code>bool self_confirmed_identity = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSelfConfirmedIdentity() {
+        copyOnWrite();
+        instance.clearSelfConfirmedIdentity();
+        return this;
+      }
+
+      /**
+       * <code>bool peer_confirmed_identity = 14;</code>
+       * @return The peerConfirmedIdentity.
+       */
+      @java.lang.Override
+      public boolean getPeerConfirmedIdentity() {
+        return instance.getPeerConfirmedIdentity();
+      }
+      /**
+       * <code>bool peer_confirmed_identity = 14;</code>
+       * @param value The peerConfirmedIdentity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeerConfirmedIdentity(boolean value) {
+        copyOnWrite();
+        instance.setPeerConfirmedIdentity(value);
+        return this;
+      }
+      /**
+       * <code>bool peer_confirmed_identity = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeerConfirmedIdentity() {
+        copyOnWrite();
+        instance.clearPeerConfirmedIdentity();
+        return this;
+      }
+
+      /**
+       * <code>uint32 self_device_id = 15;</code>
+       * @return The selfDeviceId.
+       */
+      @java.lang.Override
+      public int getSelfDeviceId() {
+        return instance.getSelfDeviceId();
+      }
+      /**
+       * <code>uint32 self_device_id = 15;</code>
+       * @param value The selfDeviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSelfDeviceId(int value) {
+        copyOnWrite();
+        instance.setSelfDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 self_device_id = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSelfDeviceId() {
+        copyOnWrite();
+        instance.clearSelfDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>uint32 peer_device_id = 16;</code>
+       * @return The peerDeviceId.
+       */
+      @java.lang.Override
+      public int getPeerDeviceId() {
+        return instance.getPeerDeviceId();
+      }
+      /**
+       * <code>uint32 peer_device_id = 16;</code>
+       * @param value The peerDeviceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeerDeviceId(int value) {
+        copyOnWrite();
+        instance.setPeerDeviceId(value);
+        return this;
+      }
+      /**
+       * <code>uint32 peer_device_id = 16;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeerDeviceId() {
+        copyOnWrite();
+        instance.clearPeerDeviceId();
+        return this;
+      }
+
+      /**
+       * <code>bytes peer_identity_key = 17;</code>
+       * @return The peerIdentityKey.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getPeerIdentityKey() {
+        return instance.getPeerIdentityKey();
+      }
+      /**
+       * <code>bytes peer_identity_key = 17;</code>
+       * @param value The peerIdentityKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeerIdentityKey(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setPeerIdentityKey(value);
+        return this;
+      }
+      /**
+       * <code>bytes peer_identity_key = 17;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeerIdentityKey() {
+        copyOnWrite();
+        instance.clearPeerIdentityKey();
+        return this;
+      }
+
+      /**
+       * <code>int64 peer_generation = 18;</code>
+       * @return The peerGeneration.
+       */
+      @java.lang.Override
+      public long getPeerGeneration() {
+        return instance.getPeerGeneration();
+      }
+      /**
+       * <code>int64 peer_generation = 18;</code>
+       * @param value The peerGeneration to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeerGeneration(long value) {
+        copyOnWrite();
+        instance.setPeerGeneration(value);
+        return this;
+      }
+      /**
+       * <code>int64 peer_generation = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeerGeneration() {
+        copyOnWrite();
+        instance.clearPeerGeneration();
+        return this;
+      }
+
+      /**
+       * <code>int64 updated_at_ms = 19;</code>
+       * @return The updatedAtMs.
+       */
+      @java.lang.Override
+      public long getUpdatedAtMs() {
+        return instance.getUpdatedAtMs();
+      }
+      /**
+       * <code>int64 updated_at_ms = 19;</code>
+       * @param value The updatedAtMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUpdatedAtMs(long value) {
+        copyOnWrite();
+        instance.setUpdatedAtMs(value);
+        return this;
+      }
+      /**
+       * <code>int64 updated_at_ms = 19;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUpdatedAtMs() {
+        copyOnWrite();
+        instance.clearUpdatedAtMs();
+        return this;
+      }
+
+      /**
+       * <code>string conversation_id = 20;</code>
+       * @return The conversationId.
+       */
+      @java.lang.Override
+      public java.lang.String getConversationId() {
+        return instance.getConversationId();
+      }
+      /**
+       * <code>string conversation_id = 20;</code>
+       * @return The bytes for conversationId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getConversationIdBytes() {
+        return instance.getConversationIdBytes();
+      }
+      /**
+       * <code>string conversation_id = 20;</code>
+       * @param value The conversationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConversationId(
+          java.lang.String value) {
+        copyOnWrite();
+        instance.setConversationId(value);
+        return this;
+      }
+      /**
+       * <code>string conversation_id = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearConversationId() {
+        copyOnWrite();
+        instance.clearConversationId();
+        return this;
+      }
+      /**
+       * <code>string conversation_id = 20;</code>
+       * @param value The bytes for conversationId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConversationIdBytes(
+          com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setConversationIdBytes(value);
+        return this;
+      }
+
+      /**
+       * <code>int64 tl_user_id = 21;</code>
+       * @return The tlUserId.
+       */
+      @java.lang.Override
+      public long getTlUserId() {
+        return instance.getTlUserId();
+      }
+      /**
+       * <code>int64 tl_user_id = 21;</code>
+       * @param value The tlUserId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTlUserId(long value) {
+        copyOnWrite();
+        instance.setTlUserId(value);
+        return this;
+      }
+      /**
+       * <code>int64 tl_user_id = 21;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTlUserId() {
+        copyOnWrite();
+        instance.clearTlUserId();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeChatStatus)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "peer_",
+              "state_",
+              "protocolVersion_",
+              "epoch_",
+              "boundaryMessageId_",
+              "selfInitiator_",
+              "awaitingSelf_",
+              "peerSupported_",
+              "identityChanged_",
+              "closeBoundaryMessageId_",
+              "initiatorUserId_",
+              "closedByUserId_",
+              "selfConfirmedIdentity_",
+              "peerConfirmedIdentity_",
+              "selfDeviceId_",
+              "peerDeviceId_",
+              "peerIdentityKey_",
+              "peerGeneration_",
+              "updatedAtMs_",
+              "conversationId_",
+              "tlUserId_",
+            };
+            java.lang.String info =
+                "\u0000\u0015\u0000\u0001\u0001\u0015\u0015\u0000\u0000\u0000\u0001\u1009\u0000\u0002" +
+                "\f\u0003\u000b\u0004\u0002\u0005\u0002\u0006\u0007\u0007\u0007\b\u0007\t\u0007\n" +
+                "\u0002\u000b\u0208\f\u0208\r\u0007\u000e\u0007\u000f\u000b\u0010\u000b\u0011\n\u0012" +
+                "\u0002\u0013\u0002\u0014\u0208\u0015\u0002";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeChatStatus)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus DEFAULT_INSTANCE;
+    static {
+      E2eeChatStatus defaultInstance = new E2eeChatStatus();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeChatStatus.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeChatStatus> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeChatStatus> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface E2eeChatStatusListOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:botgram.rpc.v1.E2eeChatStatusList)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> 
+        getChatsList();
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getChats(int index);
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    int getChatsCount();
+  }
+  /**
+   * Protobuf type {@code botgram.rpc.v1.E2eeChatStatusList}
+   */
+  public  static final class E2eeChatStatusList extends
+      com.google.protobuf.GeneratedMessageLite<
+          E2eeChatStatusList, E2eeChatStatusList.Builder> implements
+      // @@protoc_insertion_point(message_implements:botgram.rpc.v1.E2eeChatStatusList)
+      E2eeChatStatusListOrBuilder {
+    private E2eeChatStatusList() {
+      chats_ = emptyProtobufList();
+    }
+    public static final int CHATS_FIELD_NUMBER = 1;
+    private com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> chats_;
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> getChatsList() {
+      return chats_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    public java.util.List<? extends org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusOrBuilder> 
+        getChatsOrBuilderList() {
+      return chats_;
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    @java.lang.Override
+    public int getChatsCount() {
+      return chats_.size();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    @java.lang.Override
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getChats(int index) {
+      return chats_.get(index);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusOrBuilder getChatsOrBuilder(
+        int index) {
+      return chats_.get(index);
+    }
+    private void ensureChatsIsMutable() {
+      com.google.protobuf.Internal.ProtobufList<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> tmp = chats_;
+      if (!tmp.isModifiable()) {
+        chats_ =
+            com.google.protobuf.GeneratedMessageLite.mutableCopy(tmp);
+       }
+    }
+
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    private void setChats(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+      value.getClass();
+  ensureChatsIsMutable();
+      chats_.set(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    private void addChats(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+      value.getClass();
+  ensureChatsIsMutable();
+      chats_.add(value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    private void addChats(
+        int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+      value.getClass();
+  ensureChatsIsMutable();
+      chats_.add(index, value);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    private void addAllChats(
+        java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> values) {
+      ensureChatsIsMutable();
+      com.google.protobuf.AbstractMessageLite.addAll(
+          values, chats_);
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    private void clearChats() {
+      chats_ = emptyProtobufList();
+    }
+    /**
+     * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+     */
+    private void removeChats(int index) {
+      ensureChatsIsMutable();
+      chats_.remove(index);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList prototype) {
+      return DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code botgram.rpc.v1.E2eeChatStatusList}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList, Builder> implements
+        // @@protoc_insertion_point(builder_implements:botgram.rpc.v1.E2eeChatStatusList)
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusListOrBuilder {
+      // Construct using org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      @java.lang.Override
+      public java.util.List<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> getChatsList() {
+        return java.util.Collections.unmodifiableList(
+            instance.getChatsList());
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      @java.lang.Override
+      public int getChatsCount() {
+        return instance.getChatsCount();
+      }/**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      @java.lang.Override
+      public org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus getChats(int index) {
+        return instance.getChats(index);
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder setChats(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+        copyOnWrite();
+        instance.setChats(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder setChats(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.Builder builderForValue) {
+        copyOnWrite();
+        instance.setChats(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder addChats(org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+        copyOnWrite();
+        instance.addChats(value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder addChats(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus value) {
+        copyOnWrite();
+        instance.addChats(index, value);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder addChats(
+          org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.Builder builderForValue) {
+        copyOnWrite();
+        instance.addChats(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder addChats(
+          int index, org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.Builder builderForValue) {
+        copyOnWrite();
+        instance.addChats(index,
+            builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder addAllChats(
+          java.lang.Iterable<? extends org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus> values) {
+        copyOnWrite();
+        instance.addAllChats(values);
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder clearChats() {
+        copyOnWrite();
+        instance.clearChats();
+        return this;
+      }
+      /**
+       * <code>repeated .botgram.rpc.v1.E2eeChatStatus chats = 1;</code>
+       */
+      public Builder removeChats(int index) {
+        copyOnWrite();
+        instance.removeChats(index);
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:botgram.rpc.v1.E2eeChatStatusList)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "chats_",
+              org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus.class,
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0001\u0000\u0001\u001b";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:botgram.rpc.v1.E2eeChatStatusList)
+    private static final org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList DEFAULT_INSTANCE;
+    static {
+      E2eeChatStatusList defaultInstance = new E2eeChatStatusList();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        E2eeChatStatusList.class, defaultInstance);
+    }
+
+    public static org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatusList getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<E2eeChatStatusList> PARSER;
+
+    public static com.google.protobuf.Parser<E2eeChatStatusList> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

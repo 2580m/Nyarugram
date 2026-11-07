@@ -67,6 +67,17 @@ android {
     packagingOptions {
         jniLibs {
             useLegacyPackaging = true
+            excludes += ['**/libsignal_jni_testing.so']
+        }
+        resources {
+            excludes += [
+                    'libsignal_jni_*.so',
+                    'libsignal_jni_*.dylib',
+                    'libsignal_jni_testing_*.so',
+                    'libsignal_jni_testing_*.dylib',
+                    'signal_jni_*.dll',
+                    'signal_jni_testing_*.dll'
+            ]
         }
     }
 

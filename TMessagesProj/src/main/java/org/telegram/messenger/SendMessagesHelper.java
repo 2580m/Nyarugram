@@ -4490,6 +4490,83 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             caption = "";
         }
 
+        org.telegram.botgram.e2ee.BotgramE2eeController botgramE2ee =
+                org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount);
+        long botgramSelfId = getUserConfig().getClientUserId();
+        // E2EE only applies to a bound Botgram account sending to another ordinary user in a
+        // one-to-one chat. Groups, channels, Saved Messages, secret chats and accounts without
+        // an active Botgram session keep their original send paths untouched.
+        boolean botgramE2eeApplies = org.telegram.botgram.e2ee.BotgramE2eeSendPolicy.applies(
+                peer, DialogObject.isEncryptedDialog(peer), botgramSelfId,
+                org.telegram.botgram.BotgramTransport.get(currentAccount).hasActiveSession());
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus botgramE2eeStatus =
+                botgramE2eeApplies ? botgramE2ee.status(peer) : null;
+        boolean botgramE2eeProtected = org.telegram.botgram.e2ee.BotgramE2eeSendPolicy.selfEnabled(botgramE2eeStatus);
+        boolean botgramE2eeSuspended = botgramE2eeStatus != null &&
+                botgramE2eeStatus.getState() == org.telegram.botgram.protocol.v1.BotgramRpc.E2eeState.E2EE_SUSPENDED;
+        boolean botgramE2eePending = false; // One-sided mode is usable immediately.
+        boolean botgramE2eeUnknown = botgramE2eeApplies && !botgramE2ee.statusKnown(peer);
+        boolean botgramTextOnly = retryMessageObject != null
+                ? (org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(retryMessageObject.messageOwner.message)
+                    || retryMessageObject.type == MessageObject.TYPE_TEXT)
+                : message != null && caption == null
+                    && photo == null && document == null && game == null && poll == null && todo == null
+                    && invoice == null && user == null && location == null && richMessage == null
+                    && scheduleDate == 0;
+        if (retryMessageObject != null && retryMessageObject.isForwarded()
+                && (botgramE2eeProtected
+                    || org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(retryMessageObject.messageOwner.message))) {
+            // Forwarding would copy ciphertext or plaintext across the encryption boundary.
+            org.telegram.botgram.e2ee.BotgramE2eeUi.toast(org.telegram.messenger.R.string.BotgramE2eeTextOnly);
+            return;
+        }
+        if (botgramE2eeSuspended && retryMessageObject == null) {
+            org.telegram.botgram.e2ee.BotgramE2eeUi.toastText(
+                    org.telegram.botgram.e2ee.BotgramE2eeStrings.errorText("E2EE_IDENTITY_CONFIRMATION_REQUIRED"));
+            return;
+        }
+        if (botgramE2eePending && retryMessageObject == null) {
+            org.telegram.botgram.e2ee.BotgramE2eeUi.toast(org.telegram.messenger.R.string.BotgramE2eeWaitingPeer);
+            return;
+        }
+        if (botgramE2eeProtected && retryMessageObject == null) {
+            if (!botgramTextOnly) {
+                org.telegram.botgram.e2ee.BotgramE2eeUi.toast(org.telegram.messenger.R.string.BotgramE2eeTextOnly);
+                return;
+            }
+            // Encrypted chats never carry entities, quoted plaintext or remote link previews.
+            webPage = null;
+            mediaWebPage = null;
+            replyQuote = null;
+            replyToStoryItem = null;
+            entities = null;
+        } else if (botgramE2eeUnknown && retryMessageObject == null && !botgramTextOnly) {
+            botgramE2ee.refreshStatus(peer, null);
+            org.telegram.botgram.e2ee.BotgramE2eeUi.toast(org.telegram.messenger.R.string.BotgramE2eeSendNotReady);
+            return;
+        }
+
+        // Commit on the E2EE worker before any plaintext can enter message storage.
+        if (botgramE2eeApplies && botgramTextOnly && retryMessageObject == null && message != null
+                && !org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(message)
+                && !sendMessageParams.botgramE2eePrepared) {
+            if (sendMessageParams.botgramE2eePreparing) return;
+            sendMessageParams.botgramE2eePreparing = true;
+            if (sendMessageParams.botgramE2eeRandomId == 0) sendMessageParams.botgramE2eeRandomId = getNextRandomId();
+            botgramE2ee.encryptForSendAsync(peer, message, sendMessageParams.botgramE2eeRandomId, (wire, error) -> {
+                sendMessageParams.botgramE2eePreparing = false;
+                if (error != null) {
+                    org.telegram.botgram.e2ee.BotgramE2eeUi.toastText(
+                            org.telegram.botgram.e2ee.BotgramE2eeStrings.errorText(error));
+                    return;
+                }
+                sendMessageParams.botgramE2eePrepared = true;
+                if (wire != null) sendMessageParams.message = wire;
+                sendMessage(sendMessageParams);
+            });
+            return;
+        }
+
         long _payStars = getMessagesController().getSendPaidMessagesStars(peer);
         if (_payStars <= 0) {
             _payStars = DialogObject.getMessagesStarsPrice(getMessagesController().isUserContactBlocked(peer));
@@ -5305,6 +5382,42 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             MessageObject reply = replyToMsg;
             if (replyToTopMsg != null && replyToTopMsg == reply && replyToTopMsg.getId() == 1 || destroyReply) {
                 reply = null;
+            }
+            if (sendMessageParams.botgramE2eeRandomId != 0) newMsg.random_id = sendMessageParams.botgramE2eeRandomId;
+            if (type == 0 && botgramE2eeApplies && newMsg != null && newMsg.message != null && !DialogObject.isEncryptedDialog(peer)) {
+                String botgramEnvelope = null;
+                if (org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(newMsg.message)) {
+                    botgramEnvelope = newMsg.message;
+                } else {
+                    if (newMsg.random_id == 0) {
+                        newMsg.random_id = getNextRandomId();
+                    }
+                    if (botgramE2eeProtected || botgramE2eeUnknown) {
+                        sendMessageParams.botgramE2eePrepared = false;
+                        org.telegram.botgram.e2ee.BotgramE2eeUi.toast(
+                                org.telegram.messenger.R.string.BotgramE2eeSendNotReady);
+                        return;
+                    }
+                }
+                if (botgramEnvelope != null) {
+                    if (newMsg.from_id instanceof TLRPC.TL_peerUser
+                            && newMsg.from_id.user_id != botgramSelfId) {
+                        org.telegram.botgram.e2ee.BotgramE2eeUi.toast(
+                                org.telegram.messenger.R.string.BotgramE2eeTextOnly);
+                        return;
+                    }
+                    newMsg.message = message = botgramEnvelope;
+                    if (newMsg.entities != null) newMsg.entities.clear();
+                    newMsg.flags &= ~TLRPC.MESSAGE_FLAG_HAS_ENTITIES;
+                    newMsg.media = new TLRPC.TL_messageMediaEmpty();
+                    if (newMsg.reply_to instanceof TLRPC.TL_messageReplyHeader) {
+                        TLRPC.TL_messageReplyHeader right = (TLRPC.TL_messageReplyHeader) newMsg.reply_to;
+                        right.quote_text = null;
+                        right.quote_entities = null;
+                        right.quote_rich = null;
+                        right.flags &= ~(64 | 128 | 1024);
+                    }
+                }
             }
             newMsgObj = new MessageObject(currentAccount, newMsg, reply, true, true);
             newMsgObj.sendAnimationData = sendAnimationData;
@@ -12269,6 +12382,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public static class SendMessageParams {
+        private boolean botgramE2eePreparing, botgramE2eePrepared;
+        private long botgramE2eeRandomId;
         public String message;
         public String caption;
         public TLRPC.MessageMedia location;

@@ -473,9 +473,23 @@ public final class BotgramProtobufResponseMapper {
                         value.action = create;
                         break;
                     }
+                    case E2EE_SYSTEM: {
+                        TLRPC.TL_messageActionCustomAction custom = new TLRPC.TL_messageActionCustomAction();
+                        custom.message = input.getService().getE2EeSystem().getText();
+                        value.action = custom;
+                        break;
+                    }
                     case ACTION_NOT_SET: throw invalid("service.action");
                     default: throw unsupported("service.action");
                 }
+                result = value;
+                break;
+            }
+            case E2EE: {
+                TLRPC.TL_message value = new TLRPC.TL_message();
+                value.message = org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.wrap(input.getE2Ee());
+                value.media = new TLRPC.TL_messageMediaEmpty();
+                value.flags = 512;
                 result = value;
                 break;
             }
@@ -857,3 +871,4 @@ public final class BotgramProtobufResponseMapper {
         return result;
     }
 }
+
