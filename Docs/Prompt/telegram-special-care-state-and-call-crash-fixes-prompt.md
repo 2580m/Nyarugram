@@ -1,6 +1,6 @@
 # 修复特别关心状态恢复与来电通知闪退
 
-请直接检查并修复下列问题，完成相关回归、Android 编译与 APK 交付，不只给出方案。客户端：`W:\Work\Botgram`；后端：`W:\Work\Botgram.Backend`。开始前阅读各仓库 `AGENTS.md` 和客户端 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`。涉及运行服务时再阅读后端 `DEPLOYMENT.md`。
+请直接检查并修复下列问题，完成相关回归、Android 编译与 APK 交付，不只给出方案。客户端：`W:\Work\Botgram`；后端：`W:\Work\Botgram.Backend`。开始前阅读各仓库 `AGENTS.md` 和客户端 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`。涉及运行服务时再阅读后端 `DEPLOYMENT.md`。
 
 保留当前用户及其他任务的修改，不重置工作区、不做无关重构。新工具、依赖和缓存全部放在 D 盘。不修改包名、签名或恢复旧聊天页入口。
 

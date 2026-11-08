@@ -72,7 +72,7 @@
 - P2：强类型 schema、字段策略登记、固定生成工具链与双向字节兼容检查已完成；范围及未验证项见下节。
 - P3：后端 endpoint、强类型校验与映射已实施；隔离双协议及边界验收结果见文末。
 - P4：Android 显式映射及传输源码已接入，宿主映射与隔离 D8/R8 已通过；完整 APK、应用混淆和真机验收尚未完成，详见文末。
-- P5：HTTP双协议/禁用专项2062断言已有通过记录；18524用户确认可收发，审计有SendMessage/GetHistory200，但另有ReadHistory400及401未解释，不算零错误。新增宿主响应头/正文黑洞超时与恢复，223断言PASS。能力广告、会话分桶和客户端持久化协议固定已接入；新增后端回归2257断言通过，源码宿主协商/黑洞228断言通过，APK构建及真机验证仍进行中；旧ReadHistory400尚未归因，性能已有基线但预算未定；P5未完成，不自动回退JSON，不退役旧入口。详细范围见 `PROTOBUF-TEST-RESULTS.md` 的P5续测节。
+- P5：HTTP双协议/禁用专项2062断言已有通过记录；18524用户确认可收发，审计有SendMessage/GetHistory200，但另有ReadHistory400及401未解释，不算零错误。新增宿主响应头/正文黑洞超时与恢复，223断言PASS。能力广告、会话分桶和客户端持久化协议固定已接入；新增后端回归2257断言通过，源码宿主协商/黑洞228断言通过，APK构建及真机验证仍进行中；旧ReadHistory400尚未归因，性能已有基线但预算未定；P5未完成，不自动回退JSON，不退役旧入口。详细范围见 `Docs/PROTOBUF-TEST-RESULTS.md` 的P5续测节。
 - P6 必须等待 HTTPS RPC 稳定；P7 未获授权，不移除旧入口。
 
 生产证书、Caddy、端口、正式数据均未修改。HTTP80/ACME 续期待验证风险保留，协议迁移不构成其修复。
@@ -97,11 +97,11 @@
 - 后端纳入固定工具生成的 `Protocol/BotgramRpc.cs`，运行依赖锁为 Google.Protobuf `[3.25.8]` 并记录 NuGet 内容哈希。Docker 复制生成代码及锁文件，以 locked restore 构建；后端编译不读取客户端或 D 盘生成目录。Docker 实际构建尚未执行。
 - `tools/protobuf.ps1 -Action Check` 现同时检查纳入源码的 C# 与固定工具链重复生成结果逐字节一致。编码测试改用 D 盘唯一 obj/bin 目录，避开既有固定输出拒绝写入，不修改 ACL 或删除既有输出。
 - HTTP 隔离测试保留后端子进程 stdout/stderr 与 PID/停止原因；主执行以原 DLL、日志增强版 Node 路径及 PowerShell 直接路径独立复跑均 exit 0（1886 断言/21 操作）。历史 0xE0434352 未复现且无对应 Windows 崩溃事件，根因仍未定位，不作业务修复。
-- P3 当时不实现 Android Mapper、不切流、不部署、不退役 JSON、不交付 APK；隔离验收和实际命令结果见 `PROTOBUF-TEST-RESULTS.md` 的 P3 节。
+- P3 当时不实现 Android Mapper、不切流、不部署、不退役 JSON、不交付 APK；隔离验收和实际命令结果见 `Docs/PROTOBUF-TEST-RESULTS.md` 的 P3 节。
 
 ## P4 Android 显式映射与当前验收（2026-11-02）
 
-最新真机状态覆盖下方历史“尚未验证”：用户已确认收藏夹、自发消息、Bob 注册/切换、搜索、双向文字与引用回复正常；随后反馈会话列表尾部持续闪烁骨架行。本轮兼容原列表请求 exclude_pinned=true（当前后端无置顶项，过滤不改变结果），同时在请求失败时于 UI 线程释放 loadingDialogs 并通知刷新，不推进分页游标、不假设已到底、不主动立即重试；沿用既有 SessionScope 对迟到 UI 回调的隔离。Standalone 未重新构建，最新列表修复仍需真机确认，P4 未完整验收，未部署正式服务。详细构建与验证证据见 PROTOBUF-TEST-RESULTS.md。
+最新真机状态覆盖下方历史“尚未验证”：用户已确认收藏夹、自发消息、Bob 注册/切换、搜索、双向文字与引用回复正常；随后反馈会话列表尾部持续闪烁骨架行。本轮兼容原列表请求 exclude_pinned=true（当前后端无置顶项，过滤不改变结果），同时在请求失败时于 UI 线程释放 loadingDialogs 并通知刷新，不推进分页游标、不假设已到底、不主动立即重试；沿用既有 SessionScope 对迟到 UI 回调的隔离。Standalone 未重新构建，最新列表修复仍需真机确认，P4 未完整验收，未部署正式服务。详细构建与验证证据见 Docs/PROTOBUF-TEST-RESULTS.md。
 
 - 离线状态补修：复用 ApplicationLoader 已有网络变化广播，经 ConnectionsManager 通知 BotgramTransport；无网络用 WaitingForNetwork，有网络但无近期后端响应用 Connecting。启动强制发布状态、已有轮询发布超时变化、Activity 恢复时重查网络；LaunchActivity 对绑定账号同状态通知也重新应用原标题覆盖。自身 Profile 两处 Online 改为读取连接状态并订阅/注销 didUpdateConnectionState；不改变他人状态、不实现服务端 presence。复用已有中英文资源，最新状态需真机确认。
 - 新增 `BotgramProtobufRequestMapper`、`BotgramProtobufResponseMapper`：21 个业务请求/响应使用精确 TL 类分派，15 类实体、5 类更新、4 类差分显式映射。普通请求不再反射编码 TL JSON，不更换原 UI/controller/storage；未知类和不支持的非默认选项明确拒绝。sfixed64 直接保留 long，消息 ID checked int32，毫秒转 TL 秒使用 floorDiv 并检查溢出。
@@ -114,7 +114,7 @@
 
 ## P6 WSS Protobuf 双协议（2026-11-02）
 
-**当前状态：实现完成，本地功能回归通过；联合验收未通过，三轮TLS性能存在p95预算失败，真机仍阻塞。** P5 与 P6 剩余事项统一按 `PROTOBUF-TEST-RESULTS.md` 的“P5/P6 联合验收任务”执行；联合验收通过后再讨论是否启动 P7。APK 构建成功不证明生产服务器已支持新 WSS 子协议；新 Debug 必须连接兼容的独立测试后端。本地安全回归不等于真实 TLS/WSS 全链路安全验收。继续保留 JSON RPC、JSON WSS 及既有账号数据，不进行生产部署或协议退役。
+**当前状态：实现完成，本地功能回归通过；联合验收未通过，三轮TLS性能存在p95预算失败，真机仍阻塞。** P5 与 P6 剩余事项统一按 `Docs/PROTOBUF-TEST-RESULTS.md` 的“P5/P6 联合验收任务”执行；联合验收通过后再讨论是否启动 P7。APK 构建成功不证明生产服务器已支持新 WSS 子协议；新 Debug 必须连接兼容的独立测试后端。本地安全回归不等于真实 TLS/WSS 全链路安全验收。继续保留 JSON RPC、JSON WSS 及既有账号数据，不进行生产部署或协议退役。
 
 - 用户授权独立推进 P6；不代表 P5 真机黑洞、ReadHistory 历史400归因或性能门槛已关闭。未部署正式服务或18524隔离实例，未退役JSON。
 - 同一 `/api/ws?after=` 通过标准 `Sec-WebSocket-Protocol` 独立按连接协商，优先 `botgram.event-hint.v1.protobuf`，其次 `botgram.events.v1.json`；不复用RPC协议灰度。无子协议继续旧JSON；只提供未知子协议握手400。能力接口另列 `eventSubprotocols`。
@@ -122,7 +122,7 @@
 - Android每次连接提供上述两个子协议，旧服务器不选择时仍收JSON；PB连接只接受二进制、JSON连接只接受文本。安全补修替换固定nv 2.14的单个入站reader类（原jar校验SHA-256后过滤此类，其余entry逐字节保持）；在OPEN且读线程启动前设置PB消息1024字节、JSON消息8MiB累计预算。读取帧头后、分配和读取payload前检查单帧及跨分片累计大小，限制1024片，控制帧不得重置预算，非法头与超限后终止读取；不再误用发送侧setMaxPayloadSize。PB生成解析前以固定32项栈迭代验证wire group的深度、配对和完整性，33/34/100层拒绝，0/31/32层接受；length-delimited未知字段按不透明字节跳过（EventHint无嵌套message）。仍检查major、非负int64游标及生成解析结果；未知字段允许，非法/错帧关闭并走原重连，不能推进游标。防护来自有界预验证，不依赖javalite递归配置覆盖unknown group。
 - 游标推进及唤醒仍经UI generation检查，退出/换账号/后台使旧回调无效；连接成功也唤醒追赶。差分入库、幂等和pts权威不变，前台轮询保留；RPC写超时不切JSON重发。
 - 服务端按原权限过滤分页，单连接逐次await发送、10秒发送截止，避免无界发送队列；保留500ms检查及原会话失效关闭。未知事件不需PB新增业务类型，仍由差分决定是否可消费。既有全局游标空提示/活动节奏与撤销检查竞争语义未改变。
-- 历史本地HTTP回归2872断言（含WS599）及77-message契约通过；本轮安全补修主执行复跑真实nv reader/loopback 214项和生产listener宿主232项通过。完整Debug APK构建、v1/v2签名、元数据及DEX中替代reader/bridge/wire guard/EventHint/两个子协议核验通过，已交付新Debug并更新build-info。固定工具链Check改用D盘唯一解压和检查目录后主执行exit0，3依赖哈希、重复生成/纳入C#一致、Java8编译和66组双向互操作通过；未改ACL，旧目录权限根因未定。未重建Standalone/R8。详情见 `PROTOBUF-TEST-RESULTS.md` 的P6节；后续联合实测覆盖状态如下，保留JSON，不进入P7。
+- 历史本地HTTP回归2872断言（含WS599）及77-message契约通过；本轮安全补修主执行复跑真实nv reader/loopback 214项和生产listener宿主232项通过。完整Debug APK构建、v1/v2签名、元数据及DEX中替代reader/bridge/wire guard/EventHint/两个子协议核验通过，已交付新Debug并更新build-info。固定工具链Check改用D盘唯一解压和检查目录后主执行exit0，3依赖哈希、重复生成/纳入C#一致、Java8编译和66组双向互操作通过；未改ACL，旧目录权限根因未定。未重建Standalone/R8。详情见 `Docs/PROTOBUF-TEST-RESULTS.md` 的P6节；后续联合实测覆盖状态如下，保留JSON，不进入P7。
 
 ## P5/P6 联合验收续测（2026-11-02）
 
@@ -144,7 +144,7 @@
 
 ## P5/P6 本轮收敛结果（2026-11-02）
 
-完整证据及未通过项继续记在PROTOBUF-TEST-RESULTS.md的“性能归因、保守优化与安全矩阵收敛”与“最终冻结版本”两节，未建立替代总报告。两仓既有改动保持，无生产/18524操作、无P7、无JSON入口退役、无Git提交；Android生产源码未改，不重建APK。
+完整证据及未通过项继续记在Docs/PROTOBUF-TEST-RESULTS.md的“性能归因、保守优化与安全矩阵收敛”与“最终冻结版本”两节，未建立替代总报告。两仓既有改动保持，无生产/18524操作、无P7、无JSON入口退役、无Git提交；Android生产源码未改，不重建APK。
 
 - **已实施保守优化**：PB SendMessage响应与updateNewMessage复用一次Message DTO，保持事务内映射/编码、权限、random_id、事件和同步落盘。没有改变Store回滚方案、Flush(true)或原子替换。新增诊断默认关闭，并修正关闭时标签字符串分配。
 - **诊断证据**：独立7920请求对照，JSON83.79ms样本锁等待64.3179/Flush17.4099ms；PB79.5515ms样本锁等待11.9434/Flush65.8934ms，mapper0.0728/编码0.0376ms。双方均见锁放大/刷盘墙钟耗时，但不证明物理磁盘故障、历史44.4304ms根因或所有PB差异；CPU/内核I/O与框架JSON绑定仍有未拆分项。各计时包含关系、GC进程增量局限已记录。
@@ -208,6 +208,6 @@ ProtocolPolicy.Load在数据库初始化前校验，HTTP旧入口、WSS选择和
 
 ### 隔离验收与剩余条件
 
-最终构建0警告/错误；A/B/C/D/E使用同一D盘隔离库、随机loopback真实TLS/WSS，448断言PASS；PB-only、恢复JSON、0/100灰度、认证顺序、REST/GID、广告与实际入口一致、消息幂等及身份/pts保持通过。核心2913断言、代理TLS/WSS714断言、八套Node、199真实TL样本回读、234 Android API/mapper宿主断言、SessionScope及214+232事件宿主通过。具体命令/模式/日志/哈希见PROTOBUF-TEST-RESULTS.md本轮P7节。
+最终构建0警告/错误；A/B/C/D/E使用同一D盘隔离库、随机loopback真实TLS/WSS，448断言PASS；PB-only、恢复JSON、0/100灰度、认证顺序、REST/GID、广告与实际入口一致、消息幂等及身份/pts保持通过。核心2913断言、代理TLS/WSS714断言、八套Node、199真实TL样本回读、234 Android API/mapper宿主断言、SessionScope及214+232事件宿主通过。具体命令/模式/日志/哈希见Docs/PROTOBUF-TEST-RESULTS.md本轮P7节。
 
 P7开发准备及**配置级**回滚已验证；没有演练正式环境、旧程序二进制降级、线上热切或真实Android退役提示。P5/P6的性能FAIL、真机BLOCKED、ReadHistory400 INCONCLUSIVE不变；用户版本分布、兼容窗口、线上累计观测、正式退役验收与生产切流授权均未具备。默认保持两个JSON协议启用，不删除Gateway、WSS、REST或持久化JSON。

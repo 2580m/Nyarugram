@@ -2,6 +2,7 @@
 .gradle/
 .kotlin/
 artifacts/
+Docs/artifacts/
 build/
 obj/
 *.iml

@@ -1,6 +1,6 @@
 # 为 Nyarugram 实现聊天端到端加密与账号级四位 PIN
 
-请完成以下功能的协议设计、客户端和后端实现、相关回归及 APK 交付，不只提供界面原型或加密方案。客户端位于 `W:\Work\Botgram`，后端位于同级 `../Botgram.Backend`。开始前阅读各仓库的 `AGENTS.md`，以及客户端 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`；涉及服务运行再阅读后端 `DEPLOYMENT.md`。核对当前源码与工作区，保留已有用户修改。
+请完成以下功能的协议设计、客户端和后端实现、相关回归及 APK 交付，不只提供界面原型或加密方案。客户端位于 `W:\Work\Botgram`，后端位于同级 `../Botgram.Backend`。开始前阅读各仓库的 `AGENTS.md`，以及客户端 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`；涉及服务运行再阅读后端 `DEPLOYMENT.md`。核对当前源码与工作区，保留已有用户修改。
 
 项目要求用户自行部署后端、数据库、TLS 和必要配套服务，不添加公共服务器地址、默认公共连接目标或第三方托管密钥服务。本任务不自动授权升级、重启正式服务或修改正式数据。
 

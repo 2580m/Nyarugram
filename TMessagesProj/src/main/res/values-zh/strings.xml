@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Simplified Chinese from https://translations.telegram.org/zh-hans/android/export ; see Botgram.Chinese.md. -->
+<!-- Simplified Chinese from https://translations.telegram.org/zh-hans/android/export ; see Docs/Botgram.Chinese.md. -->
 <resources>
   <string name="AppName">Telegram</string>
   <string name="AppNameBeta">Telegram</string>

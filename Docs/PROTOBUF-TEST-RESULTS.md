@@ -2,7 +2,7 @@
 
 > 2026-11-02 续测：保留原始基线记录；最新边界、宿主与构建状态见文末，历史“仍待”不代表当前状态。
 
-日期：2026-11-02。范围：旧 JSON RPC 的隔离后端测试与请求/响应留样；不表示 Protobuf 迁移完成或 P0 全覆盖通过。覆盖明细与缺项见 `PROTOBUF-RPC-COVERAGE.md`。
+日期：2026-11-02。范围：旧 JSON RPC 的隔离后端测试与请求/响应留样；不表示 Protobuf 迁移完成或 P0 全覆盖通过。覆盖明细与缺项见 `Docs/PROTOBUF-RPC-COVERAGE.md`。
 
 ## 本次直接执行
 
@@ -105,7 +105,7 @@ Node：`v24.15.0`。使用既有 `bin/Debug/net8.0/Botgram.Backend.dll`，本次
 
 ### 实现及主执行验证
 
-- 新增 `POST /api/v1/rpc`，Protobuf 强类型解析、运行时输入校验与 21 个操作映射，直接调用共享业务。旧 JSON RPC 继续保留，未切流。详细设计见 `PROTOBUF-IMPLEMENTATION.md` 的 P3 节。
+- 新增 `POST /api/v1/rpc`，Protobuf 强类型解析、运行时输入校验与 21 个操作映射，直接调用共享业务。旧 JSON RPC 继续保留，未切流。详细设计见 `Docs/PROTOBUF-IMPLEMENTATION.md` 的 P3 节。
 - 主执行实际完成 Debug build，0 警告/错误；smoke、gid、contacts、rpc-boundaries、typed-persistence、m49、tl-schema、forwarded-headers 均 PASS。contacts 26 份及 boundary 131 份是原 JSON/TL fixture，不代表 Protobuf 到 Android TL 的新回读验证。
 - `node tools/verify-protobuf-contract.mjs --android-root W:/Work/Botgram` PASS：74 messages、21 tags、字段/子类登记、两仓 proto 字节一致。
 - `tools/protobuf.ps1 -Action Check` PASS：三项工具下载哈希、重复生成及纳入源码 C# 字节一致、Java8 编译、66 组 Java→C#→Java 样本。最新样本目录 `D:\BotgramBuild\protobuf\tests\ddd74faf417d47c5a770132df4d7cefa`。此前固定 Protocol.Tests 输出拒绝写入已通过唯一 obj/bin 目录解决，未删旧输出或改 ACL。
@@ -522,9 +522,9 @@ ADB复查exit0仍空列表；Android端到端、历史400请求取证及UI事项
 
 ### 实际代码范围与审计结论
 
-只新增ProtocolPolicy.cs、ProtocolUsage.cs、Protocol.HttpTests/RetirementTests.cs；修改Program.cs、appsettings.json、Protocol.HttpTests/Program.cs及后端tests/ProtobufAndroidSmoke.java；另更新本文件和PROTOBUF-IMPLEMENTATION.md。既有P1—P6未提交修改、独立性能审计文件和用户改动保留。
+只新增ProtocolPolicy.cs、ProtocolUsage.cs、Protocol.HttpTests/RetirementTests.cs；修改Program.cs、appsettings.json、Protocol.HttpTests/Program.cs及后端tests/ProtobufAndroidSmoke.java；另更新本文件和Docs/PROTOBUF-IMPLEMENTATION.md。既有P1—P6未提交修改、独立性能审计文件和用户改动保留。
 
-完整依赖表见PROTOBUF-IMPLEMENTATION.md的2026-11-03 P7节：/api/telegram/rpc及JSON WSS为可独立禁用的网络旧协议；/api/v1/rpc和PB EventHint为现行协议；认证/注销/GID/个人资料/消息REST/事件REST/WebRTC REST/能力广告/health的JSON仍保留。特别地，REST /api/telegram/me和GID写入响应仍调用TelegramGateway.CurrentUser，不能删除整个Gateway。Store.Json、Models/MessageEntities/EventPayloads的旧快照转换器、配置/M49/fixtures和双协议基准继续保留。
+完整依赖表见Docs/PROTOBUF-IMPLEMENTATION.md的2026-11-03 P7节：/api/telegram/rpc及JSON WSS为可独立禁用的网络旧协议；/api/v1/rpc和PB EventHint为现行协议；认证/注销/GID/个人资料/消息REST/事件REST/WebRTC REST/能力广告/health的JSON仍保留。特别地，REST /api/telegram/me和GID写入响应仍调用TelegramGateway.CurrentUser，不能删除整个Gateway。Store.Json、Models/MessageEntities/EventPayloads的旧快照转换器、配置/M49/fixtures和双协议基准继续保留。
 
 Protocol:LegacyJsonRpcEnabled默认true不变；新增LegacyJsonWssEnabled=true、UsageLogEnabled=false；ProtobufRolloutPercent默认100不变。ProtocolPolicy.Load将两个入口和广告固定在同一启动快照，配置变更需受控重启，不做热切、在途迁移或自动重发。RPC JSON关闭时rollout必须100；WSS JSON开关与0/50/100灰度独立。原capabilities五字段和PB子协议名/schema不变，protocols/eventSubprotocols只列启用的项目。
 

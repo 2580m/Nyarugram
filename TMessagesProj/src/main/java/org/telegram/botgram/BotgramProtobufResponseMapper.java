@@ -155,6 +155,126 @@ public final class BotgramProtobufResponseMapper {
             }
             case SAVE_CALL_DEBUG: return bool(response.getSaveCallDebug());
             case GET_DH_CONFIG: return dhConfig(response.getGetDhConfig());
+            // --- Batch A messages.* responses ---
+            case DELETE_MESSAGES: {
+                BotgramRpc.AffectedMessages input = response.getDeleteMessages();
+                TLRPC.TL_messages_affectedMessages result = new TLRPC.TL_messages_affectedMessages();
+                result.pts = input.getPts();
+                result.pts_count = input.getPtsCount();
+                return result;
+            }
+            case DELETE_HISTORY:
+            case DELETE_SAVED_HISTORY:
+            case UNPIN_ALL_MESSAGES: {
+                BotgramRpc.AffectedHistory input = response.getOutcomeCase() == BotgramRpc.RpcResponse.OutcomeCase.DELETE_HISTORY
+                        ? response.getDeleteHistory()
+                        : response.getOutcomeCase() == BotgramRpc.RpcResponse.OutcomeCase.DELETE_SAVED_HISTORY
+                        ? response.getDeleteSavedHistory() : response.getUnpinAllMessages();
+                TLRPC.TL_messages_affectedHistory result = new TLRPC.TL_messages_affectedHistory();
+                result.pts = input.getPts();
+                result.pts_count = input.getPtsCount();
+                // The original page re-issues the request while offset>0; the server always
+                // completes in one call, so this stays zero.
+                result.offset = input.getOffset();
+                return result;
+            }
+            case DELETE_PHONE_CALL_HISTORY: {
+                BotgramRpc.AffectedFoundMessages input = response.getDeletePhoneCallHistory();
+                TLRPC.TL_messages_affectedFoundMessages result = new TLRPC.TL_messages_affectedFoundMessages();
+                result.pts = input.getPts();
+                result.pts_count = input.getPtsCount();
+                result.offset = input.getOffset();
+                for (long id : input.getMessagesList()) result.messages.add(messageId(id));
+                return result;
+            }
+            case EDIT_MESSAGE: return updates(response.getEditMessage());
+            case FORWARD_MESSAGES: return updates(response.getForwardMessages());
+            case UPDATE_PINNED_MESSAGE: return updates(response.getUpdatePinnedMessage());
+            case GET_ALL_DRAFTS: return updates(response.getGetAllDrafts());
+            case GET_MESSAGE_EDIT_DATA: {
+                BotgramRpc.MessageEditData input = response.getGetMessageEditData();
+                TLRPC.TL_messages_messageEditData result = new TLRPC.TL_messages_messageEditData();
+                result.caption = input.getCaption();
+                result.flags = result.caption ? 1 : 0;
+                return result;
+            }
+            case SET_TYPING: return bool(response.getSetTyping());
+            case SAVE_DRAFT: return bool(response.getSaveDraft());
+            case CLEAR_ALL_DRAFTS: return bool(response.getClearAllDrafts());
+            case TOGGLE_DIALOG_PIN: return bool(response.getToggleDialogPin());
+            case REORDER_PINNED_DIALOGS: return bool(response.getReorderPinnedDialogs());
+            case MARK_DIALOG_UNREAD: return bool(response.getMarkDialogUnread());
+            case HIDE_PEER_SETTINGS_BAR: return bool(response.getHidePeerSettingsBar());
+            case REPORT_SPAM: return bool(response.getReportSpam());
+            case GET_DIALOG_UNREAD_MARKS: {
+                Vector<TLRPC.DialogPeer> result = new Vector<>(TLRPC.DialogPeer::TLdeserialize);
+                for (BotgramRpc.PeerRef value : response.getGetDialogUnreadMarks().getPeersList()) {
+                    TLRPC.TL_dialogPeer item = new TLRPC.TL_dialogPeer();
+                    item.peer = peer(value);
+                    result.objects.add(item);
+                }
+                return result;
+            }
+            case GET_ONLINES: {
+                TLRPC.TL_chatOnlines result = new TLRPC.TL_chatOnlines();
+                result.onlines = response.getGetOnlines().getOnlines();
+                return result;
+            }
+            case GET_COMMON_CHATS: {
+                BotgramRpc.GroupList input = response.getGetCommonChats();
+                learn(Collections.emptyList(), input.getGroupsList());
+                TLRPC.TL_messages_chats result = new TLRPC.TL_messages_chats();
+                result.chats = groups(input.getGroupsList());
+                return result;
+            }
+            case GET_MESSAGES_VIEWS: {
+                BotgramRpc.MessageViewsList input = response.getGetMessagesViews();
+                TLRPC.TL_messages_messageViews result = new TLRPC.TL_messages_messageViews();
+                for (int views : input.getViewsList()) {
+                    TLRPC.TL_messageViews item = new TLRPC.TL_messageViews();
+                    // Plain view count only: no forwards/replies data in this product.
+                    item.flags = 1;
+                    item.views = views;
+                    result.views.add(item);
+                }
+                return result;
+            }
+            case GET_OUTBOX_READ_DATE: {
+                TLRPC.TL_outboxReadDate result = new TLRPC.TL_outboxReadDate();
+                result.date = seconds(response.getGetOutboxReadDate().getDateMs());
+                return result;
+            }
+            case SEARCH: {
+                BotgramRpc.SearchPage input = response.getSearch();
+                learn(input.getUsersList(), input.getGroupsList());
+                // A slice keeps the original paging behaviour: count drives endReached.
+                TLRPC.TL_messages_messagesSlice result = new TLRPC.TL_messages_messagesSlice();
+                result.count = input.getCount();
+                result.messages = messageList(input.getMessagesList());
+                result.chats = groups(input.getGroupsList());
+                result.users = users(input.getUsersList());
+                return result;
+            }
+            case GET_SEARCH_COUNTERS: {
+                Vector<TLRPC.TL_messages_searchCounter> result =
+                        new Vector<>(TLRPC.TL_messages_searchCounter::TLdeserialize);
+                for (BotgramRpc.SearchCounter counter : response.getGetSearchCounters().getCountersList()) {
+                    TLRPC.TL_messages_searchCounter item = new TLRPC.TL_messages_searchCounter();
+                    // The media page matches counters by the concrete filter instance.
+                    item.filter = filter(counter.getFilter());
+                    item.count = counter.getCount();
+                    result.objects.add(item);
+                }
+                return result;
+            }
+            case UPLOAD_MEDIA: {
+                BotgramRpc.MediaRef media = response.getUploadMedia().getMedia();
+                require(media.getMediaId() > 0, "upload_media.media");
+                return media(media);
+            }
+            case SEND_MEDIA: return updates(response.getSendMedia());
+            case SEND_MULTI_MEDIA: return updates(response.getSendMultiMedia());
+            case GET_EXTENDED_MEDIA: return updates(response.getGetExtendedMedia());
             case OUTCOME_NOT_SET: throw invalid("outcome");
             default: throw unsupported("outcome");
         }
@@ -192,6 +312,140 @@ public final class BotgramProtobufResponseMapper {
 
     private static TLRPC.Bool bool(BotgramRpc.BoolValue input) {
         return input.getValue() ? new TLRPC.TL_boolTrue() : new TLRPC.TL_boolFalse();
+    }
+
+    private static TLRPC.MessagesFilter filter(BotgramRpc.SearchFilter value) throws BotgramApi.ApiError {
+        switch (value) {
+            case EMPTY:
+            case SEARCH_FILTER_UNSPECIFIED: return new TLRPC.TL_inputMessagesFilterEmpty();
+            case PINNED: return new TLRPC.TL_inputMessagesFilterPinned();
+            default: throw unsupported("search.filter");
+        }
+    }
+
+    private static TLRPC.SendMessageAction typingAction(BotgramRpc.TypingAction value) throws BotgramApi.ApiError {
+        switch (value) {
+            case TYPING: return new TLRPC.TL_sendMessageTypingAction();
+            case CANCEL: return new TLRPC.TL_sendMessageCancelAction();
+            case RECORD_AUDIO: return new TLRPC.TL_sendMessageRecordAudioAction();
+            case RECORD_VIDEO: return new TLRPC.TL_sendMessageRecordVideoAction();
+            case RECORD_ROUND: return new TLRPC.TL_sendMessageRecordRoundAction();
+            case UPLOAD_PHOTO: return new TLRPC.TL_sendMessageUploadPhotoAction();
+            case UPLOAD_VIDEO: return new TLRPC.TL_sendMessageUploadVideoAction();
+            case UPLOAD_AUDIO: return new TLRPC.TL_sendMessageUploadAudioAction();
+            case UPLOAD_DOCUMENT: return new TLRPC.TL_sendMessageUploadDocumentAction();
+            case UPLOAD_ROUND: return new TLRPC.TL_sendMessageUploadRoundAction();
+            case CHOOSE_STICKER: return new TLRPC.TL_sendMessageChooseStickerAction();
+            case CHOOSE_CONTACT: return new TLRPC.TL_sendMessageChooseContactAction();
+            case GEO_LOCATION: return new TLRPC.TL_sendMessageGeoLocationAction();
+            case GAME_PLAY: return new TLRPC.TL_sendMessageGamePlayAction();
+            default: throw unsupported("typing.action");
+        }
+    }
+
+    /** An absent draft means the stored draft was cleared; the page treats empty as removal. */
+    private TLRPC.DraftMessage draft(BotgramRpc.DraftChanged input) throws BotgramApi.ApiError {
+        return input.hasDraft() ? draft(input.getDraft()) : new TLRPC.TL_draftMessageEmpty();
+    }
+
+    // The server media id is stable; both the TL object id and the file location encode it
+    // so the intercepted upload.getFile can resolve the same bytes.
+    private TLRPC.MessageMedia media(BotgramRpc.MediaRef input) throws BotgramApi.ApiError {
+        require(input.getMediaId() > 0, "media.media_id");
+        if (input.getKind() == BotgramRpc.MediaKind.PHOTO) {
+            TLRPC.TL_messageMediaPhoto result = new TLRPC.TL_messageMediaPhoto();
+            result.photo = photo(input);
+            result.flags = 1;
+            return result;
+        }
+        TLRPC.TL_messageMediaDocument result = new TLRPC.TL_messageMediaDocument();
+        result.document = document(input);
+        result.flags = 1;
+        if (input.getMime().startsWith("video/")) {
+            result.video = true;
+            result.flags |= 64;
+        }
+        return result;
+    }
+
+    private TLRPC.Photo photo(BotgramRpc.MediaRef input) {
+        TLRPC.TL_photo result = new TLRPC.TL_photo();
+        result.id = input.getMediaId();
+        result.access_hash = input.getMediaId();
+        result.file_reference = new byte[0];
+        result.date = (int) (System.currentTimeMillis() / 1000);
+        result.dc_id = 1;
+        TLRPC.TL_photoSize size = new TLRPC.TL_photoSize();
+        size.type = "y";
+        size.w = Math.max(1, input.getWidth());
+        size.h = Math.max(1, input.getHeight());
+        size.size = (int) Math.min(Integer.MAX_VALUE, input.getByteSize());
+        size.location = location(input.getMediaId());
+        result.sizes.add(size);
+        return result;
+    }
+
+    private static TLRPC.TL_fileLocationToBeDeprecated location(long mediaId) {
+        TLRPC.TL_fileLocationToBeDeprecated result = new TLRPC.TL_fileLocationToBeDeprecated();
+        result.dc_id = 1;
+        result.volume_id = (int) mediaId;
+        result.local_id = (int) (mediaId >>> 32);
+        result.secret = 0;
+        return result;
+    }
+
+    private TLRPC.Document document(BotgramRpc.MediaRef input) {
+        TLRPC.TL_document result = new TLRPC.TL_document();
+        result.id = input.getMediaId();
+        result.access_hash = input.getMediaId();
+        result.file_reference = new byte[0];
+        result.date = (int) (System.currentTimeMillis() / 1000);
+        result.dc_id = 1;
+        result.mime_type = input.getMime();
+        result.size = input.getByteSize();
+        TLRPC.TL_documentAttributeFilename name = new TLRPC.TL_documentAttributeFilename();
+        name.file_name = input.getFileName().isEmpty() ? "file" : input.getFileName();
+        result.attributes.add(name);
+        if (input.getWidth() > 0 && input.getHeight() > 0) {
+            if (input.getMime().startsWith("video/")) {
+                TLRPC.TL_documentAttributeVideo video = new TLRPC.TL_documentAttributeVideo();
+                video.w = input.getWidth();
+                video.h = input.getHeight();
+                video.duration = input.getDuration();
+                result.attributes.add(video);
+            } else {
+                TLRPC.TL_documentAttributeImageSize image = new TLRPC.TL_documentAttributeImageSize();
+                image.w = input.getWidth();
+                image.h = input.getHeight();
+                result.attributes.add(image);
+            }
+        }
+        if (input.getDuration() > 0 && input.getMime().startsWith("audio/")) {
+            TLRPC.TL_documentAttributeAudio audio = new TLRPC.TL_documentAttributeAudio();
+            audio.duration = input.getDuration();
+            result.attributes.add(audio);
+        }
+        return result;
+    }
+
+    private TLRPC.DraftMessage draft(BotgramRpc.DraftState input) throws BotgramApi.ApiError {
+        if (input.getText().isEmpty() && input.getEntitiesCount() == 0 && !input.hasReplyToMessageId())
+            return new TLRPC.TL_draftMessageEmpty();
+        TLRPC.TL_draftMessage result = new TLRPC.TL_draftMessage();
+        result.message = input.getText();
+        result.date = seconds(input.getUpdatedAtMs());
+        result.flags = 0;
+        if (input.hasReplyToMessageId()) {
+            TLRPC.TL_inputReplyToMessage reply = new TLRPC.TL_inputReplyToMessage();
+            reply.reply_to_msg_id = messageId(input.getReplyToMessageId());
+            result.reply_to = reply;
+            result.flags |= 16;
+        }
+        for (BotgramRpc.MessageEntity item : input.getEntitiesList()) {
+            result.entities.add(entity(item, result.message));
+            result.flags |= 8;
+        }
+        return result;
     }
 
     private static TLRPC.messages_DhConfig dhConfig(BotgramRpc.DhConfig input) {
@@ -504,6 +758,22 @@ public final class BotgramProtobufResponseMapper {
         result.from_id = userPeer(input.getSender());
         result.peer_id = peer(input.getPeer());
         result.dialog_id = dialogId(result.peer_id);
+        if (input.hasMedia()) {
+            result.media = media(input.getMedia().getMedia());
+            result.flags |= 512;
+        }
+        if (input.getGroupedId() != 0) {
+            result.grouped_id = input.getGroupedId();
+            result.flags |= 131072;
+        }
+        if (input.hasForwardFrom()) {
+            TLRPC.TL_messageFwdHeader header = new TLRPC.TL_messageFwdHeader();
+            header.from_id = userPeer(input.getForwardFrom());
+            header.date = seconds(input.getForwardFromDateMs());
+            header.flags = 1;
+            result.fwd_from = header;
+            result.flags |= 4;
+        }
         return result;
     }
 
@@ -540,6 +810,14 @@ public final class BotgramProtobufResponseMapper {
         result.read_outbox_max_id = messageId(input.getReadOutboxMaxId());
         result.unread_count = input.getUnreadCount();
         result.notify_settings = notifySettings(input.getNotifySettings());
+        result.pinned = input.getPinned();
+        result.unread_mark = input.getUnreadMark();
+        if (result.pinned) result.flags |= 4;
+        if (result.unread_mark) result.flags |= 8;
+        if (input.hasDraft()) {
+            result.draft = draft(input.getDraft());
+            result.flags |= 2;
+        }
         return result;
     }
 
@@ -634,6 +912,69 @@ public final class BotgramProtobufResponseMapper {
                 TL_update.TL_updatePhoneCallSignalingData result = new TL_update.TL_updatePhoneCallSignalingData();
                 result.phone_call_id = input.getPhoneCallSignaling().getCallId();
                 result.data = input.getPhoneCallSignaling().getData().toByteArray();
+                return result;
+            }
+            // --- Batch A message lifecycle ---
+            case MESSAGES_DELETED: {
+                BotgramRpc.MessagesDeleted value = input.getMessagesDeleted();
+                TL_update.TL_updateDeleteMessages result = new TL_update.TL_updateDeleteMessages();
+                for (long id : value.getMessageIdsList()) result.messages.add(messageId(id));
+                result.pts = value.getPts();
+                result.pts_count = value.getPtsCount();
+                return result;
+            }
+            case MESSAGE_EDITED: {
+                BotgramRpc.MessageEdited value = input.getMessageEdited();
+                require(value.hasMessage(), "message_edited.message");
+                TL_update.TL_updateEditMessage result = new TL_update.TL_updateEditMessage();
+                result.message = message(value.getMessage());
+                result.pts = value.getPts();
+                result.pts_count = value.getPtsCount();
+                return result;
+            }
+            case MESSAGES_PINNED: {
+                BotgramRpc.MessagesPinned value = input.getMessagesPinned();
+                require(value.hasPeer(), "messages_pinned.peer");
+                TL_update.TL_updatePinnedMessages result = new TL_update.TL_updatePinnedMessages();
+                result.peer = peer(value.getPeer());
+                result.pinned = value.getPinned();
+                if (result.pinned) result.flags |= 1;
+                for (long id : value.getMessageIdsList()) result.messages.add(messageId(id));
+                result.pts = value.getPts();
+                result.pts_count = value.getPtsCount();
+                return result;
+            }
+            case CONTENTS_READ: {
+                BotgramRpc.ContentsRead value = input.getContentsRead();
+                TL_update.TL_updateReadMessagesContents result = new TL_update.TL_updateReadMessagesContents();
+                for (long id : value.getMessageIdsList()) result.messages.add(messageId(id));
+                result.pts = value.getPts();
+                result.pts_count = value.getPtsCount();
+                return result;
+            }
+            case DRAFT_CHANGED: {
+                BotgramRpc.DraftChanged value = input.getDraftChanged();
+                require(value.hasPeer(), "draft_changed.peer");
+                TL_update.TL_updateDraftMessage result = new TL_update.TL_updateDraftMessage();
+                result.peer = peer(value.getPeer());
+                result.draft = draft(value);
+                return result;
+            }
+            case USER_TYPING: {
+                BotgramRpc.UserTyping value = input.getUserTyping();
+                require(value.hasPeer() && value.hasUser(), "user_typing");
+                TLRPC.SendMessageAction action = typingAction(value.getAction());
+                if (value.getPeer().getPeerCase() == BotgramRpc.PeerRef.PeerCase.GROUP_ID) {
+                    TL_update.TL_updateChatUserTyping result = new TL_update.TL_updateChatUserTyping();
+                    result.chat_id = identities.groupId(value.getPeer().getGroupId());
+                    result.from_id = userPeer(value.getUser());
+                    result.action = action;
+                    return result;
+                }
+                TL_update.TL_updateUserTyping result = new TL_update.TL_updateUserTyping();
+                result.user_id = identities.userId(value.getUser());
+                result.action = action;
+                result.flags = 0;
                 return result;
             }
             case KIND_NOT_SET: throw invalid("update.kind");

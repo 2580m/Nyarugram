@@ -5,7 +5,7 @@
 ## 项目与现状
 
 - 客户端位于 `W:\Work\Botgram`，后端位于同级 `W:\Work\Botgram.Backend`。
-- 开始前阅读两个仓库的 `AGENTS.md`，以及客户端的 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`。涉及运行服务时阅读后端 `DEPLOYMENT.md`。
+- 开始前阅读两个仓库的 `AGENTS.md`，以及客户端的 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`。涉及运行服务时阅读后端 `DEPLOYMENT.md`。
 - 根据当前源码、配置和进程记录核实状态。保留已有用户修改，历史报告和构建记录按各自版本理解。
 - 当前绑定账号使用 Bearer 认证的 typed Protobuf HTTP RPC，具备独立事件提示和差分机制。接入方案须适配这套通信方式。
 - 后端已有独立 REST 通话状态及信令，原 Android `phone.*` 通话流程仍待接通。前端根据用户完整资料中的通话能力字段显示按钮，当前能力字段未启用。

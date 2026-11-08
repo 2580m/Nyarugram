@@ -5,7 +5,7 @@
 ## 背景与范围
 
 - 客户端位于 `W:\Work\Botgram`，后端位于 `W:\Work\Botgram.Backend`。
-- 阅读两个仓库的 `AGENTS.md`，以及 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`、`Prompt/telegram-native-calls-prompt.md` 和 `Prompt/telegram-native-calls-protobuf-fixes-prompt.md`。涉及运行服务时阅读后端 `DEPLOYMENT.md`。
+- 阅读两个仓库的 `AGENTS.md`，以及 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`、`Docs/Prompt/telegram-native-calls-prompt.md` 和 `Docs/Prompt/telegram-native-calls-protobuf-fixes-prompt.md`。涉及运行服务时阅读后端 `DEPLOYMENT.md`。
 - 用户后续使用 Protobuf-only。正常通话专项使用关闭 JSON RPC 和 JSON WSS 的隔离服务，保留 Telegram 原页面、VoIPService、通知、前台服务及原媒体引擎。
 - 上一轮七项修复已有实现。本次独立复核确认了报告中的交付 APK、ZIP 和发布 DLL 哈希，以及 APK 包信息、v1/v2 签名和构建副本一致性。
 - 独立复跑的 2949 项 baseline、709 项 PostgreSQL HTTP/WSS 回归、24 个 JSON 通话样本及协议登记检查均通过。以下剩余问题由额外边界探针和源码检查发现，应为其补充回归用例。

@@ -4,7 +4,7 @@
 
 用户实测：当前 Nyarugram 联系人仍无法正常添加。请定位并修复真实页面到 Protobuf 后端再到本地联系人列表的完整流程，不能仅证明手工构造的 addContact 请求返回成功。
 
-客户端：`W:\Work\Botgram`。后端：`W:\Work\Botgram.Backend`。开始前阅读各自 `AGENTS.md`，以及客户端 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`。以当前源码、部署元数据和实际手机日志为准。
+客户端：`W:\Work\Botgram`。后端：`W:\Work\Botgram.Backend`。开始前阅读各自 `AGENTS.md`，以及客户端 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`。以当前源码、部署元数据和实际手机日志为准。
 
 产品使用 Protobuf-only。`LegacyOnly` 是 JSON 文件存储模式，不是 TL JSON 传输。必须验证 `LegacyOnly + Protobuf HTTP`，并保持 PostgreSQL typed RPC 路径一致；不要把任务变成补做 TL JSON 兼容。
 

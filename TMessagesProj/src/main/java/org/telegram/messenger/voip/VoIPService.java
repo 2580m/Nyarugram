@@ -363,6 +363,27 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	private boolean forceRating;
 
 	public static TL_phone.PhoneCall callIShouldHavePutIntoIntent;
+    private static int pendingIncomingAccount = -1;
+    private static String pendingIncomingSession;
+
+    public static void setPendingIncomingCall(int account, TL_phone.PhoneCall call) {
+        callIShouldHavePutIntoIntent = call;
+        pendingIncomingAccount = account;
+        pendingIncomingSession = IncomingCallNotifications.session(account);
+    }
+
+    public static boolean matchesPendingIncomingCall(int account, long callId) {
+        return callIShouldHavePutIntoIntent != null && callIShouldHavePutIntoIntent.id == callId
+                && pendingIncomingAccount == account && pendingIncomingSession != null
+                && pendingIncomingSession.equals(IncomingCallNotifications.session(account));
+    }
+
+    public static void clearPendingIncomingCall(int account, long callId) {
+        if (!matchesPendingIncomingCall(account, callId)) return;
+        callIShouldHavePutIntoIntent = null;
+        pendingIncomingAccount = -1;
+        pendingIncomingSession = null;
+    }
 
 	public static NativeInstance.AudioLevelsCallback audioLevelsCallback;
 
@@ -945,7 +966,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			if (videoCall && !isBtHeadsetConnected && !isHeadsetPlugged) {
 				setAudioOutput(0);
 			}
-			callIShouldHavePutIntoIntent = null;
+            if (privateCall != null) clearPendingIncomingCall(currentAccount, privateCall.id);
 			FileLog.e("(3) set VoIPService.callIShouldHavePutIntoIntent = null");
 			if (instantAccept) {
 				instantAccept = false;

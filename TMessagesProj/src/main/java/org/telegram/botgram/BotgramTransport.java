@@ -16,6 +16,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.QuickAckDelegate;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.RequestDelegateTimestamp;
+import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.Vector;
@@ -37,6 +38,10 @@ public final class BotgramTransport {
     private final SharedPreferences binding;
     // Preserve the original stage queue's send order (in particular InvokeAfter sends).
     private final ExecutorService requests = Executors.newSingleThreadExecutor();
+    // Upload parts and download ranges run on their own pools: a 64 KiB part must never
+    // queue behind a chat RPC, and uploads must not starve image/video downloads.
+    private final ExecutorService mediaUploads = Executors.newFixedThreadPool(4);
+    private final ExecutorService mediaDownloads = Executors.newFixedThreadPool(4);
     private final ConcurrentHashMap<Integer, Job> pending = new ConcurrentHashMap<>();
     private volatile BotgramSession session;
     private volatile BotgramProtobufIdentity identities;
@@ -464,6 +469,13 @@ public final class BotgramTransport {
         final BotgramSession credentials = session;
         final String server = credentials.server;
         final String bearer = credentials.token;
+        if (request instanceof TLRPC.TL_upload_saveFilePart
+                || request instanceof TLRPC.TL_upload_saveBigFilePart
+                || request instanceof TLRPC.TL_upload_getFile) {
+            (request instanceof TLRPC.TL_upload_getFile ? mediaDownloads : mediaUploads)
+                    .execute(() -> sendMedia(request, credentials, bearer, job, token, completion));
+            return;
+        }
         requests.execute(() -> {
             TLObject response = null; TLRPC.TL_error failure = null;
             final boolean traceCall = request instanceof TLRPC.TL_messages_getDhConfig
@@ -558,6 +570,79 @@ public final class BotgramTransport {
             }
             finally { finish(token, job, completion, timestamp, response, failure); }
         });
+    }
+
+    /**
+     * Binary media transport. Upload parts and download ranges use the dedicated HTTP media
+     * plane instead of the Protobuf RPC envelope; every callback keeps the same session,
+     * cancellation and expiry semantics as the RPC path.
+     */
+    private void sendMedia(TLObject request, BotgramSession credentials, String bearer, Job job, int token,
+                           RequestDelegate completion) {
+        TLObject response = null;
+        TLRPC.TL_error failure = null;
+        try {
+            if (job.cancelled || session != credentials || !enabled() || expired) return;
+            if (bearer == null) throw new BotgramApi.ApiError(401, "SESSION_EXPIRED");
+            BotgramApi api = new BotgramApi(credentials.server, bearer);
+            if (request instanceof TLRPC.TL_upload_saveFilePart) {
+                TLRPC.TL_upload_saveFilePart value = (TLRPC.TL_upload_saveFilePart) request;
+                api.uploadPart(value.file_id, value.file_part, 0, bufferBytes(value.bytes));
+                response = new TLRPC.TL_boolTrue();
+            } else if (request instanceof TLRPC.TL_upload_saveBigFilePart) {
+                TLRPC.TL_upload_saveBigFilePart value = (TLRPC.TL_upload_saveBigFilePart) request;
+                api.uploadPart(value.file_id, value.file_part, value.file_total_parts,
+                        bufferBytes(value.bytes));
+                response = new TLRPC.TL_boolTrue();
+            } else {
+                TLRPC.TL_upload_getFile value = (TLRPC.TL_upload_getFile) request;
+                BotgramApi.MediaRange range = api.downloadRange(mediaId(value.location), value.offset, value.limit);
+                TLRPC.TL_upload_file file = new TLRPC.TL_upload_file();
+                file.type = new TLRPC.TL_storage_fileUnknown();
+                file.mtime = (int) (System.currentTimeMillis() / 1000);
+                file.bytes = nativeBuffer(range.bytes);
+                response = file;
+            }
+            if (!job.cancelled && session == credentials) reachable(true);
+        } catch (BotgramApi.ApiError error) {
+            if (!job.cancelled && session == credentials) reachable(error.status != 495);
+            failure = error(error.status, error.getMessage());
+            if (error.status == 401 && !job.cancelled && session == credentials) expire(credentials);
+        } catch (Exception error) {
+            org.telegram.messenger.FileLog.e(error);
+            if (!job.cancelled && session == credentials) reachable(false);
+            failure = error(500, "BOTGRAM_MEDIA_TRANSPORT_ERROR");
+        } finally { finish(token, job, completion, null, response, failure); }
+    }
+
+    private static byte[] bufferBytes(NativeByteBuffer value) {
+        if (value == null) return new byte[0];
+        java.nio.ByteBuffer source = value.buffer.duplicate();
+        source.rewind();
+        byte[] data = new byte[source.remaining()];
+        source.get(data);
+        return data;
+    }
+
+    private static NativeByteBuffer nativeBuffer(byte[] data) throws Exception {
+        NativeByteBuffer buffer = new NativeByteBuffer(data.length);
+        buffer.buffer.put(data);
+        buffer.buffer.position(0);
+        return buffer;
+    }
+
+    // Photo and document locations carry the media id; legacy file locations encode it in
+    // the two 32-bit halves the server assigned when the media was created.
+    private static long mediaId(TLRPC.InputFileLocation location) throws BotgramApi.ApiError {
+        if (location instanceof TLRPC.TL_inputPhotoFileLocation)
+            return ((TLRPC.TL_inputPhotoFileLocation) location).id;
+        if (location instanceof TLRPC.TL_inputDocumentFileLocation)
+            return ((TLRPC.TL_inputDocumentFileLocation) location).id;
+        if (location instanceof TLRPC.TL_inputFileLocation) {
+            TLRPC.TL_inputFileLocation value = (TLRPC.TL_inputFileLocation) location;
+            return (value.volume_id & 0xffffffffL) | ((long) value.local_id << 32);
+        }
+        throw new BotgramApi.ApiError(501, "BOTGRAM_MEDIA_LOCATION_UNSUPPORTED");
     }
 
     private void finish(int token, Job job, RequestDelegate completion, RequestDelegateTimestamp timestamp, TLObject response, TLRPC.TL_error failure) {
