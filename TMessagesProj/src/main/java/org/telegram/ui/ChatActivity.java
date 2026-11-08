@@ -453,6 +453,7 @@ public class ChatActivity extends BaseFragment implements
     private ActionBarMenu.LazyItem attachItem;
     private ActionBarMenuItem.Item savedChatsItem, savedChatsGap;;
     private ActionBarMenuItem headerItem;
+    private ActionBarMenuItem botgramE2eeItem;
     private ActionBarMenu.LazyItem editTextItem;
     protected ActionBarMenuItem searchItem;
     protected ActionBarMenuItem topicCreateItem;
@@ -1666,6 +1667,8 @@ public class ChatActivity extends BaseFragment implements
     private final static int bot_settings = 31;
     private final static int call = 32;
     private final static int video_call = 33;
+
+    private final static int botgram_e2ee = 41;
 
     private final static int attach_photo = 0;
     private final static int attach_gallery = 1;
@@ -2969,6 +2972,8 @@ public class ChatActivity extends BaseFragment implements
             .add(NotificationCenter.loadingMessagesFailed)
             .add(NotificationCenter.didUpdateConnectionState)
             .add(NotificationCenter.updateInterfaces)
+            .add(NotificationCenter.botgramE2eeStatusChanged)
+            .add(NotificationCenter.botgramE2eeLockChanged)
             .add(NotificationCenter.updateDefaultSendAsPeer)
             .add(NotificationCenter.userIsPremiumBlockedUpadted)
             .add(NotificationCenter.didLoadSendAsPeers)
@@ -3739,6 +3744,11 @@ public class ChatActivity extends BaseFragment implements
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(final int id) {
+                if (botgramE2eeProtected() && (id == forward || id == share || id == save_to)) {
+                    org.telegram.botgram.e2ee.BotgramE2eeUi.toast(R.string.BotgramE2eeTextOnly);
+                    clearSelectionMode();
+                    return;
+                }
                 if (id == -1) {
                     if (isInPollAddOptionMode()) {
                         pollAddOptionModeClose();
@@ -3759,6 +3769,8 @@ public class ChatActivity extends BaseFragment implements
                             finishFragment();
                         }
                     }
+                } else if (id == botgram_e2ee) {
+                    org.telegram.botgram.e2ee.BotgramE2eeFlow.openChat(ChatActivity.this, dialog_id);
                 } else if (id == view_as_topics) {
                     if (getUserConfig().getClientUserId() == dialog_id) {
                         getMessagesController().setSavedViewAs(true);
@@ -4280,6 +4292,16 @@ public class ChatActivity extends BaseFragment implements
         });
 
         ActionBarMenu menu = actionBar.createMenu();
+
+        if (chatMode == 0 && currentUser != null && !currentUser.self && !currentUser.bot
+                && !UserObject.isService(currentUser.id) && currentEncryptedChat == null) {
+            botgramE2eeItem = menu.addItem(botgram_e2ee, R.drawable.outline_header_lock_24);
+            botgramE2eeItem.setContentDescription(LocaleController.getString(R.string.BotgramE2eeTitle));
+            botgramE2eeItem.setVisibility(View.GONE);
+            updateBotgramE2eeItem();
+            org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount)
+                    .refreshStatus(dialog_id, (status, error) -> updateBotgramE2eeItem());
+        }
 
         if (chatMode == MODE_QUICK_REPLIES && !QuickRepliesController.isSpecial(quickReplyShortcut)) {
             menu.addItem(edit_quick_reply, R.drawable.group_edit).setContentDescription(LocaleController.getString(R.string.Edit));
@@ -20782,9 +20804,41 @@ public class ChatActivity extends BaseFragment implements
         }
     }
 
+    private boolean botgramE2eeProtected() {
+        if (dialog_id <= 0) return false;
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus status =
+                org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount).status(dialog_id);
+        return org.telegram.botgram.e2ee.BotgramE2eeSendPolicy.selfEnabled(status);
+    }
+
+    private void updateBotgramE2eeItem() {
+        if (botgramE2eeItem == null) return;
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus status =
+                org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount).status(dialog_id);
+        boolean visible = org.telegram.botgram.e2ee.BotgramE2eeSendPolicy.selfEnabled(status);
+        botgramE2eeItem.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (visible && getParentActivity() != null) {
+            // Keep protected chat content out of system screenshots and recent-task snapshots.
+            getParentActivity().getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
     @Override
     public void didReceivedNotification(int id, int account, final Object... args) {
-        if (id == NotificationCenter.messagesDidLoad) {
+        if (id == NotificationCenter.botgramE2eeStatusChanged) {
+            updateBotgramE2eeItem();
+        } else if (id == NotificationCenter.botgramE2eeLockChanged) {
+            if (args.length == 4) {
+                if ((Long) args[0] != dialog_id) return;
+                for (int i = 0; i < messages.size(); i++) {
+                    MessageObject object = messages.get(i);
+                    if (object.getId() == (Integer) args[1]) object.applyBotgramE2eeResult((Long) args[2], (String) args[3]);
+                }
+            } else {
+                for (int i = 0; i < messages.size(); i++) messages.get(i).refreshBotgramE2eeText();
+            }
+            updateVisibleRows();
+        } else if (id == NotificationCenter.messagesDidLoad) {
             didReceivedNotification_messagesDidLoad(id, account, args);
         } else {
             didReceivedNotification2(id, account, args);
@@ -30230,6 +30284,13 @@ public class ChatActivity extends BaseFragment implements
 
     public void saveDraft() {
         if (chatActivityEnterView != null && chatActivityEnterView.isRichDraftActive()) {
+            return;
+        }
+        org.telegram.botgram.protocol.v1.BotgramRpc.E2eeChatStatus botgramE2ee =
+                dialog_id > 0 ? org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount).status(dialog_id) : null;
+        if (org.telegram.botgram.e2ee.BotgramE2eeSendPolicy.selfEnabled(botgramE2ee)) {
+            // Drafts are never persisted for encrypted chats.
+            getMediaDataController().cleanDraft(dialog_id, threadMessageId, false);
             return;
         }
         CharSequence draftMessage = null;

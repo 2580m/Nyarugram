@@ -687,6 +687,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int reportReactionRow;
     private int reportDividerRow;
     private int addToContactsRow;
+    private int botgramE2eeRow;
     private int addToGroupButtonRow;
     private int addToGroupInfoRow;
     private int premiumRow;
@@ -2155,7 +2156,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             getNotificationCenter().addObserver(this, NotificationCenter.botInfoDidLoad);
             getNotificationCenter().addObserver(this, NotificationCenter.userInfoDidLoad);
             getNotificationCenter().addObserver(this, NotificationCenter.privacyRulesUpdated);
+            getNotificationCenter().addObserver(this, NotificationCenter.botgramE2eeStatusChanged);
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.reloadInterface);
+            if (!myProfile && !user.bot && !user.self && !UserObject.isService(user.id)) {
+                org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount).refreshStatus(userId, (status, error) -> {
+                    if (listAdapter != null && botgramE2eeRow >= 0) listAdapter.notifyItemChanged(botgramE2eeRow);
+                });
+            }
 
             userBlocked = getMessagesController().blockePeers.indexOfKey(userId) >= 0;
             if (user.bot) {
@@ -2431,6 +2438,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             getNotificationCenter().removeObserver(this, NotificationCenter.botInfoDidLoad);
             getNotificationCenter().removeObserver(this, NotificationCenter.userInfoDidLoad);
             getNotificationCenter().removeObserver(this, NotificationCenter.privacyRulesUpdated);
+            getNotificationCenter().removeObserver(this, NotificationCenter.botgramE2eeStatusChanged);
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.reloadInterface);
             getMessagesController().cancelLoadFullUser(userId);
         } else if (chatId != 0) {
@@ -4407,6 +4415,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 args.putString("first_name_card", vcardFirstName);
                 args.putString("last_name_card", vcardLastName);
                 openAddToContact(user, args);
+            } else if (position == botgramE2eeRow) {
+                org.telegram.botgram.e2ee.BotgramE2eeFlow.openProfile(this, userId);
             } else if (position == deleteReactionRow) {
                 final AlertDialog dialog = AlertsCreator.showAlertWithCheckbox(
                     getContext(),
@@ -8749,7 +8759,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     @SuppressWarnings("unchecked")
     @Override
     public void didReceivedNotification(int id, int account, final Object... args) {
-        if (id == NotificationCenter.didUpdateConnectionState) {
+        if (id == NotificationCenter.botgramE2eeStatusChanged) {
+            long peer = args.length > 0 ? (Long) args[0] : 0;
+            if (peer == userId && listAdapter != null && botgramE2eeRow >= 0) {
+                RecyclerListView.Holder holder = listView == null ? null
+                        : (RecyclerListView.Holder) listView.findViewHolderForPosition(botgramE2eeRow);
+                if (holder != null) listAdapter.onBindViewHolder(holder, botgramE2eeRow);
+            }
+        } else if (id == NotificationCenter.didUpdateConnectionState) {
             if (userId == getUserConfig().getClientUserId() && org.telegram.botgram.BotgramTransport.get(currentAccount).enabled()) {
                 updateProfileData(false);
             }
@@ -10230,6 +10247,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         reportReactionRow = -1;
         deleteReactionRow = -1;
         addToContactsRow = -1;
+        botgramE2eeRow = -1;
         emptyRow = -1;
         emptyRow2 = -1;
         infoHeaderRow = -1;
@@ -10510,6 +10528,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 if (!myProfile && showAddToContacts && user != null && !user.contact && !user.bot && !UserObject.isService(user.id)) {
                     addToContactsRow = rowCount++;
+                    divider = true;
+                }
+                if (!myProfile && user != null && !user.self && !user.bot
+                        && !UserObject.isService(user.id) && !UserObject.isDeleted(user)
+                        && org.telegram.botgram.BotgramTransport.get(currentAccount).hasActiveSession()) {
+                    botgramE2eeRow = rowCount++;
                     divider = true;
                 }
                 if (!myProfile && reportReactionMessageId != 0 && reportReactionFromDialogId < 0) {
@@ -13550,6 +13574,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (position == addToContactsRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.AddToContacts), R.drawable.msg_contact_add, false);
                         textCell.setColors(Theme.key_windowBackgroundWhiteGrayIcon, Theme.key_windowBackgroundWhiteBlackText);
+                    } else if (position == botgramE2eeRow) {
+                        textCell.setTextAndValue(LocaleController.getString(R.string.BotgramE2eeTitle),
+                                org.telegram.botgram.e2ee.BotgramE2eeUi.profileValue(
+                                        org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount).status(userId)), false);
+                        textCell.setColors(Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteValueText);
                     } else if (position == deleteReactionRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.DeleteReactionMenu), R.drawable.menu_reaction_delete_24, false);
                         textCell.setColors(Theme.key_text_RedBold, Theme.key_text_RedRegular);
@@ -14071,7 +14100,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     position == questionRow || position == devicesRow || position == filtersRow || position == stickersRow ||
                     position == faqRow || position == policyRow || position == saveLogsRow || position == viewLogsRow ||
                     position == clearLogsRow || position == switchBackendRow || position == setAvatarRow || position == addToGroupButtonRow ||
-                    position == addToContactsRow || position == liteModeRow || position == premiumGiftingRow || position == businessRow ||
+                    position == addToContactsRow || position == botgramE2eeRow || position == liteModeRow || position == premiumGiftingRow || position == businessRow ||
                     position == botStarsBalanceRow || position == botTonBalanceRow || position == channelBalanceRow || position == botPermissionLocation ||
                     position == botPermissionBiometry || position == botPermissionEmojiStatus || position == tonRow
             ) {

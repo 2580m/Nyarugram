@@ -224,7 +224,9 @@ public final class BotgramProtobufRequestMapper {
 
     private BotgramRpc.SendMessageRequest send(TLRPC.TL_messages_sendMessage value) throws BotgramApi.ApiError {
         // Drafts are local-only; SendMessagesHelper clears them when sending.
-        reject(value.no_webpage || value.background || value.noforwards
+        String message = text(value.message);
+        boolean encrypted = org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.isEnvelope(message);
+        reject((value.no_webpage && !encrypted) || value.background || value.noforwards
                 || value.update_stickersets_order || value.invert_media || value.allow_paid_floodskip
                 || value.reply_markup != null || value.schedule_date != 0 || value.schedule_repeat_period != 0
                 || value.quick_reply_shortcut != null || value.effect != 0 || value.allow_paid_stars != 0
@@ -235,9 +237,16 @@ public final class BotgramProtobufRequestMapper {
             peer(value.send_as);
             if (!isSelf(value.send_as)) throw new BotgramApi.ApiError(403, "SEND_AS_PEER_INVALID");
         }
-        String message = text(value.message);
         BotgramRpc.SendMessageRequest.Builder request = BotgramRpc.SendMessageRequest.newBuilder()
-                .setPeer(target).setRandomId(value.random_id).setText(message).setSilent(value.silent);
+                .setPeer(target).setRandomId(value.random_id).setText(encrypted ? "" : message).setSilent(value.silent);
+        if (encrypted) {
+            if (value.entities != null && !value.entities.isEmpty()) throw invalid("E2EE_ENTITIES_FORBIDDEN");
+            try {
+                request.setE2Ee(org.telegram.botgram.e2ee.BotgramE2eeEnvelopeCodec.unwrap(message));
+            } catch (Exception error) {
+                throw invalid("E2EE_ENVELOPE_INVALID");
+            }
+        }
         if (value.reply_to != null) {
             TLRPC.InputReplyTo reply = value.reply_to;
             if (reply.getClass() != TLRPC.TL_inputReplyToMessage.class) throw unsupported("InputReplyTo");
@@ -412,3 +421,4 @@ public final class BotgramProtobufRequestMapper {
 
     private static BotgramApi.ApiError invalid(String code) { return new BotgramApi.ApiError(400, code); }
 }
+

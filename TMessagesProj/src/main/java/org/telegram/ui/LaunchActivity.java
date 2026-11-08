@@ -1231,6 +1231,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
         switchingAccount = true;
 
+        org.telegram.botgram.e2ee.BotgramE2eeController.lockAll();
         ConnectionsManager.getInstance(currentAccount).setAppPaused(true, false);
         UserConfig.selectedAccount = account;
         UserConfig.getInstance(0).saveConfig(false);

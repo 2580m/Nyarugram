@@ -176,11 +176,13 @@ public final class BotgramTotpActivity extends BaseFragment {
         busy = true;
         render();
         BotgramTransport.get(currentAccount).accountRequest(api -> {
-            JSONObject response = api.object(operation.equals("status") ? "GET" : "POST",
-                    "/api/security/totp" + (operation.equals("status") ? "" : "/" + operation),
-                    operation.equals("status") ? null : BotgramApi.json("code", entered));
-            Bitmap bitmap = response.has("uri")
-                    ? new TelegramQRCodeWriter().encode(response.getString("uri"), 768, 768, null, null) : null;
+            org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse rpc = api.authRpc(
+                    BotgramApi.request().setTotp(
+                            org.telegram.botgram.protocol.v1.BotgramRpc.TotpRequest.newBuilder()
+                                    .setOperation(operation).setCode(entered)).build(), true);
+            org.telegram.botgram.protocol.v1.BotgramRpc.TotpResult response = rpc.getTotp();
+            Bitmap bitmap = response.getUri().isEmpty()
+                    ? null : new TelegramQRCodeWriter().encode(response.getUri(), 768, 768, null, null);
             return new Object[]{response, bitmap};
         }, () -> !destroyed && owner == generation, (value, error) -> {
             busy = false;
@@ -193,25 +195,26 @@ public final class BotgramTotpActivity extends BaseFragment {
                 alert(getString(message));
                 return;
             }
-            JSONObject response = (JSONObject) value[0];
-            enabled = response.optBoolean("enabled", enabled);
-            recoveryRemaining = response.optInt("recoveryCodesRemaining", recoveryRemaining);
+            org.telegram.botgram.protocol.v1.BotgramRpc.TotpResult response =
+                    (org.telegram.botgram.protocol.v1.BotgramRpc.TotpResult) value[0];
+            enabled = response.getEnabled();
+            recoveryRemaining = response.getRecoveryCodesRemaining();
             if (operation.equals("status") && !enabled) { request("setup"); return; }
             loaded = true;
-            secret = response.optString("secret", "");
+            secret = response.getSecret();
             qr.setImageBitmap((Bitmap) value[1]);
             code.setText("");
-            JSONArray codes = response.optJSONArray("recoveryCodes");
-            if (codes != null) {
+            java.util.List<String> codes = response.getRecoveryCodesList();
+            if (!codes.isEmpty()) {
                 StringBuilder text = new StringBuilder();
-                for (int i = 0; i < codes.length(); i++) text.append(codes.optString(i)).append('\n');
+                for (String item : codes) text.append(item).append('\n');
                 recovery = text.toString().trim();
                 enabled = true;
-                recoveryRemaining = codes.length();
+                recoveryRemaining = codes.size();
             } else if (operation.equals("disable")) recovery = "";
             render();
             AndroidUtilities.hideKeyboard(code);
-            if (codes != null) showRecoveryCodes();
+            if (!codes.isEmpty()) showRecoveryCodes();
             if (operation.equals("disable")) finishFragment();
         });
     }

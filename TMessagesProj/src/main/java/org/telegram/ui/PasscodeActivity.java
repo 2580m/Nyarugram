@@ -95,14 +95,18 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     public final static int TYPE_MANAGE_CODE_SETTINGS = 0,
             TYPE_SETUP_CODE = 1,
             TYPE_ENTER_CODE_TO_MANAGE_SETTINGS = 2,
-            TYPE_ENTER_CODE_TO_GRAM_WALLET = 3;
+            TYPE_ENTER_CODE_TO_GRAM_WALLET = 3,
+            TYPE_BOTGRAM_E2EE_PIN_SETUP = 4,
+            TYPE_BOTGRAM_E2EE_PIN_VERIFY = 5;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
             TYPE_MANAGE_CODE_SETTINGS,
             TYPE_SETUP_CODE,
             TYPE_ENTER_CODE_TO_MANAGE_SETTINGS,
-            TYPE_ENTER_CODE_TO_GRAM_WALLET
+            TYPE_ENTER_CODE_TO_GRAM_WALLET,
+            TYPE_BOTGRAM_E2EE_PIN_SETUP,
+            TYPE_BOTGRAM_E2EE_PIN_VERIFY
     })
     public @interface PasscodeActivityType {}
 
@@ -131,6 +135,28 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     private int currentPasswordType = 0;
     private int passcodeSetStep = 0;
     private String firstPassword;
+    private Runnable botgramE2eeOnSuccess;
+    private boolean botgramE2eeProcessing;
+    private boolean botgramE2eeChangePin;
+
+    public static PasscodeActivity forBotgramE2eePinSetup(Runnable onSuccess) {
+        PasscodeActivity activity = new PasscodeActivity(TYPE_BOTGRAM_E2EE_PIN_SETUP);
+        activity.botgramE2eeOnSuccess = onSuccess;
+        return activity;
+    }
+
+    public static PasscodeActivity forBotgramE2eePinChange(Runnable onSuccess) {
+        PasscodeActivity activity = new PasscodeActivity(TYPE_BOTGRAM_E2EE_PIN_SETUP);
+        activity.botgramE2eeOnSuccess = onSuccess;
+        activity.botgramE2eeChangePin = true;
+        return activity;
+    }
+
+    public static PasscodeActivity forBotgramE2eePinVerify(Runnable onSuccess) {
+        PasscodeActivity activity = new PasscodeActivity(TYPE_BOTGRAM_E2EE_PIN_VERIFY);
+        activity.botgramE2eeOnSuccess = onSuccess;
+        return activity;
+    }
 
     private int utyanRow;
     private int hintRow;
@@ -391,7 +417,9 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             }
             case TYPE_SETUP_CODE:
             case TYPE_ENTER_CODE_TO_MANAGE_SETTINGS:
-            case TYPE_ENTER_CODE_TO_GRAM_WALLET: {
+            case TYPE_ENTER_CODE_TO_GRAM_WALLET:
+            case TYPE_BOTGRAM_E2EE_PIN_SETUP:
+            case TYPE_BOTGRAM_E2EE_PIN_VERIFY: {
                 if (actionBar != null) {
                     actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
@@ -457,6 +485,10 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     } else {
                         titleTextView.setText(LocaleController.getString(R.string.CreatePasscode));
                     }
+                } else if (type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
+                    titleTextView.setText(LocaleController.getString(R.string.BotgramE2eePinSetupTitle));
+                } else if (type == TYPE_BOTGRAM_E2EE_PIN_VERIFY) {
+                    titleTextView.setText(LocaleController.getString(R.string.BotgramE2eePinVerifyTitle));
                 } else {
                     titleTextView.setText(LocaleController.getString(R.string.EnterYourPasscode));
                 }
@@ -483,9 +515,17 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 forgotPasswordButton.setPadding(dp(32), 0, dp(32), 0);
                 forgotPasswordButton.setGravity((isPassword() ? Gravity.LEFT : Gravity.CENTER_HORIZONTAL) | Gravity.CENTER_VERTICAL);
 
-                forgotPasswordButton.setOnClickListener(v -> AlertsCreator.createForgotPasscodeDialog(context).show());
-                forgotPasswordButton.setVisibility(type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS ? View.VISIBLE : View.GONE);
-                forgotPasswordButton.setText(LocaleController.getString(R.string.ForgotPasscode));
+                forgotPasswordButton.setOnClickListener(v -> {
+                    if (type == TYPE_BOTGRAM_E2EE_PIN_VERIFY) {
+                        showBotgramE2eeResetDialog(context);
+                    } else {
+                        AlertsCreator.createForgotPasscodeDialog(context).show();
+                    }
+                });
+                forgotPasswordButton.setVisibility(type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS
+                        || type == TYPE_BOTGRAM_E2EE_PIN_VERIFY ? View.VISIBLE : View.GONE);
+                forgotPasswordButton.setText(LocaleController.getString(type == TYPE_BOTGRAM_E2EE_PIN_VERIFY
+                        ? R.string.BotgramE2eePinForgot : R.string.ForgotPasscode));
                 frameLayout.addView(forgotPasswordButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 56, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0, 0, 16));
                 VerticalPositionAutoAnimator.attach(forgotPasswordButton);
 
@@ -509,7 +549,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 passwordEditText.setLines(1);
                 passwordEditText.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
                 passwordEditText.setSingleLine(true);
-                if (type == TYPE_SETUP_CODE) {
+                if (type == TYPE_SETUP_CODE || type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
                     passcodeSetStep = 0;
                     passwordEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                 } else {
@@ -536,7 +576,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 passwordButton.setImageResource(R.drawable.msg_message);
                 passwordButton.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
                 passwordButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 1));
-                AndroidUtilities.updateViewVisibilityAnimated(passwordButton, type == TYPE_SETUP_CODE && passcodeSetStep == 0, 0.1f, false);
+                AndroidUtilities.updateViewVisibilityAnimated(passwordButton,
+                        (type == TYPE_SETUP_CODE || type == TYPE_BOTGRAM_E2EE_PIN_SETUP) && passcodeSetStep == 0, 0.1f, false);
 
                 AtomicBoolean isPasswordShown = new AtomicBoolean(false);
                 passwordEditText.addTextChangedListener(new TextWatcher() {
@@ -548,7 +589,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (type == TYPE_SETUP_CODE && passcodeSetStep == 0) {
+                        if ((type == TYPE_SETUP_CODE || type == TYPE_BOTGRAM_E2EE_PIN_SETUP) && passcodeSetStep == 0) {
                             if (TextUtils.isEmpty(s) && passwordButton.getVisibility() != View.GONE) {
                                 if (isPasswordShown.get()) {
                                     passwordButton.callOnClick();
@@ -657,7 +698,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
 
                 innerLinearLayout.addView(codeContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 32, 0, 72));
 
-                if (type == TYPE_SETUP_CODE) {
+                if (type == TYPE_SETUP_CODE || type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
                     frameLayout.setTag(Theme.key_windowBackgroundWhite);
                 }
 
@@ -665,13 +706,13 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 VerticalPositionAutoAnimator.attach(floatingButton);
                 frameLayout.addView(floatingButton, FragmentFloatingButton.createDefaultLayoutParamsBig());
                 floatingButton.setOnClickListener(view -> {
-                    if (type == TYPE_SETUP_CODE) {
+                    if (type == TYPE_SETUP_CODE || type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
                         if (passcodeSetStep == 0) {
                             processNext();
                         } else {
                             processDone();
                         }
-                    } else if (type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS) {
+                    } else if (type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS || type == TYPE_BOTGRAM_E2EE_PIN_VERIFY) {
                         processDone();
                     }
                 });
@@ -888,6 +929,11 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             text = LocaleController.getString(R.string.EnterYourPasscodeInfo);
         } else if (type == TYPE_ENTER_CODE_TO_GRAM_WALLET) {
             text = LocaleController.getString(R.string.WalletAuthorizeTransactionPasscode);
+        } else if (type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
+            text = LocaleController.getString(passcodeSetStep == 0
+                    ? R.string.BotgramE2eePinSetupInfo : R.string.BotgramE2eePinConfirmInfo);
+        } else if (type == TYPE_BOTGRAM_E2EE_PIN_VERIFY) {
+            text = LocaleController.getString(R.string.BotgramE2eePinVerifyInfo);
         } else if (passcodeSetStep == 0) {
             text = LocaleController.getString(currentPasswordType == SharedConfig.PASSCODE_TYPE_PIN ? R.string.CreatePasscodeInfoPIN : R.string.CreatePasscodeInfoPassword);
         } else text = descriptionTextSwitcher.getCurrentView().getText().toString();
@@ -897,6 +943,11 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             descriptionTextSwitcher.setText(LocaleController.getString(R.string.EnterYourPasscodeInfo), animate);
         } else if (type == TYPE_ENTER_CODE_TO_GRAM_WALLET) {
             descriptionTextSwitcher.setText(LocaleController.getString(R.string.WalletAuthorizeTransactionPasscode));
+        } else if (type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
+            descriptionTextSwitcher.setText(LocaleController.getString(passcodeSetStep == 0
+                    ? R.string.BotgramE2eePinSetupInfo : R.string.BotgramE2eePinConfirmInfo), animate);
+        } else if (type == TYPE_BOTGRAM_E2EE_PIN_VERIFY) {
+            descriptionTextSwitcher.setText(LocaleController.getString(R.string.BotgramE2eePinVerifyInfo), animate);
         } else if (passcodeSetStep == 0) {
             descriptionTextSwitcher.setText(LocaleController.getString(currentPasswordType == SharedConfig.PASSCODE_TYPE_PIN ? R.string.CreatePasscodeInfoPIN : R.string.CreatePasscodeInfoPassword), animate);
         }
@@ -939,8 +990,13 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             otherItem.setVisibility(View.GONE);
         }
 
-        titleTextView.setText(LocaleController.getString(R.string.ConfirmCreatePasscode));
-        descriptionTextSwitcher.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PasscodeReinstallNotice)));
+        if (type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
+            titleTextView.setText(LocaleController.getString(R.string.BotgramE2eePinConfirmTitle));
+            descriptionTextSwitcher.setText(LocaleController.getString(R.string.BotgramE2eePinConfirmInfo));
+        } else {
+            titleTextView.setText(LocaleController.getString(R.string.ConfirmCreatePasscode));
+            descriptionTextSwitcher.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PasscodeReinstallNotice)));
+        }
         firstPassword = isPinCode() ? codeFieldContainer.getCode() : passwordEditText.getText().toString();
         passwordEditText.setText("");
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -950,13 +1006,15 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     private boolean isPinCode() {
-        return type == TYPE_SETUP_CODE && currentPasswordType == SharedConfig.PASSCODE_TYPE_PIN ||
+        return type == TYPE_BOTGRAM_E2EE_PIN_SETUP || type == TYPE_BOTGRAM_E2EE_PIN_VERIFY ||
+                type == TYPE_SETUP_CODE && currentPasswordType == SharedConfig.PASSCODE_TYPE_PIN ||
                 (type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS || type == TYPE_ENTER_CODE_TO_GRAM_WALLET) && SharedConfig.passcodeType == SharedConfig.PASSCODE_TYPE_PIN;
     }
 
     private boolean isPassword() {
-        return type == TYPE_SETUP_CODE && currentPasswordType == SharedConfig.PASSCODE_TYPE_PASSWORD ||
-                (type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS || type == TYPE_ENTER_CODE_TO_GRAM_WALLET) && SharedConfig.passcodeType == SharedConfig.PASSCODE_TYPE_PASSWORD;
+        return type != TYPE_BOTGRAM_E2EE_PIN_SETUP && type != TYPE_BOTGRAM_E2EE_PIN_VERIFY &&
+                (type == TYPE_SETUP_CODE && currentPasswordType == SharedConfig.PASSCODE_TYPE_PASSWORD ||
+                (type == TYPE_ENTER_CODE_TO_MANAGE_SETTINGS || type == TYPE_ENTER_CODE_TO_GRAM_WALLET) && SharedConfig.passcodeType == SharedConfig.PASSCODE_TYPE_PASSWORD);
     }
 
     private void processDone() {
@@ -965,6 +1023,61 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             return;
         }
         String password = isPinCode() ? codeFieldContainer.getCode() : passwordEditText.getText().toString();
+        if (type == TYPE_BOTGRAM_E2EE_PIN_SETUP) {
+            if (firstPassword == null || !firstPassword.equals(password)) {
+                AndroidUtilities.updateViewVisibilityAnimated(passcodesDoNotMatchTextView, true);
+                for (CodeNumberField f : codeFieldContainer.codeField) f.setText("");
+                codeFieldContainer.codeField[0].requestFocus();
+                onPasscodeError();
+                codeFieldContainer.removeCallbacks(hidePasscodesDoNotMatch);
+                codeFieldContainer.post(() -> {
+                    codeFieldContainer.postDelayed(hidePasscodesDoNotMatch, 3000);
+                    postedHidePasscodesDoNotMatch = true;
+                });
+                return;
+            }
+            if (botgramE2eeProcessing) return;
+            botgramE2eeProcessing = true;
+            org.telegram.botgram.e2ee.BotgramE2eeController controller =
+                    org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount);
+            if (botgramE2eeChangePin) {
+                controller.changePinUnlocked(firstPassword, (success, code) -> finishBotgramE2eePin(success, code));
+            } else {
+                controller.createPin(firstPassword, (success, code) -> finishBotgramE2eePin(success, code));
+            }
+        }
+        if (type == TYPE_BOTGRAM_E2EE_PIN_VERIFY) {
+            if (botgramE2eeProcessing) return;
+            botgramE2eeProcessing = true;
+            org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount)
+                    .unlock(password, (success, code) -> {
+                botgramE2eeProcessing = false;
+                if (!success) {
+                    clearBotgramE2eeFields();
+                    onPasscodeError();
+                    if (getParentActivity() != null) {
+                        Toast.makeText(getParentActivity(),
+                                org.telegram.botgram.e2ee.BotgramE2eeStrings.errorText(code),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    return;
+                }
+                passwordEditText.clearFocus();
+                AndroidUtilities.hideKeyboard(passwordEditText);
+                for (CodeNumberField f : codeFieldContainer.codeField) {
+                    f.clearFocus();
+                    AndroidUtilities.hideKeyboard(f);
+                }
+                keyboardView.setEditText(null);
+                animateSuccessAnimation(() -> {
+                    Runnable callback = botgramE2eeOnSuccess;
+                    botgramE2eeOnSuccess = null;
+                    finishFragment();
+                    if (callback != null) AndroidUtilities.runOnUIThread(callback);
+                });
+            });
+            return;
+        }
         if (type == TYPE_SETUP_CODE) {
             if (!firstPassword.equals(password)) {
                 AndroidUtilities.updateViewVisibilityAnimated(passcodesDoNotMatchTextView, true);
@@ -1090,6 +1203,56 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     public PasscodeActivity setOnEnteredCode(Runnable enteredCode) {
         this.enteredCode = enteredCode;
         return this;
+    }
+
+    private void finishBotgramE2eePin(boolean success, String code) {
+        botgramE2eeProcessing = false;
+        if (!success) {
+            clearBotgramE2eeFields();
+            onPasscodeError();
+            if (getParentActivity() != null) {
+                Toast.makeText(getParentActivity(),
+                        org.telegram.botgram.e2ee.BotgramE2eeStrings.errorText(code),
+                        Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        passwordEditText.clearFocus();
+        AndroidUtilities.hideKeyboard(passwordEditText);
+        for (CodeNumberField f : codeFieldContainer.codeField) {
+            f.clearFocus();
+            AndroidUtilities.hideKeyboard(f);
+        }
+        keyboardView.setEditText(null);
+        animateSuccessAnimation(() -> {
+            Runnable callback = botgramE2eeOnSuccess;
+            botgramE2eeOnSuccess = null;
+            finishFragment();
+            if (callback != null) AndroidUtilities.runOnUIThread(callback);
+        });
+    }
+
+    private void clearBotgramE2eeFields() {
+        passwordEditText.setText("");
+        for (CodeNumberField f : codeFieldContainer.codeField) f.setText("");
+        codeFieldContainer.codeField[0].requestFocus();
+    }
+
+    private void showBotgramE2eeResetDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString(R.string.BotgramE2eeResetKeys));
+        builder.setMessage(LocaleController.getString(R.string.BotgramE2eeResetInfo));
+        builder.setPositiveButton(LocaleController.getString(R.string.BotgramE2eeResetConfirm), (dialog, which) ->
+                org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount)
+                        .resetLocalVault((success, code) -> {
+                    if (getParentActivity() == null) return;
+                    Toast.makeText(getParentActivity(), LocaleController.getString(success
+                                    ? R.string.BotgramE2eeResetDone : R.string.BotgramE2eeFailed),
+                            Toast.LENGTH_SHORT).show();
+                    if (success) finishFragment();
+                }));
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.show();
     }
 
     private void onPasscodeError() {

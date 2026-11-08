@@ -96,16 +96,16 @@ public final class BotgramGidActivity extends UniversalFragment {
         BotgramTransport transport = BotgramTransport.get(currentAccount);
         BotgramPremiumState confirmedPremium = transport.premiumState();
         transport.accountRequest(api -> {
-            JSONObject response = api.object("PUT", "/api/me/gid",
-                    BotgramApi.json("regionCode", region, "number", digits));
-            Object value = response.opt("premium");
-            if (value == JSONObject.NULL) value = null;
-            if (value != null && !(value instanceof Boolean))
-                throw new BotgramApi.ApiError(502, "BOTGRAM_GID_PREMIUM_INVALID");
-            TLRPC.User result = (TLRPC.User) BotgramTransport.decode(response, TLRPC.User.class, 0);
+            org.telegram.botgram.protocol.v1.BotgramRpc.RpcResponse rpc = api.authRpc(
+                    BotgramApi.request().setChangeGid(
+                            org.telegram.botgram.protocol.v1.BotgramRpc.ChangeGidRequest.newBuilder()
+                                    .setRegionCode(region).setNumber(digits)).build(), true);
+            org.telegram.botgram.protocol.v1.BotgramRpc.AccountProfile profile = rpc.getChangeGid();
+            TLRPC.User result = BotgramTlIdentity.user(profile);
             if (result.id != userId || !(region + digits).equals(result.phone))
                 throw new BotgramApi.ApiError(502, "BOTGRAM_GID_RESPONSE_INVALID");
-            result.premium = confirmedPremium.resolve(userId, (Boolean) value);
+            Boolean premium = profile.hasNyarugramPremium() ? profile.getNyarugramPremium() : null;
+            result.premium = confirmedPremium.resolve(userId, premium);
             result.flags = result.premium ? result.flags | (1 << 28) : result.flags & ~(1 << 28);
             return result;
         }, () -> !destroyed, (result, failure) -> {

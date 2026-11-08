@@ -11,8 +11,8 @@
 ### 0.1 结论
 
 1. 当前链路是 **HTTPS + Bearer + JSON TL 对象 RPC**，不是 MTProto。WSS 传递事件提示，原 Android `MessagesController.getDifference` 才负责 TL 差分入库。更换序列化格式不会自动修复现有业务或同步竞态。
-2. 本轮只读公网探针验证了正常域名的受信任证书、TLS 1.2/1.3、TLS 1.0/1.1 被远端拒绝、健康检查以及未认证 API 返回 401。未验证 Android 真机/API23 的证书兼容性。
-3. **发布前阻塞项：HTTP80 的观测结果不一致，部分返回 DNSPod 拦截页面。当前 ACME 配置依赖 HTTP-01；不能证明续期必然失败，但绝不能据此宣称续期链路已验证。**
+2. 历史外部实例的探测详情已移除；这些观测不能作为用户自部署环境的验收结果。部署者需自行验证证书信任、TLS 版本、健康检查及未认证请求拦截，Android 真机/API23 的兼容性仍需实测。
+3. **自部署验收要求：按自己的 ACME 配置验证挑战可达性、证书存储持久化及自动续期，不能以历史实例的观测替代当前部署验证。**
 4. **高优先级同步风险：差分响应进入控制器后，跨 UI/storage/stage 队列没有贯穿的会话代际校验；同槽位退出重登存在旧数据回灌的可成立时序。此项为代码推断，未动态复现。**
 5. 后端存在 21 个规范 TL 方法处理分支，另有一个 `getNotifySettings` 名称别名。它们只是兼容子集，不能把静态扫描发现的所有 Android 请求、Telegram 官方 Schema 或完整多态类型闭包算作已支持。
 6. 推荐迁移路径是：**先补安全/同步验收 → 提取强类型 Service 并让旧入口复用 → 设计冻结和生成协议 → 添加 Protobuf 适配器 → Android 显式 TL Mapper → 双协议验证/灰度 → 有条件退役 JSON RPC**。禁止 Protobuf 转 JSON 再调用旧 Gateway。
@@ -69,22 +69,11 @@
 
 **[未验证]** Caddy完整配置、宿主端口映射、证书存储卷持久化/备份权限、重启策略、镜像实际digest、远端防火墙/直连Kestrel可达性、自动续期结果。当前只提供Caddy片段而非Caddy服务定义。后端Docker镜像使用可变 .NET8 tag，建议下一轮锁定部署digest并记录升级策略。
 
-### 2.3 只读公网观测
+### 2.3 自部署环境的验证要求
 
-目标为配置中的 `nyarugram.moe.autos:8521`；不使用真实账号或生产令牌。
+项目不提供公共服务器，后端、TLS 代理、域名及证书由用户自行部署和维护。本文不保留历史外部实例的地址、证书或探测结果，也不将其视为默认连接目标。
 
-| 检查 | 本轮结果与限制 |
-|---|---|
-| HTTPS健康 | GET /health：200，协议标识botgram-v1 |
-| 未认证API | GET /api/telegram/rpc：401 unauthorized；只证明鉴权拦截，不证明POST业务/媒体类型正确 |
-| TLS1.2/1.3 | Node默认证书信任验证通过，authorized=true |
-| TLS1.0/1.1 | 首探针本机禁用，无效；允许旧算法的独立探针后收到远端protocol_version alert70，确认远端拒绝 |
-| 证书 | 域名CN/SAN匹配，Let's Encrypt YE1；有效期2026-11-01 06:35:35 GMT至2027-01-30 06:35:34 GMT |
-| HSTS | max-age=31536000 |
-| 错误SNI | 服务端拒绝握手；不能将它单独当成客户端hostname mismatch测试通过 |
-| HTTP80 | GET /health及部分ACME样式路径返回302 DNSPod webblock；一次HEAD不存在ACME路径返回Caddy308，随后GET又302。存在方法/路径/网络时点差异，原因未查明 |
-
-**续期处置建议（尚未执行）**：由有运维授权人员核实DNS、80转发/拦截、完整Caddy配置和现有ACME日志；在不影响正式证书的staging流程验证挑战、容器重启后证书卷和续期告警。不要对正式证书反复签发，也不要未经批准开放新端口。HTTP80异常不能推导当前HTTPS不可用，也不能忽略。
+部署者应在自己的隔离环境验证 `/health`、未认证请求拦截、TLS 1.2/1.3、旧 TLS 拒绝、证书信任与主机名、WSS 鉴权及断线恢复。按实际 ACME 配置验证挑战可达性、证书持久化和续期；这些项目在用户部署环境均需重新验收。
 
 ## 3. WSS、认证与差分审计
 
@@ -375,9 +364,9 @@ REST → REST DTO Mapper → 同一Service（显式保留REST策略差异）。
 | [BotgramServerAddressSmoke.java](file:///W:/Work/Botgram/Tools/tests/BotgramServerAddressSmoke.java) | PASS，独立D盘目录编译真实解析器，34断言 |
 | [Verify-BotgramServerAddress.ps1](file:///W:/Work/Botgram/Tools/Verify-BotgramServerAddress.ps1) 固定目录 | 原执行class文件写失败，放宽sandbox重试仍失败；未改ACL/删旧文件，改独立目录后通过。固定目录问题未定位 |
 | [default-port.mjs](file:///W:/Work/Botgram.Backend/tests/default-port.mjs) | BLOCKED，127.0.0.1:8521 EADDRINUSE；未停已有进程，不用动态端口成功冒充默认端口通过 |
-| 公网只读HTTPS探针 | 见2.3；HTTP80异常，认证WSS未执行 |
+| 自部署HTTPS验收 | 见2.3；由部署者在自己的环境执行，历史外部实例结果不适用 |
 
-未运行 [https.mjs](file:///W:/Work/Botgram.Backend/tests/https.mjs)，因为其默认公网目标并包含注册/发送等副作用。未执行客户端完整构建、真实Android TL宿主回读、安装或真机操作；不得使用前次记录替代本轮结果。已有auth-host使用Transport替身，不能证明真实EventSocket连接生命周期正确。
+未运行 [https.mjs](file:///W:/Work/Botgram.Backend/tests/https.mjs)，该历史测试包含注册/发送等副作用；运行前必须显式指定部署者自己的隔离测试服务，不得使用外部公共目标。未执行客户端完整构建、真实Android TL宿主回读、安装或真机操作；不得使用前次记录替代本轮结果。已有auth-host使用Transport替身，不能证明真实EventSocket连接生命周期正确。
 
 ### 8.2 下一轮必须新增或扩展的验收
 

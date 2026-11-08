@@ -28,6 +28,8 @@ Botgram 是保留 Telegram Android 原页面、接入自建后端的客户端。
 
 ## 当前产品约定
 
+- 项目要求用户自行部署后端及数据库、TLS 代理、TURN/STUN 等配套服务，不提供公共服务器或托管账号服务。文档不得包含实际公网服务地址，不指定默认公共连接目标；地址示例使用私网地址，协议身份域名由部署者显式配置。开源依赖、数据来源和技术资料链接不属于服务入口。
+
 - Settings 与旧版个人设置页恢复 Nyarugram Premium：默认未激活，点击开通并收到自身后端确认后免费激活；不要走 Telegram 支付。Money、Telegram Business、Help 和 Devices 仍隐藏，同时考虑搜索和深链接入口。
 - Debug 区块及版本号隐藏菜单仅保留“保存日志”和“查看日志”，复用 Telegram UI。日志导出使用系统文件选择器，预览最多读取末尾 256 KiB。
 - 简体中文随 APK 离线打包。英文文案放在 `res/values/strings.xml`；自定义中文同时维护 `Tools/Import-BotgramChinese.ps1` 的本地翻译字典，再运行脚本生成 `values-zh/strings.xml`。不要只修改会被重新生成覆盖的中文文件。

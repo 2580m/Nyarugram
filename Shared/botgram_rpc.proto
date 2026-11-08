@@ -51,6 +51,25 @@ message RpcRequest {
     GetDhConfigRequest get_dh_config = 136;
     GetSpecialContactsRequest get_special_contacts = 137;
     SetSpecialContactRequest set_special_contact = 138;
+    E2eePublishDeviceRequest e2ee_publish_device = 139;
+    E2eeActionRequest e2ee_action = 140;
+    E2eeGetStatusRequest e2ee_get_status = 141;
+    E2eeListRequest e2ee_list = 142;
+    E2eeGetPeerBundleRequest e2ee_get_peer_bundle = 143;
+    // Authentication-plane replacements for the retired JSON REST API. Tags are
+    // permanently allocated: never reuse or renumber them.
+    // 200..204 are accepted on the unauthenticated /api/v1/auth endpoint;
+    // 205..209 require a valid Bearer session on /api/v1/rpc.
+    AuthCapabilitiesRequest auth_capabilities = 200;
+    AuthRegisterRequest auth_register = 201;
+    AuthLoginRequest auth_login = 202;
+    AuthPasswordRequest auth_password = 203;
+    AuthRecoverRequest auth_recover = 204;
+    AuthLogoutRequest auth_logout = 205;
+    AccountMeRequest account_me = 206;
+    PremiumRequest premium = 207;
+    ChangeGidRequest change_gid = 208;
+    TotpRequest totp = 209;
   }
 }
 message RpcResponse {
@@ -97,6 +116,21 @@ message RpcResponse {
     DhConfig get_dh_config = 136;
     SpecialContacts get_special_contacts = 137;
     SpecialContacts set_special_contact = 138;
+    E2eeDeviceInfo e2ee_publish_device = 139;
+    E2eeChatStatus e2ee_action = 140;
+    E2eeChatStatusList e2ee_get_status = 141;
+    E2eeChatStatusList e2ee_list = 142;
+    E2eePeerBundle e2ee_get_peer_bundle = 143;
+    AuthCapabilities auth_capabilities = 200;
+    AuthSession auth_register = 201;
+    AuthSession auth_login = 202;
+    AuthPasswordInfo auth_password = 203;
+    AuthSession auth_recover = 204;
+    BoolValue auth_logout = 205;
+    AccountProfile account_me = 206;
+    PremiumStatus premium = 207;
+    AccountProfile change_gid = 208;
+    TotpResult totp = 209;
   }
 }
 message RpcError {
@@ -329,7 +363,37 @@ message TextMessage {
   bool silent = 4;
 }
 message GroupCreatedAction { string title = 1; repeated UserRef members = 2; }
-message ServiceMessage { oneof action { GroupCreatedAction group_created = 1; } }
+message E2eeSystemAction { string text = 1; }
+message ServiceMessage { oneof action { GroupCreatedAction group_created = 1; E2eeSystemAction e2ee_system = 2; } }
+// Outer envelope visible to the server. The inner plaintext repeats the identity
+// binding inside the libsignal ciphertext; see Botgram-E2EE.md.
+message E2eeEnvelope {
+  uint32 protocol_version = 1;
+  string conversation_id = 2;
+  string sender_user_id = 3;
+  uint32 sender_device_id = 4;
+  string recipient_user_id = 5;
+  uint32 recipient_device_id = 6;
+  int64 key_epoch = 7;
+  sfixed64 random_id = 8;
+  bytes ciphertext = 9;
+  // 2 = SignalMessage, 3 = PreKeySignalMessage.
+  // 4 = sender-only sealed content; recipient_device_id=0, no recipient key ever exists.
+  uint32 message_type = 10;
+}
+// Encrypted by the sender's libsignal session. Never parsed or stored by the server.
+message E2eeInner {
+  uint32 protocol_version = 1;
+  string conversation_id = 2;
+  string sender_user_id = 3;
+  uint32 sender_device_id = 4;
+  string recipient_user_id = 5;
+  uint32 recipient_device_id = 6;
+  int64 key_epoch = 7;
+  sfixed64 random_id = 8;
+  int64 timestamp_ms = 9;
+  string text = 10;
+}
 message Message {
   int64 message_id = 1;
   PeerRef peer = 2;
@@ -337,7 +401,7 @@ message Message {
   int64 created_at_ms = 4;
   bool outgoing = 5;
   bool unread = 6;
-  oneof body { TextMessage text = 10; ServiceMessage service = 11; }
+  oneof body { TextMessage text = 10; ServiceMessage service = 11; E2eeEnvelope e2ee = 12; }
 }
 message NotifySettings {
   optional bool show_previews = 1;
@@ -415,7 +479,119 @@ message GetPinnedDialogsRequest {}
 message GetPeerDialogsRequest { repeated PeerRef peers = 1; int32 folder_id = 2; }
 message GetHistoryRequest { PeerRef peer = 1; int64 offset_message_id = 2; int64 offset_date_ms = 3; int32 add_offset = 4; int64 min_message_id = 5; int64 max_message_id = 6; optional int32 limit = 7; }
 message GetMessagesRequest { repeated int64 message_ids = 1; }
-message SendMessageRequest { PeerRef peer = 1; sfixed64 random_id = 2; string text = 3; repeated MessageEntity entities = 4; optional int64 reply_to_message_id = 5; bool silent = 6; }
+message SendMessageRequest {
+  PeerRef peer = 1; sfixed64 random_id = 2; string text = 3; repeated MessageEntity entities = 4;
+  optional int64 reply_to_message_id = 5; bool silent = 6;
+  // Present only for an active/closing encrypted chat. text and entities must be empty.
+  optional E2eeEnvelope e2ee = 7;
+}
+message E2eeOneTimePreKey { int32 key_id = 1; bytes public_key = 2; }
+message E2eePublishDeviceRequest {
+  uint32 device_id = 1;
+  int32 registration_id = 2;
+  bytes identity_key = 3;
+  int32 signed_pre_key_id = 4;
+  bytes signed_pre_key = 5;
+  bytes signed_pre_key_signature = 6;
+  int32 kyber_pre_key_id = 7;
+  bytes kyber_pre_key = 8;
+  bytes kyber_pre_key_signature = 9;
+  repeated E2eeOneTimePreKey one_time_pre_keys = 10;
+}
+message E2eeDeviceInfo {
+  uint32 device_id = 1;
+  int32 registration_id = 2;
+  bytes identity_key = 3;
+  int32 signed_pre_key_id = 4;
+  bytes signed_pre_key = 5;
+  bytes signed_pre_key_signature = 6;
+  int32 kyber_pre_key_id = 7;
+  bytes kyber_pre_key = 8;
+  bytes kyber_pre_key_signature = 9;
+  int32 remaining_one_time_pre_keys = 10;
+  int64 generation = 11;
+  bool identity_replaced = 12;
+}
+message E2eeGetPeerBundleRequest { PeerRef peer = 1; }
+message E2eePeerBundle {
+  uint32 device_id = 1;
+  int32 registration_id = 2;
+  int32 pre_key_id = 3;
+  bytes pre_key = 4;
+  int32 signed_pre_key_id = 5;
+  bytes signed_pre_key = 6;
+  bytes signed_pre_key_signature = 7;
+  bytes identity_key = 8;
+  int32 kyber_pre_key_id = 9;
+  bytes kyber_pre_key = 10;
+  bytes kyber_pre_key_signature = 11;
+  int64 generation = 12;
+}
+enum E2eeState {
+  E2EE_DISABLED = 0;
+  E2EE_PENDING = 1;
+  E2EE_ACTIVE = 2;
+  E2EE_CLOSING = 3;
+  E2EE_SUSPENDED = 4;
+  E2EE_CLOSED = 5;
+}
+enum E2eeActionKind {
+  E2EE_ACTION_UNSPECIFIED = 0;
+  E2EE_INVITE = 1;
+  E2EE_ACCEPT = 2;
+  E2EE_DECLINE = 3;
+  E2EE_CANCEL = 4;
+  E2EE_CLOSE_REQUEST = 5;
+  E2EE_CLOSE_CONFIRM = 6;
+  E2EE_CONFIRM_IDENTITY = 7;
+}
+// The exact identity the user saw when they pressed "confirm identity". The
+// server compares this snapshot with the current devices under the chat lock;
+// a late request must never confirm a replacement the user did not see.
+message E2eeIdentityConfirmation {
+  bytes peer_identity_key = 1;
+  int64 peer_generation = 2;
+  int64 epoch = 3;
+  // Opaque two-sided identity version echoed from E2eeChatStatus.identity_version.
+  string identity_version = 4;
+}
+message E2eeActionRequest {
+  PeerRef peer = 1;
+  E2eeActionKind action = 2;
+  uint32 protocol_version = 3;
+  // Required for E2EE_CONFIRM_IDENTITY; other actions ignore it. An old request
+  // without this snapshot must fail instead of inheriting the current identity.
+  E2eeIdentityConfirmation identity_confirmation = 4;
+}
+message E2eeGetStatusRequest { repeated PeerRef peers = 1; }
+message E2eeListRequest { bool include_pending = 1; }
+message E2eeChatStatus {
+  PeerRef peer = 1;
+  E2eeState state = 2;
+  uint32 protocol_version = 3;
+  int64 epoch = 4;
+  int64 boundary_message_id = 5;
+  bool self_initiator = 6;
+  bool awaiting_self = 7;
+  bool peer_supported = 8;
+  bool identity_changed = 9;
+  int64 close_boundary_message_id = 10;
+  string initiator_user_id = 11;
+  string closed_by_user_id = 12;
+  bool self_confirmed_identity = 13;
+  bool peer_confirmed_identity = 14;
+  uint32 self_device_id = 15;
+  uint32 peer_device_id = 16;
+  bytes peer_identity_key = 17;
+  int64 peer_generation = 18;
+  int64 updated_at_ms = 19;
+  string conversation_id = 20;
+  int64 tl_user_id = 21;
+  // Canonical version derived from both devices' identity keys and generations.
+  // Empty when either device has not published its identity.
+  string identity_version = 22;
+}
+message E2eeChatStatusList { repeated E2eeChatStatus chats = 1; }
 message ReadHistoryRequest { PeerRef peer = 1; int64 max_message_id = 2; }
 message SearchContactsRequest { string query = 1; }
 message ResolveUsernameRequest { string username = 1; }
@@ -574,4 +750,75 @@ message DhConfig {
   bytes p = 3;
   bytes random = 4;
   bool not_modified = 5;
+}
+
+// --- Authentication plane (Protobuf-only replacement for retired JSON REST) ---
+// These messages never carry a JSON body. All credentials travel as typed
+// fields inside an application/x-protobuf envelope.
+message AuthCapabilitiesRequest {}
+message AuthCapabilities {
+  uint32 negotiation_version = 1;
+  repeated string protocols = 2;
+  string selected_protocol = 3;
+  repeated string event_subprotocols = 4;
+  repeated string capabilities = 5;
+  // Always "BOTGRAM_JSON_API_RETIRED" on a current server.
+  string json_api_status = 6;
+}
+message AuthRegisterRequest {
+  string username = 1;
+  string password = 2;
+  string display_name = 3;
+  optional string location_country = 4;
+}
+message AuthLoginRequest {
+  string username = 1;
+  string password = 2;
+  optional string totp_code = 3;
+  optional string password_proof = 4;
+}
+message AuthPasswordRequest { string username = 1; string password = 2; }
+// Account recovery: the one-time recovery code is verified by the same TOTP
+// state machine used at login; a successful call issues a fresh session.
+message AuthRecoverRequest {
+  string username = 1;
+  string password = 2;
+  string recovery_code = 3;
+}
+message AuthLogoutRequest {}
+message AccountMeRequest {}
+message PremiumRequest { bool activate = 1; }
+message ChangeGidRequest { string region_code = 1; string number = 2; }
+// operation: status | setup | confirm | recovery | disable
+message TotpRequest { string operation = 1; string code = 2; }
+message AccountProfile {
+  string user_id = 1;
+  string username = 2;
+  string display_name = 3;
+  string gid = 4;
+  int64 tl_user_id = 5;
+  string first_name = 6;
+  string last_name = 7;
+  optional bool nyarugram_premium = 8;
+  bool is_self = 9;
+  bool is_contact = 10;
+  bool is_mutual_contact = 11;
+  bool online = 12;
+  int64 last_seen_ms = 13;
+}
+message AuthSession {
+  string token = 1;
+  int64 expires_at_ms = 2;
+  AccountProfile user = 3;
+}
+// Serialized PasswordInfo, identical to the previously returned base64 value.
+message AuthPasswordInfo { bytes password_info = 1; }
+message PremiumStatus { bool active = 1; }
+message TotpResult {
+  bool enabled = 1;
+  int32 recovery_codes_remaining = 2;
+  string secret = 3;
+  string uri = 4;
+  int64 expires_at_ms = 5;
+  repeated string recovery_codes = 6;
 }

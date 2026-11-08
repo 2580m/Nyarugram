@@ -26,6 +26,7 @@ if (-not $output.StartsWith('D:\', [StringComparison]::OrdinalIgnoreCase)) { thr
 New-Item -ItemType Directory -Force -Path $output | Out-Null
 $classpath = @($classes, $lite, $json, $android) -join [IO.Path]::PathSeparator
 $sources = @((Join-Path $BackendRoot 'tests/ProtobufAndroidSmoke.java'))
+$sources += (Join-Path $workspace 'Tools/tests/BotgramE2eeMappingTest.java')
 $sources += @(Get-ChildItem -LiteralPath (Join-Path $BackendRoot 'tests/host') -Filter '*.java' -Recurse | Select-Object -ExpandProperty FullName)
 if ($CompileMapperSources) {
     # Interim check only; default mode requires the actual Android-compiled mapper classes.
@@ -41,5 +42,7 @@ $testArgs = @()
 if ($Blackhole) { $testArgs += '--blackhole' }
 & java --add-modules jdk.httpserver -cp ($output + [IO.Path]::PathSeparator + $classpath) ProtobufAndroidSmoke @testArgs
 if ($LASTEXITCODE -ne 0) { throw 'Protobuf mapping rejected an Android TL response or accepted an invalid input' }
+& java -cp ($output + [IO.Path]::PathSeparator + $classpath) BotgramE2eeMappingTest
+if ($LASTEXITCODE -ne 0) { throw 'Directional E2EE mapping or original TL wire regression failed' }
 if ($CompileMapperSources) { Write-Output 'Interim source-compiled mapper check only; rerun without -CompileMapperSources after Android Java compilation.' }
 Write-Output 'Host-only verification: no APK/device execution; test substitutes are outside Android source sets.'

@@ -16261,6 +16261,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
         }
+        org.telegram.botgram.e2ee.BotgramE2eeController.lockAll();
         getNotificationCenter().postNotificationName(NotificationCenter.appDidLogout);
         getMessagesStorage().cleanup(false);
         cleanup();

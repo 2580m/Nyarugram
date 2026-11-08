@@ -102,8 +102,8 @@ final class BotgramEventSocket {
                     factory.setSSLSocketFactory(tls.getSocketFactory()).setVerifyHostname(true);
                 }
                 WebSocket ws = factory.createSocket(BotgramServerAddress.eventEndpoint(base, after));
+                // JSON event subprotocol is retired. Only Protobuf hints are offered.
                 ws.addProtocol("botgram.event-hint.v1.protobuf");
-                ws.addProtocol("botgram.events.v1.json");
                 ws.addHeader("Authorization", "Bearer " + bearer);
                 ws.setPingInterval(15_000);
                 ws.addListener(new WebSocketAdapter() {
@@ -117,9 +117,7 @@ final class BotgramEventSocket {
                     }
                     @Override public void onConnected(WebSocket connected, Map<String, List<String>> headers) {
                         String protocol = connected.getAgreedProtocol();
-                        if (protocol != null && !protocol.isEmpty()
-                                && !"botgram.events.v1.json".equals(protocol)
-                                && !"botgram.event-hint.v1.protobuf".equals(protocol)) {
+                        if (!"botgram.event-hint.v1.protobuf".equals(protocol)) {
                             reject(connected, new IllegalArgumentException("Unsupported event protocol"));
                             return;
                         }
@@ -133,23 +131,8 @@ final class BotgramEventSocket {
                         });
                     }
                     @Override public void onTextMessage(WebSocket connected, String message) {
-                        try {
-                            String protocol = connected.getAgreedProtocol();
-                            if (protocol != null && !protocol.isEmpty() && !"botgram.events.v1.json".equals(protocol)) {
-                                throw new IllegalArgumentException("Unexpected text event frame");
-                            }
-                            JSONObject batch = new JSONObject(message);
-                            long nextCursor = batch.getLong("cursor");
-                            if (nextCursor < 0 || batch.optJSONArray("events") == null) {
-                                throw new IllegalArgumentException("Invalid event batch");
-                            }
-                            AndroidUtilities.runOnUIThread(() -> {
-                                if (!current(attempt)) return;
-                                cursor = Math.max(cursor, nextCursor);
-                                listener.wake(credentials);
-                                org.telegram.messenger.FileLog.d("BOTGRAM_EVENT_SOCKET hint received");
-                            });
-                        } catch (Exception error) { reject(connected, error); }
+                        // Text frames belong to the retired JSON event channel.
+                        reject(connected, new IllegalArgumentException("BOTGRAM_JSON_API_RETIRED"));
                     }
                     @Override public void onBinaryMessage(WebSocket connected, byte[] message) {
                         try {

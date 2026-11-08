@@ -126,6 +126,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     @Keep
     private int passcodeRow;
     @Keep
+    private int botgramE2eeRow;
+    @Keep
     private int autoDeleteMesages;
     @Keep
     private int passkeysRow;
@@ -530,6 +532,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 }
             } else if (position == passcodeRow) {
                 presentFragment(PasscodeActivity.determineOpenFragment());
+            } else if (position == botgramE2eeRow) {
+                org.telegram.botgram.e2ee.BotgramE2eeFlow.openManager(this);
             } else if (position == secretWebpageRow) {
                 if (getMessagesController().secretWebpagePreview == 1) {
                     getMessagesController().secretWebpagePreview = 0;
@@ -739,12 +743,16 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     public void updateRows(boolean notify) {
         passkeysRow = -1;
+        botgramE2eeRow = -1;
         rowCount = 0;
 
         securitySectionRow = rowCount++;
         passwordRow = rowCount++;
         autoDeleteMesages = rowCount++;
         passcodeRow = rowCount++;
+        if (org.telegram.botgram.BotgramTransport.get(currentAccount).hasActiveSession()) {
+            botgramE2eeRow = rowCount++;
+        }
         if (getMessagesController().config.settingsDisplayPasskeys.get() && Build.VERSION.SDK_INT >= 28 && BuildVars.SUPPORTS_PASSKEYS) {
             passkeysRow = rowCount++;
         }
@@ -1441,6 +1449,11 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                             icon = R.drawable.msg2_secret;
                         }
                         textCell2.setTextAndValueAndIcon(getString(R.string.Passcode), value, true, icon, true);
+                    } else if (position == botgramE2eeRow) {
+                        boolean pin = org.telegram.botgram.e2ee.BotgramE2eeController.get(currentAccount).hasPin();
+                        textCell2.setTextAndValueAndIcon(getString(R.string.BotgramE2eePrivacyTitle),
+                                getString(pin ? R.string.PasswordOn : R.string.PasswordOff), true,
+                                R.drawable.msg2_secret, true);
                     } else if (position == blockedRow) {
                         int totalCount = getMessagesController().totalBlockedCount;
                         if (totalCount == 0) {
@@ -1472,7 +1485,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 return 3;
             } else if (position == botsAndWebsitesShadowRow) {
                 return 4;
-            } else if (position == autoDeleteMesages || position == sessionsRow || position == emailLoginRow || position == passwordRow || position == passkeysRow || position == passcodeRow || position == blockedRow) {
+            } else if (position == autoDeleteMesages || position == sessionsRow || position == emailLoginRow || position == passwordRow || position == passkeysRow || position == passcodeRow || position == botgramE2eeRow || position == blockedRow) {
                 return 5;
             }
             return 0;

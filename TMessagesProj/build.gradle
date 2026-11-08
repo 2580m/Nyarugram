@@ -28,6 +28,8 @@ idea {
 }
 
 repositories {
+    // Pinned local copy of org.signal:libsignal-android 0.86.5 and its client jar.
+    maven { url = uri('D:/BotgramBuild/maven-local') }
     mavenCentral()
     google()
 }
@@ -39,6 +41,14 @@ configurations {
 configurations.all {
     exclude group: 'com.google.firebase', module: 'firebase-core'
     exclude group: 'androidx.recyclerview', module: 'recyclerview'
+}
+
+def botgramLibsignalAar = file('D:/BotgramBuild/maven-local/org/signal/libsignal-android/0.86.5/libsignal-android-0.86.5.aar')
+def botgramLibsignalJar = file('D:/BotgramBuild/maven-local/org/signal/libsignal-client/0.86.5/libsignal-client-0.86.5.jar')
+def botgramSha256 = { File value -> java.security.MessageDigest.getInstance('SHA-256').digest(value.bytes).encodeHex().toString() }
+if (!botgramLibsignalAar.exists() || botgramSha256(botgramLibsignalAar) != '771e9a188fa30d96cef5433638e7c9ec00975c7afb64f94cdff97281330a0b93'
+        || !botgramLibsignalJar.exists() || botgramSha256(botgramLibsignalJar) != 'd300c272dae155b21ae8988f51b6b493001cd2d83f5d2f9ae15e743c7ff971bd') {
+    throw new GradleException('Missing or invalid pinned libsignal 0.86.5 in D:/BotgramBuild/maven-local')
 }
 
 def botgramProtobufLite = file('D:/BotgramBuild/protobuf/downloads/protobuf-javalite-3.25.8.jar')
@@ -136,6 +146,8 @@ dependencies {
 //    implementation 'com.google.mlkit:translate:17.0.3'
 
     implementation 'com.google.android.recaptcha:recaptcha:18.7.1'
+    // Pinned Signal Protocol implementation. See Botgram-E2EE.md for license/ABI/build-cost notes.
+    implementation 'org.signal:libsignal-android:0.86.5'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }
@@ -164,6 +176,24 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
 
         coreLibraryDesugaringEnabled true
+    }
+
+    packaging {
+        jniLibs {
+            // The testing JNI is published in the same AAR but is never used by the app.
+            excludes += ['**/libsignal_jni_testing.so']
+        }
+        resources {
+            // libsignal-client also ships desktop natives; Android uses the AAR jniLibs instead.
+            excludes += [
+                    'libsignal_jni_*.so',
+                    'libsignal_jni_*.dylib',
+                    'libsignal_jni_testing_*.so',
+                    'libsignal_jni_testing_*.dylib',
+                    'signal_jni_*.dll',
+                    'signal_jni_testing_*.dll'
+            ]
+        }
     }
 
     defaultConfig {
