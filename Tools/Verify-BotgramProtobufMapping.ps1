@@ -40,9 +40,21 @@ if ($CompileMapperSources) {
 if ($LASTEXITCODE -ne 0) { throw 'Protobuf mapping host-test compilation failed' }
 $testArgs = @()
 if ($Blackhole) { $testArgs += '--blackhole' }
-& java --add-modules jdk.httpserver -cp ($output + [IO.Path]::PathSeparator + $classpath) ProtobufAndroidSmoke @testArgs
-if ($LASTEXITCODE -ne 0) { throw 'Protobuf mapping rejected an Android TL response or accepted an invalid input' }
-& java -cp ($output + [IO.Path]::PathSeparator + $classpath) BotgramE2eeMappingTest
-if ($LASTEXITCODE -ne 0) { throw 'Directional E2EE mapping or original TL wire regression failed' }
+# The Android jar is a stub runtime: background dispatch queues raise "Stub!" on stderr
+# when TL deserialization touches FileLoader. The assertion result is the process exit code,
+# so stderr is captured and reported without being treated as a test failure.
+$hostStderr = Join-Path $output 'host-stderr.txt'
+$previousErrorAction = $ErrorActionPreference
+$ErrorActionPreference = 'Continue'
+try {
+    & java --add-modules jdk.httpserver -cp ($output + [IO.Path]::PathSeparator + $classpath) ProtobufAndroidSmoke @testArgs 2> $hostStderr
+    $hostExit = $LASTEXITCODE
+    if ($hostExit -ne 0 -and (Test-Path -LiteralPath $hostStderr)) { Get-Content -LiteralPath $hostStderr | Write-Output }
+    if ($hostExit -ne 0) { throw 'Protobuf mapping rejected an Android TL response or accepted an invalid input' }
+    & java -cp ($output + [IO.Path]::PathSeparator + $classpath) BotgramE2eeMappingTest 2> $hostStderr
+    $e2eeExit = $LASTEXITCODE
+    if ($e2eeExit -ne 0 -and (Test-Path -LiteralPath $hostStderr)) { Get-Content -LiteralPath $hostStderr | Write-Output }
+    if ($e2eeExit -ne 0) { throw 'Directional E2EE mapping or original TL wire regression failed' }
+} finally { $ErrorActionPreference = $previousErrorAction }
 if ($CompileMapperSources) { Write-Output 'Interim source-compiled mapper check only; rerun without -CompileMapperSources after Android Java compilation.' }
 Write-Output 'Host-only verification: no APK/device execution; test substitutes are outside Android source sets.'

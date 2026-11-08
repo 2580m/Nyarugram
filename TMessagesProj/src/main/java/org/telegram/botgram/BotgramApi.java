@@ -198,6 +198,99 @@ public final class BotgramApi {
         } finally { connection.disconnect(); }
     }
 
+    /** One media byte range returned by the binary download plane. */
+    public static final class MediaRange {
+        public final byte[] bytes;
+        public final long totalSize;
+        MediaRange(byte[] bytes, long totalSize) { this.bytes = bytes; this.totalSize = totalSize; }
+    }
+
+    /**
+     * One upload part over the binary media plane. The body is raw octets, never a
+     * Protobuf envelope or JSON; the same Bearer session authorizes it.
+     */
+    public void uploadPart(long clientFileId, int part, int totalParts, byte[] bytes) throws Exception {
+        String path = "/api/v1/media/" + clientFileId + "/" + part
+                + (totalParts > 0 ? "?total=" + totalParts : "");
+        HttpURLConnection connection = (HttpURLConnection) new URL(baseUrl + path).openConnection();
+        connection.setInstanceFollowRedirects(false);
+        connection.setConnectTimeout(10_000);
+        connection.setReadTimeout(60_000);
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Accept", "text/plain");
+        connection.setRequestProperty("Content-Type", "application/octet-stream");
+        if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);
+        try {
+            connection.setDoOutput(true);
+            connection.setFixedLengthStreamingMode(bytes.length);
+            try (java.io.OutputStream output = connection.getOutputStream()) { output.write(bytes); }
+            int status = connection.getResponseCode();
+            if (status < 200 || status >= 300) throw mediaError(connection, status);
+            drain(connection);
+        } catch (javax.net.ssl.SSLPeerUnverifiedException error) {
+            throw new ApiError(495, "BOTGRAM_TLS_PEER_UNVERIFIED");
+        } catch (javax.net.ssl.SSLHandshakeException error) {
+            throw new ApiError(495, "BOTGRAM_TLS_HANDSHAKE_FAILED");
+        } finally { connection.disconnect(); }
+    }
+
+    /** A bounded byte range of one media file; authorization is conversation membership. */
+    public MediaRange downloadRange(long mediaId, long offset, int limit) throws Exception {
+        String path = "/api/v1/media/" + mediaId + "?offset=" + offset + "&limit=" + limit;
+        HttpURLConnection connection = (HttpURLConnection) new URL(baseUrl + path).openConnection();
+        connection.setInstanceFollowRedirects(false);
+        connection.setConnectTimeout(10_000);
+        connection.setReadTimeout(60_000);
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Accept", "application/octet-stream");
+        if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);
+        try {
+            int status = connection.getResponseCode();
+            if (status < 200 || status >= 300) throw mediaError(connection, status);
+            long totalSize = -1;
+            try { totalSize = Long.parseLong(connection.getHeaderField("X-Botgram-Media-Size")); }
+            catch (Exception ignored) { }
+            byte[] bytes = readFully(connection.getInputStream(), limit + 1);
+            if (bytes.length > limit) throw new ApiError(502, "BOTGRAM_MEDIA_RESPONSE_TOO_LARGE");
+            return new MediaRange(bytes, totalSize);
+        } catch (javax.net.ssl.SSLPeerUnverifiedException error) {
+            throw new ApiError(495, "BOTGRAM_TLS_PEER_UNVERIFIED");
+        } catch (javax.net.ssl.SSLHandshakeException error) {
+            throw new ApiError(495, "BOTGRAM_TLS_HANDSHAKE_FAILED");
+        } finally { connection.disconnect(); }
+    }
+
+    private static byte[] readFully(InputStream stream, int limit) throws IOException {
+        if (stream == null) return new byte[0];
+        try (InputStream input = stream; ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+            byte[] chunk = new byte[8192];
+            int count;
+            while ((count = input.read(chunk)) != -1) {
+                if (buffer.size() + count > limit) throw new IOException("BOTGRAM_MEDIA_RESPONSE_TOO_LARGE");
+                buffer.write(chunk, 0, count);
+            }
+            return buffer.toByteArray();
+        }
+    }
+
+    private static void drain(HttpURLConnection connection) throws IOException {
+        InputStream stream = connection.getInputStream();
+        if (stream != null) try (InputStream input = stream) { while (input.read() != -1) { } }
+    }
+
+    /** The media plane answers plain text: the first line is a symbolic code. */
+    private static ApiError mediaError(HttpURLConnection connection, int status) {
+        String code = "BOTGRAM_MEDIA_HTTP_" + status;
+        try {
+            byte[] body = readFully(connection.getErrorStream(), 4096);
+            String text = new String(body, StandardCharsets.UTF_8);
+            int newline = text.indexOf('\n');
+            String first = (newline >= 0 ? text.substring(0, newline) : text).trim();
+            if (!first.isEmpty() && first.length() <= 200 && first.matches("[A-Za-z0-9_:.-]+")) code = first;
+        } catch (Exception ignored) { }
+        return new ApiError(status, code);
+    }
+
     public String token() { return token; }
 
     public static JSONObject json(Object... fields) throws Exception {

@@ -20644,7 +20644,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("Starting service for call " + call.id);
                             }
-                            VoIPService.callIShouldHavePutIntoIntent = call;
+                            VoIPService.setPendingIncomingCall(currentAccount, call);
                             FileLog.e("set VoIPService.callIShouldHavePutIntoIntent = " + call);
                             Intent intent = new Intent(ApplicationLoader.applicationContext, VoIPService.class);
                             intent.putExtra("is_outgoing", false);
@@ -20667,6 +20667,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                     ignoreSetOnline = true;
                                 }
                             } catch (Throwable e) {
+                                VoIPService.clearPendingIncomingCall(currentAccount, call.id);
                                 org.telegram.messenger.voip.IncomingCallNotifications.finish(currentAccount, call.id, false);
                                 FileLog.e(e);
                             }
@@ -20683,8 +20684,12 @@ public class MessagesController extends BaseController implements NotificationCe
                                     if (BuildVars.LOGS_ENABLED) {
                                         FileLog.d("Updated the call while the service is starting");
                                     }
-                                    if (dispatchedCall && call.id == VoIPService.callIShouldHavePutIntoIntent.id) {
-                                        VoIPService.callIShouldHavePutIntoIntent = call instanceof TL_phone.TL_phoneCallDiscarded ? null : call;
+                                    if (VoIPService.matchesPendingIncomingCall(currentAccount, call.id)) {
+                                        if (call instanceof TL_phone.TL_phoneCallDiscarded) {
+                                            VoIPService.clearPendingIncomingCall(currentAccount, call.id);
+                                        } else if (dispatchedCall) {
+                                            VoIPService.setPendingIncomingCall(currentAccount, call);
+                                        }
                                         FileLog.e("(2) set VoIPService.callIShouldHavePutIntoIntent = " + VoIPService.callIShouldHavePutIntoIntent);
                                     }
                                 }

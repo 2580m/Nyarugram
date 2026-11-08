@@ -40,7 +40,7 @@ Nyarugram 是基于 Telegram Android 源码开发的自建后端客户端。它�
 - 后台常驻不等于系统推送。深度休眠、进程回收或用户强行停止应用时，不能保证及时送达。
 - 跨 NAT、强制 TURN、切换网络和多设备场景仍需持续验收。
 
-当前实现、历史验证和未完成项分别记录在 [Android 接入说明](Botgram.Android.md) 与 [构建交付记录](artifacts/build-info.json)。历史章节可能对应旧版本，判断功能状态时应结合当前源码和最新验证记录。
+当前实现、历史验证和未完成项分别记录在 [Android 接入说明](Botgram.Android.md) 与 [构建交付记录](../artifacts/build-info.json)。历史章节可能对应旧版本，判断功能状态时应结合当前源码和最新验证记录。
 
 ## 开始使用
 
@@ -150,14 +150,16 @@ TMessagesProj_AppStandalone/build/outputs/apk/afat/debug/Nyarugram-debug.apk
 | `TMessagesProj_AppStandalone/` | standalone 应用与 APK 构建入口 |
 | `Shared/` | 客户端自带的协议快照和固定 M49 数据 |
 | `Tools/` | 构建、翻译、协议与宿主验证工具 |
-| `Prompt/` | 专项任务与修复说明 |
-| `artifacts/` | 本地交付物与验证记录，不代替源码 |
+| `Docs/` | 项目说明、接口审计与其他文档 |
+| `Docs/Prompt/` | 专项任务与修复说明 |
+| `Docs/artifacts/` | 本地交付报告与迁移记录 |
+| `artifacts/` | APK、后端发布物及验证元数据 |
 
 若客户端与后端并列检出，后端开发和部署说明位于 `../Botgram.Backend/AGENTS.md`、`../Botgram.Backend/DEPLOYMENT.md`。
 
 ## 开发与验证
 
-开始修改前阅读 [开发指引](AGENTS.md)。按改动范围选择验证：
+开始修改前阅读 [开发指引](../AGENTS.md)。按改动范围选择验证：
 
 ```powershell
 # 客户端地址规则和离线地理数据
@@ -184,4 +186,4 @@ TMessagesProj_AppStandalone/build/outputs/apk/afat/debug/Nyarugram-debug.apk
 
 Nyarugram 基于 [Telegram Android](https://github.com/DrKLO/Telegram) 开发，感谢 Telegram 及相关开源项目的贡献。
 
-本仓库附带 [GNU GPL v2 许可证](LICENSE)。修改和分发时请保留原有版权及许可证声明，并遵守相应源码提供义务；第三方依赖遵循各自许可证。Nyarugram 与 Telegram 官方不存在隶属关系。
+本仓库附带 [GNU GPL v2 许可证](../LICENSE)。修改和分发时请保留原有版权及许可证声明，并遵守相应源码提供义务；第三方依赖遵循各自许可证。Nyarugram 与 Telegram 官方不存在隶属关系。

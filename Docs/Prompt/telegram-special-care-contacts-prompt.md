@@ -1,6 +1,6 @@
 # 为 Nyarugram 联系人实现“特别关心”与分级来电通知
 
-请直接完成实现、相关验证和 APK 交付，不只给出方案。客户端位于 `W:\Work\Botgram`，后端位于 `W:\Work\Botgram.Backend`。开始前阅读各仓库 `AGENTS.md`，以及 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`；涉及服务运行再阅读后端部署说明。以当前源码为准，保留已有修改。
+请直接完成实现、相关验证和 APK 交付，不只给出方案。客户端位于 `W:\Work\Botgram`，后端位于 `W:\Work\Botgram.Backend`。开始前阅读各仓库 `AGENTS.md`，以及 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`；涉及服务运行再阅读后端部署说明。以当前源码为准，保留已有修改。
 
 ## 产品目标
 

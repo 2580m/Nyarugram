@@ -1,8 +1,8 @@
 # 修复 Nyarugram 端到端加密交付复核中的九项问题
 
-请直接完成本文要求的源码修复、相关回归、构建和交付记录更新，不只提出方案。原始产品要求见 `Prompt/telegram-chat-end-to-end-encryption-prompt.md`；本文补充并修正当前实现，不允许通过删除加密功能、放宽断言、修改报告措辞或静默回退明文来规避问题。
+请直接完成本文要求的源码修复、相关回归、构建和交付记录更新，不只提出方案。原始产品要求见 `Docs/Prompt/telegram-chat-end-to-end-encryption-prompt.md`；本文补充并修正当前实现，不允许通过删除加密功能、放宽断言、修改报告措辞或静默回退明文来规避问题。
 
-客户端为当前 `Botgram` 仓库，后端为同级 `../Botgram.Backend`。开始前阅读两仓库 `AGENTS.md`、客户端 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`、`Botgram-E2EE.md` 和 `artifacts/e2ee-delivery.md`。涉及服务运行时阅读后端 `DEPLOYMENT.md`。以当前源码为准，保留已有用户修改，行号只作定位，不以历史产物或报告代替本轮证据。
+客户端为当前 `Botgram` 仓库，后端为同级 `../Botgram.Backend`。开始前阅读两仓库 `AGENTS.md`、客户端 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`、`Docs/Botgram-E2EE.md` 和 `Docs/artifacts/e2ee-delivery.md`。涉及服务运行时阅读后端 `DEPLOYMENT.md`。以当前源码为准，保留已有用户修改，行号只作定位，不以历史产物或报告代替本轮证据。
 
 ## 一、范围与不变量
 
@@ -151,7 +151,7 @@
 
 ## 四、交付与完成标准
 
-- 完成全部九项源码修复及适用回归，更新 `Botgram-E2EE.md`、`Botgram.Android.md` 与 `artifacts/e2ee-delivery.md`，修正旧“双层封装”、PBKDF2 和历史缓存保证等不准确描述。新增用户可见中文同时维护导入脚本字典并生成资源。
+- 完成全部九项源码修复及适用回归，更新 `Docs/Botgram-E2EE.md`、`Docs/Botgram.Android.md` 与 `Docs/artifacts/e2ee-delivery.md`，修正旧“双层封装”、PBKDF2 和历史缓存保证等不准确描述。新增用户可见中文同时维护导入脚本字典并生成资源。
 - 构建 `:TMessagesProj_AppStandalone:assembleAfatDebug`，复制最终 APK 到 `artifacts/android/Nyarugram-debug.apk`；使用 D 盘 Android 工具检查签名、包名、实际版本、ABI 和本次资源，复核源产物与交付副本 SHA-256 一致。
 - 不自行更换包名或签名，不因本次修复无故升版。相同版本不表示相同产物，报告必须提供实际哈希。
 - 如后端源码有改动，按指引准备并验证对应发布 ZIP；未变更后端时不要伪造新发布记录。同步 `artifacts/build-info.json` 本轮实际结果和适用范围，不把旧验证当作新产物证据。

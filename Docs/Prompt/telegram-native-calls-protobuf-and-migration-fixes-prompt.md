@@ -5,8 +5,8 @@
 ## 项目与范围
 
 - 客户端位于 `W:\Work\Botgram`，后端位于 `W:\Work\Botgram.Backend`。
-- 阅读两个仓库的 `AGENTS.md`，客户端的 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`，以及后端 `DEPLOYMENT.md` 和当前存储模式限制。
-- 参考 `Prompt/telegram-native-calls-prompt.md` 与 `Prompt/telegram-native-calls-final-review-fixes-prompt.md` 理解原生通话链路和此前修复。
+- 阅读两个仓库的 `AGENTS.md`，客户端的 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`，以及后端 `DEPLOYMENT.md` 和当前存储模式限制。
+- 参考 `Docs/Prompt/telegram-native-calls-prompt.md` 与 `Docs/Prompt/telegram-native-calls-final-review-fixes-prompt.md` 理解原生通话链路和此前修复。
 - 正常业务和本次验收采用 Protobuf-only。LegacyOnly 是存储模式，其 Protobuf RPC 路径由 `ProtobufRpcMapper` 执行。
 - 本次实现范围为通话协商和重试逻辑的遗漏，以及能对指定既有隔离数据库执行的离线迁移入口。当前关系后端要求回环地址及 `botgram_test_*` 数据库，迁移工具遵循该范围。
 - 客户端协议快照同步及 `getCallConfig` 消费说明已另行修正。以当前文件为准保留这些修复，并检查其回归。

@@ -5,7 +5,7 @@
 ## 项目与任务边界
 
 - 客户端位于 `W:\Work\Botgram`，后端位于 `W:\Work\Botgram.Backend`。
-- 开始前阅读两个仓库的 `AGENTS.md`，以及客户端的 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md` 和 `Prompt/telegram-native-calls-prompt.md`。涉及服务运行时阅读后端 `DEPLOYMENT.md`。
+- 开始前阅读两个仓库的 `AGENTS.md`，以及客户端的 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md` 和 `Docs/Prompt/telegram-native-calls-prompt.md`。涉及服务运行时阅读后端 `DEPLOYMENT.md`。
 - 本提示承接原生通话总任务，当前实现阶段为部分 Protobuf 协议及 mapper 迁移。按原提示保留 Telegram 原页面、控制器、通知、前台服务和媒体引擎。
 - 用户后续采用 Protobuf-only。正常业务与验收使用 typed Protobuf RPC，JSON RPC 和 JSON WSS 在专项测试中关闭。既有 JSON 通道的测试可用于检查共享规则改动的回归。
 - 本次核心范围为下列七项修复，以及支撑这些修复的协议、存储迁移、状态机和测试。原生通话完整验收中的设备、媒体、中继和群组审计结果分别报告。

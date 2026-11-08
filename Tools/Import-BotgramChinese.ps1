@@ -9,7 +9,7 @@ foreach ($relative in @('TMessagesProj/src/main/res/values/strings.xml', 'TMessa
 $translation = [xml][IO.File]::ReadAllText($Source)
 $output = New-Object System.Xml.XmlDocument
 [void]$output.AppendChild($output.CreateXmlDeclaration('1.0', 'utf-8', $null))
-[void]$output.AppendChild($output.CreateComment(' Simplified Chinese from https://translations.telegram.org/zh-hans/android/export ; see Botgram.Chinese.md. '))
+[void]$output.AppendChild($output.CreateComment(' Simplified Chinese from https://translations.telegram.org/zh-hans/android/export ; see Docs/Botgram.Chinese.md. '))
 $root = $output.CreateElement('resources')
 [void]$output.AppendChild($root)
 $seen = New-Object 'System.Collections.Generic.Dictionary[string,bool]' ([StringComparer]::Ordinal)

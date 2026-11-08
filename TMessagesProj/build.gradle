@@ -146,7 +146,7 @@ dependencies {
 //    implementation 'com.google.mlkit:translate:17.0.3'
 
     implementation 'com.google.android.recaptcha:recaptcha:18.7.1'
-    // Pinned Signal Protocol implementation. See Botgram-E2EE.md for license/ABI/build-cost notes.
+    // Pinned Signal Protocol implementation. See Docs/Botgram-E2EE.md for license/ABI/build-cost notes.
     implementation 'org.signal:libsignal-android:0.86.5'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'

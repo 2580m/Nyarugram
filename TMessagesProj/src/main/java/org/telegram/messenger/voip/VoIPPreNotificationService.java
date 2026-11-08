@@ -591,12 +591,17 @@ public class VoIPPreNotificationService { // } extends Service implements AudioM
     public static void dismiss(Context context, boolean answered) {
         FileLog.d("VoIPPreNotification.dismiss()");
         if (!answered && pendingVoIP != null) {
+            if (pendingCall != null && IncomingCallNotifications.current(pendingVoIP.getIntExtra("account", -1), pendingVoIP)) {
+                VoIPService.clearPendingIncomingCall(pendingVoIP.getIntExtra("account", -1), pendingCall.id);
+            }
             IncomingCallNotifications.finish(pendingVoIP.getIntExtra("account", -1), pendingVoIP, false);
         }
         pendingVoIP = null;
         pendingCall = null;
         if (currentState != null) {
-            currentState.destroy();
+            State finishedState = currentState;
+            currentState = null;
+            finishedState.destroy();
         }
         final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancel(VoIPService.ID_INCOMING_CALL_PRENOTIFICATION);

@@ -14,7 +14,7 @@ Botgram 是保留 Telegram Android 原页面、接入自建后端的客户端。
 - `Tools/`：构建、TL 验证及 Windows 部署脚本。
 - `artifacts/`：交付产物，不能代替源代码。
 
-开始相关修改前阅读 `Botgram.Android.md`、`Botgram.GID.md`、`Botgram.Chinese.md`；涉及服务运行时再阅读 `../Botgram.Backend/DEPLOYMENT.md`。以当前源代码和配置为准，不硬编码历史文档中的进程号、版本目录或局域网 IP。
+开始相关修改前阅读 `Docs/Botgram.Android.md`、`Docs/Botgram.GID.md`、`Docs/Botgram.Chinese.md`；涉及服务运行时再阅读 `../Botgram.Backend/DEPLOYMENT.md`。以当前源代码和配置为准，不硬编码历史文档中的进程号、版本目录或局域网 IP。
 
 ## 客户端约束
 
